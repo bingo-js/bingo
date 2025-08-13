@@ -4,6 +4,7 @@ import { createSystemContextWithAuth } from "../../contexts/createSystemContextW
 import { prepareOptions } from "../../preparation/prepareOptions.js";
 import { runTemplate } from "../../runners/runTemplate.js";
 import { AnyShape } from "../../types/shapes.js";
+import { RequestedSkips } from "../../types/skips.js";
 import { Template } from "../../types/templates.js";
 import { clearLocalGitTags } from "../clearLocalGitTags.js";
 import { createInitialCommit } from "../createInitialCommit.js";
@@ -30,6 +31,7 @@ export interface RunModeTransitionSettings<
 	display: ClackDisplay;
 	from: string;
 	offline?: boolean;
+	skips?: RequestedSkips;
 	template: Template<OptionsShape, Refinements>;
 }
 
@@ -42,7 +44,8 @@ export async function runModeTransition<
 	directory = ".",
 	display,
 	from,
-	offline,
+	offline = false,
+	skips = {},
 	template,
 }: RunModeTransitionSettings<OptionsShape, Refinements>): Promise<ModeResults> {
 	logStartText("transition", offline);
@@ -50,7 +53,7 @@ export async function runModeTransition<
 	const system = await createSystemContextWithAuth({
 		directory,
 		display,
-		offline,
+		offline: offline || skips.github,
 	});
 
 	const repositoryLocator =
@@ -130,6 +133,7 @@ export async function runModeTransition<
 				offline,
 				options: baseOptions.completed,
 				refinements: loadedConfig?.refinements,
+				skips,
 			}),
 	);
 	if (creation instanceof Error) {

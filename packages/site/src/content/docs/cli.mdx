@@ -82,11 +82,71 @@ For example, specifying creating a new repository offline with [`create-typescri
 If you are finding your template still sends requests with `--offline`, file a bug on the template.
 :::
 
+### `--skip-files`
+
+> Type: `boolean`
+
+Whether to skip creating files on disk.
+
+This can be useful if you'd like to only run scripts such as linter auto-fixing and update repository settings for a previously created repository.
+
+For example, specifying updating all of repository except its files with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app):
+
+<PackageManagers type="dlx" pkg="create-typescript-app" args="--skip-files" />
+
+### `--skip-github`
+
+> Type: `boolean`
+
+Whether to skip creating or updating a repository on GitHub.
+
+This can be useful if you want to keep all your changes local and not publish anything on GitHub.
+
+For example, creating repository locally with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app):
+
+<PackageManagers type="dlx" pkg="create-typescript-app" args="--skip-github" />
+
+`--skip-github` effectively defaults to true if [`--offline`](#--offline) is provided.
+However, it does not prevent network requests from being made the way [`--offline`](#--offline) or [`--skip-requests`](#--skip-requests) do.
+
+:::note
+`--skip-github` will soon default to `true` for new repositories (setup mode).
+Creating a repository on GitHub in setup mode will switch to opt-in, rather than opt-out, behavior.
+:::
+
+### `--skip-requests`
+
+> Type: `boolean`
+
+Whether to skip sending network requests as specified by templates.
+
+`--skip-requests` effectively defaults to true if [`--offline`](#--offline) is provided.
+However, it does not prevent network requests from being sent by other parts of templates.
+For example, templates may run package installation scripts that don't include their own `--offline` flag when Bingo's [`--offline`](#--offline) is not provided.
+
+For example, creating a repository using [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app) without populating network requests, but with network installation of packages (`pnpm install` instead of `pnpm install --offline`):
+
+<PackageManagers
+	type="dlx"
+	pkg="create-typescript-app"
+	args="--skip-requests"
+/>
+
+### `--skip-scripts`
+
+> Type: `boolean`
+
+Whether to skip running local scripts as specified by templates.
+
+For example, creating a repository using [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app) without running scripts such as `pnpm format --write`:
+
+<PackageManagers type="dlx" pkg="create-typescript-app" args="--skip-scripts" />
+
 ### `--version`
 
 > Type: `boolean`
 
-Prints the Bingo package version.
+Prints the Bingo and template package versions.
 
 <PackageManagers type="dlx" pkg="create-typescript-app" args="--version" />
 
