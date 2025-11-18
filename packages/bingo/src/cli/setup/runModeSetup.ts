@@ -62,7 +62,7 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 	const system = await createSystemContextWithAuth({
 		directory,
 		display,
-		offline: requestedOffline || skips.github,
+		offline: requestedOffline,
 	});
 
 	const providedOptions = parseZodArgs(argv, {
@@ -107,14 +107,21 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 	const { offline, remote, warning } =
 		requestedOffline || !system.fetchers.octokit
 			? { offline: true, remote: undefined }
-			: await createRepositoryOnGitHub(
-					display,
-					{ repository, ...baseOptions.completed },
-					requestedOffline,
-					system.fetchers.octokit,
-					system.runner,
-					template,
-				);
+			: skips.requests
+				? {
+						offline: false,
+						remote: undefined,
+						warning:
+							"Running without creating a repository on GitHub due to --skip-requests.",
+					}
+				: await createRepositoryOnGitHub(
+						display,
+						{ repository, ...baseOptions.completed },
+						requestedOffline,
+						system.fetchers.octokit,
+						system.runner,
+						template,
+					);
 
 	if (remote instanceof Error) {
 		logRerunSuggestion(argv, baseOptions.prompted);

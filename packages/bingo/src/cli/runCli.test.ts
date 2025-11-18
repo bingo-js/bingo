@@ -149,30 +149,6 @@ describe("runCli", () => {
 		);
 	});
 
-	it("provides skips.github when --skip-github is provided", async () => {
-		mockReadProductionSettings.mockResolvedValueOnce({
-			mode: "setup",
-		});
-
-		await runCLI({
-			argv,
-			display: createClackDisplay(),
-			from: "",
-			template,
-			values: {
-				"skip-github": true,
-			},
-		});
-
-		expect(mockRunModeSetup).toHaveBeenCalledWith(
-			expect.objectContaining({
-				skips: {
-					github: true,
-				},
-			}),
-		);
-	});
-
 	it("provides skips.requests when --skip-requests is provided", async () => {
 		mockReadProductionSettings.mockResolvedValueOnce({
 			mode: "setup",

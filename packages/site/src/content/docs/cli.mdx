@@ -94,35 +94,12 @@ For example, specifying updating all of repository except its files with [`creat
 
 <PackageManagers type="dlx" pkg="create-typescript-app" args="--skip-files" />
 
-### `--skip-github`
-
-> Type: `boolean`
-
-Whether to skip creating or updating a repository on GitHub.
-
-This can be useful if you want to keep all your changes local and not publish anything on GitHub.
-
-For example, creating repository locally with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app):
-
-<PackageManagers type="dlx" pkg="create-typescript-app" args="--skip-github" />
-
-`--skip-github` effectively defaults to true if [`--offline`](#--offline) is provided.
-However, it does not prevent network requests from being made the way [`--offline`](#--offline) or [`--skip-requests`](#--skip-requests) do.
-
-:::note
-`--skip-github` will soon default to `true` for new repositories (setup mode).
-Creating a repository on GitHub in setup mode will switch to opt-in, rather than opt-out, behavior.
-:::
-
 ### `--skip-requests`
 
 > Type: `boolean`
 
 Whether to skip sending network requests as specified by templates.
-
-`--skip-requests` effectively defaults to true if [`--offline`](#--offline) is provided.
-However, it does not prevent network requests from being sent by other parts of templates.
-For example, templates may run package installation scripts that don't include their own `--offline` flag when Bingo's [`--offline`](#--offline) is not provided.
+In setup mode, this includes creating a repository on GitHub.
 
 For example, creating a repository using [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app) without populating network requests, but with network installation of packages (`pnpm install` instead of `pnpm install --offline`):
 
@@ -131,6 +108,15 @@ For example, creating a repository using [`create-typescript-app`](https://githu
 	pkg="create-typescript-app"
 	args="--skip-requests"
 />
+
+`--skip-requests` effectively defaults to true if [`--offline`](#--offline) is provided.
+However, it does not prevent network requests from being sent by other parts of templates.
+For example, templates may run package installation scripts that don't include their own `--offline` flag when Bingo's [`--offline`](#--offline) is not provided.
+
+:::note
+`--skip-requests` will soon default to `true` for new repositories (setup mode).
+Creating a repository on GitHub in setup mode will switch to opt-in, rather than opt-out, behavior.
+:::
 
 ### `--skip-scripts`
 

@@ -8,11 +8,6 @@ export interface RequestedSkips {
 	files?: boolean;
 
 	/**
-	 * Whether to opt out of creating and updating a GitHub repository.
-	 */
-	github?: boolean;
-
-	/**
 	 * Whether to opt out of sending network requests.
 	 */
 	requests?: boolean;
