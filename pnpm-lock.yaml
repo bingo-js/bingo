@@ -2217,8 +2217,8 @@ packages:
   emmet@2.4.7:
     resolution: {integrity: sha512-O5O5QNqtdlnQM2bmKHtJgyChcrFMgQuulI+WdiOw2NArzprUqqxUW6bgYtKvzKgrsYpuLWalOkdhNP+1jluhCA==}
 
-  emoji-blast@0.10.2:
-    resolution: {integrity: sha512-3VrqajirPj8QeQxQeMHUfD+03H64XTEVPGRjxP5rjDCVEC5NGF3FgutMpU5scIOhcuzG23Qvs32k0Pnj+hRzGA==}
+  emoji-blast@0.11.0:
+    resolution: {integrity: sha512-RYy1ZjHqYQLjOkficpqzvAzGfE1GUcn1Bp7Ec1wq0lVIoRgNLMx4lRZWo9p0HsEawrI9Zmh0mloLXcf8ewIzfQ==}
     engines: {node: '>=18'}
 
   emoji-regex-xs@1.0.0:
@@ -3778,6 +3778,7 @@ packages:
   sitemap@8.0.0:
     resolution: {integrity: sha512-+AbdxhM9kJsHtruUF39bwS/B0Fytw6Fr1o4ZAIAEqA6cke2xcoO2GleBw9Zw7nRzILVEgz7zBM5GiTJjie1G9A==}
     engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+    deprecated: 'SECURITY: Multiple vulnerabilities fixed in 8.0.1 (XML injection, path traversal, command injection, protocol injection). Upgrade immediately: npm install sitemap@8.0.1'
     hasBin: true
 
   slashes@3.0.12:
@@ -6470,7 +6471,7 @@ snapshots:
       '@emmetio/abbreviation': 2.3.3
       '@emmetio/css-abbreviation': 2.1.8
 
-  emoji-blast@0.10.2: {}
+  emoji-blast@0.11.0: {}
 
   emoji-regex-xs@1.0.0: {}
 
@@ -7344,7 +7345,7 @@ snapshots:
 
   konami-emoji-blast@0.5.9:
     dependencies:
-      emoji-blast: 0.10.2
+      emoji-blast: 0.11.0
       konami-code-js: 0.8.3
 
   levn@0.4.1:
