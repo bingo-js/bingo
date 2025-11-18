@@ -177,6 +177,53 @@ describe("runModeSetup", () => {
 		});
 	});
 
+	it("does not create a repository on GitHub when offline is requested", async () => {
+		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			prompted: {},
+		});
+		mockRunTemplate.mockResolvedValueOnce({});
+
+		const actual = await runModeSetup({
+			argv,
+			display,
+			from,
+			offline: true,
+			template,
+		});
+
+		expect(mockCreateRepositoryOnGitHub).not.toHaveBeenCalled();
+
+		expect(actual).toEqual({
+			outro: `Thanks for using ${chalk.bgGreenBright.black(from)}! 💝`,
+			status: CLIStatus.Success,
+			suggestions: undefined,
+		});
+	});
+
+	it("does not create a repository on GitHub when skips.requests is true", async () => {
+		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			prompted: {},
+		});
+		mockRunTemplate.mockResolvedValueOnce({});
+
+		const actual = await runModeSetup({
+			argv,
+			display,
+			from,
+			skips: { requests: true },
+			template,
+		});
+
+		expect(mockCreateRepositoryOnGitHub).not.toHaveBeenCalled();
+		expect(actual).toEqual({
+			outro: `Thanks for using ${chalk.bgGreenBright.black(from)}! 💝`,
+			status: CLIStatus.Success,
+			suggestions: undefined,
+		});
+	});
+
 	it("returns an error status when online and creating a repository errors", async () => {
 		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
 		mockPromptForOptionSchemas.mockResolvedValueOnce({

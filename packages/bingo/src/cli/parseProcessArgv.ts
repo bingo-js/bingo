@@ -27,9 +27,6 @@ const cliArgsOptions = {
 	"skip-files": {
 		type: "boolean",
 	},
-	"skip-github": {
-		type: "boolean",
-	},
 	"skip-requests": {
 		type: "boolean",
 	},
@@ -49,7 +46,6 @@ export interface RunCLIRawValues {
 	owner?: boolean | string | undefined;
 	repository?: boolean | string | undefined;
 	"skip-files"?: boolean | string | undefined;
-	"skip-github"?: boolean | string | undefined;
 	"skip-requests"?: boolean | string | undefined;
 	"skip-scripts"?: boolean | string | undefined;
 	version?: boolean | string | undefined;

@@ -53,7 +53,7 @@ export async function runModeTransition<
 	const system = await createSystemContextWithAuth({
 		directory,
 		display,
-		offline: offline || skips.github,
+		offline,
 	});
 
 	const repositoryLocator =
