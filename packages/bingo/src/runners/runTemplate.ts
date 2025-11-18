@@ -50,6 +50,9 @@ export interface RunTemplateSettings<OptionsShape extends AnyShape, Refinements>
 	 */
 	refinements?: Refinements;
 
+	/**
+	 * Settings to opt out of applying specific parts of the template.
+	 */
 	skips?: RequestedSkips;
 }
 

@@ -1,5 +1,5 @@
 /**
- * Settings to opt out of running specific parts of template creation.
+ * Settings to opt out of applying specific parts of a template.
  */
 export interface RequestedSkips {
 	/**

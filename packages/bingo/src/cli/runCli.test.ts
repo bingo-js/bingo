@@ -124,4 +124,100 @@ describe("runCli", () => {
 		expect(mockRunModeSetup).not.toHaveBeenCalled();
 		expect(mockRunModeTransition).toHaveBeenCalled();
 	});
+
+	it("provides skips.files when --skip-files is provided", async () => {
+		mockReadProductionSettings.mockResolvedValueOnce({
+			mode: "setup",
+		});
+
+		await runCLI({
+			argv,
+			display: createClackDisplay(),
+			from: "",
+			template,
+			values: {
+				"skip-files": true,
+			},
+		});
+
+		expect(mockRunModeSetup).toHaveBeenCalledWith(
+			expect.objectContaining({
+				skips: {
+					files: true,
+				},
+			}),
+		);
+	});
+
+	it("provides skips.github when --skip-github is provided", async () => {
+		mockReadProductionSettings.mockResolvedValueOnce({
+			mode: "setup",
+		});
+
+		await runCLI({
+			argv,
+			display: createClackDisplay(),
+			from: "",
+			template,
+			values: {
+				"skip-github": true,
+			},
+		});
+
+		expect(mockRunModeSetup).toHaveBeenCalledWith(
+			expect.objectContaining({
+				skips: {
+					github: true,
+				},
+			}),
+		);
+	});
+
+	it("provides skips.requests when --skip-requests is provided", async () => {
+		mockReadProductionSettings.mockResolvedValueOnce({
+			mode: "setup",
+		});
+
+		await runCLI({
+			argv,
+			display: createClackDisplay(),
+			from: "",
+			template,
+			values: {
+				"skip-requests": true,
+			},
+		});
+
+		expect(mockRunModeSetup).toHaveBeenCalledWith(
+			expect.objectContaining({
+				skips: {
+					requests: true,
+				},
+			}),
+		);
+	});
+
+	it("provides skips.scripts when --skip-scripts is provided", async () => {
+		mockReadProductionSettings.mockResolvedValueOnce({
+			mode: "setup",
+		});
+
+		await runCLI({
+			argv,
+			display: createClackDisplay(),
+			from: "",
+			template,
+			values: {
+				"skip-scripts": true,
+			},
+		});
+
+		expect(mockRunModeSetup).toHaveBeenCalledWith(
+			expect.objectContaining({
+				skips: {
+					scripts: true,
+				},
+			}),
+		);
+	});
 });

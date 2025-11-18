@@ -61,6 +61,7 @@ export async function runCLI<OptionsShape extends AnyShape, Refinements>({
 		skips: {
 			files: validatedValues["skip-files"],
 			github: validatedValues["skip-github"],
+			requests: validatedValues["skip-requests"],
 			scripts: validatedValues["skip-scripts"],
 		},
 		template,
