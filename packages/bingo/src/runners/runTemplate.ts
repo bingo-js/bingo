@@ -7,6 +7,7 @@ import { produceTemplate } from "../producers/produceTemplate.js";
 import { Creation } from "../types/creations.js";
 import { ProductionMode } from "../types/modes.js";
 import { AnyShape, InferredObject } from "../types/shapes.js";
+import { RequestedSkips } from "../types/skips.js";
 import { Template } from "../types/templates.js";
 import { runCreation } from "./runCreation.js";
 
@@ -48,6 +49,11 @@ export interface RunTemplateSettings<OptionsShape extends AnyShape, Refinements>
 	 * Any optional customizations from a template-specific config file.
 	 */
 	refinements?: Refinements;
+
+	/**
+	 * Settings to opt out of applying specific parts of the template.
+	 */
+	skips?: RequestedSkips;
 }
 
 /**
@@ -60,8 +66,11 @@ export async function runTemplate<OptionsShape extends AnyShape, Refinements>(
 	template: Template<OptionsShape, Refinements>,
 	settings: RunTemplateSettings<OptionsShape, Refinements>,
 ): Promise<Partial<Creation>> {
-	const { directory = ".", offline } = settings;
-	await fs.mkdir(directory, { recursive: true });
+	const { directory = ".", offline, skips = {} } = settings;
+
+	if (!skips.files) {
+		await fs.mkdir(directory, { recursive: true });
+	}
 
 	const system = await createSystemContextWithAuth({
 		directory,
@@ -70,7 +79,7 @@ export async function runTemplate<OptionsShape extends AnyShape, Refinements>(
 
 	const creation = await produceTemplate(template, { ...system, ...settings });
 
-	await runCreation(creation, { offline, system });
+	await runCreation(creation, { offline, skips, system });
 
 	return creation;
 }

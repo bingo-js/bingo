@@ -6,6 +6,7 @@ import { createSystemContextWithAuth } from "../../contexts/createSystemContextW
 import { prepareOptions } from "../../preparation/prepareOptions.js";
 import { runTemplate } from "../../runners/runTemplate.js";
 import { AnyShape } from "../../types/shapes.js";
+import { RequestedSkips } from "../../types/skips.js";
 import { Template } from "../../types/templates.js";
 import { clearLocalGitTags } from "../clearLocalGitTags.js";
 import { createInitialCommit } from "../createInitialCommit.js";
@@ -33,6 +34,7 @@ export interface RunModeSetupSettings<
 	from: string;
 	offline?: boolean;
 	repository?: string;
+	skips?: RequestedSkips;
 	template: Template<OptionsShape, Refinements>;
 }
 
@@ -42,7 +44,8 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 	directory: requestedDirectory = requestedRepository,
 	display,
 	from,
-	offline: requestedOffline,
+	offline: requestedOffline = false,
+	skips = {},
 	template,
 }: RunModeSetupSettings<OptionsShape, Refinements>): Promise<ModeResults> {
 	logStartText("setup", requestedOffline);
@@ -59,7 +62,7 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 	const system = await createSystemContextWithAuth({
 		directory,
 		display,
-		offline: requestedOffline,
+		offline: requestedOffline || skips.github,
 	});
 
 	const providedOptions = parseZodArgs(argv, {
@@ -135,6 +138,7 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 				mode: "setup",
 				offline,
 				options: baseOptions.completed,
+				skips,
 			}),
 	);
 	if (creation instanceof Error) {

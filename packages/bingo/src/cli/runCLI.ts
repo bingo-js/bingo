@@ -19,6 +19,10 @@ const valuesSchema = z.object({
 	offline: z.boolean().optional(),
 	owner: z.string().optional(),
 	repository: z.string().optional(),
+	"skip-files": z.boolean().optional(),
+	"skip-github": z.boolean().optional(),
+	"skip-requests": z.boolean().optional(),
+	"skip-scripts": z.boolean().optional(),
 });
 
 export interface RunCLISettings<OptionsShape extends AnyShape, Refinements> {
@@ -54,6 +58,12 @@ export async function runCLI<OptionsShape extends AnyShape, Refinements>({
 		argv,
 		display,
 		from,
+		skips: {
+			files: validatedValues["skip-files"],
+			github: validatedValues["skip-github"],
+			requests: validatedValues["skip-requests"],
+			scripts: validatedValues["skip-scripts"],
+		},
 		template,
 	};
 
