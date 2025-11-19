@@ -6,7 +6,7 @@ describe("isInGitRepository", () => {
 	it("returns true when git rev-parse --git-dir has stdout", async () => {
 		const runner = vi.fn().mockResolvedValueOnce({ stdout: "/.git" });
 
-		await isInGitRepository(runner);
+		expect(await isInGitRepository(runner)).toBe(true);
 
 		expect(runner).toHaveBeenCalledTimes(1);
 		expect(runner).toHaveBeenCalledWith(`git rev-parse --git-dir`);
@@ -17,7 +17,7 @@ describe("isInGitRepository", () => {
 			.fn()
 			.mockRejectedValueOnce(new Error("Not a Git repository"));
 
-		await isInGitRepository(runner);
+		expect(await isInGitRepository(runner)).toBe(false);
 
 		expect(runner).toHaveBeenCalledTimes(1);
 		expect(runner).toHaveBeenCalledWith(`git rev-parse --git-dir`);
