@@ -23,6 +23,7 @@ import { ModeResults } from "../types.js";
 import { makeRelative } from "../utils.js";
 import { createRepositoryOnGitHub } from "./createRepositoryOnGitHub.js";
 import { createTrackingBranches } from "./createTrackingBranches.js";
+import { isInGitRepository } from "../isInGitRepository.js";
 
 export interface RunModeSetupSettings<
 	OptionsShape extends AnyShape,
@@ -156,16 +157,20 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 		};
 	}
 
-	const preparationError = await runSpinnerTask(
-		display,
-		"Preparing local repository",
-		"Prepared local repository",
-		async () => {
-			await createTrackingBranches(remote, system.runner);
-			await createInitialCommit(system.runner, { push: !!remote });
-			await clearLocalGitTags(system.runner);
-		},
-	);
+	let preparationError: Error | void = undefined;
+	const isInGitRepo = await isInGitRepository(system.runner);
+	if (!isInGitRepo) {
+		preparationError = await runSpinnerTask(
+			display,
+			"Preparing local repository",
+			"Prepared local repository",
+			async () => {
+				await createTrackingBranches(remote, system.runner);
+				await createInitialCommit(system.runner, { push: !!remote });
+				await clearLocalGitTags(system.runner);
+			},
+		);
+	}
 
 	prompts.log.message(
 		[
