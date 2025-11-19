@@ -157,10 +157,9 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 		};
 	}
 
-	let preparationError: Error | void = undefined;
-	const isInGitRepo = await isInGitRepository(system.runner);
-	if (!isInGitRepo) {
-		preparationError = await runSpinnerTask(
+	const preparationError = (await isInGitRepository(system.runner))
+		? undefined
+		: await runSpinnerTask(
 			display,
 			"Preparing local repository",
 			"Prepared local repository",
