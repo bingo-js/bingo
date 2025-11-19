@@ -12,6 +12,7 @@ import { clearLocalGitTags } from "../clearLocalGitTags.js";
 import { createInitialCommit } from "../createInitialCommit.js";
 import { ClackDisplay } from "../display/createClackDisplay.js";
 import { runSpinnerTask } from "../display/runSpinnerTask.js";
+import { isInGitRepository } from "../isInGitRepository.js";
 import { logRerunSuggestion } from "../loggers/logRerunSuggestion.js";
 import { logStartText } from "../loggers/logStartText.js";
 import { CLIMessage } from "../messages.js";
@@ -156,16 +157,18 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 		};
 	}
 
-	const preparationError = await runSpinnerTask(
-		display,
-		"Preparing local repository",
-		"Prepared local repository",
-		async () => {
-			await createTrackingBranches(remote, system.runner);
-			await createInitialCommit(system.runner, { push: !!remote });
-			await clearLocalGitTags(system.runner);
-		},
-	);
+	const preparationError = (await isInGitRepository(system.runner))
+		? undefined
+		: await runSpinnerTask(
+				display,
+				"Preparing local repository",
+				"Prepared local repository",
+				async () => {
+					await createTrackingBranches(remote, system.runner);
+					await createInitialCommit(system.runner, { push: !!remote });
+					await clearLocalGitTags(system.runner);
+				},
+			);
 
 	prompts.log.message(
 		[
