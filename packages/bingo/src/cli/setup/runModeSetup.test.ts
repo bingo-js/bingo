@@ -65,9 +65,17 @@ vi.mock("../createInitialCommit.js", () => ({
 
 const mockCreateTrackingBranches = vi.fn();
 
-vi.mock("../createTrackingBranches.js", () => ({
+vi.mock("./createTrackingBranches.js", () => ({
 	get createTrackingBranches() {
 		return mockCreateTrackingBranches;
+	},
+}));
+
+const mockIsInGitRepository = vi.fn();
+
+vi.mock("../isInGitRepository.js", () => ({
+	get isInGitRepository() {
+		return mockIsInGitRepository;
 	},
 }));
 
@@ -183,6 +191,7 @@ describe("runModeSetup", () => {
 			prompted: {},
 		});
 		mockRunTemplate.mockResolvedValueOnce({});
+		mockIsInGitRepository.mockResolvedValueOnce(false);
 
 		const actual = await runModeSetup({
 			argv,
@@ -207,6 +216,7 @@ describe("runModeSetup", () => {
 			prompted: {},
 		});
 		mockRunTemplate.mockResolvedValueOnce({});
+		mockIsInGitRepository.mockResolvedValueOnce(false);
 
 		const actual = await runModeSetup({
 			argv,
@@ -253,6 +263,7 @@ describe("runModeSetup", () => {
 		});
 		mockCreateRepositoryOnGitHub.mockResolvedValueOnce({});
 		mockRunTemplate.mockResolvedValueOnce({});
+		mockIsInGitRepository.mockResolvedValueOnce(false);
 
 		const actual = await runModeSetup({
 			argv,
@@ -261,6 +272,32 @@ describe("runModeSetup", () => {
 			template,
 		});
 
+		expect(actual).toEqual({
+			outro: `Thanks for using ${chalk.bgGreenBright.black(from)}! 💝`,
+			status: CLIStatus.Success,
+			suggestions: undefined,
+		});
+	});
+
+	it("skips git initialization when already in a git repository", async () => {
+		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			prompted: {},
+		});
+		mockCreateRepositoryOnGitHub.mockResolvedValueOnce({});
+		mockRunTemplate.mockResolvedValueOnce({});
+		mockIsInGitRepository.mockResolvedValueOnce(true);
+
+		const actual = await runModeSetup({
+			argv,
+			display,
+			from,
+			template,
+		});
+
+		expect(mockCreateTrackingBranches).not.toHaveBeenCalled();
+		expect(mockCreateInitialCommit).not.toHaveBeenCalled();
+		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
 		expect(actual).toEqual({
 			outro: `Thanks for using ${chalk.bgGreenBright.black(from)}! 💝`,
 			status: CLIStatus.Success,

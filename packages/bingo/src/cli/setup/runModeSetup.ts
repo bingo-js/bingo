@@ -160,16 +160,15 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 	const preparationError = (await isInGitRepository(system.runner))
 		? undefined
 		: await runSpinnerTask(
-			display,
-			"Preparing local repository",
-			"Prepared local repository",
-			async () => {
-				await createTrackingBranches(remote, system.runner);
-				await createInitialCommit(system.runner, { push: !!remote });
-				await clearLocalGitTags(system.runner);
-			},
-		);
-	}
+				display,
+				"Preparing local repository",
+				"Prepared local repository",
+				async () => {
+					await createTrackingBranches(remote, system.runner);
+					await createInitialCommit(system.runner, { push: !!remote });
+					await clearLocalGitTags(system.runner);
+				},
+			);
 
 	prompts.log.message(
 		[
