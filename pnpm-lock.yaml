@@ -311,11 +311,7 @@ importers:
         specifier: 3.24.2
         version: 3.24.2
 
-  packages/create:
-    dependencies:
-      chalk:
-        specifier: ^5.4.1
-        version: 5.4.1
+  packages/create: {}
 
   packages/input-from-fetch:
     dependencies:
