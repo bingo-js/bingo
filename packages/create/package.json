@@ -14,9 +14,6 @@
 	},
 	"type": "module",
 	"bin": "./bin/index.js",
-	"dependencies": {
-		"chalk": "^5.4.1"
-	},
 	"engines": {
 		"node": ">=18"
 	}
