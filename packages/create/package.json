@@ -15,7 +15,7 @@
 	"type": "module",
 	"bin": "./bin/index.js",
 	"dependencies": {
-		"chalk": "^5.4.1"
+		"picocolors": "^1.1.1"
 	},
 	"engines": {
 		"node": ">=18"

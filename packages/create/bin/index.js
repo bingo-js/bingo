@@ -1,23 +1,23 @@
 #!/usr/bin/env node
 
-import chalk from "chalk";
+import pc from "picocolors";
 
-console.log(
+console.error(
 	[
-		chalk.red("❌ You just ran "),
-		chalk.bold.red(`npx create`),
-		chalk.red(", which installs and run this npm package named 'create'."),
+		pc.red("❌ You just ran "),
+		pc.red(pc.bold(`npx create`)),
+		pc.red(", which installs and run this npm package named 'create'."),
 	].join(""),
 );
 
-console.log(
+console.warn(
 	[
-		chalk.yellow("You likely want "),
-		chalk.bold.yellow(`npm create`),
-		chalk.yellow(
+		pc.yellow("You likely want "),
+		pc.yellow(pc.bold(`npm create`)),
+		pc.yellow(
 			", the built-in npm command to install and run a package with a name like 'create-*'.",
 		),
 	].join(""),
 );
 
-console.log(chalk.yellow("See: https://docs.npmjs.com/cli/commands/npm-init"));
+console.warn(pc.yellow("See: https://docs.npmjs.com/cli/commands/npm-init"));
