@@ -16,23 +16,23 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"files": [
-		"lib/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
+		"lib/"
 	],
 	"scripts": {
 		"build": "tsc"
 	},
 	"devDependencies": {
+		"bingo": "workspace:^",
+		"bingo-fs": "workspace:^",
+		"bingo-stratum": "workspace:^",
+		"bingo-systems": "workspace:^",
 		"zod": "3.24.2"
 	},
 	"peerDependencies": {
 		"bingo": "workspace:^",
 		"bingo-fs": "workspace:^",
 		"bingo-stratum": "workspace:^",
-		"bingo-systems": "workspace:^",
-		"bingo-testers": "workspace:^"
+		"bingo-systems": "workspace:^"
 	},
 	"engines": {
 		"node": ">=18"

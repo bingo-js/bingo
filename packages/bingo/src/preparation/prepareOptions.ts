@@ -20,8 +20,9 @@ export interface HasOptionsAndMaybePrepare<OptionsShape extends AnyShape> {
 	) => LazyOptionalOptions<Partial<InferredObject<OptionsShape>>>;
 }
 
-export interface PrepareOptionsSettings<OptionsShape extends AnyShape>
-	extends Partial<BingoSystem> {
+export interface PrepareOptionsSettings<
+	OptionsShape extends AnyShape,
+> extends Partial<BingoSystem> {
 	directory?: string;
 	display?: Display;
 	existing?: Partial<InferredObject<OptionsShape>>;

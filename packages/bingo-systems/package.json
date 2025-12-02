@@ -16,22 +16,19 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"files": [
-		"lib/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
+		"lib/"
 	],
 	"scripts": {
 		"build": "tsc"
 	},
 	"dependencies": {
 		"bingo-fs": "workspace:^",
-		"execa": "^9.5.2",
-		"get-github-auth-token": "^0.1.1",
-		"octokit": "^4.1.2"
+		"execa": "^9.6.1",
+		"get-github-auth-token": "^0.1.2",
+		"octokit": "^5.0.5"
 	},
 	"devDependencies": {
-		"@types/node": "22.14.0"
+		"@types/node": "24.10.1"
 	},
 	"engines": {
 		"node": ">=18"

@@ -4,7 +4,6 @@ import { coverageConfigDefaults, defineConfig } from "vitest/config";
 export default defineConfig({
 	test: {
 		coverage: {
-			all: true,
 			exclude: [
 				...coverageConfigDefaults.exclude,
 				"**/config.ts",
@@ -13,7 +12,7 @@ export default defineConfig({
 			include: ["packages/*/src/"],
 		},
 
-		workspace: readdirSync("./packages").map((name) => ({
+		projects: readdirSync("./packages").map((name) => ({
 			test: {
 				clearMocks: true,
 				include: ["**/src/**/*.test.ts"],

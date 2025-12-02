@@ -16,22 +16,21 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"files": [
-		"lib/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
+		"lib/"
 	],
 	"scripts": {
 		"build": "tsc"
 	},
 	"dependencies": {
 		"all-properties-lazy": "^0.1.0",
-		"diff": "^7.0.0",
-		"octokit": "^4.1.2",
-		"without-undefined-properties": "^0.1.1"
+		"diff": "^8.0.2",
+		"octokit": "^5.0.5",
+		"without-undefined-properties": "^0.1.2"
 	},
 	"devDependencies": {
-		"@types/diff": "7.0.1",
+		"bingo": "workspace:^",
+		"bingo-fs": "workspace:^",
+		"bingo-systems": "workspace:^",
 		"zod": "3.24.2"
 	},
 	"peerDependencies": {

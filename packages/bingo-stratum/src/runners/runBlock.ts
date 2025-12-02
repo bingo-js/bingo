@@ -18,8 +18,9 @@ export interface RunBlockSettingsWithOptionalAddons<
 	addons?: Addons;
 }
 
-export interface RunBlockSettingsWithoutAddons<Options extends object>
-	extends Partial<BingoSystem> {
+export interface RunBlockSettingsWithoutAddons<
+	Options extends object,
+> extends Partial<BingoSystem> {
 	directory?: string;
 	offline?: boolean;
 	options: Options;

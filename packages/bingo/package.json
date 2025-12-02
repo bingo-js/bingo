@@ -17,38 +17,35 @@
 	"main": "./lib/index.js",
 	"bin": "./bin/index.js",
 	"files": [
-		"lib/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
+		"lib/"
 	],
 	"scripts": {
 		"build": "tsc"
 	},
 	"dependencies": {
-		"@clack/prompts": "^0.10.0",
+		"@clack/prompts": "^0.11.0",
 		"all-properties-lazy": "^0.1.0",
 		"bingo-fs": "workspace:^",
 		"bingo-requests": "workspace:^",
 		"bingo-systems": "workspace:^",
 		"cached-factory": "^0.1.0",
 		"call-id": "^0.1.0",
-		"chalk": "^5.4.1",
-		"get-github-auth-token": "^0.1.1",
+		"chalk": "^5.6.2",
+		"get-github-auth-token": "^0.1.2",
 		"hash-object": "^5.0.1",
-		"hosted-git-info": "^8.0.2",
-		"new-github-repository": "^0.2.1",
-		"read-package-up": "^11.0.0",
-		"read-pkg": "^9.0.1",
+		"hosted-git-info": "^9.0.2",
+		"new-github-repository": "^0.2.4",
+		"read-package-up": "^12.0.0",
+		"read-pkg": "^10.0.0",
 		"slugify": "^1.6.6",
-		"without-undefined-properties": "^0.1.1",
+		"without-undefined-properties": "^0.1.2",
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {
 		"@types/hosted-git-info": "3.0.5",
-		"@types/node": "22.14.0",
-		"execa": "9.5.2",
-		"octokit": "4.1.2"
+		"@types/node": "24.10.1",
+		"execa": "9.6.1",
+		"octokit": "5.0.5"
 	},
 	"engines": {
 		"node": ">=18"

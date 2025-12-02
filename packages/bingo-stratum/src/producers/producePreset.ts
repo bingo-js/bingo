@@ -13,11 +13,12 @@ import { produceBlocks } from "./produceBlocks.js";
  * @template OptionsShape Schemas of options defined by the Preset's Base.
  * @see {@link https://www.create.bingo/engines/stratum/apis/producers#producetemplate}
  */
-export interface ProducePresetSettings<OptionsShape extends AnyShape>
-	extends ProduceTemplateSettings<
-		OptionsShape,
-		StratumRefinements<InferredObject<OptionsShape>>
-	> {
+export interface ProducePresetSettings<
+	OptionsShape extends AnyShape,
+> extends ProduceTemplateSettings<
+	OptionsShape,
+	StratumRefinements<InferredObject<OptionsShape>>
+> {
 	/**
 	 * Existing file creations to be used for Blocks that can intake Addons.
 	 */

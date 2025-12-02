@@ -4,6 +4,7 @@
 	"plugins": [
 		"prettier-plugin-astro",
 		"prettier-plugin-curly",
+		"prettier-plugin-sentences-per-line",
 		"prettier-plugin-sh",
 		"prettier-plugin-packagejson"
 	],
