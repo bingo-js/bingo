@@ -1,6 +1,6 @@
 {
 	"name": "input-from-file-json",
-	"version": "0.5.4",
+	"version": "0.5.5",
 	"description": "Bingo input that reads a file as JSON.",
 	"homepage": "https://www.create.bingo",
 	"repository": {

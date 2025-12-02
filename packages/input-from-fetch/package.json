@@ -1,6 +1,6 @@
 {
 	"name": "input-from-fetch",
-	"version": "0.5.4",
+	"version": "0.5.5",
 	"description": "Bingo input that runs a network request.",
 	"homepage": "https://www.create.bingo",
 	"repository": {
