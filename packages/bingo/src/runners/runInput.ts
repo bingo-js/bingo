@@ -4,8 +4,9 @@ import { createSystemContext } from "../contexts/createSystemContext.js";
 import { Input } from "../types/inputs.js";
 import { AnyShape, InferredObject } from "../types/shapes.js";
 
-export interface RunInputSettings<Args extends object = object>
-	extends Partial<BingoSystem> {
+export interface RunInputSettings<
+	Args extends object = object,
+> extends Partial<BingoSystem> {
 	args: Args;
 	auth?: string;
 	directory?: string;

@@ -17,11 +17,12 @@ import { StratumRefinements } from "./refinements.js";
  * @template OptionsShape Schemas of options the Base's Blocks takes in.
  * @see {@link https://www.create.bingo/engines/stratum/concepts/templates}
  */
-export interface StratumTemplate<OptionsShape extends AnyShape>
-	extends Template<
-		OptionsShape & StratumTemplateOptionsShape,
-		StratumRefinements<InferredObject<OptionsShape>>
-	> {
+export interface StratumTemplate<
+	OptionsShape extends AnyShape,
+> extends Template<
+	OptionsShape & StratumTemplateOptionsShape,
+	StratumRefinements<InferredObject<OptionsShape>>
+> {
 	/**
 	 * Base creating this Template, as well as its Blocks and Presets.
 	 * @see {@link https://www.create.bingo/engines/stratum/concepts/bases}

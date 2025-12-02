@@ -12,11 +12,12 @@ import { BlockCreation } from "../types/creations.js";
 import { Preset } from "../types/presets.js";
 import { StratumRefinements } from "../types/refinements.js";
 
-export interface RunPresetSettings<OptionsShape extends AnyShape>
-	extends RunTemplateSettings<
-		OptionsShape,
-		StratumRefinements<InferredObject<OptionsShape>>
-	> {
+export interface RunPresetSettings<
+	OptionsShape extends AnyShape,
+> extends RunTemplateSettings<
+	OptionsShape,
+	StratumRefinements<InferredObject<OptionsShape>>
+> {
 	/**
 	 * Existing file creations to be used for Blocks that can intake Addons.
 	 */

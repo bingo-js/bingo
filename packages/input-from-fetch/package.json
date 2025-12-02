@@ -16,10 +16,7 @@
 	"type": "module",
 	"main": "./lib/index.js",
 	"files": [
-		"lib/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
+		"lib/"
 	],
 	"scripts": {
 		"build": "tsc"
@@ -28,6 +25,7 @@
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {
+		"bingo": "workspace:^",
 		"bingo-testers": "workspace:^"
 	},
 	"peerDependencies": {

@@ -17,8 +17,10 @@ import { runCreation } from "./runCreation.js";
  * @template Refinements Any optional customizations from a template-specific config file.
  * @see {@link https://www.create.bingo/build/apis/run-template#settings}
  */
-export interface RunTemplateSettings<OptionsShape extends AnyShape, Refinements>
-	extends Partial<BingoSystem> {
+export interface RunTemplateSettings<
+	OptionsShape extends AnyShape,
+	Refinements,
+> extends Partial<BingoSystem> {
 	/**
 	 * Current working directory ("cwd") path to use for the file system and running scripts.
 	 */

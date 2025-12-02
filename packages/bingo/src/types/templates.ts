@@ -38,8 +38,10 @@ export interface RepositoryLocator {
  * @template Refinements Any optional customizations from a template-specific config file.
  * @see {@link https://create.bingo/build/concepts/templates}
  */
-export interface Template<OptionsShape extends AnyShape, Refinements>
-	extends TemplateDefinition<OptionsShape, Refinements> {
+export interface Template<
+	OptionsShape extends AnyShape,
+	Refinements,
+> extends TemplateDefinition<OptionsShape, Refinements> {
 	/**
 	 * Creates a configuration object to be default-exported from a config file.
 	 * @see {@link https://www.create.bingo/configuration#createconfig}
@@ -145,8 +147,10 @@ export type TemplatePrepare<Options extends object, Refinements> = (
  * @template Refinements Any optional customizations from a template-specific config file.
  * @see {@link https://www.create.bingo/build/details/contexts#options-contexts}
  */
-export interface TemplatePrepareContext<Options extends object, Refinements>
-	extends TemplateContext<Options, Refinements> {
+export interface TemplatePrepareContext<
+	Options extends object,
+	Refinements,
+> extends TemplateContext<Options, Refinements> {
 	/**
 	 * Logs a message to the running user.
 	 * @see {@link https://www.create.bingo/build/details/contexts#options-log}

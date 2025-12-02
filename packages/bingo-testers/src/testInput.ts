@@ -3,8 +3,9 @@ import { AnyShape, InferredObject, Input, TakeInput } from "bingo";
 import { createMockSystems } from "./createMockSystems.js";
 import { MockSystemOptions } from "./types.js";
 
-export interface InputContextSettingsWithArgs<Args extends object>
-	extends InputContextSettingsWithoutArgs {
+export interface InputContextSettingsWithArgs<
+	Args extends object,
+> extends InputContextSettingsWithoutArgs {
 	args: Args;
 }
 

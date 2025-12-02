@@ -20,8 +20,9 @@ export type Input<
  * @template Args Values as defined by the Input's args schema.
  * @see {@link https://create.bingo/build/details/contexts#input-contexts}
  */
-export interface InputContextWithArgs<Args extends object>
-	extends InputContextWithoutArgs {
+export interface InputContextWithArgs<
+	Args extends object,
+> extends InputContextWithoutArgs {
 	args: Args;
 }
 

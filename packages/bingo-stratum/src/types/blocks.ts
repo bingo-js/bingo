@@ -174,8 +174,9 @@ export interface BlockDefinitionWithAddons<
  * Definition for creating a new Block without Addons.
  * @template Options Options values as described by the Base's options schema.
  */
-export interface BlockDefinitionWithoutAddons<Options extends object>
-	extends BlockBase {
+export interface BlockDefinitionWithoutAddons<
+	Options extends object,
+> extends BlockBase {
 	/**
 	 * Generates the creations describing a portion of a repository.
 	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
@@ -236,8 +237,10 @@ export type BlockProducerWithoutAddons<Options extends object> = (
  * @template Addons Block-specific extensions, as defined by the Block's schema.
  * @template Options Options values as described by the Base's options schema.
  */
-export interface BlockWithAddons<Addons extends object, Options extends object>
-	extends BlockBase {
+export interface BlockWithAddons<
+	Addons extends object,
+	Options extends object,
+> extends BlockBase {
 	/**
 	 * Infers Addons from existing files in the repository.
 	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-intake}

@@ -116,5 +116,5 @@ export function produceBlocks<Options extends object>(
 function isBlockWithAddons<Options extends object>(
 	block: Block<object | undefined, Options>,
 ): block is BlockWithAddons<object, Options> {
-	return !!("addons" in block);
+	return "addons" in block;
 }

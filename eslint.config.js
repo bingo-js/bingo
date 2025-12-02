@@ -12,9 +12,10 @@ import packageJson from "eslint-plugin-package-json";
 import perfectionist from "eslint-plugin-perfectionist";
 import * as regexp from "eslint-plugin-regexp";
 import yml from "eslint-plugin-yml";
+import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
-export default tseslint.config(
+export default defineConfig(
 	{
 		ignores: [
 			"**/*.snap",
@@ -53,8 +54,8 @@ export default tseslint.config(
 			// These off-by-default rules work well for this repo and we like them on.
 			"jsdoc/informative-docs": "error",
 
-			// https://github.com/gajus/eslint-plugin-jsdoc/issues/1343
-			"jsdoc/lines-before-block": "off",
+			// These on-by-default rules cause too much friction for this repo
+			"no-undef": "off",
 
 			// Stylistic concerns that don't interfere with Prettier
 			"logical-assignment-operators": [
@@ -78,7 +79,6 @@ export default tseslint.config(
 		languageOptions: {
 			parserOptions: {
 				projectService: true,
-				tsconfigRootDir: import.meta.dirname,
 			},
 		},
 		rules: {
@@ -99,6 +99,7 @@ export default tseslint.config(
 		files: ["**/*.test.*"],
 		rules: {
 			"@typescript-eslint/no-unsafe-assignment": "off",
+			"vitest/no-conditional-expect": "off",
 		},
 		settings: { vitest: { typecheck: true } },
 	},

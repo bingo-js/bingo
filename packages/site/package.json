@@ -2,6 +2,7 @@
 	"name": "bingo-site",
 	"version": "0.0.0",
 	"private": true,
+	"description": "A website for Bingo and its associated packages.",
 	"type": "module",
 	"scripts": {
 		"astro": "astro",
@@ -12,20 +13,20 @@
 		"start": "astro dev"
 	},
 	"dependencies": {
-		"@astrojs/check": "^0.9.4",
-		"@astrojs/starlight": "^0.33.1",
+		"@astrojs/check": "^0.9.6",
+		"@astrojs/starlight": "^0.37.0",
 		"@konami-emoji-blast/astro": "^0.1.1",
-		"@types/node": "^22.14.0",
-		"astro": "^5.6.1",
-		"konami-emoji-blast": "^0.5.9",
+		"@types/node": "^24.10.1",
+		"astro": "^5.16.3",
+		"konami-emoji-blast": "^0.6.0",
 		"remark-custom-heading-id": "^2.0.0",
-		"starlight-blog": "^0.20.0",
-		"starlight-links-validator": "^0.15.1",
-		"starlight-package-managers": "^0.10.0",
-		"starlight-sidebar-topics": "^0.6.0",
-		"typescript": "^5.8.3"
+		"starlight-blog": "^0.25.2",
+		"starlight-links-validator": "^0.19.2",
+		"starlight-package-managers": "^0.11.1",
+		"starlight-sidebar-topics": "^0.6.2",
+		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
-		"sharp": "0.34.1"
+		"sharp": "0.34.5"
 	}
 }

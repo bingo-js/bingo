@@ -7,8 +7,9 @@ export interface TestProductionSettingsBase {
 	system?: Omit<Partial<BingoSystem>, "take">;
 }
 
-export interface TestTemplateProductionSettings<OptionsShape extends AnyShape>
-	extends TestProductionSettingsBase {
+export interface TestTemplateProductionSettings<
+	OptionsShape extends AnyShape,
+> extends TestProductionSettingsBase {
 	options: InferredObject<OptionsShape>;
 }
 
