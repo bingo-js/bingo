@@ -31,4 +31,5 @@ Please try it out and report any issues on [Discord](https://discord.gg/SFsnbpWq
 
 > 💙 This package was templated with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app).
 
-> Special thanks to [@rumpl](https://github.com/rumpl) for granting use of the `bingo` package name. 🙏
+> Special thanks to [@rumpl](https://github.com/rumpl) for granting use of the `bingo` package name.
+> 🙏

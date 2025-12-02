@@ -86,12 +86,12 @@ importers:
       prettier-plugin-packagejson:
         specifier: 2.5.20
         version: 2.5.20(prettier@3.7.3)
+      prettier-plugin-sentences-per-line:
+        specifier: ^0.1.0
+        version: 0.1.0(prettier@3.7.3)
       prettier-plugin-sh:
         specifier: 0.18.0
         version: 0.18.0(prettier@3.7.3)
-      sentences-per-line:
-        specifier: 0.4.0
-        version: 0.4.0
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -3503,6 +3503,11 @@ packages:
       prettier:
         optional: true
 
+  prettier-plugin-sentences-per-line@0.1.0:
+    resolution: {integrity: sha512-7qdRufqcCHypdG4ThTPjsw1xQVPGHQ/L3TG2oiqkF3pNJAT/+VDDeuUz+6m8R6TZ7NE+kx6aVKXB/N/UrD2LTQ==}
+    peerDependencies:
+      prettier: ^3
+
   prettier-plugin-sh@0.18.0:
     resolution: {integrity: sha512-cW1XL27FOJQ/qGHOW6IHwdCiNWQsAgK+feA8V6+xUTaH0cD3Mh+tFAtBvEEWvuY6hTDzRV943Fzeii+qMOh7nQ==}
     engines: {node: '>=16.0.0'}
@@ -3720,10 +3725,6 @@ packages:
     resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
     engines: {node: '>=10'}
     hasBin: true
-
-  sentences-per-line@0.4.0:
-    resolution: {integrity: sha512-KHlNwB0prYEmhs6yxPPrZZmq0O+tauB04lMY7vTirbFHSwaZmffsShCRH4dNThbhVQ1kVfpD+Omb8EOzKv7XcQ==}
-    engines: {node: '>=22.14.0'}
 
   sh-syntax@0.5.8:
     resolution: {integrity: sha512-JfVoxf4FxQI5qpsPbkHhZo+n6N9YMJobyl4oGEUBb/31oQYlgTjkXQD8PBiafS2UbWoxrTO0Z5PJUBXEPAG1Zw==}
@@ -8315,6 +8316,10 @@ snapshots:
     optionalDependencies:
       prettier: 3.7.3
 
+  prettier-plugin-sentences-per-line@0.1.0(prettier@3.7.3):
+    dependencies:
+      prettier: 3.7.3
+
   prettier-plugin-sh@0.18.0(prettier@3.7.3):
     dependencies:
       '@reteps/dockerfmt': 0.3.6
@@ -8636,8 +8641,6 @@ snapshots:
       regexp-ast-analysis: 0.7.1
 
   semver@7.7.3: {}
-
-  sentences-per-line@0.4.0: {}
 
   sh-syntax@0.5.8:
     dependencies:

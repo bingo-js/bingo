@@ -76,10 +76,10 @@ Bingo intentionally does not use any Zod features beyond creating and describing
 This is for two reasons:
 
 - Bases often need data to be shared between multiple -even many- different Options.
-  Loading implementations become much cleaner when all data loaders can be declared once in a `prepare()` function,
+Loading implementations become much cleaner when all data loaders can be declared once in a `prepare()` function,
   wrapped in a caching [`lazyValue`](https://github.com/sindresorhus/lazy-value), then used as needed across any number of Options.
 - Long-term, the engine should not be locked into any one schema engine.
-  Adopting Zod-specific features will make it harder to swap between other implementers of [standard-schema](https://github.com/standard-schema/standard-schema) in the future if needed.
+Adopting Zod-specific features will make it harder to swap between other implementers of [standard-schema](https://github.com/standard-schema/standard-schema) in the future if needed.
 
 ### Why is the template `prepare()` function synchronous?
 
@@ -88,7 +88,8 @@ This is for two reasons:
 Option values might be provided by the user.
 When an option is provided via an explicit CLI flag or in a producer API, its default logic shouldn't be awaited.
 
-If a user provides explicit values for all options then the `prepare()` function should take as little time as possible: i.e. it should be synchronous.
+If a user provides explicit values for all options then the `prepare()` function should take as little time as possible: i.e.
+it should be synchronous.
 
 ### Why should we use `take` and Inputs in `prepare()`?
 
