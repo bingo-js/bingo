@@ -8,6 +8,12 @@ cd bingo
 pnpm install
 ```
 
+Run a prebuild to prepare the repository for building:
+
+```shell
+pnpm run -r prebuild
+```
+
 > This repository includes a list of suggested VS Code extensions.
 > It's a good idea to use [VS Code](https://code.visualstudio.com) and accept its suggestion to install them, as they'll help with development.
 
