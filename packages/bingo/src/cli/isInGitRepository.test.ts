@@ -3,23 +3,33 @@ import { describe, expect, it, vi } from "vitest";
 import { isInGitRepository } from "./isInGitRepository.js";
 
 describe("isInGitRepository", () => {
-	it("returns true when git rev-parse --git-dir has stdout", async () => {
-		const runner = vi.fn().mockResolvedValueOnce({ stdout: "/.git" });
+	it("returns false when git rev-parse --git-dir has no message", async () => {
+		const runner = vi.fn().mockResolvedValueOnce({
+			message: undefined,
+		});
 
-		expect(await isInGitRepository(runner)).toBe(true);
+		const actual = await isInGitRepository(runner);
 
-		expect(runner).toHaveBeenCalledTimes(1);
-		expect(runner).toHaveBeenCalledWith(`git rev-parse --git-dir`);
+		expect(actual).toBe(false);
 	});
 
-	it("returns false when git rev-parse --git-dir has no stdout", async () => {
-		const runner = vi
-			.fn()
-			.mockRejectedValueOnce(new Error("Not a Git repository"));
+	it("returns false when git rev-parse --git-dir has explicit non-Git stdout", async () => {
+		const runner = vi.fn().mockResolvedValueOnce({
+			message: "fatal: not a git repository ...",
+		});
 
-		expect(await isInGitRepository(runner)).toBe(false);
+		const actual = await isInGitRepository(runner);
 
-		expect(runner).toHaveBeenCalledTimes(1);
-		expect(runner).toHaveBeenCalledWith(`git rev-parse --git-dir`);
+		expect(actual).toBe(false);
+	});
+
+	it("returns true when git rev-parse --git-dir has Git-related stdout", async () => {
+		const runner = vi.fn().mockResolvedValueOnce({
+			message: "/.git",
+		});
+
+		const actual = await isInGitRepository(runner);
+
+		expect(actual).toBe(true);
 	});
 });
