@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { createTemplate } from "../../creators/createTemplate.js";
 import { ClackDisplay } from "../display/createClackDisplay.js";
+import { CLIMessage } from "../messages.js";
 import { CLIStatus } from "../status.js";
 import { runModeTransition } from "./runModeTransition.js";
 
@@ -251,7 +252,7 @@ describe("runModeTransition", () => {
 		});
 
 		expect(actual).toEqual({
-			outro: `Leaving changes to the local directory on disk. 👋`,
+			outro: CLIMessage.Leaving,
 			status: CLIStatus.Error,
 		});
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
@@ -272,7 +273,7 @@ describe("runModeTransition", () => {
 		});
 
 		expect(actual).toEqual({
-			outro: "Done. Enjoy your updated repository! 💝",
+			outro: CLIMessage.Done,
 			status: CLIStatus.Success,
 		});
 		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
@@ -299,12 +300,75 @@ describe("runModeTransition", () => {
 		});
 
 		expect(actual).toEqual({
-			outro: "Done. Enjoy your new repository! 💝",
+			outro: CLIMessage.New,
 			status: CLIStatus.Success,
 		});
 		expect(mockLogStartText).toHaveBeenCalledWith("transition", false);
 		expect(mockClearTemplateFiles).toHaveBeenCalled();
 		expect(mockClearLocalGitTags).toHaveBeenCalled();
+		expect(mockCreateInitialCommit).toHaveBeenCalledWith(mockSystem.runner, {
+			amend: true,
+			push: true,
+		});
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
+	});
+
+	it("clears the existing repository online when a remote is true, a locator exists, and offline is falsy", async () => {
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			prompted: promptedOptions,
+		});
+		mockGetForkedRepositoryLocator.mockResolvedValueOnce({
+			owner: "",
+			repository: "",
+		});
+		mockResolveLocalRepository.mockResolvedValueOnce({});
+
+		const actual = await runModeTransition({
+			argv,
+			configFile: undefined,
+			display,
+			from,
+			remote: true,
+			template: templateWithRepository,
+		});
+
+		expect(actual).toEqual({
+			outro: CLIMessage.New,
+			status: CLIStatus.Success,
+		});
+		expect(mockLogStartText).toHaveBeenCalledWith("transition", false);
+		expect(mockClearTemplateFiles).toHaveBeenCalled();
+		expect(mockClearLocalGitTags).toHaveBeenCalled();
+		expect(mockCreateInitialCommit).toHaveBeenCalledWith(mockSystem.runner, {
+			amend: true,
+			push: true,
+		});
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
+	});
+
+	it("clears the existing repository online when a remote is true, a locator does not exist, and offline is falsy", async () => {
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			prompted: promptedOptions,
+		});
+		mockGetForkedRepositoryLocator.mockResolvedValueOnce(undefined);
+		mockResolveLocalRepository.mockResolvedValueOnce({});
+
+		const actual = await runModeTransition({
+			argv,
+			configFile: undefined,
+			display,
+			from,
+			remote: true,
+			template: templateWithRepository,
+		});
+
+		expect(actual).toEqual({
+			outro: CLIMessage.Done,
+			status: CLIStatus.Success,
+		});
+		expect(mockLogStartText).toHaveBeenCalledWith("transition", false);
+		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
+		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
 		expect(mockCreateInitialCommit).toHaveBeenCalledWith(mockSystem.runner, {
 			amend: true,
 			push: true,
@@ -334,7 +398,7 @@ describe("runModeTransition", () => {
 		});
 
 		expect(actual).toEqual({
-			outro: "Done. Enjoy your new repository! 💝",
+			outro: CLIMessage.New,
 			status: CLIStatus.Success,
 		});
 		expect(mockLogStartText).toHaveBeenCalledWith("transition", true);
