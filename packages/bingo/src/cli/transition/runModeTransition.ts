@@ -161,25 +161,20 @@ export async function runModeTransition({
 		};
 	}
 
-	if (!repositoryLocator) {
-		logRerunSuggestion(argv, baseOptions.prompted);
-		return {
-			outro: CLIMessage.Done,
-			status: CLIStatus.Success,
-		};
-	}
-
-	const commit = await runSpinnerTask(
-		display,
-		"Creating initial commit",
-		"Created initial commit",
-		async () => {
-			await createInitialCommit(system.runner, {
-				amend: true,
-				push: !offline,
-			});
-		},
-	);
+	const commit =
+		repositoryLocator || requestedRemote
+			? await runSpinnerTask(
+					display,
+					"Creating initial commit",
+					"Created initial commit",
+					async () => {
+						await createInitialCommit(system.runner, {
+							amend: true,
+							push: !offline,
+						});
+					},
+				)
+			: undefined;
 
 	logRerunSuggestion(argv, baseOptions.prompted);
 
@@ -189,7 +184,7 @@ export async function runModeTransition({
 				status: CLIStatus.Error,
 			}
 		: {
-				outro: CLIMessage.New,
+				outro: repositoryLocator ? CLIMessage.New : CLIMessage.Done,
 				status: CLIStatus.Success,
 			};
 }
