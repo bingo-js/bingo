@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import { z } from "zod";
 
-import { AnyShape } from "../types/shapes.js";
 import { Template } from "../types/templates.js";
 import { ClackDisplay } from "./display/createClackDisplay.js";
 import { logHelpText } from "./loggers/logHelpText.js";
@@ -18,27 +17,28 @@ const valuesSchema = z.object({
 	mode: z.union([z.literal("setup"), z.literal("transition")]).optional(),
 	offline: z.boolean().optional(),
 	owner: z.string().optional(),
+	remote: z.boolean().optional(),
 	repository: z.string().optional(),
 	"skip-files": z.boolean().optional(),
 	"skip-requests": z.boolean().optional(),
 	"skip-scripts": z.boolean().optional(),
 });
 
-export interface RunCLISettings<OptionsShape extends AnyShape, Refinements> {
+export interface RunCLISettings {
 	argv: string[];
 	display: ClackDisplay;
 	from: string;
-	template: Template<OptionsShape, Refinements>;
+	template: Template;
 	values: RunCLIRawValues;
 }
 
-export async function runCLI<OptionsShape extends AnyShape, Refinements>({
+export async function runCLI({
 	argv,
 	display,
 	from,
 	template,
 	values,
-}: RunCLISettings<OptionsShape, Refinements>) {
+}: RunCLISettings) {
 	const validatedValues = valuesSchema.parse(values);
 	const productionSettings = await readProductionSettings({
 		from,
@@ -57,6 +57,7 @@ export async function runCLI<OptionsShape extends AnyShape, Refinements>({
 		argv,
 		display,
 		from,
+		remote: validatedValues.remote,
 		skips: {
 			files: validatedValues["skip-files"],
 			requests: validatedValues["skip-requests"],

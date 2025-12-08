@@ -120,7 +120,7 @@ export function createStratumTemplate<OptionsShape extends AnyShape>(
 
 			if (blockAdds.length) {
 				context.log(
-					`Detected ${blockAdds.map((add) => `--${chalk.blue(add)}`).join(" ")} from existing files on disk.`,
+					`Detected ${blockAdds.map((add) => `--${chalk.blue(add)}`).join(" ")} from existing files on disk`,
 				);
 			}
 
@@ -130,7 +130,7 @@ export function createStratumTemplate<OptionsShape extends AnyShape>(
 				preset: () => {
 					if (existing.preset) {
 						context.log(
-							`Detected ${chalk.blue(`--preset ${existing.preset}`)} from existing files on disk.`,
+							`Detected ${chalk.blue(`--preset ${existing.preset}`)} from existing files on disk`,
 						);
 					}
 

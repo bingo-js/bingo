@@ -82,6 +82,21 @@ For example, specifying creating a new repository offline with [`create-typescri
 If you are finding your template still sends requests with `--offline`, file a bug on the template.
 :::
 
+### `--remote`
+
+> Type: `boolean`
+
+Whether to create a remote repository on GitHub if one does not already exist.
+
+Defaults to whether an `origin` Git remote already exists in the repository.
+
+When enabled, Bingo will:
+
+- Create a remote repository on GitHub if one does not exist, adding it as the `origin` remote
+- Apply any network requests specified by the template to the remote repository
+
+When disabled, Bingo will not create a remote repository and will skip requests ([`--skip-requests`](#--skip-requests) will default to `true`).
+
 ### `--skip-files`
 
 > Type: `boolean`
@@ -99,7 +114,6 @@ For example, specifying updating all of repository except its files with [`creat
 > Type: `boolean`
 
 Whether to skip sending network requests as specified by templates.
-In setup mode, this includes creating a repository on GitHub.
 
 For example, creating a repository using [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app) without populating network requests, but with network installation of packages (`pnpm install` instead of `pnpm install --offline`):
 
@@ -114,8 +128,8 @@ However, it does not prevent network requests from being sent by other parts of 
 For example, templates may run package installation scripts that don't include their own `--offline` flag when Bingo's [`--offline`](#--offline) is not provided.
 
 :::note
-`--skip-requests` will soon default to `true` for new repositories (setup mode).
-Creating a repository on GitHub in setup mode will switch to opt-in, rather than opt-out, behavior.
+Requests are only sent if the repository has a remote on GitHub.
+If your repository is local-only, `--skip-requests` defaults to `true` and has no effect.
 :::
 
 ### `--skip-scripts`

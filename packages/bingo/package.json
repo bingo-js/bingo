@@ -32,6 +32,7 @@
 		"call-id": "^0.1.0",
 		"chalk": "^5.6.2",
 		"get-github-auth-token": "^0.1.2",
+		"git-url-parse": "^16.1.0",
 		"hash-object": "^5.0.1",
 		"hosted-git-info": "^9.0.2",
 		"new-github-repository": "^0.2.4",

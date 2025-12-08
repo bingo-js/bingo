@@ -21,6 +21,9 @@ const cliArgsOptions = {
 	owner: {
 		type: "string",
 	},
+	remote: {
+		type: "boolean",
+	},
 	repository: {
 		type: "string",
 	},

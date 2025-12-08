@@ -86,7 +86,7 @@ npx bingo template.js --directory generated
 │
 ◇  Ran the bingo template.js template
 │
-◇  Prepared local repository
+◇  Prepared local Git repository
 │
 │  You've got a new repository ready to use in:
 │    ./generated

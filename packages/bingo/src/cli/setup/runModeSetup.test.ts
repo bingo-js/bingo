@@ -4,17 +4,24 @@ import { z } from "zod";
 
 import { createTemplate } from "../../creators/createTemplate.js";
 import { ClackDisplay } from "../display/createClackDisplay.js";
+import { GitRepositoryType } from "../getGitRepositoryType.js";
+import { CLIMessage } from "../messages.js";
 import { CLIStatus } from "../status.js";
 import { runModeSetup } from "./runModeSetup.js";
 
 const mockCancel = Symbol("cancel");
 
+const mockLog = {
+	error: vi.fn(),
+	info: vi.fn(),
+	message: vi.fn(),
+	warn: vi.fn(),
+};
+
 vi.mock("@clack/prompts", () => ({
 	isCancel: (value: unknown) => value === mockCancel,
-	log: {
-		error: vi.fn(),
-		message: vi.fn(),
-		warn: vi.fn(),
+	get log() {
+		return mockLog;
 	},
 }));
 
@@ -30,6 +37,8 @@ vi.mock("../../contexts/createSystemContextWithAuth.js", () => ({
 		return vi.fn().mockResolvedValue(mockSystem);
 	},
 }));
+
+vi.mock("../loggers/logRerunSuggestion.js");
 
 const mockLogStartText = vi.fn();
 
@@ -47,35 +56,19 @@ vi.mock("../../preparation/prepareOptions.js", () => ({
 	},
 }));
 
-const mockClearLocalGitTags = vi.fn();
+const mockPrepareGitRepository = vi.fn();
 
-vi.mock("../clearLocalGitTags.js", () => ({
-	get clearLocalGitTags() {
-		return mockClearLocalGitTags;
+vi.mock("../repository/prepareGitRepository.js", () => ({
+	get prepareGitRepository() {
+		return mockPrepareGitRepository;
 	},
 }));
 
-const mockCreateInitialCommit = vi.fn();
+const mockResolveLocalRepository = vi.fn();
 
-vi.mock("../createInitialCommit.js", () => ({
-	get createInitialCommit() {
-		return mockCreateInitialCommit;
-	},
-}));
-
-const mockCreateTrackingBranches = vi.fn();
-
-vi.mock("./createTrackingBranches.js", () => ({
-	get createTrackingBranches() {
-		return mockCreateTrackingBranches;
-	},
-}));
-
-const mockIsInGitRepository = vi.fn();
-
-vi.mock("../isInGitRepository.js", () => ({
-	get isInGitRepository() {
-		return mockIsInGitRepository;
+vi.mock("../repository/resolveLocalRepository.js", () => ({
+	get resolveLocalRepository() {
+		return mockResolveLocalRepository;
 	},
 }));
 
@@ -100,14 +93,6 @@ const mockRunTemplate = vi.fn();
 vi.mock("../../runners/runTemplate.js", () => ({
 	get runTemplate() {
 		return mockRunTemplate;
-	},
-}));
-
-const mockCreateRepositoryOnGitHub = vi.fn();
-
-vi.mock("./createRepositoryOnGitHub", () => ({
-	get createRepositoryOnGitHub() {
-		return mockCreateRepositoryOnGitHub;
 	},
 }));
 
@@ -185,40 +170,72 @@ describe("runModeSetup", () => {
 		});
 	});
 
-	it("does not create a repository on GitHub when offline is requested", async () => {
+	it("returns the error when resolving a remote repository results in an error", async () => {
+		const remote = new Error("Remote error.");
+
 		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
 		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			cancelled: false,
 			prompted: {},
 		});
-		mockRunTemplate.mockResolvedValueOnce({});
-		mockIsInGitRepository.mockResolvedValueOnce(false);
+		mockResolveLocalRepository.mockResolvedValueOnce({ remote });
 
 		const actual = await runModeSetup({
 			argv,
 			display,
 			from,
-			offline: true,
 			template,
 		});
 
-		expect(mockCreateRepositoryOnGitHub).not.toHaveBeenCalled();
-
 		expect(actual).toEqual({
-			outro: `Thanks for using ${chalk.bgGreenBright.black(from)}! 💝`,
-			status: CLIStatus.Success,
-			suggestions: undefined,
+			error: remote,
+			status: CLIStatus.Error,
 		});
 	});
 
-	it("does not create a repository on GitHub when skips.requests is true", async () => {
+	it("returns the error when creating a remote repository results in an error", async () => {
+		const remoteText = "To create remote.";
+
 		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
 		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			cancelled: false,
 			prompted: {},
 		});
-		mockRunTemplate.mockResolvedValueOnce({});
-		mockIsInGitRepository.mockResolvedValueOnce(false);
+		mockResolveLocalRepository.mockResolvedValueOnce({
+			message: {
+				level: "message",
+				text: remoteText,
+			},
+			remote: { owner: "user", repository: "repo" },
+		});
+		mockRunTemplate.mockResolvedValueOnce(new Error("Creation error."));
 
 		const actual = await runModeSetup({
+			argv,
+			display,
+			from,
+			template,
+		});
+
+		expect(mockLog.message).toHaveBeenCalledWith(remoteText);
+		expect(actual).toEqual({
+			outro: CLIMessage.Leaving,
+			status: CLIStatus.Error,
+		});
+	});
+
+	it("skips requests in runTemplate when skips.requests is true and there is a remote", async () => {
+		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			cancelled: false,
+			prompted: {},
+		});
+		mockResolveLocalRepository.mockResolvedValueOnce({
+			remote: { owner: "user", repository: "repo" },
+		});
+		mockRunTemplate.mockResolvedValueOnce({ creation: {} });
+
+		await runModeSetup({
 			argv,
 			display,
 			from,
@@ -226,22 +243,105 @@ describe("runModeSetup", () => {
 			template,
 		});
 
-		expect(mockCreateRepositoryOnGitHub).not.toHaveBeenCalled();
-		expect(actual).toEqual({
-			outro: `Thanks for using ${chalk.bgGreenBright.black(from)}! 💝`,
-			status: CLIStatus.Success,
-			suggestions: undefined,
-		});
+		expect(mockRunTemplate).toHaveBeenCalledWith(
+			template,
+			expect.objectContaining({
+				skips: {
+					requests: true,
+				},
+			}),
+		);
 	});
 
-	it("returns an error status when online and creating a repository errors", async () => {
+	it("skips requests in runTemplate when skips.requests is false and there is no remote", async () => {
 		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
 		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			cancelled: false,
 			prompted: {},
 		});
+		mockResolveLocalRepository.mockResolvedValueOnce({});
+		mockRunTemplate.mockResolvedValueOnce({ creation: {} });
 
-		const error = new Error("Oh no!");
-		mockCreateRepositoryOnGitHub.mockResolvedValueOnce({ remote: error });
+		await runModeSetup({
+			argv,
+			display,
+			from,
+			template,
+		});
+
+		expect(mockRunTemplate).toHaveBeenCalledWith(
+			template,
+			expect.objectContaining({
+				skips: {
+					requests: true,
+				},
+			}),
+		);
+	});
+
+	it("calls prepareGitRepository when the repository type is None", async () => {
+		const remote = { owner: "user", repository: "repo" };
+		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			cancelled: false,
+			prompted: {},
+		});
+		mockResolveLocalRepository.mockResolvedValueOnce({
+			remote,
+			repositoryType: GitRepositoryType.None,
+		});
+		mockRunTemplate.mockResolvedValueOnce({ creation: {} });
+
+		await runModeSetup({
+			argv,
+			display,
+			from,
+			template,
+		});
+
+		expect(mockPrepareGitRepository).toHaveBeenCalledWith(
+			remote,
+			mockSystem.runner,
+		);
+	});
+
+	it("skips calling prepareGitRepository when the repository type is Subdirectory", async () => {
+		const remote = { owner: "user", repository: "repo" };
+		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			cancelled: false,
+			prompted: {},
+		});
+		mockResolveLocalRepository.mockResolvedValueOnce({
+			remote,
+			repositoryType: GitRepositoryType.Subdirectory,
+		});
+		mockRunTemplate.mockResolvedValueOnce({ creation: {} });
+
+		await runModeSetup({
+			argv,
+			display,
+			from,
+			template,
+		});
+
+		expect(mockPrepareGitRepository).not.toHaveBeenCalled();
+	});
+
+	it("reports the error when prepareGitRepository rejects", async () => {
+		const preparationError = new Error("Preparation error.");
+
+		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			cancelled: false,
+			prompted: {},
+		});
+		mockResolveLocalRepository.mockResolvedValueOnce({
+			remote: { owner: "user", repository: "repo" },
+			repositoryType: GitRepositoryType.None,
+		});
+		mockRunTemplate.mockResolvedValueOnce({ creation: {} });
+		mockPrepareGitRepository.mockRejectedValueOnce(preparationError);
 
 		const actual = await runModeSetup({
 			argv,
@@ -251,19 +351,21 @@ describe("runModeSetup", () => {
 		});
 
 		expect(actual).toEqual({
-			error,
+			outro: CLIMessage.Leaving,
 			status: CLIStatus.Error,
 		});
 	});
 
-	it("returns a success status when options and repository preparation succeed", async () => {
+	it("logs a success outro and suggestions when everything succeeds", async () => {
+		const suggestions = ["Suggestion."];
+
 		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
 		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			cancelled: false,
 			prompted: {},
 		});
-		mockCreateRepositoryOnGitHub.mockResolvedValueOnce({});
-		mockRunTemplate.mockResolvedValueOnce({});
-		mockIsInGitRepository.mockResolvedValueOnce(false);
+		mockResolveLocalRepository.mockResolvedValueOnce({});
+		mockRunTemplate.mockResolvedValueOnce({ creation: {}, suggestions });
 
 		const actual = await runModeSetup({
 			argv,
@@ -275,33 +377,7 @@ describe("runModeSetup", () => {
 		expect(actual).toEqual({
 			outro: `Thanks for using ${chalk.bgGreenBright.black(from)}! 💝`,
 			status: CLIStatus.Success,
-			suggestions: undefined,
-		});
-	});
-
-	it("skips git initialization when already in a git repository", async () => {
-		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
-		mockPromptForOptionSchemas.mockResolvedValueOnce({
-			prompted: {},
-		});
-		mockCreateRepositoryOnGitHub.mockResolvedValueOnce({});
-		mockRunTemplate.mockResolvedValueOnce({});
-		mockIsInGitRepository.mockResolvedValueOnce(true);
-
-		const actual = await runModeSetup({
-			argv,
-			display,
-			from,
-			template,
-		});
-
-		expect(mockCreateTrackingBranches).not.toHaveBeenCalled();
-		expect(mockCreateInitialCommit).not.toHaveBeenCalled();
-		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
-		expect(actual).toEqual({
-			outro: `Thanks for using ${chalk.bgGreenBright.black(from)}! 💝`,
-			status: CLIStatus.Success,
-			suggestions: undefined,
+			suggestions,
 		});
 	});
 });

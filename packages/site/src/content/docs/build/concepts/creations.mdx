@@ -65,6 +65,9 @@ See [Packages > `bingo-fs` > Files](/build/packages/bingo-fs#files) for more inf
 
 Network requests to send after files are created.
 
+Repositories created with Bingo default to local-only, without a remote upstream.
+However, if the [CLI `--remote` flag](/cli#--remote) is enabled -either manually or from an `origin` Git remote existing- Bingo will send network requests to that remote repository.
+
 This can be useful when repository settings or other APIs are necessary to align the created repository to what templates have produced.
 Each object under `requests` describes a network request to send.
 

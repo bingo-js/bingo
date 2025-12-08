@@ -5,51 +5,47 @@ import { z } from "zod";
 import { createSystemContextWithAuth } from "../../contexts/createSystemContextWithAuth.js";
 import { prepareOptions } from "../../preparation/prepareOptions.js";
 import { runTemplate } from "../../runners/runTemplate.js";
-import { AnyShape } from "../../types/shapes.js";
 import { RequestedSkips } from "../../types/skips.js";
 import { Template } from "../../types/templates.js";
-import { clearLocalGitTags } from "../clearLocalGitTags.js";
-import { createInitialCommit } from "../createInitialCommit.js";
 import { ClackDisplay } from "../display/createClackDisplay.js";
 import { runSpinnerTask } from "../display/runSpinnerTask.js";
-import { isInGitRepository } from "../isInGitRepository.js";
+import { GitRepositoryType } from "../getGitRepositoryType.js";
 import { logRerunSuggestion } from "../loggers/logRerunSuggestion.js";
 import { logStartText } from "../loggers/logStartText.js";
 import { CLIMessage } from "../messages.js";
 import { parseZodArgs } from "../parsers/parseZodArgs.js";
 import { promptForDirectory } from "../prompts/promptForDirectory.js";
 import { promptForOptionSchemas } from "../prompts/promptForOptionSchemas.js";
+import { prepareGitRepository } from "../repository/prepareGitRepository.js";
+import { resolveLocalRepository } from "../repository/resolveLocalRepository.js";
 import { CLIStatus } from "../status.js";
 import { ModeResults } from "../types.js";
 import { makeRelative } from "../utils.js";
-import { createRepositoryOnGitHub } from "./createRepositoryOnGitHub.js";
-import { createTrackingBranches } from "./createTrackingBranches.js";
 
-export interface RunModeSetupSettings<
-	OptionsShape extends AnyShape,
-	Refinements,
-> {
+export interface RunModeSetupSettings {
 	argv: string[];
 	directory?: string;
 	display: ClackDisplay;
 	from: string;
 	offline?: boolean;
+	remote?: boolean;
 	repository?: string;
 	skips?: RequestedSkips;
-	template: Template<OptionsShape, Refinements>;
+	template: Template;
 }
 
-export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
+export async function runModeSetup({
 	argv,
 	repository: requestedRepository,
 	directory: requestedDirectory = requestedRepository,
 	display,
 	from,
-	offline: requestedOffline = false,
+	offline = false,
+	remote: requestedRemote,
 	skips = {},
 	template,
-}: RunModeSetupSettings<OptionsShape, Refinements>): Promise<ModeResults> {
-	logStartText("setup", requestedOffline);
+}: RunModeSetupSettings): Promise<ModeResults> {
+	logStartText("setup", offline);
 
 	const directory = await promptForDirectory({
 		requestedDirectory,
@@ -63,7 +59,7 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 	const system = await createSystemContextWithAuth({
 		directory,
 		display,
-		offline: requestedOffline,
+		offline,
 	});
 
 	const providedOptions = parseZodArgs(argv, {
@@ -81,7 +77,7 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 			return await prepareOptions(template, {
 				...system,
 				existing: { ...providedOptions, directory },
-				offline: requestedOffline,
+				offline,
 			});
 		},
 	);
@@ -105,32 +101,21 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 		return { status: CLIStatus.Cancelled };
 	}
 
-	const { offline, remote, warning } =
-		requestedOffline || !system.fetchers.octokit
-			? { offline: true, remote: undefined }
-			: skips.requests
-				? {
-						offline: false,
-						remote: undefined,
-						warning:
-							"Running without creating a repository on GitHub due to --skip-requests.",
-					}
-				: await createRepositoryOnGitHub(
-						display,
-						{ repository, ...baseOptions.completed },
-						requestedOffline,
-						system.fetchers.octokit,
-						system.runner,
-						template,
-					);
+	const { message, remote, repositoryType } = await resolveLocalRepository(
+		display,
+		{ repository, ...baseOptions.completed },
+		{ offline, remote: requestedRemote },
+		system,
+		template,
+	);
 
 	if (remote instanceof Error) {
 		logRerunSuggestion(argv, baseOptions.prompted);
 		return { error: remote, status: CLIStatus.Error };
 	}
 
-	if (warning) {
-		prompts.log.warn(warning);
+	if (message) {
+		prompts.log[message.level](message.text);
 	}
 
 	const descriptor = template.about?.name ?? from;
@@ -146,7 +131,10 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 				mode: "setup",
 				offline,
 				options: baseOptions.completed,
-				skips,
+				skips: {
+					...skips,
+					requests: skips.requests ?? !remote,
+				},
 			}),
 	);
 	if (creation instanceof Error) {
@@ -157,32 +145,25 @@ export async function runModeSetup<OptionsShape extends AnyShape, Refinements>({
 		};
 	}
 
-	const preparationError = (await isInGitRepository(system.runner))
-		? undefined
-		: await runSpinnerTask(
-				display,
-				"Preparing local repository",
-				"Prepared local repository",
-				async () => {
-					await createTrackingBranches(remote, system.runner);
-					await createInitialCommit(system.runner, { push: !!remote });
-					await clearLocalGitTags(system.runner);
-				},
-			);
+	const preparationError =
+		repositoryType !== GitRepositoryType.Subdirectory &&
+		(await runSpinnerTask(
+			display,
+			"Preparing local Git repository",
+			"Prepared local Git repository",
+			async () => {
+				await prepareGitRepository(remote, system.runner);
+			},
+		));
 
-	prompts.log.message(
-		[
-			"You've got a new repository ready to use in:",
-			`  ${chalk.green(makeRelative(directory))}`,
-			...(remote
-				? [
-						"",
-						"It's also pushed to GitHub on:",
-						`  ${chalk.green(`https://github.com/${remote.owner}/${remote.repository}`)}`,
-					]
-				: []),
-		].join("\n"),
-	);
+	if (!remote && repositoryType !== GitRepositoryType.Subdirectory) {
+		prompts.log.info(
+			[
+				`Run ${chalk.blue(`${argv[1]} --remote`)} in ${chalk.green(makeRelative(directory))}`,
+				`to create and sync a remote repository on GitHub.`,
+			].join("\n"),
+		);
+	}
 
 	logRerunSuggestion(argv, baseOptions.prompted);
 
