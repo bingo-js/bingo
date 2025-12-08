@@ -45,7 +45,6 @@
 	"devDependencies": {
 		"@types/hosted-git-info": "3.0.5",
 		"@types/node": "24.10.1",
-		"execa": "9.6.1",
 		"octokit": "5.0.5"
 	},
 	"engines": {
