@@ -174,7 +174,7 @@ describe("createStratumTemplate", () => {
 				const options = await allPropertiesLazy(lazyOptions);
 
 				expect(mockLog).toHaveBeenCalledWith(
-					`Detected ${chalk.blue(`--add-a`)} from existing files on disk.`,
+					`Detected ${chalk.blue(`--add-a`)} from existing files on disk`,
 				);
 				expect(options).toEqual({ "add-a": true });
 			});
@@ -205,7 +205,7 @@ describe("createStratumTemplate", () => {
 				const options = await allPropertiesLazy(lazyOptions);
 
 				expect(mockLog).toHaveBeenCalledWith(
-					`Detected ${chalk.blue(`--add-a`)} ${chalk.blue(`--add-b`)} from existing files on disk.`,
+					`Detected ${chalk.blue(`--add-a`)} ${chalk.blue(`--add-b`)} from existing files on disk`,
 				);
 				expect(options).toEqual({
 					"add-a": true,
@@ -232,7 +232,7 @@ describe("createStratumTemplate", () => {
 				const options = await allPropertiesLazy(lazyOptions);
 
 				expect(mockLog).toHaveBeenCalledWith(
-					`Detected ${chalk.blue(`--preset example`)} from existing files on disk.`,
+					`Detected ${chalk.blue(`--preset example`)} from existing files on disk`,
 				);
 				expect(options).toEqual({ preset: presetName });
 			});

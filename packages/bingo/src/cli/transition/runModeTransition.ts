@@ -1,13 +1,11 @@
+import * as prompts from "@clack/prompts";
 import { intakeDirectory } from "bingo-fs";
 
 import { createSystemContextWithAuth } from "../../contexts/createSystemContextWithAuth.js";
 import { prepareOptions } from "../../preparation/prepareOptions.js";
 import { runTemplate } from "../../runners/runTemplate.js";
-import { AnyShape } from "../../types/shapes.js";
 import { RequestedSkips } from "../../types/skips.js";
 import { Template } from "../../types/templates.js";
-import { clearLocalGitTags } from "../clearLocalGitTags.js";
-import { createInitialCommit } from "../createInitialCommit.js";
 import { ClackDisplay } from "../display/createClackDisplay.js";
 import { runSpinnerTask } from "../display/runSpinnerTask.js";
 import { logRerunSuggestion } from "../loggers/logRerunSuggestion.js";
@@ -15,39 +13,38 @@ import { logStartText } from "../loggers/logStartText.js";
 import { CLIMessage } from "../messages.js";
 import { parseZodArgs } from "../parsers/parseZodArgs.js";
 import { promptForOptionSchemas } from "../prompts/promptForOptionSchemas.js";
+import { clearLocalGitTags } from "../repository/clearLocalGitTags.js";
+import { createInitialCommit } from "../repository/createInitialCommit.js";
+import { resolveLocalRepository } from "../repository/resolveLocalRepository.js";
 import { CLIStatus } from "../status.js";
 import { ModeResults } from "../types.js";
 import { clearTemplateFiles } from "./clearTemplateFiles.js";
 import { getForkedRepositoryLocator } from "./getForkedRepositoryLocator.js";
 import { readConfigSettings } from "./readConfigSettings.js";
 
-export interface RunModeTransitionSettings<
-	OptionsShape extends AnyShape,
-	Refinements,
-> {
+export interface RunModeTransitionSettings {
 	argv: string[];
 	configFile: string | undefined;
 	directory?: string;
 	display: ClackDisplay;
 	from: string;
 	offline?: boolean;
+	remote?: boolean;
 	skips?: RequestedSkips;
-	template: Template<OptionsShape, Refinements>;
+	template: Template;
 }
 
-export async function runModeTransition<
-	OptionsShape extends AnyShape,
-	Refinements,
->({
+export async function runModeTransition({
 	argv,
 	configFile,
 	directory = ".",
 	display,
 	from,
 	offline = false,
+	remote: requestedRemote,
 	skips = {},
 	template,
-}: RunModeTransitionSettings<OptionsShape, Refinements>): Promise<ModeResults> {
+}: RunModeTransitionSettings): Promise<ModeResults> {
 	logStartText("transition", offline);
 
 	const system = await createSystemContextWithAuth({
@@ -116,6 +113,23 @@ export async function runModeTransition<
 		return { status: CLIStatus.Cancelled };
 	}
 
+	const { message, remote } = await resolveLocalRepository(
+		display,
+		{ repository: directory, ...baseOptions.completed },
+		{ offline, remote: requestedRemote },
+		system,
+		template,
+	);
+
+	if (remote instanceof Error) {
+		logRerunSuggestion(argv, baseOptions.prompted);
+		return { error: remote, status: CLIStatus.Error };
+	}
+
+	if (message) {
+		prompts.log[message.level](message.text);
+	}
+
 	const files = await intakeDirectory(directory, {
 		exclude: /node_modules|^\.git$/,
 	});
@@ -133,7 +147,10 @@ export async function runModeTransition<
 				offline,
 				options: baseOptions.completed,
 				refinements: loadedConfig?.refinements,
-				skips,
+				skips: {
+					...skips,
+					requests: skips.requests ?? !remote,
+				},
 			}),
 	);
 	if (creation instanceof Error) {

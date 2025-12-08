@@ -1,6 +1,5 @@
 import { SystemRunner } from "bingo-systems";
-
-import { RepositoryLocator } from "./createRepositoryOnGitHub.js";
+import { RepositoryLocator } from "new-github-repository";
 
 export async function createTrackingBranches(
 	remote: RepositoryLocator | undefined,

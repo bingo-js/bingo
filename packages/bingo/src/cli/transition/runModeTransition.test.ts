@@ -31,6 +31,14 @@ vi.mock("../../preparation/prepareOptions.js", () => ({
 	},
 }));
 
+const mockResolveLocalRepository = vi.fn();
+
+vi.mock("../repository/resolveLocalRepository.js", () => ({
+	get resolveLocalRepository() {
+		return mockResolveLocalRepository;
+	},
+}));
+
 const mockRunTemplate = vi.fn();
 
 vi.mock("../../runners/runTemplate.js", () => ({
@@ -57,22 +65,6 @@ vi.mock("../prompts/promptForOptionSchemas.js", () => ({
 	},
 }));
 
-const mockClearLocalGitTags = vi.fn();
-
-vi.mock("../clearLocalGitTags.js", () => ({
-	get clearLocalGitTags() {
-		return mockClearLocalGitTags;
-	},
-}));
-
-const mockCreateInitialCommit = vi.fn();
-
-vi.mock("../createInitialCommit.js", () => ({
-	get createInitialCommit() {
-		return mockCreateInitialCommit;
-	},
-}));
-
 const mockLogRerunSuggestion = vi.fn();
 
 vi.mock("../loggers/logRerunSuggestion.js", () => ({
@@ -86,6 +78,22 @@ const mockLogStartText = vi.fn();
 vi.mock("../loggers/logStartText", () => ({
 	get logStartText() {
 		return mockLogStartText;
+	},
+}));
+
+const mockClearLocalGitTags = vi.fn();
+
+vi.mock("../repository/clearLocalGitTags.js", () => ({
+	get clearLocalGitTags() {
+		return mockClearLocalGitTags;
+	},
+}));
+
+const mockCreateInitialCommit = vi.fn();
+
+vi.mock("../repository/createInitialCommit.js", () => ({
+	get createInitialCommit() {
+		return mockCreateInitialCommit;
 	},
 }));
 
@@ -202,6 +210,29 @@ describe("runModeTransition", () => {
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
 	});
 
+	it("returns the error when resolveLocalRepository resolves with an error", async () => {
+		const remote = new Error("Remote error.");
+
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			prompted: promptedOptions,
+		});
+		mockResolveLocalRepository.mockResolvedValueOnce({ remote });
+
+		const actual = await runModeTransition({
+			argv,
+			configFile: undefined,
+			display,
+			from,
+			template,
+		});
+
+		expect(actual).toEqual({
+			error: remote,
+			status: CLIStatus.Error,
+		});
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
+	});
+
 	it("returns the error when runTemplate resolves with an error", async () => {
 		const error = new Error("Oh no!");
 
@@ -209,6 +240,7 @@ describe("runModeTransition", () => {
 			prompted: promptedOptions,
 		});
 		mockRunTemplate.mockRejectedValueOnce(error);
+		mockResolveLocalRepository.mockResolvedValueOnce({});
 
 		const actual = await runModeTransition({
 			argv,
@@ -229,6 +261,7 @@ describe("runModeTransition", () => {
 		mockPromptForOptionSchemas.mockResolvedValueOnce({
 			prompted: promptedOptions,
 		});
+		mockResolveLocalRepository.mockResolvedValueOnce({});
 
 		const actual = await runModeTransition({
 			argv,
@@ -255,6 +288,7 @@ describe("runModeTransition", () => {
 			owner: "",
 			repository: "",
 		});
+		mockResolveLocalRepository.mockResolvedValueOnce({});
 
 		const actual = await runModeTransition({
 			argv,
@@ -285,6 +319,9 @@ describe("runModeTransition", () => {
 		mockGetForkedRepositoryLocator.mockResolvedValueOnce({
 			owner: "",
 			repository: "",
+		});
+		mockResolveLocalRepository.mockResolvedValueOnce({
+			remote: { owner: "user", repository: "repo" },
 		});
 
 		const actual = await runModeTransition({

@@ -13,3 +13,11 @@ export async function tryCatchSafe<T>(promise: Promise<T>) {
 		return undefined;
 	}
 }
+
+export function tryCatchSafeSync<T>(computer: () => T) {
+	try {
+		return computer();
+	} catch {
+		return undefined;
+	}
+}
