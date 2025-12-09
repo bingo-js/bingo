@@ -10,6 +10,7 @@ import { Template } from "../../types/templates.js";
 import { ClackDisplay } from "../display/createClackDisplay.js";
 import { runSpinnerTask } from "../display/runSpinnerTask.js";
 import { GitRepositoryType } from "../getGitRepositoryType.js";
+import { getRerunCommand } from "../loggers/getRerunCommand.js";
 import { logRerunSuggestion } from "../loggers/logRerunSuggestion.js";
 import { logStartText } from "../loggers/logStartText.js";
 import { CLIMessage } from "../messages.js";
@@ -159,7 +160,7 @@ export async function runModeSetup({
 	if (!remote && repositoryType !== GitRepositoryType.Subdirectory) {
 		prompts.log.info(
 			[
-				`Run ${chalk.blue(`${argv[1]} --remote`)} in ${chalk.green(makeRelative(directory))}`,
+				`Run ${chalk.blue(`${getRerunCommand(argv)} --remote`)} in ${chalk.green(makeRelative(directory))}`,
 				`to create and sync a remote repository on GitHub.`,
 			].join("\n"),
 		);

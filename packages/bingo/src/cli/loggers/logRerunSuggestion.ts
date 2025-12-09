@@ -1,6 +1,8 @@
 import * as prompts from "@clack/prompts";
 import chalk from "chalk";
 
+import { getRerunCommand } from "./getRerunCommand.js";
+
 export function logRerunSuggestion(argv: string[], prompted: object) {
 	const promptedEntries = Object.entries(prompted);
 	if (!promptedEntries.length) {
@@ -12,8 +14,7 @@ export function logRerunSuggestion(argv: string[], prompted: object) {
 			chalk.italic(`Tip: to run again with the same input values, use:`),
 			chalk.blue(
 				[
-					"npx",
-					argv[1].split(/[/\\]/).at(-1),
+					getRerunCommand(argv),
 					promptedEntries
 						.map(([key, value]) => stringifyPair(key, value))
 						.join(" "),
