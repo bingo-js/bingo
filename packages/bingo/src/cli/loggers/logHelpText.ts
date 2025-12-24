@@ -52,6 +52,24 @@ export function logHelpText<OptionsShape extends AnyShape, Refinements>(
 			type: "boolean",
 		},
 		{
+			examples: ["--remote"],
+			flag: "--remote",
+			text: "Whether to create a remote repository on GitHub if one does not already exist.",
+			type: "boolean",
+		},
+		{
+			examples: ["--skip-files"],
+			flag: "--skip-files",
+			text: "Whether to skip creating files on disk.",
+			type: "boolean",
+		},
+		{
+			examples: ["--skip-requests"],
+			flag: "--skip-requests",
+			text: "Whether to skip sending network requests as specified by templates.",
+			type: "boolean",
+		},
+		{
 			examples: ["--version"],
 			flag: "--version",
 			text: "Prints package versions.",

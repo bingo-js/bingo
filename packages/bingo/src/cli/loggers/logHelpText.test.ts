@@ -50,6 +50,15 @@ describe("logHelpText", () => {
 			  --offline (boolean): Whether to run in an "offline" mode that skips network requests.
 			      npx ./template.js --offline
 
+			  --remote (boolean): Whether to create a remote repository on GitHub if one does not already exist.
+			      npx ./template.js --remote
+
+			  --skip-files (boolean): Whether to skip creating files on disk.
+			      npx ./template.js --skip-files
+
+			  --skip-requests (boolean): Whether to skip sending network requests as specified by templates.
+			      npx ./template.js --skip-requests
+
 			  --version (boolean): Prints package versions.
 			      npx ./template.js --version
 			",
@@ -100,6 +109,15 @@ describe("logHelpText", () => {
 
 			  --offline (boolean): Whether to run in an "offline" mode that skips network requests.
 			      npx ./template.js --offline
+
+			  --remote (boolean): Whether to create a remote repository on GitHub if one does not already exist.
+			      npx ./template.js --remote
+
+			  --skip-files (boolean): Whether to skip creating files on disk.
+			      npx ./template.js --skip-files
+
+			  --skip-requests (boolean): Whether to skip sending network requests as specified by templates.
+			      npx ./template.js --skip-requests
 
 			  --version (boolean): Prints package versions.
 			      npx ./template.js --version
