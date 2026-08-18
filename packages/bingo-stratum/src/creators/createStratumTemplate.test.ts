@@ -1,4 +1,5 @@
 import { allPropertiesLazy } from "all-properties-lazy";
+import { produceTemplate } from "bingo";
 import chalk from "chalk";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
@@ -27,6 +28,27 @@ const mockLog = vi.fn();
 const mockOptions = { name: "Test Name" };
 
 describe("createStratumTemplate", () => {
+	it("can be passed to APIs taking in a generic Template", async () => {
+		const template = base.createStratumTemplate({
+			presets: [
+				base.createPreset({
+					about: { name: "Example" },
+					blocks: [
+						base.createBlock({
+							produce: () => ({ files: { "example.txt": "example" } }),
+						}),
+					],
+				}),
+			],
+		});
+
+		const actual = await produceTemplate(template, {
+			options: { ...mockOptions, preset: "example" },
+		});
+
+		expect(actual).toEqual({ files: { "example.txt": "example" } });
+	});
+
 	describe("blocks", () => {
 		it("adds extra blocks alongside those from presets when the template definition includes them", () => {
 			const blockInsidePreset = base.createBlock({
