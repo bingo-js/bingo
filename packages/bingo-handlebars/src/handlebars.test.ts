@@ -32,6 +32,6 @@ describe("handlebars", () => {
 
 		const actual = await handlebars(sourcePath, options);
 
-		expect(actual).toEqual(["123"]);
+		expect(actual).toBe("123");
 	});
 });

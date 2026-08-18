@@ -42,6 +42,6 @@ describe("loadHandlebars", () => {
 
 		const actual = handlebars("file.txt.hbs", { def: 456 });
 
-		expect(actual).toEqual(["123456"]);
+		expect(actual).toBe("123456");
 	});
 });
