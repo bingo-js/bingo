@@ -2,6 +2,12 @@ import { CreatedScript } from "../types/creations.js";
 import { SystemContext } from "../types/system.js";
 import { groupBy } from "../utils/groupBy.js";
 
+interface ScriptFailure extends Error {
+	shortMessage?: string;
+	stderr?: { toString(): string };
+	stdout?: { toString(): string };
+}
+
 export async function applyScriptsToSystem(
 	scripts: CreatedScript[],
 	system: Pick<SystemContext, "display" | "runner">,
@@ -24,7 +30,7 @@ export async function applyScriptsToSystem(
 		system.display.item("script", command, { end: Date.now() });
 
 		if (result instanceof Error && !silent) {
-			system.display.item("script", command, { error: result });
+			system.display.item("script", command, { error: getScriptError(result) });
 		}
 	}
 
@@ -45,4 +51,18 @@ export async function applyScriptsToSystem(
 	}
 
 	await commandsStandaloneTask;
+}
+
+// execa strips ANSI sequences out of error.message, so the command's own output
+// has to be read from the raw streams for its colors to survive.
+function getScriptError(error: ScriptFailure) {
+	const output = [
+		error.shortMessage,
+		error.stderr?.toString(),
+		error.stdout?.toString(),
+	]
+		.filter((part) => !!part)
+		.join("\n\n");
+
+	return output || error;
 }

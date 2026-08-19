@@ -30,6 +30,7 @@ describe("createSystemRunner", () => {
 		expect(mockExeca.mock.calls).toEqual([[{ cwd, reject: false }]]);
 		expect(mockExecutor.mock.calls).toEqual([[["", ""], ["abc"]]]);
 	});
+
 	it("executes the command without a colors env when options.colors is not provided", async () => {
 		const runner = createSystemRunner();
 
