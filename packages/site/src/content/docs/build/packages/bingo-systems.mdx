@@ -168,7 +168,7 @@ export interface ReadingFileSystem {
 }
 ```
 
-`glob` resolves with the paths of files matching one or more [glob patterns](https://github.com/SuperchupuDev/tinyglobby#readme), relative to the current directory.
+`glob` resolves with the paths of files matching one or more [glob patterns](https://github.com/SuperchupuDev/tinyglobby#readme), relative to the current working directory.
 
 #### `createReadingFileSystem`
 
@@ -200,7 +200,7 @@ export interface WritingFileSystem extends ReadingFileSystem {
 #### `createWritingFileSystem`
 
 Creates a new `WritingFileSystem` instance.
-Internally, it calls to [`node:fs`](https://nodejs.org/api/fs.html) to read and write directories and files.
+Internally, it calls to [`node:fs`](https://nodejs.org/api/fs.html) to read and write directories and files, and to [`tinyglobby`](https://github.com/SuperchupuDev/tinyglobby) to match globs.
 
 ```ts
 import { createWritingFileSystem } from "bingo-systems";
