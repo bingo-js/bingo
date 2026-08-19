@@ -21,7 +21,7 @@ export function logHelpOptions(
 		...options.map((option) => {
 			const text = option.text ? styleText("blue", option.text) : "";
 			return [
-				`  ${formatFlag(option.flag, option.type)}${styleText("blue", text)}`,
+				`  ${formatFlag(option.flag, option.type)}${text}`,
 				option.examples?.length &&
 					`\n${option.examples
 						.map((example) =>
