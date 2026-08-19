@@ -16,8 +16,12 @@ vi.mock("@clack/prompts", () => ({
 	},
 }));
 
+// node:util's parseArgs can only describe these as "string", so help text is
+// allowed to print a narrower type for them.
+const narrowedTypes = new Map([["mode", '"setup" | "transition"']]);
+
 describe("logHelpText", () => {
-	it("prints every CLI flag", () => {
+	it("prints every CLI flag with its parsed type", () => {
 		logHelpText(
 			"setup",
 			"./template.js",
@@ -27,9 +31,11 @@ describe("logHelpText", () => {
 		);
 
 		const [[message]] = mockLog.message.mock.calls;
-		const missing = Object.keys(cliArgsOptions).filter(
-			(flag) => !message.includes(`--${flag} (`),
-		);
+		const missing = Object.entries(cliArgsOptions)
+			.map(
+				([flag, { type }]) => `--${flag} (${narrowedTypes.get(flag) ?? type})`,
+			)
+			.filter((expected) => !message.includes(expected));
 
 		expect(missing).toEqual([]);
 	});
