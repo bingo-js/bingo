@@ -20,7 +20,7 @@ export async function applyScriptsToSystem(
 
 	async function runCommand(command: string, silent?: boolean) {
 		system.display.item("script", command, { start: Date.now() });
-		const result = await system.runner(command);
+		const result = await system.runner(command, { colors: true });
 		system.display.item("script", command, { end: Date.now() });
 
 		if (result instanceof Error && !silent) {

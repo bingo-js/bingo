@@ -212,8 +212,18 @@ Wrapper around executing shell commands with [`execa`](https://github.com/sindre
 ```ts
 import { ExecaError, Result } from "execa";
 
-export type SystemRunner = (command: string) => Promise<ExecaError | Result>;
+export interface SystemRunnerOptions {
+	colors?: boolean;
+}
+
+export type SystemRunner = (
+	command: string,
+	options?: SystemRunnerOptions,
+) => Promise<ExecaError | Result>;
 ```
+
+Passing `colors: true` asks the command to print colors, which commands otherwise skip because they aren't attached to a TTY.
+It's ignored if the terminal doesn't support colors.
 
 ### `createSystemRunner`
 
