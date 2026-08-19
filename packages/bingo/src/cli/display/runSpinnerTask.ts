@@ -1,5 +1,5 @@
 import * as prompts from "@clack/prompts";
-import chalk from "chalk";
+import { styleText } from "node:util";
 
 import { tryCatchError } from "../../utils/tryCatch.js";
 import { ClackDisplay } from "./createClackDisplay.js";
@@ -19,7 +19,7 @@ export async function runSpinnerTask<T>(
 			`Error ${start[0].toLowerCase()}${start.slice(1)}:`,
 			1,
 		);
-		prompts.log.error(chalk.red(result.stack));
+		prompts.log.error(styleText("red", result.stack ?? result.message));
 	} else {
 		display.spinner.stop(stop);
 	}

@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { z } from "zod";
 
 import { Template } from "../types/templates.js";
@@ -45,7 +45,7 @@ export async function runCLI({
 		...validatedValues,
 	});
 	if (productionSettings instanceof Error) {
-		logOutro(chalk.red(productionSettings.message));
+		logOutro(styleText("red", productionSettings.message));
 		return CLIStatus.Error;
 	}
 	if (validatedValues.help) {

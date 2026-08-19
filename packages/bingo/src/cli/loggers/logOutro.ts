@@ -1,5 +1,5 @@
 import * as prompts from "@clack/prompts";
-import chalk from "chalk";
+import { styleText } from "node:util";
 
 import { SystemItemsDump } from "../display/createClackDisplay.js";
 
@@ -23,7 +23,7 @@ export function logOutro(
 							: (item.error as string);
 
 					prompts.log.error(
-						`The ${chalk.red(id)} ${group} failed. You should re-run it and fix its complaints.\n${error}`,
+						`The ${styleText("red", id)} ${group} failed. You should re-run it and fix its complaints.\n${error}`,
 					);
 				}
 			}

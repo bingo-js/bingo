@@ -1,5 +1,5 @@
 import { allPropertiesLazy } from "all-properties-lazy";
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
@@ -174,7 +174,7 @@ describe("createStratumTemplate", () => {
 				const options = await allPropertiesLazy(lazyOptions);
 
 				expect(mockLog).toHaveBeenCalledWith(
-					`Detected ${chalk.blue(`--add-a`)} from existing files on disk`,
+					`Detected ${styleText("blue", `--add-a`)} from existing files on disk`,
 				);
 				expect(options).toEqual({ "add-a": true });
 			});
@@ -205,7 +205,7 @@ describe("createStratumTemplate", () => {
 				const options = await allPropertiesLazy(lazyOptions);
 
 				expect(mockLog).toHaveBeenCalledWith(
-					`Detected ${chalk.blue(`--add-a`)} ${chalk.blue(`--add-b`)} from existing files on disk`,
+					`Detected ${styleText("blue", `--add-a`)} ${styleText("blue", `--add-b`)} from existing files on disk`,
 				);
 				expect(options).toEqual({
 					"add-a": true,
@@ -232,7 +232,7 @@ describe("createStratumTemplate", () => {
 				const options = await allPropertiesLazy(lazyOptions);
 
 				expect(mockLog).toHaveBeenCalledWith(
-					`Detected ${chalk.blue(`--preset example`)} from existing files on disk`,
+					`Detected ${styleText("blue", `--preset example`)} from existing files on disk`,
 				);
 				expect(options).toEqual({ preset: presetName });
 			});

@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { describe, expect, it, vi } from "vitest";
 
 import { createClackDisplay } from "./createClackDisplay.js";
@@ -31,7 +31,9 @@ describe("runSpinnerTask", () => {
 		);
 
 		expect(actual).toBe(error);
-		expect(mockLog.error).toHaveBeenCalledWith(chalk.red(error.stack));
+		expect(mockLog.error).toHaveBeenCalledWith(
+			styleText("red", error.stack ?? error.message),
+		);
 		expect(mockSpinner.stop.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [

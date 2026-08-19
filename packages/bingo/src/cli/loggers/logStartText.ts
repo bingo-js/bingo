@@ -1,5 +1,5 @@
 import * as prompts from "@clack/prompts";
-import chalk from "chalk";
+import { styleText } from "node:util";
 
 import { ProductionMode } from "../../types/modes.js";
 
@@ -11,7 +11,7 @@ export function logStartText(
 
 	if (offline) {
 		prompts.log.message(
-			`${chalk.blue("--offline")} enabled. You'll need to git push any changes manually.`,
+			`${styleText("blue", "--offline")} enabled. You'll need to git push any changes manually.`,
 		);
 	}
 }

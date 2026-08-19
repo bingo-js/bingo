@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { describe, expect, it, vi } from "vitest";
 
 import { createTemplate } from "../creators/createTemplate.js";
@@ -65,7 +65,7 @@ describe("runCli", () => {
 			values: {},
 		});
 
-		expect(mockLogOutro).toHaveBeenCalledWith(chalk.red(error.message));
+		expect(mockLogOutro).toHaveBeenCalledWith(styleText("red", error.message));
 		expect(actual).toBe(CLIStatus.Error);
 	});
 

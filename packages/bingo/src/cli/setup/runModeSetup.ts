@@ -1,5 +1,5 @@
 import * as prompts from "@clack/prompts";
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { z } from "zod";
 
 import { createSystemContextWithAuth } from "../../contexts/createSystemContextWithAuth.js";
@@ -160,7 +160,7 @@ export async function runModeSetup({
 	if (!remote && repositoryType !== GitRepositoryType.Subdirectory) {
 		prompts.log.info(
 			[
-				`Run ${chalk.blue(`${getRerunCommand(argv)} --remote`)} in ${chalk.green(makeRelative(directory))}`,
+				`Run ${styleText("blue", `${getRerunCommand(argv)} --remote`)} in ${styleText("green", makeRelative(directory))}`,
 				`to create and sync a remote repository on GitHub.`,
 			].join("\n"),
 		);
@@ -176,7 +176,7 @@ export async function runModeSetup({
 	}
 
 	return {
-		outro: `Thanks for using ${chalk.bgGreenBright.black(from)}! 💝`,
+		outro: `Thanks for using ${styleText("bgGreenBright", styleText("black", from))}! 💝`,
 		status: CLIStatus.Success,
 		suggestions: creation.suggestions,
 	};
