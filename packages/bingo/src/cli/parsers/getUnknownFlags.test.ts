@@ -40,6 +40,15 @@ describe(getUnknownFlags, () => {
 		expect(actual).toEqual([{ flag: "wat", suggestion: undefined }]);
 	});
 
+	it("returns no suggestion when an unknown flag is more than two edits from a known flag", () => {
+		const actual = getUnknownFlags(
+			{ "add-typescript": true },
+			{ "add-javascript": z.boolean() },
+		);
+
+		expect(actual).toEqual([{ flag: "add-typescript", suggestion: undefined }]);
+	});
+
 	it("returns all unknown flags when multiple are provided", () => {
 		const actual = getUnknownFlags({ "skip-file": true, wat: true }, {});
 

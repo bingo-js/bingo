@@ -30,6 +30,14 @@ describe(logUnknownFlags, () => {
 		);
 	});
 
+	it("logs a single dash when the unknown flag is one character", () => {
+		logUnknownFlags([{ flag: "h" }]);
+
+		expect(prompts.log.error).toHaveBeenCalledWith(
+			`Unknown CLI flag: ${chalk.red("-h")}`,
+		);
+	});
+
 	it("logs each flag when multiple unknown flags are provided", () => {
 		logUnknownFlags([
 			{ flag: "skip-file", suggestion: "skip-files" },

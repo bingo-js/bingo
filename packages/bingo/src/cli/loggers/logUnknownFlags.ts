@@ -8,7 +8,7 @@ export function logUnknownFlags(unknownFlags: UnknownFlag[]) {
 		unknownFlags
 			.map(({ flag, suggestion }) =>
 				[
-					`Unknown CLI flag: ${chalk.red(`--${flag}`)}`,
+					`Unknown CLI flag: ${chalk.red(formatFlagAsWritten(flag))}`,
 					...(suggestion
 						? [`  Did you mean ${chalk.green(`--${suggestion}`)}?`]
 						: []),
@@ -16,4 +16,8 @@ export function logUnknownFlags(unknownFlags: UnknownFlag[]) {
 			)
 			.join("\n"),
 	);
+}
+
+function formatFlagAsWritten(flag: string) {
+	return flag.length === 1 ? `-${flag}` : `--${flag}`;
 }

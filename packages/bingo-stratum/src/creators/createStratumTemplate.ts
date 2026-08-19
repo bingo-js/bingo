@@ -25,8 +25,11 @@ export function createStratumTemplate<OptionsShape extends AnyShape>(
 
 	const namedBlocks = Array.from(
 		new Set(
-			templateDefinition.presets
-				.flatMap((preset) => preset.blocks.map((block) => block.about?.name))
+			[
+				...(templateDefinition.blocks ?? []),
+				...templateDefinition.presets.flatMap((preset) => preset.blocks),
+			]
+				.map((block) => block.about?.name)
 				.filter((blockName) => typeof blockName === "string"),
 		),
 	);

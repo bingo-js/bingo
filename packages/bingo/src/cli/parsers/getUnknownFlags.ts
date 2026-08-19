@@ -25,7 +25,7 @@ export function getUnknownFlags(
 }
 
 function getClosestFlag(flag: string, knownFlags: string[]) {
-	const maximumDistance = Math.max(1, Math.floor(flag.length / 2));
+	const maximumDistance = Math.min(2, Math.max(1, Math.floor(flag.length / 2)));
 	let closest: string | undefined;
 	let closestDistance = Infinity;
 
