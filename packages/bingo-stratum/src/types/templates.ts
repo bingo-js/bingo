@@ -20,7 +20,7 @@ import { StratumRefinements } from "./refinements.js";
 export interface StratumTemplate<
 	OptionsShape extends AnyShape,
 > extends Template<
-	OptionsShape & StratumTemplateOptionsShape,
+	StratumTemplateOptionsShapeFor<OptionsShape>,
 	StratumRefinements<InferredObject<OptionsShape>>
 > {
 	/**
@@ -41,7 +41,7 @@ export interface StratumTemplate<
 	 * @see {@link https://www.create.bingo/build/apis/create-template#prepare}
 	 */
 	prepare: TemplatePrepare<
-		InferredObject<OptionsShape & StratumTemplateOptionsShape>,
+		InferredObject<StratumTemplateOptionsShapeFor<OptionsShape>>,
 		StratumRefinements<InferredObject<OptionsShape>>
 	>;
 
@@ -103,15 +103,21 @@ export interface StratumTemplateOptions {
 /**
  * The minimum options schemas all Stratum Templates share.
  */
-// Interfaces don't receive an implicit index signature, so intersecting one
-// with a Template's options shape stops it being assignable to AnyShape.
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type StratumTemplateOptionsShape = {
+export interface StratumTemplateOptionsShape {
 	/**
 	 * Union of Preset names available to choose from.
 	 */
 	preset: z.ZodDefault<z.ZodUnion<ZodPresetNameLiterals>>;
-};
+}
+
+/**
+ * Schemas of all options a Stratum Template takes in: its Base's, plus Stratum's own.
+ * @template OptionsShape Schemas of options the Base's Blocks take in.
+ */
+export type StratumTemplateOptionsShapeFor<OptionsShape extends AnyShape> =
+	OptionsShape & {
+		[Key in keyof StratumTemplateOptionsShape]: StratumTemplateOptionsShape[Key];
+	};
 
 /**
  * Union of at least two literal Preset names available to choose from.

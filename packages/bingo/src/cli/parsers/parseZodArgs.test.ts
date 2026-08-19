@@ -60,6 +60,17 @@ describe("parseZodArgs", () => {
 		);
 	});
 
+	test("symbol literal parsing failure", () => {
+		const args = ["--value", "abc"];
+		const options = { value: z.literal(Symbol.for("abc") as never) };
+
+		const act = () => parseZodArgs(args, options);
+
+		expect(act).toThrowError(
+			`create does not know how to parse this Zod literal on the CLI: Symbol(abc)`,
+		);
+	});
+
 	test("object parsing failure", () => {
 		const args = ["--value"];
 		const options = { value: z.object({}) };

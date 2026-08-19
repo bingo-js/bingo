@@ -27,9 +27,7 @@ export type AnyShape = Record<string, z.ZodType>;
  */
 export type InferredObject<OptionsShape extends AnyShape | undefined> =
 	OptionsShape extends AnyShape
-		? // Zod infers an object schema with no properties as Record<string, never>,
-			// which can't be intersected with any other properties.
-			keyof OptionsShape extends never
+		? keyof OptionsShape extends never
 			? object
 			: z.infer<z.ZodObject<OptionsShape>>
 		: undefined;

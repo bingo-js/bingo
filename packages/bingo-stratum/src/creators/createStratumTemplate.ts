@@ -16,7 +16,7 @@ import { StratumRefinements } from "../types/refinements.js";
 import {
 	StratumTemplate,
 	StratumTemplateDefinition,
-	StratumTemplateOptionsShape,
+	StratumTemplateOptionsShapeFor,
 	ZodPresetNameLiterals,
 } from "../types/templates.js";
 import { createBlockRefinementOption } from "../utils/createBlockRefinementOption.js";
@@ -30,7 +30,7 @@ export function createStratumTemplate<OptionsShape extends AnyShape>(
 ): StratumTemplate<OptionsShape> {
 	type Options = InferredObject<OptionsShape>;
 	type TemplateOptions = InferredObject<
-		OptionsShape & StratumTemplateOptionsShape
+		StratumTemplateOptionsShapeFor<OptionsShape>
 	>;
 
 	const namedBlocks = Array.from(
@@ -103,8 +103,6 @@ export function createStratumTemplate<OptionsShape extends AnyShape>(
 			),
 		},
 		prepare(context): LazyOptionalOptions<Partial<TemplateOptions>> {
-			// The Template's options are the Base's options plus Stratum's own,
-			// which TypeScript can't see as a superset of the Base's alone.
 			const baseContext = context as TemplatePrepareContext<
 				Partial<Options>,
 				StratumRefinements<Options>

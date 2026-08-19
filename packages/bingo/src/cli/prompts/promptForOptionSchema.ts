@@ -3,7 +3,7 @@ import * as z from "zod";
 
 import { getSchemaDescription } from "../../utils/getSchemaDescription.js";
 import { isZodDefaultDef } from "../schemas/isZodDefaultDef.js";
-import { PromptFriendlyZodDef } from "../schemas/types.js";
+import { PromptFriendlyZodDef, ZodDefType } from "../schemas/types.js";
 import { validateNumber, validatorFromSchema } from "./validators.js";
 
 export async function promptForOptionSchema(
@@ -31,7 +31,7 @@ export async function promptForOptionSchema(
 
 	while (value === undefined || value === "") {
 		switch (def.type) {
-			case "boolean": {
+			case ZodDefType.Boolean: {
 				value = await prompts.confirm({
 					initialValue: defaultValue as boolean,
 					message,
@@ -39,9 +39,7 @@ export async function promptForOptionSchema(
 				break;
 			}
 
-			case "enum": {
-				// Clack needs all option values to be the same type, which the values
-				// of any one Zod enum are in practice.
+			case ZodDefType.Enum: {
 				const options = z.core.util
 					.getEnumValues(def.entries)
 					.map((value) => ({ value })) as { value: string }[];
@@ -54,7 +52,7 @@ export async function promptForOptionSchema(
 				return cancelOrParse(schema, text);
 			}
 
-			case "number":
+			case ZodDefType.Number:
 				value = Number(
 					await prompts.text({
 						message,
@@ -64,13 +62,12 @@ export async function promptForOptionSchema(
 				);
 				break;
 
-			case "union": {
+			case ZodDefType.Union: {
 				const options = def.options.flatMap((option) =>
 					// TODO: Handle non-string-like schema data types
 					// https://github.com/bingo-js/bingo/issues/285
 					(option as z.ZodLiteral).def.values.map((value) => ({
-						// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-						value: `${value}`,
+						value: String(value),
 					})),
 				);
 				const text = await prompts.select({

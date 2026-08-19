@@ -1,23 +1,23 @@
 import { z } from "zod";
 
-import { PromptFriendlyZodDef } from "./types.js";
+import { PromptFriendlyZodDef, ZodDefType } from "./types.js";
 
 export function isStringLikeSchema(schema: z.ZodType): boolean {
 	const def = schema.def as PromptFriendlyZodDef;
 
 	switch (def.type) {
-		case "boolean":
-		case "enum":
-		case "literal":
-		case "number":
-		case "string":
+		case ZodDefType.Boolean:
+		case ZodDefType.Enum:
+		case ZodDefType.Literal:
+		case ZodDefType.Number:
+		case ZodDefType.String:
 			return true;
 
-		case "default":
-		case "optional":
+		case ZodDefType.Default:
+		case ZodDefType.Optional:
 			return isStringLikeSchema(def.innerType as z.ZodType);
 
-		case "union":
+		case ZodDefType.Union:
 			return def.options.every((option) =>
 				isStringLikeSchema(option as z.ZodType),
 			);
