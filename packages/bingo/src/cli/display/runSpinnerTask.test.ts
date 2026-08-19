@@ -44,6 +44,20 @@ describe("runSpinnerTask", () => {
 		`);
 	});
 
+	it("displays the error message when the thrown error has no stack", async () => {
+		const error = new Error("Oh no!");
+		delete error.stack;
+
+		await runSpinnerTask(
+			createClackDisplay(),
+			"Running task",
+			"Ran task",
+			vi.fn().mockRejectedValueOnce(error),
+		);
+
+		expect(mockLog.error).toHaveBeenCalledWith(styleText("red", error.message));
+	});
+
 	it("displays a general log when the task resolves with a value", async () => {
 		const expected = { ok: true };
 
