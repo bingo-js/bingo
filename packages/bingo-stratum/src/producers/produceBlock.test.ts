@@ -36,7 +36,7 @@ describe("produceBlock", () => {
 	it("passes Addons to the Block when addons is defined", () => {
 		const block = base.createBlock({
 			addons: {
-				extra: z.record(z.string()).optional(),
+				extra: z.record(z.string(), z.string()).optional(),
 			},
 			produce({ addons, options }) {
 				return {

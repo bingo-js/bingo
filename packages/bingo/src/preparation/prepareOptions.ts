@@ -56,7 +56,9 @@ export async function prepareOptions<OptionsShape extends AnyShape>(
 			exclude: /node_modules|^\.git$/,
 		})) as CreatedDirectory);
 
-	return await allPropertiesLazy({
+	// Zod infers option values through a conditional type, which TypeScript
+	// can't relate to the lazily awaited properties of the same options.
+	return (await allPropertiesLazy({
 		...base.prepare({
 			files,
 			log: system.display.log,
@@ -64,5 +66,5 @@ export async function prepareOptions<OptionsShape extends AnyShape>(
 			...system,
 		}),
 		...existing,
-	});
+	})) as Partial<InferredObject<OptionsShape>>;
 }

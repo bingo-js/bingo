@@ -51,12 +51,12 @@ describe("parseZodArgs", () => {
 
 	test("other literal parsing failure", () => {
 		const args = ["--value", "abc"];
-		const options = { value: z.literal(Symbol.for("abc")) };
+		const options = { value: z.literal(null) };
 
 		const act = () => parseZodArgs(args, options);
 
 		expect(act).toThrowError(
-			`create does not know how to parse this Zod literal on the CLI: Symbol(abc)`,
+			`create does not know how to parse this Zod literal on the CLI: null`,
 		);
 	});
 
