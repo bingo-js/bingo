@@ -5,7 +5,7 @@ import { parseArgs, ParseArgsConfig } from "node:util";
 
 type ParseArgsOptionsConfig = NonNullable<ParseArgsConfig["options"]>;
 
-const cliArgsOptions = {
+export const cliArgsOptions = {
 	directory: {
 		type: "string",
 	},
@@ -47,6 +47,7 @@ export interface RunCLIRawValues {
 	mode?: boolean | string | undefined;
 	offline?: boolean | string | undefined;
 	owner?: boolean | string | undefined;
+	remote?: boolean | string | undefined;
 	repository?: boolean | string | undefined;
 	"skip-files"?: boolean | string | undefined;
 	"skip-requests"?: boolean | string | undefined;

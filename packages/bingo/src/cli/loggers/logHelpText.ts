@@ -37,7 +37,7 @@ export function logHelpText<OptionsShape extends AnyShape, Refinements>(
 			examples: ["--help"],
 			flag: "--help",
 			text: "Prints help text.",
-			type: "string",
+			type: "boolean",
 		},
 		{
 			examples: ["--mode setup", "--mode transition"],
@@ -52,10 +52,22 @@ export function logHelpText<OptionsShape extends AnyShape, Refinements>(
 			type: "boolean",
 		},
 		{
+			examples: ["--owner my-org"],
+			flag: "--owner",
+			text: "What GitHub organization or user the repository will be under.",
+			type: "string",
+		},
+		{
 			examples: ["--remote"],
 			flag: "--remote",
 			text: "Whether to create a remote repository on GitHub if one does not already exist.",
 			type: "boolean",
+		},
+		{
+			examples: ["--repository my-fancy-project"],
+			flag: "--repository",
+			text: "What the repository will be named.",
+			type: "string",
 		},
 		{
 			examples: ["--skip-files"],
@@ -67,6 +79,12 @@ export function logHelpText<OptionsShape extends AnyShape, Refinements>(
 			examples: ["--skip-requests"],
 			flag: "--skip-requests",
 			text: "Whether to skip sending network requests as specified by templates.",
+			type: "boolean",
+		},
+		{
+			examples: ["--skip-scripts"],
+			flag: "--skip-scripts",
+			text: "Whether to skip running local scripts as specified by templates.",
 			type: "boolean",
 		},
 		{
