@@ -29,6 +29,53 @@ describe("createBlock", () => {
 	});
 
 	describe("with Addons", () => {
+		it("snapshots with the Block's name when the Block has an about name", () => {
+			const block = createBlock<
+				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
+				{ name: string }
+			>({
+				about: { name: "Example" },
+				addons: {
+					names: z.array(z.string()).default([]),
+				},
+				produce: () => ({}),
+			});
+
+			expect(block({ names: ["def"] })).toMatchInlineSnapshot(`
+				{
+				  "addons": {
+				    "names": [
+				      "def",
+				    ],
+				  },
+				  "block": "[Block Example]",
+				}
+			`);
+		});
+
+		it("snapshots the Block as-is when the Block has no about name", () => {
+			const block = createBlock<
+				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
+				{ name: string }
+			>({
+				addons: {
+					names: z.array(z.string()).default([]),
+				},
+				produce: () => ({}),
+			});
+
+			expect(block({ names: ["def"] })).toMatchInlineSnapshot(`
+				{
+				  "addons": {
+				    "names": [
+				      "def",
+				    ],
+				  },
+				  "block": [Function],
+				}
+			`);
+		});
+
 		it("applies Zod defaults when producing with Addons", () => {
 			const block = createBlock<
 				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
