@@ -28,7 +28,10 @@ export function createBlock<
 ) {
 	// Blocks without Addons can't be called as functions.
 	if (!isDefinitionWithAddons(blockDefinition)) {
-		return blockDefinition;
+		return {
+			...blockDefinition,
+			produce: blockDefinition.produce ?? produceNothing,
+		};
 	}
 
 	const addonsSchema = blockDefinition.addons;
@@ -44,11 +47,17 @@ export function createBlock<
 	Object.assign(block, blockDefinition);
 
 	block.produce = (context: BlockContextWithAddons<Addons, Options>) => {
-		return blockDefinition.produce({
+		const produce = blockDefinition.produce ?? produceNothing;
+
+		return produce({
 			...context,
 			addons: applyZodDefaults(addonsSchema, context.addons),
 		});
 	};
 
 	return block as BlockWithAddons<Addons, Options>;
+}
+
+function produceNothing() {
+	return {};
 }

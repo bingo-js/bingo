@@ -150,7 +150,7 @@ export interface BlockDefinitionWithAddons<
 	 * Generates the creations describing a portion of a repository.
 	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
 	 */
-	produce: BlockDefinitionProducerWithAddons<
+	produce?: BlockDefinitionProducerWithAddons<
 		InferredObject<AddonsShape>,
 		Options
 	>;
@@ -181,7 +181,7 @@ export interface BlockDefinitionWithoutAddons<
 	 * Generates the creations describing a portion of a repository.
 	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
 	 */
-	produce: BlockDefinitionProducerWithoutAddons<Options>;
+	produce?: BlockDefinitionProducerWithoutAddons<Options>;
 
 	/**
 	 * Augments a Block creation with additional creations for setup mode.
