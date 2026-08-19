@@ -1,12 +1,13 @@
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, it, test, vi } from "vitest";
 import { z } from "zod";
 
 import { createTemplate } from "../../creators/createTemplate.js";
+import { cliArgsOptions } from "../parseProcessArgv.js";
 import { logHelpText } from "./logHelpText.js";
 
 const mockLog = {
 	info: vi.fn(),
-	message: vi.fn(),
+	message: vi.fn<(message: string) => void>(),
 };
 
 vi.mock("@clack/prompts", () => ({
@@ -16,6 +17,23 @@ vi.mock("@clack/prompts", () => ({
 }));
 
 describe("logHelpText", () => {
+	it("prints every CLI flag", () => {
+		logHelpText(
+			"setup",
+			"./template.js",
+			createTemplate({
+				produce: vi.fn(),
+			}),
+		);
+
+		const [[message]] = mockLog.message.mock.calls;
+		const missing = Object.keys(cliArgsOptions).filter(
+			(flag) => !message.includes(`--${flag} (`),
+		);
+
+		expect(missing).toEqual([]);
+	});
+
 	test("anonymous template with no options", () => {
 		logHelpText(
 			"setup",
@@ -40,7 +58,7 @@ describe("logHelpText", () => {
 			  --directory (string): What local directory path to run under
 			      npx ./template.js --directory my-fancy-project
 
-			  --help (string): Prints help text.
+			  --help (boolean): Prints help text.
 			      npx ./template.js --help
 
 			  --mode ("setup" | "transition"): Which mode to run in.
@@ -50,14 +68,23 @@ describe("logHelpText", () => {
 			  --offline (boolean): Whether to run in an "offline" mode that skips network requests.
 			      npx ./template.js --offline
 
+			  --owner (string): What GitHub organization or user the repository will be under.
+			      npx ./template.js --owner my-org
+
 			  --remote (boolean): Whether to create a remote repository on GitHub if one does not already exist.
 			      npx ./template.js --remote
+
+			  --repository (string): What the repository will be named.
+			      npx ./template.js --repository my-fancy-project
 
 			  --skip-files (boolean): Whether to skip creating files on disk.
 			      npx ./template.js --skip-files
 
 			  --skip-requests (boolean): Whether to skip sending network requests as specified by templates.
 			      npx ./template.js --skip-requests
+
+			  --skip-scripts (boolean): Whether to skip running local scripts as specified by templates.
+			      npx ./template.js --skip-scripts
 
 			  --version (boolean): Prints package versions.
 			      npx ./template.js --version
@@ -100,7 +127,7 @@ describe("logHelpText", () => {
 			  --directory (string): What local directory path to run under
 			      npx ./template.js --directory my-fancy-project
 
-			  --help (string): Prints help text.
+			  --help (boolean): Prints help text.
 			      npx ./template.js --help
 
 			  --mode ("setup" | "transition"): Which mode to run in.
@@ -110,14 +137,23 @@ describe("logHelpText", () => {
 			  --offline (boolean): Whether to run in an "offline" mode that skips network requests.
 			      npx ./template.js --offline
 
+			  --owner (string): What GitHub organization or user the repository will be under.
+			      npx ./template.js --owner my-org
+
 			  --remote (boolean): Whether to create a remote repository on GitHub if one does not already exist.
 			      npx ./template.js --remote
+
+			  --repository (string): What the repository will be named.
+			      npx ./template.js --repository my-fancy-project
 
 			  --skip-files (boolean): Whether to skip creating files on disk.
 			      npx ./template.js --skip-files
 
 			  --skip-requests (boolean): Whether to skip sending network requests as specified by templates.
 			      npx ./template.js --skip-requests
+
+			  --skip-scripts (boolean): Whether to skip running local scripts as specified by templates.
+			      npx ./template.js --skip-scripts
 
 			  --version (boolean): Prints package versions.
 			      npx ./template.js --version

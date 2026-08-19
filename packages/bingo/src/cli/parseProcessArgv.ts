@@ -5,7 +5,7 @@ import { parseArgs, ParseArgsConfig } from "node:util";
 
 type ParseArgsOptionsConfig = NonNullable<ParseArgsConfig["options"]>;
 
-const cliArgsOptions = {
+export const cliArgsOptions = {
 	directory: {
 		type: "string",
 	},
