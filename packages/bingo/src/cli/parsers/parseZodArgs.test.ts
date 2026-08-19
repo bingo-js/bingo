@@ -31,6 +31,15 @@ describe("parseZodArgs", () => {
 		expect(actual).toEqual({ value: "abc" });
 	});
 
+	test("default string parsing success", () => {
+		const args = ["--value", "def"];
+		const options = { value: z.string().default("abc") };
+
+		const actual = parseZodArgs(args, options);
+
+		expect(actual).toEqual({ value: "def" });
+	});
+
 	test("string parsing success", () => {
 		const args = ["--value", "abc"];
 		const options = { value: z.string() };

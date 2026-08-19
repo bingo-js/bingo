@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { promptForOptionSchema } from "./promptForOptionSchema.js";
 
+const mockCancel = Symbol("cancel");
 const mockConfirm = vi.fn();
 const mockSelect = vi.fn();
 const mockText = vi.fn();
@@ -11,7 +12,7 @@ vi.mock("@clack/prompts", () => ({
 	get confirm() {
 		return mockConfirm;
 	},
-	isCancel: () => false,
+	isCancel: (value: unknown) => value === mockCancel,
 	get select() {
 		return mockSelect;
 	},
@@ -102,6 +103,19 @@ describe(promptForOptionSchema, () => {
 		);
 
 		expect(actual).toBe(123);
+	});
+
+	it("returns the cancellation when the prompt is cancelled", async () => {
+		mockSelect.mockResolvedValueOnce(mockCancel);
+
+		const actual = await promptForOptionSchema(
+			"access",
+			z.enum(["public", "restricted"]),
+			undefined,
+			undefined,
+		);
+
+		expect(actual).toBe(mockCancel);
 	});
 
 	it("prompts for text when the schema is a string", async () => {
