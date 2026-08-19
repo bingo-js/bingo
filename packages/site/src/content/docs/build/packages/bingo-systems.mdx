@@ -155,26 +155,32 @@ _Reading_ file systems are provided to [Input Contexts](/build/details/contexts#
 These file systems expose simplified views of the underlying directories and files that are tailored to working with [`bingo-fs`](/build/packages/bingo-fs).
 
 ```ts
+export type Glob = (patterns: string | string[]) => Promise<string[]>;
+
 export type ReadDirectory = (filePath: string) => Promise<string[]>;
 
 export type ReadFile = (filePath: string) => Promise<string>;
 
 export interface ReadingFileSystem {
+	glob: Glob;
 	readDirectory: ReadDirectory;
 	readFile: ReadFile;
 }
 ```
 
+`glob` resolves with the paths of files matching one or more [glob patterns](https://github.com/SuperchupuDev/tinyglobby#readme), relative to the current directory.
+
 #### `createReadingFileSystem`
 
 Creates a new `ReadingFileSystem` instance.
-Internally, it calls to [`node:fs`](https://nodejs.org/api/fs.html) to read directories and files.
+Internally, it calls to [`node:fs`](https://nodejs.org/api/fs.html) to read directories and files, and to [`tinyglobby`](https://github.com/SuperchupuDev/tinyglobby) to match globs.
 
 ```ts
 import { createReadingFileSystem } from "bingo-systems";
 
 const files = createReadingFileSystem();
 
+await files.glob(".github/**/*.yml");
 await files.readDirectory("src");
 await files.readFile("src/index.js");
 ```
