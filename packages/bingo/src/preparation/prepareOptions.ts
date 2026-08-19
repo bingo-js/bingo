@@ -56,7 +56,7 @@ export async function prepareOptions<OptionsShape extends AnyShape>(
 			exclude: /node_modules|^\.git$/,
 		})) as CreatedDirectory);
 
-	return await allPropertiesLazy({
+	return (await allPropertiesLazy({
 		...base.prepare({
 			files,
 			log: system.display.log,
@@ -64,5 +64,5 @@ export async function prepareOptions<OptionsShape extends AnyShape>(
 			...system,
 		}),
 		...existing,
-	});
+	})) as Partial<InferredObject<OptionsShape>>;
 }

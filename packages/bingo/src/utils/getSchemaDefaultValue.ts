@@ -1,5 +1,5 @@
 import { z } from "zod";
 
-export function getSchemaDefaultValue(schema: z.ZodTypeAny) {
-	return (schema._def as Partial<z.ZodDefaultDef>).defaultValue?.() as unknown;
+export function getSchemaDefaultValue(schema: z.ZodType) {
+	return (schema.def as Partial<z.core.$ZodDefaultDef>).defaultValue;
 }
