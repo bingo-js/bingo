@@ -65,6 +65,24 @@ describe("produceBlock", () => {
 		});
 	});
 
+	it("returns only the mode-specific creation when the Block has no produce", () => {
+		const block = base.createBlock({
+			setup() {
+				return {
+					files: { "extra.txt": "setup" },
+				};
+			},
+		});
+
+		const actual = produceBlock(block, { mode: "setup", options });
+
+		expect(actual).toEqual({
+			files: {
+				"extra.txt": "setup",
+			},
+		});
+	});
+
 	it("augments the creation when mode is provided and the Block has that mode-specific producer", () => {
 		const block = base.createBlock({
 			produce({ options }) {

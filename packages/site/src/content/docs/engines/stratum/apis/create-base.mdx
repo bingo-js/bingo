@@ -203,7 +203,7 @@ For example, this Block deletes any already-existing test config files when run 
 import { base } from "./base";
 
 export const blockConfigFiles = createBlock({
-	setup({ addons }) {
+	transition() {
 		return {
 			commands: ["rm .mocha* jest.config.* vitest.config.*"],
 		};
