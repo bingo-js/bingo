@@ -42,7 +42,7 @@ export const fetchInit = z.object({
 				ArrayBuffer.isView(value),
 			),
 		])
-		.optional(),
+		.nullish(),
 
 	/**
 	 * Whether the selected topics for the request's URL should be sent in a
@@ -73,13 +73,20 @@ export const fetchInit = z.object({
 	credentials: z.enum(["omit", "same-origin", "include"]).optional(),
 
 	/**
+	 * Duplex mode of the request. Must be present when `body` is a
+	 * `ReadableStream`.
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/RequestInit#duplex}
+	 */
+	duplex: z.literal("half").optional(),
+
+	/**
 	 * Headers to add to the request.
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/RequestInit#headers}
 	 */
 	headers: z
 		.union([
 			z.instanceof(Headers),
-			z.record(z.string()),
+			z.record(z.string(), z.string()),
 			z.array(z.tuple([z.string(), z.string()])),
 		])
 		.optional(),

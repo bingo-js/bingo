@@ -64,6 +64,36 @@ describe("inputFromFetch", () => {
 		expect(fetch).toHaveBeenCalledWith(resource, init);
 	});
 
+	it("passes a stream body and duplex through to fetch unchanged", async () => {
+		const resource = "https://example.com";
+		const init = {
+			body: new ReadableStream(),
+			duplex: "half" as const,
+			method: "POST",
+		};
+		const fetch = vi.fn().mockResolvedValue({});
+
+		await testInput(inputFromFetch, {
+			args: { init, resource },
+			fetchers: createMockFetchers(fetch),
+		});
+
+		expect(fetch).toHaveBeenCalledWith(resource, init);
+	});
+
+	it("passes a null body through to fetch unchanged", async () => {
+		const resource = "https://example.com";
+		const init = { body: null };
+		const fetch = vi.fn().mockResolvedValue({});
+
+		await testInput(inputFromFetch, {
+			args: { init, resource },
+			fetchers: createMockFetchers(fetch),
+		});
+
+		expect(fetch).toHaveBeenCalledWith(resource, init);
+	});
+
 	it("passes class-based init values through to fetch unchanged", async () => {
 		const resource = "https://example.com";
 		const init = {
