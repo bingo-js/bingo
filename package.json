@@ -68,8 +68,5 @@
 	},
 	"engines": {
 		"node": ">=18.3.0"
-	},
-	"publishConfig": {
-		"provenance": true
 	}
 }
