@@ -5,6 +5,20 @@ import { createBlock } from "./createBlock.js";
 
 describe("createBlock", () => {
 	describe("without Addons", () => {
+		it("produces nothing when the Block has no produce", () => {
+			const block = createBlock<{ name: string }>({
+				setup() {
+					return { files: { "setup.txt": "setup" } };
+				},
+			});
+
+			const production = block.produce({
+				options: { name: "abc", preset: "test" },
+			});
+
+			expect(production).toEqual({});
+		});
+
 		it("produces without Addons", () => {
 			const block = createBlock<{ name: string }>({
 				produce({ options }) {
@@ -29,6 +43,27 @@ describe("createBlock", () => {
 	});
 
 	describe("with Addons", () => {
+		it("produces nothing when the Block has no produce", () => {
+			const block = createBlock<
+				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
+				{ name: string }
+			>({
+				addons: {
+					names: z.array(z.string()).default([]),
+				},
+				setup() {
+					return { files: { "setup.txt": "setup" } };
+				},
+			});
+
+			const production = block.produce({
+				addons: { names: ["def"] },
+				options: { name: "abc", preset: "test" },
+			});
+
+			expect(production).toEqual({});
+		});
+
 		it("applies Zod defaults when producing with Addons", () => {
 			const block = createBlock<
 				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },

@@ -80,7 +80,7 @@ Base `prepare()` functions are used as [Stratum Template `prepare()`](/build/api
 A Block Definition is an object containing:
 
 - `about` _(optional)_: tooling metadata for the Block
-- `produce` _(required)_: a [Block production](/engines/stratum/concepts/blocks#production) method
+- `produce` _(optional)_: a [Block production](/engines/stratum/concepts/blocks#production) method
 
 ### `about` {#createblock-about}
 
@@ -189,9 +189,6 @@ export const blockStarterFile = createBlock({
 			},
 		};
 	},
-	produce() {
-		// ...
-	},
 });
 ```
 
@@ -206,20 +203,17 @@ For example, this Block deletes any already-existing test config files when run 
 import { base } from "./base";
 
 export const blockConfigFiles = createBlock({
-	setup({ addons }) {
+	transition() {
 		return {
 			commands: ["rm .mocha* jest.config.* vitest.config.*"],
 		};
-	},
-	produce() {
-		// ...
 	},
 });
 ```
 
 ### `produce` {#createblock-produce}
 
-Block Definitions must include a `produce()` function for their core logic.
+Block Definitions may include a `produce()` function for their core logic.
 
 - It receives one parameter: a [Block Context](/engines/stratum/details/contexts#block-contexts) object containing options as well as other utilities.
 - It returns a [Creation](/build/concepts/creations) object describing the generated pieces of tooling.
