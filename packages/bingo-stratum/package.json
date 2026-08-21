@@ -1,6 +1,6 @@
 {
 	"name": "bingo-stratum",
-	"version": "0.5.13",
+	"version": "0.5.14",
 	"description": "Highly composable, customizable templating engine for Bingo. 🏭",
 	"homepage": "https://www.create.bingo/engines/stratum/packages/bingo-stratum",
 	"repository": {
@@ -35,13 +35,13 @@
 		"bingo": "workspace:^",
 		"bingo-fs": "workspace:^",
 		"bingo-systems": "workspace:^",
-		"zod": "^3.24.2"
+		"zod": "^4.4.3"
 	},
 	"peerDependencies": {
 		"bingo": "workspace:^",
 		"bingo-fs": "workspace:^",
 		"bingo-systems": "workspace:^",
-		"zod": "^3.24.2"
+		"zod": "^4.4.3"
 	},
 	"engines": {
 		"node": ">=18"

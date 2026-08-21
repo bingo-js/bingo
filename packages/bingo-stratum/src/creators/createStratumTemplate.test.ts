@@ -89,6 +89,37 @@ describe("createStratumTemplate", () => {
 			]);
 		});
 
+		it("adds a block refinement option when a named block is only outside presets", () => {
+			const template = base.createStratumTemplate({
+				blocks: [
+					base.createBlock({
+						about: { name: "Outside Block" },
+						produce: vi.fn(),
+					}),
+				],
+				presets: [
+					base.createPreset({
+						about: { name: "Example Preset" },
+						blocks: [
+							base.createBlock({
+								about: { name: "Example Block" },
+								produce: vi.fn(),
+							}),
+						],
+					}),
+				],
+			});
+
+			expect(Object.keys(template.options)).toEqual([
+				"name",
+				"preset",
+				"add-example-block",
+				"add-outside-block",
+				"exclude-example-block",
+				"exclude-outside-block",
+			]);
+		});
+
 		describe("inference", () => {
 			const templateWithPreset = base.createStratumTemplate({
 				presets: [preset],

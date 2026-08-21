@@ -1,9 +1,11 @@
 import * as prompts from "@clack/prompts";
+import { z } from "zod";
 
 import { AnyShape, InferredObject } from "../../types/shapes.js";
 import { SystemContext } from "../../types/system.js";
 import { Template } from "../../types/templates.js";
 import { getSchemaDefaultValue } from "../../utils/getSchemaDefaultValue.js";
+import { getSchemaDescription } from "../../utils/getSchemaDescription.js";
 import { promptForOptionSchema } from "./promptForOptionSchema.js";
 
 export type PromptedOptions<Options extends object> =
@@ -45,7 +47,7 @@ export async function promptForOptionSchemas<
 	for (const [key, schema] of Object.entries(template.options)) {
 		const defaultValue = getSchemaDefaultValue(schema);
 		if (
-			(schema.isOptional() && defaultValue === undefined) ||
+			(isOptionalSchema(schema) && defaultValue === undefined) ||
 			completed[key] !== undefined
 		) {
 			continue;
@@ -54,7 +56,7 @@ export async function promptForOptionSchemas<
 		const produced = await promptForOptionSchema(
 			key,
 			schema,
-			schema.description,
+			getSchemaDescription(schema),
 			defaultValue,
 		);
 		if (prompts.isCancel(produced)) {
@@ -72,4 +74,8 @@ export async function promptForOptionSchemas<
 		} as Options,
 		prompted,
 	};
+}
+
+function isOptionalSchema(schema: z.ZodType) {
+	return schema.safeParse(undefined).success;
 }

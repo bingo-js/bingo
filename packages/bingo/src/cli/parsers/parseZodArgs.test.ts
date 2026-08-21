@@ -31,6 +31,15 @@ describe("parseZodArgs", () => {
 		expect(actual).toEqual({ value: "abc" });
 	});
 
+	test("default string parsing success", () => {
+		const args = ["--value", "def"];
+		const options = { value: z.string().default("abc") };
+
+		const actual = parseZodArgs(args, options);
+
+		expect(actual).toEqual({ value: "def" });
+	});
+
 	test("string parsing success", () => {
 		const args = ["--value", "abc"];
 		const options = { value: z.string() };
@@ -51,7 +60,18 @@ describe("parseZodArgs", () => {
 
 	test("other literal parsing failure", () => {
 		const args = ["--value", "abc"];
-		const options = { value: z.literal(Symbol.for("abc")) };
+		const options = { value: z.literal(null) };
+
+		const act = () => parseZodArgs(args, options);
+
+		expect(act).toThrowError(
+			`create does not know how to parse this Zod literal on the CLI: null`,
+		);
+	});
+
+	test("symbol literal parsing failure", () => {
+		const args = ["--value", "abc"];
+		const options = { value: z.literal(Symbol.for("abc") as never) };
 
 		const act = () => parseZodArgs(args, options);
 
