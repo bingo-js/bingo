@@ -24,7 +24,11 @@ export async function applyScriptsToSystem(
 		system.display.item("script", command, { end: Date.now() });
 
 		if (result instanceof Error && !silent) {
-			system.display.item("script", command, { error: result });
+			const output = [result.shortMessage, result.stderr, result.stdout]
+				.filter((part) => !!part)
+				.join("\n\n");
+
+			system.display.item("script", command, { error: output || result });
 		}
 	}
 
