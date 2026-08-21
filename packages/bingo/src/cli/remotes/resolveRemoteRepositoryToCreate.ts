@@ -1,6 +1,7 @@
 import * as prompts from "@clack/prompts";
-import { BingoSystem } from "bingo-systems";
+import { BingoSystem, SystemRunner } from "bingo-systems";
 import chalk from "chalk";
+import { Octokit } from "octokit";
 
 import { RepositoryLocator, Template } from "../../types/templates.js";
 import { promptForOptionSchema } from "../prompts/promptForOptionSchema.js";
@@ -14,14 +15,14 @@ export async function resolveRemoteRepositoryToCreate(
 	template: Template,
 ): Promise<Error | RepositoryLocator> {
 	if (locator.owner) {
-		return (await ownerIsAccessible(locator.owner))
+		return (await ownerIsAccessible(system.fetchers.octokit, locator.owner))
 			? { owner: locator.owner, repository: locator.repository }
 			: new Error(
 					`--remote requested, but the authenticated GitHub user does not have access to the ${locator.owner} owner.`,
 				);
 	}
 
-	const username = await getUsername();
+	const username = await getUsername(system.runner);
 	if (username) {
 		return { owner: username, repository: locator.repository };
 	}
@@ -40,7 +41,7 @@ export async function resolveRemoteRepositoryToCreate(
 		);
 	}
 
-	for (;;) {
+	while (true) {
 		const prompted = await promptForOptionSchema(
 			"owner",
 			ownerSchema,
@@ -52,23 +53,21 @@ export async function resolveRemoteRepositoryToCreate(
 			return new Error("--remote requested, but no owner was provided.");
 		}
 
-		if (await ownerIsAccessible(prompted)) {
+		if (await ownerIsAccessible(system.fetchers.octokit, prompted)) {
 			return { owner: prompted, repository: locator.repository };
 		}
 
 		prompts.log.warn(
-			`The authenticated GitHub user does not have access to the ${chalk.green(prompted)} owner. Please try another.`,
+			`The authenticated GitHub user does not have access to the ${chalk.green(prompted)} owner.`,
 		);
 	}
+}
 
-	async function getUsername() {
-		const value = await system.runner("gh config get user -h github.com");
-		return value instanceof Error ? undefined : value.stdout?.toString();
-	}
+async function getUsername(runner: SystemRunner) {
+	const value = await runner("gh config get user -h github.com");
+	return value instanceof Error ? undefined : value.stdout?.toString();
+}
 
-	async function ownerIsAccessible(owner: string) {
-		const { octokit } = system.fetchers;
-
-		return !octokit || (await hasAccessToOwner(octokit, owner));
-	}
+async function ownerIsAccessible(octokit: Octokit | undefined, owner: string) {
+	return !octokit || (await hasAccessToOwner(octokit, owner));
 }

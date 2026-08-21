@@ -189,7 +189,7 @@ describe(resolveRemoteRepositoryToCreate, () => {
 
 		expect(actual).toEqual({ owner: stubOwner, repository: stubRepository });
 		expect(mockLogWarn).toHaveBeenCalledWith(
-			`The authenticated GitHub user does not have access to the ${chalk.green(inaccessibleOwner)} owner. Please try another.`,
+			`The authenticated GitHub user does not have access to the ${chalk.green(inaccessibleOwner)} owner.`,
 		);
 	});
 
