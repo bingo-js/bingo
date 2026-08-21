@@ -375,7 +375,7 @@ describe("runModeSetup", () => {
 		});
 
 		expect(actual).toEqual({
-			outro: `Thanks for using ${styleText("bgGreenBright", styleText("black", from))}! 💝`,
+			outro: `Thanks for using ${styleText(["bgGreenBright", "black"], from)}! 💝`,
 			status: CLIStatus.Success,
 			suggestions,
 		});

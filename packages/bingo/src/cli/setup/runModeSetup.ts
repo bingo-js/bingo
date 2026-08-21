@@ -176,7 +176,7 @@ export async function runModeSetup({
 	}
 
 	return {
-		outro: `Thanks for using ${styleText("bgGreenBright", styleText("black", from))}! 💝`,
+		outro: `Thanks for using ${styleText(["bgGreenBright", "black"], from)}! 💝`,
 		status: CLIStatus.Success,
 		suggestions: creation.suggestions,
 	};

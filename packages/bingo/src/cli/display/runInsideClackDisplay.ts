@@ -21,7 +21,7 @@ export async function runInsideClackDisplay(
 	prompts.intro(
 		[
 			styleText("blueBright", `✨ `),
-			styleText("bgGreenBright", styleText("black", name)),
+			styleText(["bgGreenBright", "black"], name),
 			styleText("blue", `@${version}`),
 			styleText("blueBright", ` ✨`),
 		].join(""),

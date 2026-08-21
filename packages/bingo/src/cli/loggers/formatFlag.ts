@@ -5,9 +5,9 @@ export function formatFlag(flag: string, type: string) {
 		flag.startsWith("--")
 			? [
 					styleText("green", "--"),
-					styleText("bold", styleText("green", flag.slice(2))),
+					styleText(["bold", "green"], flag.slice(2)),
 				].join("")
-			: styleText("bold", styleText("green", flag)),
+			: styleText(["bold", "green"], flag),
 		" ",
 		styleText("green", `(${type})`),
 		styleText("blue", ": "),

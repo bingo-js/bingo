@@ -16,7 +16,7 @@ export function logHelpOptions(
 	options: HelpOption[],
 ) {
 	const message = [
-		`${styleText("bgGreenBright", styleText("black", category))} options:`,
+		`${styleText(["bgGreenBright", "black"], category)} options:`,
 		"",
 		...options.map((option) => {
 			const text = option.text ? styleText("blue", option.text) : "";
