@@ -94,5 +94,34 @@ describe("createBlock", () => {
 				},
 			});
 		});
+
+		it("produces Addons for another Block", () => {
+			const blockReceiving = createBlock<
+				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
+				{ name: string }
+			>({
+				addons: {
+					names: z.array(z.string()).default([]),
+				},
+				produce() {
+					return {};
+				},
+			});
+			const blockProviding = createBlock<{ name: string }>({
+				produce() {
+					return {
+						addons: [blockReceiving({ names: ["def"] })],
+					};
+				},
+			});
+
+			const production = blockProviding.produce({
+				options: { name: "abc", preset: "test" },
+			});
+
+			expect(production).toEqual({
+				addons: [{ addons: { names: ["def"] }, block: blockReceiving }],
+			});
+		});
 	});
 });

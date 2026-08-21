@@ -94,3 +94,23 @@ Calls to `console.log`, `console.warn`, and other console methods will cause a t
 
 This repository includes a [VS Code launch configuration](https://code.visualstudio.com/docs/editor/debugging) for debugging unit tests.
 To launch it, open a test file, then run _Debug Current Test File_ from the VS Code Debug panel (or press F5).
+
+## Releases
+
+[Changesets](https://changesets.dev) versions and publishes the packages in this repository.
+Releasing is fully automated: no maintainer runs `pnpm publish` by hand.
+
+Every push to `main` runs the `Release` workflow, which does one of two things:
+
+1. If any changesets are pending, it opens or updates a _`chore: version packages`_ pull request
+2. If no changesets are pending but some package version in the repository isn't on npm yet, it publishes those packages, then pushes a Git tag and GitHub release for each
+
+That version pull request applies each pending changeset: it bumps the affected packages' versions, writes their `CHANGELOG.md` entries, and deletes the changesets it consumed.
+Merging it is therefore what triggers a release.
+A `Merge Changesets PR` workflow runs each Monday and enables auto-merge on the version PR once it's at least three days old, so releases batch up rather than going out on every merge.
+You can also merge it yourself at any time, or run that workflow manually from the Actions tab.
+
+Publishing uses [npm trusted publishing](https://docs.npmjs.com/trusted-publishers).
+Each published package is configured on npm to trust this repository's `release.yml` workflow, which is also what earns the packages their [provenance](https://docs.npmjs.com/generating-provenance-statements) attestations.
+npm can't yet enable trusted publishing for a package that doesn't exist on the registry ([npm/cli#8544](https://github.com/npm/cli/issues/8544)), so a new package needs one manual `pnpm publish` from a maintainer's machine before its trusted publisher can be configured.
+Every release after that goes through this workflow.
