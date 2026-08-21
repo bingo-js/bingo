@@ -36,7 +36,7 @@ describe("produceBlock", () => {
 	it("passes Addons to the Block when addons is defined", () => {
 		const block = base.createBlock({
 			addons: {
-				extra: z.record(z.string()).optional(),
+				extra: z.record(z.string(), z.string()).optional(),
 			},
 			produce({ addons, options }) {
 				return {
@@ -61,6 +61,24 @@ describe("produceBlock", () => {
 			files: {
 				"a.txt": "a",
 				"README.md": "Hello, world!",
+			},
+		});
+	});
+
+	it("returns only the mode-specific creation when the Block has no produce", () => {
+		const block = base.createBlock({
+			setup() {
+				return {
+					files: { "extra.txt": "setup" },
+				};
+			},
+		});
+
+		const actual = produceBlock(block, { mode: "setup", options });
+
+		expect(actual).toEqual({
+			files: {
+				"extra.txt": "setup",
 			},
 		});
 	});

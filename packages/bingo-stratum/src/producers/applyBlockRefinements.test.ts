@@ -25,6 +25,14 @@ const blockC = base.createBlock({
 	produce: vi.fn(),
 });
 
+const blockWithAddons = base.createBlock({
+	about: { name: "With Addons" },
+	addons: {
+		names: z.array(z.string()).default([]),
+	},
+	produce: vi.fn(),
+});
+
 const blocksAvailable = [blockA, blockB, blockC];
 
 describe("applyBlockRefinements", () => {
@@ -166,6 +174,22 @@ describe("applyBlockRefinements", () => {
 		);
 
 		expect(actual).toEqual([blockA, blockC]);
+	});
+
+	it("returns added blocks when an added Block has Addons", () => {
+		const initial = [blockA];
+
+		const actual = applyBlockRefinements(
+			blocksAvailable,
+			initial,
+			{ value: "" },
+			{
+				add: [blockWithAddons],
+				exclude: [],
+			},
+		);
+
+		expect(actual).toEqual([blockA, blockWithAddons]);
 	});
 
 	it("returns modified blocks when both exclusion options and refinements are provided", () => {
