@@ -2,8 +2,6 @@ import { describe, expect, it, test, vi } from "vitest";
 
 import { applyScriptsToSystem } from "./applyScriptsToSystem.js";
 
-const colors = { colors: true };
-
 function createStubSystem() {
 	return {
 		display: {
@@ -101,12 +99,7 @@ describe("applyCommandsToSystem", () => {
 
 		await applyScriptsToSystem(scripts, system);
 
-		expect(system.runner.mock.calls).toEqual([
-			["a", colors],
-			["b", colors],
-			["c", colors],
-			["d", colors],
-		]);
+		expect(system.runner.mock.calls).toEqual([["a"], ["b"], ["c"], ["d"]]);
 	});
 
 	it("runs phase commands in the same phase in series", async () => {
@@ -118,12 +111,7 @@ describe("applyCommandsToSystem", () => {
 
 		await applyScriptsToSystem(scripts, system);
 
-		expect(system.runner.mock.calls).toEqual([
-			["a", colors],
-			["c", colors],
-			["b", colors],
-			["d", colors],
-		]);
+		expect(system.runner.mock.calls).toEqual([["a"], ["c"], ["b"], ["d"]]);
 	});
 
 	it("runs out-of-phase commands in parallel to phase commands when they exist", async () => {
@@ -132,12 +120,7 @@ describe("applyCommandsToSystem", () => {
 
 		await applyScriptsToSystem(scripts, system);
 
-		expect(system.runner.mock.calls).toEqual([
-			["a", colors],
-			["d", colors],
-			["b", colors],
-			["d", colors],
-		]);
+		expect(system.runner.mock.calls).toEqual([["a"], ["d"], ["b"], ["d"]]);
 	});
 
 	test("mixed phase commands", async () => {
@@ -152,14 +135,14 @@ describe("applyCommandsToSystem", () => {
 		await applyScriptsToSystem(scripts, system);
 
 		expect(system.runner.mock.calls).toEqual([
-			["h", colors],
-			["c", colors],
-			["f", colors],
-			["d", colors],
-			["g", colors],
-			["e", colors],
-			["a", colors],
-			["b", colors],
+			["h"],
+			["c"],
+			["f"],
+			["d"],
+			["g"],
+			["e"],
+			["a"],
+			["b"],
 		]);
 	});
 });

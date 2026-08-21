@@ -31,21 +31,12 @@ describe("createSystemRunner", () => {
 		expect(mockExecutor.mock.calls).toEqual([[["", ""], ["abc"]]]);
 	});
 
-	it("executes the command without a colors env when options.colors is not provided", async () => {
-		const runner = createSystemRunner();
-
-		await runner("abc");
-
-		expect(mockExeca.mock.calls).toEqual([[{ cwd: ".", reject: false }]]);
-		expect(mockGetColorsEnv).not.toHaveBeenCalled();
-	});
-
-	it("executes the command with a colors env when options.colors is true", async () => {
+	it("executes the command with a colors env when the terminal supports colors", async () => {
 		const env = { FORCE_COLOR: "3" };
 		mockGetColorsEnv.mockReturnValueOnce(env);
 		const runner = createSystemRunner();
 
-		await runner("abc", { colors: true });
+		await runner("abc");
 
 		expect(mockExeca.mock.calls).toEqual([[{ cwd: ".", env, reject: false }]]);
 	});

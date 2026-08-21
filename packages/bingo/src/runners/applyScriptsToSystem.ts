@@ -2,12 +2,6 @@ import { CreatedScript } from "../types/creations.js";
 import { SystemContext } from "../types/system.js";
 import { groupBy } from "../utils/groupBy.js";
 
-interface ScriptFailure extends Error {
-	shortMessage?: string;
-	stderr?: { toString(): string };
-	stdout?: { toString(): string };
-}
-
 export async function applyScriptsToSystem(
 	scripts: CreatedScript[],
 	system: Pick<SystemContext, "display" | "runner">,
@@ -26,11 +20,15 @@ export async function applyScriptsToSystem(
 
 	async function runCommand(command: string, silent?: boolean) {
 		system.display.item("script", command, { start: Date.now() });
-		const result = await system.runner(command, { colors: true });
+		const result = await system.runner(command);
 		system.display.item("script", command, { end: Date.now() });
 
 		if (result instanceof Error && !silent) {
-			system.display.item("script", command, { error: getScriptError(result) });
+			const output = [result.shortMessage, result.stderr, result.stdout]
+				.filter((part) => !!part)
+				.join("\n\n");
+
+			system.display.item("script", command, { error: output || result });
 		}
 	}
 
@@ -51,18 +49,4 @@ export async function applyScriptsToSystem(
 	}
 
 	await commandsStandaloneTask;
-}
-
-// execa strips ANSI sequences out of error.message, so the command's own output
-// has to be read from the raw streams for its colors to survive.
-function getScriptError(error: ScriptFailure) {
-	const output = [
-		error.shortMessage,
-		error.stderr?.toString(),
-		error.stdout?.toString(),
-	]
-		.filter((part) => !!part)
-		.join("\n\n");
-
-	return output || error;
 }

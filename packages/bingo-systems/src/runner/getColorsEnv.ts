@@ -1,9 +1,6 @@
-/**
- * The parts of a stdout stream that indicate whether it can render colors.
- */
-export interface ColorsStream {
-	hasColors?(count?: number): boolean;
-	isTTY?: boolean;
+interface ColorsStream {
+	hasColors(count: number): boolean;
+	isTTY: boolean;
 }
 
 /**
@@ -11,7 +8,7 @@ export interface ColorsStream {
  * their colors unless an env variable tells them the colors can be rendered.
  */
 export function getColorsEnv(stdout: ColorsStream = process.stdout) {
-	if (!stdout.isTTY || !stdout.hasColors) {
+	if (!stdout.isTTY) {
 		return undefined;
 	}
 
@@ -23,5 +20,9 @@ export function getColorsEnv(stdout: ColorsStream = process.stdout) {
 		return { FORCE_COLOR: "2" };
 	}
 
-	return stdout.hasColors() ? { FORCE_COLOR: "1" } : undefined;
+	if (stdout.hasColors(16)) {
+		return { FORCE_COLOR: "1" };
+	}
+
+	return undefined;
 }
