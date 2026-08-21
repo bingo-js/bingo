@@ -1,7 +1,7 @@
 /**
- * Finds the paths of files matching one or more glob patterns.
- * @param patterns Glob pattern(s) to match files against.
- * @returns Promise for the paths of matching files, relative to the cwd.
+ * Finds the paths matching one or more glob patterns.
+ * @param patterns Glob pattern(s) to match paths against.
+ * @returns Promise for the matching paths, relative to the current directory.
  */
 export type Glob = (patterns: string | string[]) => Promise<string[]>;
 
@@ -24,7 +24,7 @@ export type ReadFile = (filePath: string) => Promise<string>;
  */
 export interface ReadingFileSystem {
 	/**
-	 * Finds the paths of files matching one or more glob patterns.
+	 * Finds the paths matching one or more glob patterns.
 	 */
 	glob: Glob;
 

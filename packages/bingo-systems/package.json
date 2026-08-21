@@ -25,13 +25,12 @@
 		"bingo-fs": "workspace:^",
 		"execa": "^9.6.1",
 		"get-github-auth-token": "^0.1.2",
-		"octokit": "^5.0.5",
-		"tinyglobby": "^0.2.15"
+		"octokit": "^5.0.5"
 	},
 	"devDependencies": {
 		"@types/node": "24.10.1"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": ">=22"
 	}
 }

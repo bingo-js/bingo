@@ -1,11 +1,16 @@
+import { Readable } from "node:stream";
 import { describe, expect, it, vi } from "vitest";
 
 import { createReadingFileSystem } from "./createReadingFileSystem.js";
 
+const mockGlob = vi.fn();
 const mockReaddir = vi.fn();
 const mockReadFile = vi.fn();
 
 vi.mock("node:fs/promises", () => ({
+	get glob() {
+		return mockGlob;
+	},
 	get readdir() {
 		return mockReaddir;
 	},
@@ -14,36 +19,28 @@ vi.mock("node:fs/promises", () => ({
 	},
 }));
 
-const mockGlob = vi.fn();
-
-vi.mock("tinyglobby", () => ({
-	get glob() {
-		return mockGlob;
-	},
-}));
-
 describe("createReadingFileSystem", () => {
 	describe("glob", () => {
 		it("resolves with the matched paths when given one pattern", async () => {
 			const matches = [".github/workflows/ci.yml"];
-			mockGlob.mockResolvedValueOnce(matches);
+			mockGlob.mockReturnValueOnce(Readable.from(matches));
 			const system = createReadingFileSystem();
 
 			const actual = await system.glob(".github/**/*.yml");
 
-			expect(actual).toBe(matches);
+			expect(actual).toEqual(matches);
 			expect(mockGlob).toHaveBeenCalledWith(".github/**/*.yml");
 		});
 
 		it("resolves with the matched paths when given multiple patterns", async () => {
 			const patterns = [".github/**/*.yml", "src/**/*.ts"];
 			const matches = [".github/workflows/ci.yml", "src/index.ts"];
-			mockGlob.mockResolvedValueOnce(matches);
+			mockGlob.mockReturnValueOnce(Readable.from(matches));
 			const system = createReadingFileSystem();
 
 			const actual = await system.glob(patterns);
 
-			expect(actual).toBe(matches);
+			expect(actual).toEqual(matches);
 			expect(mockGlob).toHaveBeenCalledWith(patterns);
 		});
 	});
