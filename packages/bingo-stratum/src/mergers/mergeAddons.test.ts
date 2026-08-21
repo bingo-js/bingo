@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, it, test, vi } from "vitest";
 
 import { BlockWithAddons } from "../types/blocks.js";
 import { mergeAddons } from "./mergeAddons.js";
@@ -175,5 +175,24 @@ describe("mergeAddons", () => {
 		],
 	])("%j and %j", (first, second, expected) => {
 		expect(mergeAddons(first, second)).toEqual(expected);
+	});
+
+	it("snapshots merged Addons with their Block's name", () => {
+		const actual = mergeAddons(
+			[{ addons: ["a"], block: blockFirst }],
+			[{ addons: ["b"], block: blockFirst }],
+		);
+
+		expect(actual).toMatchInlineSnapshot(`
+			[
+			  {
+			    "addons": [
+			      "a",
+			      "b",
+			    ],
+			    "block": "[Block Block First]",
+			  },
+			]
+		`);
 	});
 });

@@ -14,6 +14,14 @@ vi.mock("./loggers/logHelpText.js", () => ({
 	},
 }));
 
+const mockLogUnknownFlags = vi.fn();
+
+vi.mock("./loggers/logUnknownFlags.js", () => ({
+	get logUnknownFlags() {
+		return mockLogUnknownFlags;
+	},
+}));
+
 const mockLogOutro = vi.fn();
 
 vi.mock("./loggers/logOutro.js", () => ({
@@ -53,6 +61,22 @@ const template = createTemplate({
 const argv = ["npx", "bingo-example"];
 
 describe("runCli", () => {
+	it("logs unknown flags and errors when an unknown flag is provided", async () => {
+		const actual = await runCLI({
+			argv,
+			display: createClackDisplay(),
+			from: "",
+			template,
+			values: { "skip-file": true } as object,
+		});
+
+		expect(mockLogUnknownFlags).toHaveBeenCalledWith([
+			{ flag: "skip-file", suggestion: "skip-files" },
+		]);
+		expect(actual).toEqual({ status: CLIStatus.Error });
+		expect(mockReadProductionSettings).not.toHaveBeenCalled();
+	});
+
 	it("logs the error when readProductionSettings resolves an error", async () => {
 		const error = new Error("Oh no!");
 		mockReadProductionSettings.mockResolvedValueOnce(error);

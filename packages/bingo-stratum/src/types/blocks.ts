@@ -150,7 +150,7 @@ export interface BlockDefinitionWithAddons<
 	 * Generates the creations describing a portion of a repository.
 	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
 	 */
-	produce: BlockDefinitionProducerWithAddons<
+	produce?: BlockDefinitionProducerWithAddons<
 		InferredObject<AddonsShape>,
 		Options
 	>;
@@ -181,7 +181,7 @@ export interface BlockDefinitionWithoutAddons<
 	 * Generates the creations describing a portion of a repository.
 	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
 	 */
-	produce: BlockDefinitionProducerWithoutAddons<Options>;
+	produce?: BlockDefinitionProducerWithoutAddons<Options>;
 
 	/**
 	 * Augments a Block creation with additional creations for setup mode.
@@ -251,21 +251,27 @@ export interface BlockWithAddons<
 	 * Generates the creations describing a portion of a repository.
 	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
 	 */
-	produce: BlockProducerWithAddons<Addons, Options>;
+	produce(
+		context: BlockContextWithOptionalAddons<Addons, Options>,
+	): Partial<BlockCreation<Options>>;
 
 	/**
 	 * Augments a Block creation with additional creations for setup mode.
 	 * @template Options Options values as described by the Base's options schema.
 	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-setup}
 	 */
-	setup?: BlockAugmentWithAddons<Addons, Options>;
+	setup?(
+		context: BlockContextWithAddons<Addons, Options>,
+	): Partial<BlockCreation<Options>>;
 
 	/**
 	 * Augments a Block creation with additional creations for transition mode.
 	 * @template Options Options values as described by the Base's options schema.
 	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-transition}
 	 */
-	transition?: BlockAugmentWithAddons<Addons, Options>;
+	transition?(
+		context: BlockContextWithAddons<Addons, Options>,
+	): Partial<BlockCreation<Options>>;
 
 	/**
 	 * Creates a description of Addons to provide for the Block.

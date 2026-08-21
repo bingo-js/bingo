@@ -29,6 +29,33 @@ describe("applyCommandsToSystem", () => {
 		]);
 	});
 
+	it("displays the raw command output when a failing command printed output", async () => {
+		const command = "abc";
+		const error = Object.assign(new Error("Oh no!"), {
+			shortMessage: "Command failed with exit code 1: abc",
+			stderr: "\u001b[31moh\u001b[39m",
+			stdout: "\u001b[32mno\u001b[39m",
+		});
+
+		const system = createStubSystem();
+		system.runner.mockReturnValueOnce(error);
+
+		await applyScriptsToSystem([command], system);
+
+		expect(system.display.item.mock.calls).toEqual([
+			["script", command, { start: expect.any(Number) }],
+			["script", command, { end: expect.any(Number) }],
+			[
+				"script",
+				command,
+				{
+					error:
+						"Command failed with exit code 1: abc\n\n\u001b[31moh\u001b[39m\n\n\u001b[32mno\u001b[39m",
+				},
+			],
+		]);
+	});
+
 	it("displays the error when a phased command without the silent option results in an error", async () => {
 		const command = "abc";
 		const error = new Error("Oh no!");

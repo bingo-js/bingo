@@ -41,6 +41,6 @@ describe("handlebarsFile", () => {
 
 		const actual = await handlebarsFile(sourcePath, options);
 
-		expect(actual).toEqual(["123"]);
+		expect(actual).toBe("123");
 	});
 });

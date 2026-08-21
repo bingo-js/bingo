@@ -12,6 +12,7 @@ function createSystem() {
 			octokit: {} as Octokit,
 		},
 		fs: {
+			glob: noop("glob"),
 			readDirectory: noop("readDirectory"),
 			readFile: noop("readFile"),
 			writeDirectory: vi.fn(),

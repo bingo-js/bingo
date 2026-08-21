@@ -24,7 +24,7 @@ await take(inputFromScript, { command: "https://example.com" });
 `inputFromFetch` defines two parameters:
 
 - `resource` _(required)_: the `string` or [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) to be passed to [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
-- `options` _(optional)_: the [`RequestInit`](https://developer.mozilla.org/en-US/docs/Web/API/RequestInit) object to be passed to [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+- `init` _(optional)_: the [`RequestInit`](https://developer.mozilla.org/en-US/docs/Web/API/RequestInit) object to be passed to [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 
 It sends a request to the `resource` with [Input Context `fetch`](https://create.bingo/build/details/contexts#input-fetchers) and returns either:
 
