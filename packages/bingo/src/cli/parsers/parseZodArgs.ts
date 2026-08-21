@@ -1,22 +1,20 @@
 // TODO: Split out into standalone package
 // https://github.com/bingo-js/bingo/issues/285
-import { parseArgs, ParseArgsConfig } from "node:util";
+import {
+	parseArgs,
+	ParseArgsOptionDescriptor,
+	ParseArgsOptionsConfig,
+	ParseArgsOptionsType,
+} from "node:util";
 import { z } from "zod";
 
 import { AnyShape, InferredObject } from "../../types/shapes.js";
-
-// TODO: Send issue/PR to DefinitelyTyped to export these from node:util...
-// https://github.com/bingo-js/bingo/issues/284
-
-type ParseArgsOptionsConfig = NonNullable<ParseArgsConfig["options"]>;
-
-type ParseArgsOptionsType = ParseArgsOptionsConfig[string]["type"];
 
 export function parseZodArgs<OptionsShape extends AnyShape>(
 	args: string[],
 	options: OptionsShape,
 ): InferredObject<OptionsShape> {
-	const argsOptions: ParseArgsConfig["options"] = {};
+	const argsOptions: ParseArgsOptionsConfig = {};
 
 	for (const [key, value] of Object.entries(options)) {
 		const argsOption = zodValueToArgsOption(key, value);
@@ -36,7 +34,7 @@ export function parseZodArgs<OptionsShape extends AnyShape>(
 function zodValueToArgsOption(
 	key: string,
 	zodValue: z.ZodType,
-): Error | ParseArgsOptionsConfig[string] {
+): Error | ParseArgsOptionDescriptor {
 	const def = zodValue.def;
 
 	switch (def.type) {
