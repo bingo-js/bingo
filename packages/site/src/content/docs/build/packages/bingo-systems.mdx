@@ -169,7 +169,7 @@ export interface ReadingFileSystem {
 ```
 
 `glob` resolves with the paths matching one or more [glob patterns](https://nodejs.org/api/fs.html#fspromisesglobpattern-options), relative to the current working directory.
-Patterns are matched by [`node:fs`](https://nodejs.org/api/fs.html), so negations such as `!src/**` are not supported, and directories can be matched as well as files.
+Patterns are matched by [`node:fs`](https://nodejs.org/api/fs.html).
 
 #### `createReadingFileSystem`
 
