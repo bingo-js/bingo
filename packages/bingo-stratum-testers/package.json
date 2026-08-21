@@ -1,6 +1,6 @@
 {
 	"name": "bingo-stratum-testers",
-	"version": "0.5.10",
+	"version": "0.5.11",
 	"description": "Test utilities for Stratum Blocks and Presets. 🧑‍🔧",
 	"homepage": "https://www.create.bingo/engines/stratum/packages/bingo-stratum-testers",
 	"repository": {
