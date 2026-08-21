@@ -82,6 +82,23 @@ For example, specifying creating a new repository offline with [`create-typescri
 If you are finding your template still sends requests with `--offline`, file a bug on the template.
 :::
 
+### `--owner`
+
+> Type: `string`
+
+What GitHub organization or user the repository will be under.
+
+This is used as the owner of the repository created by [`--remote`](#--remote).
+If not provided, Bingo will infer it from the GitHub CLI's configured user, then prompt for it if the template defines an `owner` option.
+
+For example, creating a new repository under a `my-organization` organization:
+
+<PackageManagers
+	args="--owner my-organization --remote"
+	pkg="create-typescript-app"
+	type="dlx"
+/>
+
 ### `--remote`
 
 > Type: `boolean`
@@ -96,6 +113,23 @@ When enabled, Bingo will:
 - Apply any network requests specified by the template to the remote repository
 
 When disabled, Bingo will not create a remote repository and will skip requests ([`--skip-requests`](#--skip-requests) will default to `true`).
+
+### `--repository`
+
+> Type: `string`
+
+What the repository will be named.
+
+Defaults to the name of the [`--directory`](#--directory) being run under.
+Providing `--repository` without [`--directory`](#--directory) will also use it as the directory name.
+
+For example, creating a new repository whose name differs from its local directory:
+
+<PackageManagers
+	args="--directory my-local-directory --repository my-fancy-project"
+	pkg="create-typescript-app"
+	type="dlx"
+/>
 
 ### `--skip-files`
 
