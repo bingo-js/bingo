@@ -14,6 +14,7 @@ const mockSystemFetchers = {
 const mockSystemRunner = vi.fn();
 
 const mockWritingFileSystem = {
+	glob: vi.fn(),
 	readDirectory: vi.fn(),
 	readFile: vi.fn(),
 	writeDirectory: vi.fn(),
@@ -93,6 +94,7 @@ describe("createSystemContext", () => {
 	describe("fs", () => {
 		it("uses the provided fs when it exists", () => {
 			const provided = {
+				glob: vi.fn(),
 				readDirectory: vi.fn(),
 				readFile: vi.fn(),
 				writeDirectory: vi.fn(),

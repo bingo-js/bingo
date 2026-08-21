@@ -1,4 +1,11 @@
 /**
+ * Finds the paths matching one or more glob patterns.
+ * @param patterns Glob pattern(s) to match paths against.
+ * @returns Promise for the matching paths, relative to the current directory.
+ */
+export type Glob = (patterns: string | string[]) => Promise<string[]>;
+
+/**
  * Reads the names of a directory's children.
  * @param directoryPath Path to the directory on disk.
  * @returns Promise for the names of the directory's children.
@@ -16,6 +23,11 @@ export type ReadFile = (filePath: string) => Promise<string>;
  * APIs to read from a file system.
  */
 export interface ReadingFileSystem {
+	/**
+	 * Finds the paths matching one or more glob patterns.
+	 */
+	glob: Glob;
+
 	/**
 	 * Reads the names of a directory's children.
 	 */
