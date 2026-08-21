@@ -1,5 +1,5 @@
 import * as prompts from "@clack/prompts";
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { describe, expect, it, vi } from "vitest";
 
 import { logUnknownFlags } from "./logUnknownFlags.js";
@@ -16,8 +16,8 @@ describe(logUnknownFlags, () => {
 
 		expect(prompts.log.error).toHaveBeenCalledWith(
 			[
-				`Unknown CLI flag: ${chalk.red("--skip-file")}`,
-				`  Did you mean ${chalk.green("--skip-files")}?`,
+				`Unknown CLI flag: ${styleText("red", "--skip-file")}`,
+				`  Did you mean ${styleText("green", "--skip-files")}?`,
 			].join("\n"),
 		);
 	});
@@ -26,7 +26,7 @@ describe(logUnknownFlags, () => {
 		logUnknownFlags([{ flag: "wat" }]);
 
 		expect(prompts.log.error).toHaveBeenCalledWith(
-			`Unknown CLI flag: ${chalk.red("--wat")}`,
+			`Unknown CLI flag: ${styleText("red", "--wat")}`,
 		);
 	});
 
@@ -34,7 +34,7 @@ describe(logUnknownFlags, () => {
 		logUnknownFlags([{ flag: "h" }]);
 
 		expect(prompts.log.error).toHaveBeenCalledWith(
-			`Unknown CLI flag: ${chalk.red("-h")}`,
+			`Unknown CLI flag: ${styleText("red", "-h")}`,
 		);
 	});
 
@@ -46,9 +46,9 @@ describe(logUnknownFlags, () => {
 
 		expect(prompts.log.error).toHaveBeenCalledWith(
 			[
-				`Unknown CLI flag: ${chalk.red("--skip-file")}`,
-				`  Did you mean ${chalk.green("--skip-files")}?`,
-				`Unknown CLI flag: ${chalk.red("--wat")}`,
+				`Unknown CLI flag: ${styleText("red", "--skip-file")}`,
+				`  Did you mean ${styleText("green", "--skip-files")}?`,
+				`Unknown CLI flag: ${styleText("red", "--wat")}`,
 			].join("\n"),
 		);
 	});

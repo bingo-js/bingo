@@ -1,5 +1,5 @@
 import * as prompts from "@clack/prompts";
-import chalk from "chalk";
+import { styleText } from "node:util";
 
 import { logOutro } from "../loggers/logOutro.js";
 import { CLIMessage } from "../messages.js";
@@ -20,10 +20,10 @@ export async function runInsideClackDisplay(
 
 	prompts.intro(
 		[
-			chalk.blueBright(`✨ `),
-			chalk.bgGreenBright.black(name),
-			chalk.blue(`@${version}`),
-			chalk.blueBright(` ✨`),
+			styleText("blueBright", `✨ `),
+			styleText(["bgGreenBright", "black"], name),
+			styleText("blue", `@${version}`),
+			styleText("blueBright", ` ✨`),
 		].join(""),
 	);
 
@@ -34,11 +34,12 @@ export async function runInsideClackDisplay(
 	}
 
 	if (results.status === CLIStatus.Error && results.error) {
-		prompts.log.error(chalk.red(`Error: ${results.error.message}`));
+		prompts.log.error(styleText("red", `Error: ${results.error.message}`));
 	}
 
 	logOutro(
-		results.outro ?? chalk.yellow(`Operation cancelled. ${CLIMessage.Exiting}`),
+		results.outro ??
+			styleText("yellow", `Operation cancelled. ${CLIMessage.Exiting}`),
 		{ items: display.dumpItems(), suggestions: results.suggestions },
 	);
 

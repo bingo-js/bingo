@@ -1,5 +1,5 @@
 import * as prompts from "@clack/prompts";
-import chalk from "chalk";
+import { styleText } from "node:util";
 
 import { UnknownFlag } from "../parsers/getUnknownFlags.js";
 
@@ -8,9 +8,9 @@ export function logUnknownFlags(unknownFlags: UnknownFlag[]) {
 		unknownFlags
 			.map(({ flag, suggestion }) =>
 				[
-					`Unknown CLI flag: ${chalk.red(formatFlagAsWritten(flag))}`,
+					`Unknown CLI flag: ${styleText("red", formatFlagAsWritten(flag))}`,
 					...(suggestion
-						? [`  Did you mean ${chalk.green(`--${suggestion}`)}?`]
+						? [`  Did you mean ${styleText("green", `--${suggestion}`)}?`]
 						: []),
 				].join("\n"),
 			)

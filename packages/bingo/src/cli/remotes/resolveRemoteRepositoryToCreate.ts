@@ -1,6 +1,6 @@
 import * as prompts from "@clack/prompts";
 import { BingoSystem, SystemRunner } from "bingo-systems";
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { Octokit } from "octokit";
 
 import { RepositoryLocator, Template } from "../../types/templates.js";
@@ -58,7 +58,7 @@ export async function resolveRemoteRepositoryToCreate(
 		}
 
 		prompts.log.warn(
-			`The authenticated GitHub user does not have access to the ${chalk.green(prompted)} owner.`,
+			`The authenticated GitHub user does not have access to the ${styleText("green", prompted)} owner.`,
 		);
 	}
 }

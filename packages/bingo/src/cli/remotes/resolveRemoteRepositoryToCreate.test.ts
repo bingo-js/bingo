@@ -1,5 +1,5 @@
 import { BingoSystem, WritingFileSystem } from "bingo-systems";
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { Octokit } from "octokit";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
@@ -189,7 +189,7 @@ describe(resolveRemoteRepositoryToCreate, () => {
 
 		expect(actual).toEqual({ owner: stubOwner, repository: stubRepository });
 		expect(mockLogWarn).toHaveBeenCalledWith(
-			`The authenticated GitHub user does not have access to the ${chalk.green(inaccessibleOwner)} owner.`,
+			`The authenticated GitHub user does not have access to the ${styleText("green", inaccessibleOwner)} owner.`,
 		);
 	});
 

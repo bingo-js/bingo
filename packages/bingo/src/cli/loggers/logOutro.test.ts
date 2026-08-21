@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
 import { logOutro } from "./logOutro.js";
@@ -52,7 +52,7 @@ describe("logOutro", () => {
 			expect(mockPromptError.mock.calls).toEqual([
 				[
 					expect.stringContaining(
-						`The ${chalk.red("itemB")} groupA failed. You should re-run it and fix its complaints.\nError: Oh no!`,
+						`The ${styleText("red", "itemB")} groupA failed. You should re-run it and fix its complaints.\nError: Oh no!`,
 					),
 				],
 			]);
@@ -71,7 +71,7 @@ describe("logOutro", () => {
 
 			expect(mockPromptError.mock.calls).toEqual([
 				[
-					`The ${chalk.red("itemB")} groupA failed. You should re-run it and fix its complaints.\nOh no!`,
+					`The ${styleText("red", "itemB")} groupA failed. You should re-run it and fix its complaints.\nOh no!`,
 				],
 			]);
 			expect(mockOutro.mock.calls).toEqual([["Bye!"]]);

@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
@@ -375,7 +375,7 @@ describe("runModeSetup", () => {
 		});
 
 		expect(actual).toEqual({
-			outro: `Thanks for using ${chalk.bgGreenBright.black(from)}! 💝`,
+			outro: `Thanks for using ${styleText(["bgGreenBright", "black"], from)}! 💝`,
 			status: CLIStatus.Success,
 			suggestions,
 		});

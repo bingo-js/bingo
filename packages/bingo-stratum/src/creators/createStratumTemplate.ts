@@ -4,7 +4,7 @@ import {
 	LazyOptionalOptions,
 	TemplatePrepareContext,
 } from "bingo";
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { z } from "zod";
 
 import {
@@ -138,7 +138,7 @@ export function createStratumTemplate<OptionsShape extends AnyShape>(
 
 			if (blockAdds.length) {
 				context.log(
-					`Detected ${blockAdds.map((add) => `--${chalk.blue(add)}`).join(" ")} from existing files on disk`,
+					`Detected ${blockAdds.map((add) => `--${styleText("blue", add)}`).join(" ")} from existing files on disk`,
 				);
 			}
 
@@ -148,7 +148,7 @@ export function createStratumTemplate<OptionsShape extends AnyShape>(
 				preset: () => {
 					if (existing.preset) {
 						context.log(
-							`Detected ${chalk.blue(`--preset ${existing.preset}`)} from existing files on disk`,
+							`Detected ${styleText("blue", `--preset ${existing.preset}`)} from existing files on disk`,
 						);
 					}
 

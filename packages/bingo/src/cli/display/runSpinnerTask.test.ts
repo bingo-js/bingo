@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { describe, expect, it, vi } from "vitest";
 
 import { createClackDisplay } from "./createClackDisplay.js";
@@ -31,7 +31,9 @@ describe("runSpinnerTask", () => {
 		);
 
 		expect(actual).toBe(error);
-		expect(mockLog.error).toHaveBeenCalledWith(chalk.red(error.stack));
+		expect(mockLog.error).toHaveBeenCalledWith(
+			styleText("red", error.stack ?? error.message),
+		);
 		expect(mockSpinner.stop.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
@@ -40,6 +42,20 @@ describe("runSpinnerTask", () => {
 			  ],
 			]
 		`);
+	});
+
+	it("displays the error message when the thrown error has no stack", async () => {
+		const error = new Error("Oh no!");
+		delete error.stack;
+
+		await runSpinnerTask(
+			createClackDisplay(),
+			"Running task",
+			"Ran task",
+			vi.fn().mockRejectedValueOnce(error),
+		);
+
+		expect(mockLog.error).toHaveBeenCalledWith(styleText("red", error.message));
 	});
 
 	it("displays a general log when the task resolves with a value", async () => {
