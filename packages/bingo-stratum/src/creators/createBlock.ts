@@ -7,6 +7,7 @@ import {
 	BlockWithAddons,
 	BlockWithoutAddons,
 } from "../types/blocks.js";
+import { createBlockAddons } from "../utils/createBlockAddons.js";
 import { applyZodDefaults, isDefinitionWithAddons } from "./utils.js";
 
 export function createBlock<
@@ -39,7 +40,7 @@ export function createBlock<
 
 	// Blocks with Addons do need to be callable as functions...
 	function block(addons: Addons) {
-		return { addons, block };
+		return createBlockAddons(addons, block, blockDefinition.about?.name);
 	}
 
 	// ...and also still have the Block Definition properties.
