@@ -16,8 +16,6 @@ vi.mock("@clack/prompts", () => ({
 	},
 }));
 
-// node:util's parseArgs can only describe these as "string", so help text is
-// allowed to print a narrower type for them.
 const narrowedTypes = new Map([["mode", '"setup" | "transition"']]);
 
 describe("logHelpText", () => {
