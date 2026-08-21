@@ -214,7 +214,6 @@ export const blockConfigFiles = createBlock({
 ### `produce` {#createblock-produce}
 
 Block Definitions may include a `produce()` function for their core logic.
-Blocks that only add creations in [setup](#createblock-setup) or [transition](#createblock-transition) mode can omit it.
 
 - It receives one parameter: a [Block Context](/engines/stratum/details/contexts#block-contexts) object containing options as well as other utilities.
 - It returns a [Creation](/build/concepts/creations) object describing the generated pieces of tooling.
