@@ -1,4 +1,9 @@
-import { AnyShape, InferredObject, LazyOptionalOptions } from "bingo";
+import {
+	AnyShape,
+	InferredObject,
+	LazyOptionalOptions,
+	TemplatePrepareContext,
+} from "bingo";
 import chalk from "chalk";
 import { z } from "zod";
 
@@ -7,9 +12,11 @@ import {
 	ProduceStratumTemplateSettings,
 } from "../producers/produceStratumTemplate.js";
 import { Base } from "../types/bases.js";
+import { StratumRefinements } from "../types/refinements.js";
 import {
 	StratumTemplate,
 	StratumTemplateDefinition,
+	StratumTemplateOptionsShapeFor,
 	ZodPresetNameLiterals,
 } from "../types/templates.js";
 import { createBlockRefinementOption } from "../utils/createBlockRefinementOption.js";
@@ -22,6 +29,9 @@ export function createStratumTemplate<OptionsShape extends AnyShape>(
 	templateDefinition: StratumTemplateDefinition<OptionsShape>,
 ): StratumTemplate<OptionsShape> {
 	type Options = InferredObject<OptionsShape>;
+	type TemplateOptions = InferredObject<
+		StratumTemplateOptionsShapeFor<OptionsShape>
+	>;
 
 	const namedBlocks = Array.from(
 		new Set(
@@ -92,19 +102,24 @@ export function createStratumTemplate<OptionsShape extends AnyShape>(
 					.sort(([a], [b]) => a.localeCompare(b)),
 			),
 		},
-		prepare(context) {
+		prepare(context): LazyOptionalOptions<Partial<TemplateOptions>> {
+			const baseContext = context as TemplatePrepareContext<
+				Partial<Options>,
+				StratumRefinements<Options>
+			>;
 			const fromBase =
-				base.prepare?.(context) ??
+				base.prepare?.(baseContext) ??
 				// TODO: Why is this type assertion necessary?
 				// https://github.com/bingo-js/bingo/issues/287
 				({} as LazyOptionalOptions<Partial<Options>>);
 
 			// TODO: It would be better to run the base.prepare first to generate option defaults.
 			// https://github.com/bingo-js/bingo/issues/289
-			const existing = context.files && inferExistingBlocks(context, template);
+			const existing =
+				context.files && inferExistingBlocks(baseContext, template);
 
 			if (!existing) {
-				return fromBase;
+				return fromBase as LazyOptionalOptions<Partial<TemplateOptions>>;
 			}
 
 			// Enable --add-* options for any inferred existing Block not matched with an explicit --exclude-*
@@ -136,7 +151,7 @@ export function createStratumTemplate<OptionsShape extends AnyShape>(
 
 					return existing.preset;
 				},
-			};
+			} as LazyOptionalOptions<Partial<TemplateOptions>>;
 		},
 		produce(context) {
 			return produceStratumTemplate(

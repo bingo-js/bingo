@@ -1,18 +1,7 @@
 // TODO: Split out into standalone package
 // https://github.com/bingo-js/bingo/issues/285
-/* eslint-disable @eslint-community/eslint-comments/disable-enable-pair */
-
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-
 import { parseArgs, ParseArgsConfig } from "node:util";
-import {
-	ZodBooleanDef,
-	ZodFirstPartyTypeKind,
-	ZodLiteralDef,
-	ZodStringDef,
-	ZodTypeAny,
-} from "zod";
+import { z } from "zod";
 
 import { AnyShape, InferredObject } from "../../types/shapes.js";
 
@@ -46,48 +35,56 @@ export function parseZodArgs<OptionsShape extends AnyShape>(
 
 function zodValueToArgsOption(
 	key: string,
-	zodValue: ZodTypeAny,
+	zodValue: z.ZodType,
 ): Error | ParseArgsOptionsConfig[string] {
-	switch (zodValue._def.typeName) {
-		case "ZodBoolean":
-		case "ZodLiteral":
-		case "ZodString":
+	const def = zodValue.def;
+
+	switch (def.type) {
+		case "boolean":
+		case "literal":
+		case "string":
 			return {
-				type: zodValueTypeToArgsOptionType(zodValue._def),
+				type: zodValueTypeToArgsOptionType(def),
 			};
 
-		case "ZodDefault":
-		case "ZodOptional":
-			return zodValueToArgsOption(key, zodValue._def.innerType);
+		case "default":
+		case "optional":
+			return zodValueToArgsOption(
+				key,
+				(def as z.core.$ZodOptionalDef).innerType as z.ZodType,
+			);
 
-		case "ZodUnion":
-			return zodValueToArgsOption(key, zodValue._def.options[0]);
+		case "union":
+			return zodValueToArgsOption(
+				key,
+				(def as z.core.$ZodUnionDef).options[0] as z.ZodType,
+			);
 	}
 
 	return new Error(
-		`create does not know how to parse --${key}'s Zod type on the CLI: ${zodValue._def.typeName as string}`,
+		`create does not know how to parse --${key}'s Zod type on the CLI: ${def.type}`,
 	);
 }
 
 function zodValueTypeToArgsOptionType(
-	def: ZodBooleanDef | ZodLiteralDef | ZodStringDef,
+	def: z.core.$ZodTypeDef,
 ): ParseArgsOptionsType {
-	switch (def.typeName) {
-		case ZodFirstPartyTypeKind.ZodBoolean:
-			return "boolean";
+	if (def.type === "boolean") {
+		return "boolean";
+	}
 
-		case ZodFirstPartyTypeKind.ZodLiteral: {
-			const typeofValue = typeof def.value;
-			if (typeofValue === "boolean" || typeofValue === "string") {
-				return typeofValue;
-			}
-			throw new Error(
-				// eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-call
-				`create does not know how to parse this Zod literal on the CLI: ${def.value?.toString()}`,
-			);
+	if (def.type === "literal") {
+		const [value] = (def as z.core.$ZodLiteralDef<z.core.util.Literal>).values;
+		const typeofValue = typeof value;
+
+		if (typeofValue === "boolean" || typeofValue === "string") {
+			return typeofValue;
 		}
 
-		case ZodFirstPartyTypeKind.ZodString:
-			return "string";
+		throw new Error(
+			`create does not know how to parse this Zod literal on the CLI: ${String(value)}`,
+		);
 	}
+
+	return "string";
 }

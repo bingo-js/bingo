@@ -79,7 +79,7 @@ describe("isStringLikeSchema", () => {
 		["array", z.array(z.string()), false],
 		["tuple", z.tuple([z.string()]), false],
 		["date", z.date(), false],
-		["native enum", z.nativeEnum(Value), false],
+		["native enum", z.enum(Value), true],
 	])("%s", (_, schema, expected) => {
 		expect(isStringLikeSchema(schema)).toBe(expected);
 	});

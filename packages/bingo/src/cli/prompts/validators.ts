@@ -15,10 +15,10 @@ export function validateNumber(value: string) {
 	}
 }
 
-export function validatorFromSchema(schema: z.ZodTypeAny) {
+export function validatorFromSchema(schema: z.ZodType) {
 	return (value: string) => {
 		return (
-			schema.safeParse(value).error?.errors[0].message ?? validateText(value)
+			schema.safeParse(value).error?.issues[0].message ?? validateText(value)
 		);
 	};
 }

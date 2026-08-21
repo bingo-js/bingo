@@ -1,47 +1,33 @@
 // TODO: Split Zod generation out into standalone package
 // https://github.com/bingo-js/bingo/issues/285
-/* eslint-disable @eslint-community/eslint-comments/disable-enable-pair */
-
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
-
 import { z } from "zod";
 
-export function getSchemaTypeName(schema: z.ZodTypeAny): string {
+import { getSchemaInner } from "./getSchemaInner.js";
+
+export function getSchemaTypeName(schema: z.ZodType): string {
 	const schemaInner = getSchemaInner(schema);
+	const def = schemaInner.def;
 
-	if (schemaInner._def.typeName === z.ZodFirstPartyTypeKind.ZodArray) {
-		return `${getSchemaTypeName(schemaInner._def.type)}[]`;
+	switch (def.type) {
+		case "array":
+			return `${getSchemaTypeName((def as z.core.$ZodArrayDef).element as z.ZodType)}[]`;
+
+		case "literal":
+			return (def as z.core.$ZodLiteralDef<z.core.util.Literal>).values
+				.map((value) => JSON.stringify(value))
+				.join(" | ");
+
+		case "union":
+			return (
+				(def as z.core.$ZodUnionDef).options
+					.map((constituent) => getSchemaTypeName(constituent as z.ZodType))
+					// TODO: Once these can be parsed as args, reuse that here...
+					// https://github.com/bingo-js/bingo/issues/285
+					.filter((typeName) => !["object", "record"].includes(typeName))
+					.join(" | ")
+			);
+
+		default:
+			return def.type;
 	}
-
-	if (schemaInner._def.typeName === z.ZodFirstPartyTypeKind.ZodLiteral) {
-		return JSON.stringify((schemaInner._def as z.ZodLiteralDef).value);
-	}
-
-	if (schemaInner._def.typeName === z.ZodFirstPartyTypeKind.ZodUnion) {
-		return (
-			(schemaInner._def as z.ZodUnionDef).options
-				.map((constituent) => getSchemaTypeName(constituent))
-				// TODO: Once these can be parsed as args, reuse that here...
-				// https://github.com/bingo-js/bingo/issues/285
-				.filter((typeName) => !["object", "record"].includes(typeName))
-				.join(" | ")
-		);
-	}
-
-	// n.b. it's not necessary an object, that's just one of many with a typeName
-	return (schemaInner._def as z.ZodObjectDef).typeName
-		.replace("Zod", "")
-		.toLowerCase();
-}
-
-function getSchemaInner(schema: z.ZodTypeAny): z.ZodTypeAny {
-	if (schema.isOptional()) {
-		return getSchemaInner((schema._def as z.ZodOptionalDef).innerType);
-	}
-
-	if (schema._def.typeName === z.ZodFirstPartyTypeKind.ZodEffects) {
-		return getSchemaInner((schema._def as z.ZodEffectsDef).schema);
-	}
-
-	return schema;
 }
