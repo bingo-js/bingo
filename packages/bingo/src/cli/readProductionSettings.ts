@@ -27,7 +27,6 @@ export async function readProductionSettings({
 			: { mode: defaultMode };
 	}
 
-	// Scoped package names like @scope/name become scope-name.config.*
 	const configFilePrefix =
 		from && `${from.replace(/^@/, "").replaceAll("/", "-")}.config.`;
 
