@@ -86,13 +86,15 @@ export function produceBlocks<Options extends object>(
 			});
 
 			// 3.4. If the Block specified new addons for any defined Blocks:
+			// 3.4.1: Merge those Addons into the Blocks' existing Addons, throwing an error if any values conflict
 			const updatedBlockAddons = getUpdatedBlockAddons(
 				allowedBlocks,
 				blockProductions,
+				currentBlock,
 				blockCreation.addons,
 			);
 
-			// 3.4.1: Add those Blocks to the queue to re-run
+			// 3.4.2: Add those Blocks to the queue to re-run
 			for (const [updatedBlock, updatedAddons] of updatedBlockAddons) {
 				const addedBlockPreviousProduction = blockProductions.get(updatedBlock);
 				blockProductions.set(updatedBlock, {

@@ -18,5 +18,6 @@ The algorithm is roughly...
    2. If a [Mode](/build/concepts/modes) is specified, additionally generate the approprate Block Creations
    3. Store that Block's Creation
    4. If the Block specified new addons for any defined Blocks:
-      1. Add those Blocks to the queue of Blocks to re-run
+      1. Merge those Addons into the Blocks' existing Addons, throwing an error if any values conflict
+      2. Add those Blocks to the queue of Blocks to re-run
 4. Merge all Block Creations together

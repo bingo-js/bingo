@@ -1,16 +1,18 @@
 import hashObject from "hash-object";
+import { inspect } from "node:util";
 
 export function mergeAddonsIfUpdated<T extends object>(
 	existingAddons: T,
 	newAddons: T,
+	path: string[] = [],
 ): Error | T | undefined {
 	if (Array.isArray(existingAddons)) {
 		if (!Array.isArray(newAddons)) {
-			return new Error("Mismatched merging addons (Array.isArray).");
+			return createMismatchError(path, existingAddons, newAddons);
 		}
 		return mergeAddonsArraysIfUpdated(existingAddons, newAddons) as T;
 	} else if (Array.isArray(newAddons)) {
-		return new Error("Mismatched merging addons (Array.isArray).");
+		return createMismatchError(path, existingAddons, newAddons);
 	}
 
 	const newEntries = Object.entries(newAddons) as [keyof T, unknown][];
@@ -18,6 +20,8 @@ export function mergeAddonsIfUpdated<T extends object>(
 	let updated = newEntries.length !== Object.keys(existingAddons).length;
 
 	for (const [key, value] of newEntries) {
+		const keyPath = [...path, key as string];
+
 		if (!(key in result) || result[key] == null) {
 			updated = true;
 			result[key] = value as T[keyof T];
@@ -30,7 +34,7 @@ export function mergeAddonsIfUpdated<T extends object>(
 
 		if (Array.isArray(result[key])) {
 			if (!Array.isArray(value)) {
-				return new Error("Mismatched merging addons (Array.isArray).");
+				return createMismatchError(keyPath, result[key], value);
 			}
 
 			const existingElementKeys = new Set(
@@ -51,10 +55,10 @@ export function mergeAddonsIfUpdated<T extends object>(
 
 		if (typeof result[key] === "object") {
 			if (typeof value !== "object") {
-				return new Error("Mismatched merging addons (typeof object).");
+				return createMismatchError(keyPath, result[key], value);
 			}
 
-			const nestedMerge = mergeAddonsIfUpdated(result[key], value);
+			const nestedMerge = mergeAddonsIfUpdated(result[key], value, keyPath);
 			if (nestedMerge) {
 				if (nestedMerge instanceof Error) {
 					return nestedMerge;
@@ -68,9 +72,7 @@ export function mergeAddonsIfUpdated<T extends object>(
 		}
 
 		if (result[key] !== value) {
-			return new Error(
-				`Mismatched merging addons (${result[key] as string} vs. ${value as string}).`,
-			);
+			return createMismatchError(keyPath, result[key], value);
 		}
 	}
 
@@ -81,6 +83,20 @@ function createHash(value: unknown) {
 	return typeof value === "object"
 		? hashObject(value as Record<string, unknown>)
 		: String(value as boolean | null | number | string | undefined);
+}
+
+function createMismatchError(
+	path: string[],
+	existingValue: unknown,
+	newValue: unknown,
+) {
+	const location = path.length ? ` at '${path.join(".")}'` : "";
+	const existing = inspect(existingValue, { breakLength: Infinity });
+	const updated = inspect(newValue, { breakLength: Infinity });
+
+	return new Error(
+		`Mismatched addons${location}: existing ${existing} vs. new ${updated}.`,
+	);
 }
 
 function mergeAddonsArraysIfUpdated<T extends object>(
