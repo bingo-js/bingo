@@ -162,6 +162,9 @@ export const inputFromFileJSON = createInput({
 The `take` function is provided to Inputs and Options so that they can run another Input with the same context they're running in.
 Other properties from the current context will be forwarded to the provided input.
 
+Inputs with a generic call signature, such as [`input-from-octokit`](https://www.npmjs.com/package/input-from-octokit), have their result type inferred from the provided `args`.
+Those `args` are inferred as `const`, so such Inputs should accept readonly arrays.
+
 ## Options Contexts
 
 This context object is provided to:

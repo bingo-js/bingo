@@ -79,10 +79,43 @@ export type InputWithoutArgs<Result> = (
 ) => Result;
 
 /**
+ * Args provided to an Input, checked against the args expected by its context.
+ * Resolves to never if the expected args aren't assignable to the provided args,
+ * so that mismatched args for Inputs with a known context fall through to
+ * the {@link TakeInput} overload that reports errors against the args schema.
+ * @template Args Values provided for the Input's args.
+ * @template Context Input context expected by the Input.
+ */
+export type ProvidedInputArgs<Args extends object, Context> =
+	Context extends InputContextWithArgs<infer Expected>
+		? Expected extends Args
+			? // The intersection keeps Args as an inference site for the provided values.
+				Args & Expected
+			: never
+		: never;
+
+/**
  * Shared context function to run an Input.
  * @see {@link http://create.bingo/build/details/contexts#input-take}
  */
 export interface TakeInput {
+	/**
+	 * Runs the produce() of an Input whose result type depends on its args.
+	 * This allows Inputs with a generic call signature, such as `input-from-octokit`,
+	 * to infer their result type from the provided args.
+	 * Args are inferred as const, so such Inputs should accept readonly arrays.
+	 * @param input Input whose result type depends on its args.
+	 * @param args Values corresponding to the Input's args.
+	 */
+	<
+		const Args extends object,
+		Result,
+		Context extends InputContextWithoutArgs = InputContextWithArgs<Args>,
+	>(
+		input: (context: Context) => Result,
+		args: ProvidedInputArgs<Args, Context>,
+	): Result;
+
 	/**
 	 * Runs the produce() of an Input with args schema.
 	 * @param input Input that defines an args schema.

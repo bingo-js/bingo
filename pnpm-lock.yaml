@@ -341,6 +341,28 @@ importers:
         specifier: workspace:^
         version: link:../bingo-testers
 
+  packages/input-from-octokit:
+    dependencies:
+      '@octokit/types':
+        specifier: ^16.0.0
+        version: 16.0.0
+      bingo-requests:
+        specifier: workspace:^
+        version: link:../bingo-requests
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
+    devDependencies:
+      bingo:
+        specifier: workspace:^
+        version: link:../bingo
+      bingo-testers:
+        specifier: workspace:^
+        version: link:../bingo-testers
+      octokit:
+        specifier: 5.0.5
+        version: 5.0.5
+
   packages/input-from-script:
     dependencies:
       zod:
