@@ -1,5 +1,11 @@
 # bingo-stratum
 
+## 0.6.1
+
+### Patch Changes
+
+- [#432](https://github.com/bingo-js/bingo/pull/432) [`04bb226`](https://github.com/bingo-js/bingo/commit/04bb226780fa12863911e0f1c50f1a90e47a8a07) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - Reported errors from merging Block Addons, naming the Blocks and Addon key involved, instead of ignoring them.
+
 ## 0.6.0
 
 ### Minor Changes
