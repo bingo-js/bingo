@@ -1,5 +1,5 @@
 import path from "node:path";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { intake } from "./intake.js";
 
@@ -23,7 +23,19 @@ const normalizeCallsPaths = (calls: string[][]) => {
 	return calls.map((call) => call.map((arg) => path.normalize(arg)));
 };
 
+const mockPlatform = (platform: NodeJS.Platform) =>
+	vi.spyOn(process, "platform", "get").mockReturnValue(platform);
+
 describe("intake", () => {
+	// Executable metadata is only read on non-Windows platforms
+	beforeEach(() => {
+		mockPlatform("linux");
+	});
+
+	afterEach(() => {
+		vi.restoreAllMocks();
+	});
+
 	it("returns undefined when nothing exists under the path", async () => {
 		mockStat.mockRejectedValueOnce(new Error("Oh no!"));
 
@@ -162,5 +174,51 @@ describe("intake", () => {
 			["from/middle/included"],
 		]);
 		expect(mockStat.mock.calls).toEqual(normalizedStatCalls);
+	});
+
+	describe("on Windows", () => {
+		beforeEach(() => {
+			mockPlatform("win32");
+		});
+
+		it("returns the file contents without executable metadata when given a path to a file", async () => {
+			const contents = "abc123";
+
+			mockReadFile.mockResolvedValueOnce(contents);
+			mockStat.mockResolvedValueOnce({
+				isDirectory: () => false,
+				mode: 0x755,
+			});
+
+			const actual = await intake("from");
+
+			expect(actual).toEqual([contents]);
+			expect(mockReaddir).not.toHaveBeenCalled();
+			expect(mockStat).toHaveBeenCalledOnce();
+		});
+
+		it("returns directory files without executable metadata when given a path to a directory with files", async () => {
+			mockReaddir.mockResolvedValueOnce(["included-a", "included-b"]);
+			mockReadFile
+				.mockResolvedValueOnce("contents-a")
+				.mockResolvedValueOnce("contents-b");
+			mockStat
+				.mockResolvedValueOnce({ isDirectory: () => true })
+				.mockResolvedValueOnce({
+					isDirectory: () => false,
+					mode: 0x644,
+				})
+				.mockResolvedValueOnce({
+					isDirectory: () => false,
+					mode: 0x755,
+				});
+
+			const actual = await intake("from");
+
+			expect(actual).toEqual({
+				"included-a": ["contents-a"],
+				"included-b": ["contents-b"],
+			});
+		});
 	});
 });

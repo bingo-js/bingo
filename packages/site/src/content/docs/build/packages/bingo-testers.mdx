@@ -55,7 +55,8 @@ Any files that are different in the `created` argument compared to the `actual` 
 Differences are computed as:
 
 - If a file exists in `created` but not in `actual`, it will be included as-is
-- If a file exists in both but has different text content and/or `mode`, it will be included as a diff using [`diff`](https://www.npmjs.com/package/diff)'s `createTwoFilesPatch`, omitting headers before the `@@`
+- If a file exists in both but has different text content and/or `executable` metadata, it will be included as a diff using [`diff`](https://www.npmjs.com/package/diff)'s `createTwoFilesPatch`, omitting headers before the `@@`
+  - `executable` metadata is only compared if it is specified on both files: for example, [`intake`](/build/packages/bingo-fs#intakedirectory) doesn't specify it on Windows
 
 For example, if a `src/index.ts` has content `abc` in `actual` but content `bbc` in `created`, the diff would look like:
 
