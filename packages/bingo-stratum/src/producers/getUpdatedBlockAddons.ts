@@ -3,6 +3,7 @@ import { Creation } from "bingo";
 import { mergeAddonsIfUpdated } from "../mergers/mergeAddonsIfUpdated.js";
 import { Block, BlockWithAddons } from "../types/blocks.js";
 import { CreatedBlockAddons } from "../types/creations.js";
+import { getName } from "../utils/getName.js";
 
 export interface BlockProduction<Addons extends object | undefined> {
 	addons: Addons;
@@ -15,6 +16,7 @@ export function getUpdatedBlockAddons<Options extends object>(
 		Block<object | undefined, Options>,
 		BlockProduction<object>
 	>,
+	producingBlock: Block<object | undefined, Options>,
 	newBlockAddons: CreatedBlockAddons<object, Options>[] = [],
 ) {
 	const updated: [BlockWithAddons<object, Options>, object][] = [];
@@ -34,6 +36,12 @@ export function getUpdatedBlockAddons<Options extends object>(
 			existingProduction.addons,
 			newAddons.addons,
 		);
+		if (updatedAddons instanceof Error) {
+			throw new Error(
+				`Could not merge addons from Block ${getName(producingBlock)} into Block ${getName(newAddons.block)}. ${updatedAddons.message}`,
+			);
+		}
+
 		if (updatedAddons) {
 			updated.push([newAddons.block, updatedAddons]);
 		}

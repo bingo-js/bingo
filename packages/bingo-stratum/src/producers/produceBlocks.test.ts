@@ -175,6 +175,122 @@ describe("produceBlocks", () => {
 		});
 	});
 
+	it("merges addons produced by a Block into another Block's existing addons", () => {
+		const blockReceiving = base.createBlock({
+			about: {
+				name: "Receiving Block",
+			},
+			addons: {
+				lines: z.array(z.string()).default([]),
+			},
+			produce({ addons }) {
+				return {
+					files: { "README.md": addons.lines.join("\n") },
+				};
+			},
+		});
+
+		const blockProducing = base.createBlock({
+			about: {
+				name: "Producing Block",
+			},
+			produce() {
+				return {
+					addons: [blockReceiving({ lines: ["b", "c"] })],
+				};
+			},
+		});
+
+		const result = produceBlocks([blockReceiving, blockProducing], {
+			blockAddons: [blockReceiving({ lines: ["a", "b"] })],
+			options: { value: "Hello, world!" },
+		});
+
+		expect(result).toEqual({
+			addons: [blockReceiving({ lines: ["b", "c"] })],
+			files: {
+				"README.md": "a\nb\nc",
+			},
+		});
+	});
+
+	it("throws an error when a Block produces addons that conflict with another Block's existing addons", () => {
+		const blockReceiving = base.createBlock({
+			about: {
+				name: "Receiving Block",
+			},
+			addons: {
+				nested: z.object({ value: z.string() }).optional(),
+			},
+			produce({ addons }) {
+				return {
+					files: { "README.md": addons.nested?.value },
+				};
+			},
+		});
+
+		const blockProducingFirst = base.createBlock({
+			about: {
+				name: "First Producing Block",
+			},
+			produce() {
+				return {
+					addons: [blockReceiving({ nested: { value: "a" } })],
+				};
+			},
+		});
+
+		const blockProducingSecond = base.createBlock({
+			about: {
+				name: "Second Producing Block",
+			},
+			produce() {
+				return {
+					addons: [blockReceiving({ nested: { value: "b" } })],
+				};
+			},
+		});
+
+		expect(() =>
+			produceBlocks(
+				[blockReceiving, blockProducingFirst, blockProducingSecond],
+				{ options: { value: "Hello, world!" } },
+			),
+		).toThrowError(
+			`Could not merge addons from Block Second Producing Block into Block Receiving Block. Mismatched addons at 'nested.value': existing 'a' vs. new 'b'.`,
+		);
+	});
+
+	it("describes Blocks as anonymous in merge errors when they don't have names", () => {
+		const blockReceiving = base.createBlock({
+			addons: {
+				value: z.string().optional(),
+			},
+			produce({ addons }) {
+				return {
+					files: { "README.md": addons.value },
+				};
+			},
+		});
+
+		const blockProducing = base.createBlock({
+			produce() {
+				return {
+					addons: [blockReceiving({ value: "b" })],
+				};
+			},
+		});
+
+		expect(() =>
+			produceBlocks([blockReceiving, blockProducing], {
+				blockAddons: [blockReceiving({ value: "a" })],
+				options: { value: "Hello, world!" },
+			}),
+		).toThrowError(
+			`Could not merge addons from Block (anonymous) into Block (anonymous). Mismatched addons at 'value': existing 'a' vs. new 'b'.`,
+		);
+	});
+
 	describe("modes", () => {
 		const block = base.createBlock({
 			about: {

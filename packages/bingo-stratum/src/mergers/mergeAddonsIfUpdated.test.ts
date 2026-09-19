@@ -2,12 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import { mergeAddonsIfUpdated } from "./mergeAddonsIfUpdated.js";
 
-describe("mergeArgsIfUpdated", () => {
+describe("mergeAddonsIfUpdated", () => {
 	it.each([
 		[{}, {}, undefined],
 		[[], [], undefined],
-		[[], {}, new Error("Mismatched merging addons (Array.isArray).")],
-		[{}, [], new Error("Mismatched merging addons (Array.isArray).")],
+		[[], {}, new Error("Mismatched addons: existing [] vs. new {}.")],
+		[{}, [], new Error("Mismatched addons: existing {} vs. new [].")],
 		[["a"], ["a"], undefined],
 		[["a"], ["b"], ["a", "b"]],
 		[{ a: true }, {}, { a: true }],
@@ -16,17 +16,22 @@ describe("mergeArgsIfUpdated", () => {
 		[
 			{ a: true },
 			{ a: false },
-			new Error("Mismatched merging addons (true vs. false)."),
+			new Error("Mismatched addons at 'a': existing true vs. new false."),
 		],
 		[
 			{ a: [] },
 			{ a: false },
-			new Error("Mismatched merging addons (Array.isArray)."),
+			new Error("Mismatched addons at 'a': existing [] vs. new false."),
 		],
 		[
 			{ a: {} },
 			{ a: false },
-			new Error("Mismatched merging addons (typeof object)."),
+			new Error("Mismatched addons at 'a': existing {} vs. new false."),
+		],
+		[
+			{ a: {} },
+			{ a: [] },
+			new Error("Mismatched addons at 'a': existing {} vs. new []."),
 		],
 		[{ a: true }, { b: true }, { a: true, b: true }],
 		[{}, { b: true }, { b: true }],
@@ -40,7 +45,12 @@ describe("mergeArgsIfUpdated", () => {
 		[
 			{ a: { a1: true } },
 			{ a: { a1: false } },
-			new Error("Mismatched merging addons (true vs. false)."),
+			new Error("Mismatched addons at 'a.a1': existing true vs. new false."),
+		],
+		[
+			{ a: { a1: "b" } },
+			{ a: { a1: "c" } },
+			new Error("Mismatched addons at 'a.a1': existing 'b' vs. new 'c'."),
 		],
 		[{ a: { a1: ["a2"] } }, { a: { a1: ["a2"] } }, undefined],
 		[{ a: { a1: ["a2"] } }, { a: { a1: ["a3"] } }, { a: { a1: ["a2", "a3"] } }],

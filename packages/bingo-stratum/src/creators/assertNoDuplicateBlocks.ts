@@ -1,6 +1,5 @@
-import { AboutBase } from "bingo";
-
 import { PresetDefinition } from "../types/presets.js";
+import { getName } from "../utils/getName.js";
 
 export function assertNoDuplicateBlocks<Options extends object>(
 	presetDefinition: PresetDefinition<Options>,
@@ -15,8 +14,4 @@ export function assertNoDuplicateBlocks<Options extends object>(
 			);
 		}
 	}
-}
-
-function getName(value: { about?: AboutBase }) {
-	return value.about?.name ?? "(anonymous)";
 }
