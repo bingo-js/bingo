@@ -13,9 +13,9 @@ import { logStartText } from "../loggers/logStartText.js";
 import { CLIMessage } from "../messages.js";
 import { parseZodArgs } from "../parsers/parseZodArgs.js";
 import { promptForOptionSchemas } from "../prompts/promptForOptionSchemas.js";
+import { checkUncommittedChanges } from "../repository/checkUncommittedChanges.js";
 import { clearLocalGitTags } from "../repository/clearLocalGitTags.js";
 import { createInitialCommit } from "../repository/createInitialCommit.js";
-import { hasUncommittedChanges } from "../repository/hasUncommittedChanges.js";
 import { resolveLocalRepository } from "../repository/resolveLocalRepository.js";
 import { CLIStatus } from "../status.js";
 import { ModeResults } from "../types.js";
@@ -73,11 +73,14 @@ export async function runModeTransition({
 	// Templates infer options from files on disk, so clearing must happen before
 	// prepareOptions. It can't be undone, so it's refused on uncommitted changes.
 	if (repositoryLocator) {
-		if (await hasUncommittedChanges(system.runner)) {
+		const uncommittedChanges = await checkUncommittedChanges(system.runner);
+		if (uncommittedChanges !== "clean") {
 			logRerunSuggestion(argv, providedOptions);
 			return {
 				error: new Error(
-					`Transitioning a repository cloned from ${repositoryLocator} clears all of its files, but this one has uncommitted changes. Commit or stash them, then re-run.`,
+					uncommittedChanges === "changes"
+						? `Transitioning a repository cloned from ${repositoryLocator} clears all of its files, but this one has uncommitted changes. Commit or stash them, then re-run.`
+						: `Transitioning a repository cloned from ${repositoryLocator} clears all of its files, but it couldn't be determined whether this one has uncommitted changes. Make sure git is installed and this is a git repository, then re-run.`,
 				),
 				status: CLIStatus.Error,
 			};

@@ -98,11 +98,11 @@ vi.mock("../repository/createInitialCommit.js", () => ({
 	},
 }));
 
-const mockHasUncommittedChanges = vi.fn();
+const mockCheckUncommittedChanges = vi.fn();
 
-vi.mock("../repository/hasUncommittedChanges.js", () => ({
-	get hasUncommittedChanges() {
-		return mockHasUncommittedChanges;
+vi.mock("../repository/checkUncommittedChanges.js", () => ({
+	get checkUncommittedChanges() {
+		return mockCheckUncommittedChanges;
 	},
 }));
 
@@ -291,7 +291,7 @@ describe("runModeTransition", () => {
 
 	it("returns an error without clearing the existing repository when it has uncommitted changes and a forked repository locator is available", async () => {
 		mockGetForkedRepositoryLocator.mockResolvedValueOnce("a/b");
-		mockHasUncommittedChanges.mockResolvedValueOnce(true);
+		mockCheckUncommittedChanges.mockResolvedValueOnce("changes");
 
 		const actual = await runModeTransition({
 			argv,
@@ -307,7 +307,33 @@ describe("runModeTransition", () => {
 			),
 			status: CLIStatus.Error,
 		});
-		expect(mockHasUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
+		expect(mockCheckUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
+		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
+		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
+		expect(mockPrepareOptions).not.toHaveBeenCalled();
+		expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, {});
+	});
+
+	it("returns an error without clearing the existing repository when uncommitted changes can't be determined and a forked repository locator is available", async () => {
+		mockGetForkedRepositoryLocator.mockResolvedValueOnce("a/b");
+		mockCheckUncommittedChanges.mockResolvedValueOnce("unknown");
+
+		const actual = await runModeTransition({
+			argv,
+			configFile: undefined,
+			display,
+			from,
+			template: templateWithRepository,
+		});
+
+		expect(actual).toEqual({
+			error: new Error(
+				"Transitioning a repository cloned from a/b clears all of its files, but it couldn't be determined whether this one has uncommitted changes. Make sure git is installed and this is a git repository, then re-run.",
+			),
+			status: CLIStatus.Error,
+		});
+		expect(mockCheckUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
 		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
 		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
 		expect(mockPrepareOptions).not.toHaveBeenCalled();
@@ -317,7 +343,7 @@ describe("runModeTransition", () => {
 
 	it("clears the existing repository after reading config settings and before preparing options when a forked repository locator is available", async () => {
 		mockGetForkedRepositoryLocator.mockResolvedValueOnce("a/b");
-		mockHasUncommittedChanges.mockResolvedValueOnce(false);
+		mockCheckUncommittedChanges.mockResolvedValueOnce("clean");
 		mockPromptForOptionSchemas.mockResolvedValueOnce({
 			prompted: promptedOptions,
 		});
@@ -339,14 +365,14 @@ describe("runModeTransition", () => {
 		const [readConfigSettingsAt] =
 			mockReadConfigSettings.mock.invocationCallOrder;
 		const [checkedUncommittedChangesAt] =
-			mockHasUncommittedChanges.mock.invocationCallOrder;
+			mockCheckUncommittedChanges.mock.invocationCallOrder;
 		const [clearedTemplateFilesAt] =
 			mockClearTemplateFiles.mock.invocationCallOrder;
 		const [clearedLocalGitTagsAt] =
 			mockClearLocalGitTags.mock.invocationCallOrder;
 		const [preparedOptionsAt] = mockPrepareOptions.mock.invocationCallOrder;
 
-		expect(mockHasUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
+		expect(mockCheckUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
 		expect(checkedUncommittedChangesAt).toBeGreaterThan(readConfigSettingsAt);
 		expect(clearedTemplateFilesAt).toBeGreaterThan(checkedUncommittedChangesAt);
 		expect(clearedTemplateFilesAt).toBeLessThan(preparedOptionsAt);
@@ -372,13 +398,14 @@ describe("runModeTransition", () => {
 			outro: CLIMessage.Done,
 			status: CLIStatus.Success,
 		});
-		expect(mockHasUncommittedChanges).not.toHaveBeenCalled();
+		expect(mockCheckUncommittedChanges).not.toHaveBeenCalled();
 		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
 		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
 	});
 
 	it("clears the existing repository online when a forked repository locator is available and offline is falsy", async () => {
+		mockCheckUncommittedChanges.mockResolvedValueOnce("clean");
 		mockPromptForOptionSchemas.mockResolvedValueOnce({
 			prompted: promptedOptions,
 		});
@@ -411,6 +438,7 @@ describe("runModeTransition", () => {
 	});
 
 	it("clears the existing repository online when a remote is true, a locator exists, and offline is falsy", async () => {
+		mockCheckUncommittedChanges.mockResolvedValueOnce("clean");
 		mockPromptForOptionSchemas.mockResolvedValueOnce({
 			prompted: promptedOptions,
 		});
@@ -474,6 +502,7 @@ describe("runModeTransition", () => {
 	});
 
 	it("clears the existing repository offline when a forked repository locator is available and offline is true", async () => {
+		mockCheckUncommittedChanges.mockResolvedValueOnce("clean");
 		mockPromptForOptionSchemas.mockResolvedValueOnce({
 			prompted: promptedOptions,
 		});
