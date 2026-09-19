@@ -1,11 +1,13 @@
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { z } from "zod";
 
 import { Template } from "../types/templates.js";
 import { ClackDisplay } from "./display/createClackDisplay.js";
 import { logHelpText } from "./loggers/logHelpText.js";
 import { logOutro } from "./loggers/logOutro.js";
+import { logUnknownFlags } from "./loggers/logUnknownFlags.js";
 import { RunCLIRawValues } from "./parseProcessArgv.js";
+import { getUnknownFlags } from "./parsers/getUnknownFlags.js";
 import { readProductionSettings } from "./readProductionSettings.js";
 import { runModeSetup } from "./setup/runModeSetup.js";
 import { CLIStatus } from "./status.js";
@@ -39,13 +41,19 @@ export async function runCLI({
 	template,
 	values,
 }: RunCLISettings) {
+	const unknownFlags = getUnknownFlags(values, template.options);
+	if (unknownFlags.length) {
+		logUnknownFlags(unknownFlags);
+		return { status: CLIStatus.Error };
+	}
+
 	const validatedValues = valuesSchema.parse(values);
 	const productionSettings = await readProductionSettings({
 		from,
 		...validatedValues,
 	});
 	if (productionSettings instanceof Error) {
-		logOutro(chalk.red(productionSettings.message));
+		logOutro(styleText("red", productionSettings.message));
 		return CLIStatus.Error;
 	}
 	if (validatedValues.help) {

@@ -1,7 +1,7 @@
 import * as prompts from "@clack/prompts";
 import { BingoSystem } from "bingo-systems";
-import chalk from "chalk";
 import { newGitHubRepository, RepositoryLocator } from "new-github-repository";
+import { styleText } from "node:util";
 
 import { Template } from "../../types/templates.js";
 import { ClackDisplay } from "../display/createClackDisplay.js";
@@ -17,7 +17,7 @@ export async function createRemoteRepository(
 	const remoteDescriptor = `${locator.owner}/${locator.repository}`;
 	const creationResult = await runSpinnerTask(
 		display,
-		`Creating repository on GitHub: ${chalk.green(remoteDescriptor)}`,
+		`Creating repository on GitHub: ${styleText("green", remoteDescriptor)}`,
 		`Created repository on GitHub`,
 		async (): Promise<undefined> => {
 			await newGitHubRepository({
@@ -37,7 +37,7 @@ export async function createRemoteRepository(
 	prompts.log.step(
 		[
 			"You've got a new repository ready to use in:",
-			`  ${chalk.green(`https://github.com/${remoteDescriptor}`)}`,
+			`  ${styleText("green", `https://github.com/${remoteDescriptor}`)}`,
 		].join("\n"),
 	);
 }

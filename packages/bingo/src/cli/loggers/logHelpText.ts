@@ -1,5 +1,5 @@
 import * as prompts from "@clack/prompts";
-import chalk from "chalk";
+import { styleText } from "node:util";
 
 import { AnyShape } from "../../types/shapes.js";
 import { Template } from "../../types/templates.js";
@@ -19,9 +19,9 @@ export function logHelpText<OptionsShape extends AnyShape, Refinements>(
 	prompts.log.info(
 		[
 			"Running ",
-			chalk.green(`--help`),
+			styleText("green", `--help`),
 			" for ",
-			chalk.green(`--mode ${mode}`),
+			styleText("green", `--mode ${mode}`),
 			".",
 		].join(""),
 	);

@@ -33,9 +33,9 @@ describe("isZodDefaultDef", () => {
 		["default tuple", z.tuple([z.string()]).default([""]), true],
 		["date", z.date(), false],
 		["default date", z.date().default(new Date()), true],
-		["native enum", z.nativeEnum(Value), false],
-		["default native enum", z.nativeEnum(Value).default(Value.A), true],
+		["native enum", z.enum(Value), false],
+		["default native enum", z.enum(Value).default(Value.A), true],
 	])("%s", (_, schema, expected) => {
-		expect(isZodDefaultDef(schema._def)).toBe(expected);
+		expect(isZodDefaultDef(schema.def)).toBe(expected);
 	});
 });

@@ -1,5 +1,6 @@
 import { allPropertiesLazy } from "all-properties-lazy";
-import chalk from "chalk";
+import { produceTemplate } from "bingo";
+import { styleText } from "node:util";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
@@ -27,6 +28,27 @@ const mockLog = vi.fn();
 const mockOptions = { name: "Test Name" };
 
 describe("createStratumTemplate", () => {
+	it("can be passed to APIs taking in a generic Template", async () => {
+		const template = base.createStratumTemplate({
+			presets: [
+				base.createPreset({
+					about: { name: "Example" },
+					blocks: [
+						base.createBlock({
+							produce: () => ({ files: { "example.txt": "example" } }),
+						}),
+					],
+				}),
+			],
+		});
+
+		const actual = await produceTemplate(template, {
+			options: { ...mockOptions, preset: "example" },
+		});
+
+		expect(actual).toEqual({ files: { "example.txt": "example" } });
+	});
+
 	describe("blocks", () => {
 		it("adds extra blocks alongside those from presets when the template definition includes them", () => {
 			const blockInsidePreset = base.createBlock({
@@ -86,6 +108,37 @@ describe("createStratumTemplate", () => {
 				"preset",
 				"add-example-block",
 				"exclude-example-block",
+			]);
+		});
+
+		it("adds a block refinement option when a named block is only outside presets", () => {
+			const template = base.createStratumTemplate({
+				blocks: [
+					base.createBlock({
+						about: { name: "Outside Block" },
+						produce: vi.fn(),
+					}),
+				],
+				presets: [
+					base.createPreset({
+						about: { name: "Example Preset" },
+						blocks: [
+							base.createBlock({
+								about: { name: "Example Block" },
+								produce: vi.fn(),
+							}),
+						],
+					}),
+				],
+			});
+
+			expect(Object.keys(template.options)).toEqual([
+				"name",
+				"preset",
+				"add-example-block",
+				"add-outside-block",
+				"exclude-example-block",
+				"exclude-outside-block",
 			]);
 		});
 
@@ -174,7 +227,7 @@ describe("createStratumTemplate", () => {
 				const options = await allPropertiesLazy(lazyOptions);
 
 				expect(mockLog).toHaveBeenCalledWith(
-					`Detected ${chalk.blue(`--add-a`)} from existing files on disk`,
+					`Detected ${styleText("blue", `--add-a`)} from existing files on disk`,
 				);
 				expect(options).toEqual({ "add-a": true });
 			});
@@ -205,7 +258,7 @@ describe("createStratumTemplate", () => {
 				const options = await allPropertiesLazy(lazyOptions);
 
 				expect(mockLog).toHaveBeenCalledWith(
-					`Detected ${chalk.blue(`--add-a`)} ${chalk.blue(`--add-b`)} from existing files on disk`,
+					`Detected ${styleText("blue", `--add-a`)} ${styleText("blue", `--add-b`)} from existing files on disk`,
 				);
 				expect(options).toEqual({
 					"add-a": true,
@@ -232,7 +285,7 @@ describe("createStratumTemplate", () => {
 				const options = await allPropertiesLazy(lazyOptions);
 
 				expect(mockLog).toHaveBeenCalledWith(
-					`Detected ${chalk.blue(`--preset example`)} from existing files on disk`,
+					`Detected ${styleText("blue", `--preset example`)} from existing files on disk`,
 				);
 				expect(options).toEqual({ preset: presetName });
 			});

@@ -2,6 +2,9 @@
 	"$schema": "https://unpkg.com/knip@latest/schema.json",
 	"ignoreExportsUsedInFile": { "interface": true, "type": true },
 	"workspaces": {
+		".": {
+			"ignoreDependencies": ["@changesets/cli"]
+		},
 		"packages/bingo": {
 			"entry": ["src/index.ts!"],
 			"project": ["src/**/*.ts!"]

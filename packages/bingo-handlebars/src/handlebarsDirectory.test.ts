@@ -44,7 +44,7 @@ describe("handlebarsDirectory", () => {
 		const actual = await handlebarsDirectory(sourcePath, options);
 
 		expect(actual).toEqual({
-			index: ["123"],
+			index: "123",
 		});
 	});
 });

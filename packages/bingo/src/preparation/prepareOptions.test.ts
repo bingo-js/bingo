@@ -11,6 +11,7 @@ const system = {
 		octokit: {} as Octokit,
 	},
 	fs: {
+		glob: vi.fn(),
 		readDirectory: vi.fn(),
 		readFile: vi.fn(),
 		writeDirectory: vi.fn(),

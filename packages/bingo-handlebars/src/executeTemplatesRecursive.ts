@@ -1,4 +1,9 @@
-import { CreatedDirectory, CreatedEntry, CreatedFileEntry } from "bingo-fs";
+import {
+	CreatedDirectory,
+	CreatedEntry,
+	CreatedFileEntry,
+	CreatedFileMetadata,
+} from "bingo-fs";
 
 import { executeTemplate } from "./executeTemplate.js";
 
@@ -23,9 +28,10 @@ export function executeTemplatesRecursive(
 	}
 
 	if (Array.isArray(source)) {
-		return source.length === 1
-			? [executeTemplate(source[0], options)]
-			: [executeTemplate(source[0], options), source[1]];
+		const contents = executeTemplate(source[0], options);
+		const metadata = source[1] && simplifyMetadata(source[1]);
+
+		return metadata ? [contents, metadata] : contents;
 	}
 
 	return Object.fromEntries(
@@ -34,4 +40,13 @@ export function executeTemplatesRecursive(
 			executeTemplatesRecursive(value, options),
 		]),
 	);
+}
+
+function simplifyMetadata({
+	executable,
+	...rest
+}: CreatedFileMetadata): CreatedFileMetadata | undefined {
+	const simplified = executable ? { ...rest, executable } : rest;
+
+	return Object.keys(simplified).length ? simplified : undefined;
 }

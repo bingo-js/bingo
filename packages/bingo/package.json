@@ -1,6 +1,6 @@
 {
 	"name": "bingo",
-	"version": "0.9.2",
+	"version": "0.11.0",
 	"description": "Delightful templates for web repositories. 💝",
 	"homepage": "https://create.bingo",
 	"repository": {
@@ -30,7 +30,6 @@
 		"bingo-systems": "workspace:^",
 		"cached-factory": "^0.1.0",
 		"call-id": "^0.1.0",
-		"chalk": "^5.6.2",
 		"get-github-auth-token": "^0.1.2",
 		"git-url-parse": "^16.1.0",
 		"hash-object": "^5.0.1",
@@ -40,7 +39,7 @@
 		"read-pkg": "^10.0.0",
 		"slugify": "^1.6.6",
 		"without-undefined-properties": "^0.1.2",
-		"zod": "^3.24.2"
+		"zod": "^4.4.3"
 	},
 	"devDependencies": {
 		"@types/hosted-git-info": "3.0.5",
@@ -48,6 +47,6 @@
 		"octokit": "5.0.5"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": ">=22"
 	}
 }

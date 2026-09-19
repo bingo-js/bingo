@@ -1,5 +1,4 @@
 import { CreatedDirectory } from "bingo-fs";
-import { ZodRawShape } from "zod";
 
 import { AboutBase } from "./about.js";
 import { CreateTemplateConfig } from "./configs.js";
@@ -40,7 +39,7 @@ export interface RepositoryLocator {
  * @see {@link https://create.bingo/build/concepts/templates}
  */
 export interface Template<
-	OptionsShape extends AnyShape = ZodRawShape,
+	OptionsShape extends AnyShape = AnyShape,
 	Refinements = unknown,
 > extends TemplateDefinition<OptionsShape, Refinements> {
 	/**

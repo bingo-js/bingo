@@ -1,5 +1,5 @@
 import * as prompts from "@clack/prompts";
-import chalk from "chalk";
+import { styleText } from "node:util";
 
 import { packageData } from "../packageData.js";
 import { Template } from "../types/templates.js";
@@ -38,7 +38,7 @@ export async function runTemplateCLI(
 	return await runInsideClackDisplay(templatePackageData, async (display) => {
 		if (template.about?.repository) {
 			prompts.log.info(
-				`Learn more on:\n  ${chalk.blue(`https://github.com/${template.about.repository.owner}/${template.about.repository.repository}`)}`,
+				`Learn more on:\n  ${styleText("blue", `https://github.com/${template.about.repository.owner}/${template.about.repository.repository}`)}`,
 			);
 		}
 

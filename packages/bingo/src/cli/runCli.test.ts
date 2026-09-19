@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { describe, expect, it, vi } from "vitest";
 
 import { createTemplate } from "../creators/createTemplate.js";
@@ -11,6 +11,14 @@ const mockLogHelpText = vi.fn();
 vi.mock("./loggers/logHelpText.js", () => ({
 	get logHelpText() {
 		return mockLogHelpText;
+	},
+}));
+
+const mockLogUnknownFlags = vi.fn();
+
+vi.mock("./loggers/logUnknownFlags.js", () => ({
+	get logUnknownFlags() {
+		return mockLogUnknownFlags;
 	},
 }));
 
@@ -53,6 +61,22 @@ const template = createTemplate({
 const argv = ["npx", "bingo-example"];
 
 describe("runCli", () => {
+	it("logs unknown flags and errors when an unknown flag is provided", async () => {
+		const actual = await runCLI({
+			argv,
+			display: createClackDisplay(),
+			from: "",
+			template,
+			values: { "skip-file": true } as object,
+		});
+
+		expect(mockLogUnknownFlags).toHaveBeenCalledWith([
+			{ flag: "skip-file", suggestion: "skip-files" },
+		]);
+		expect(actual).toEqual({ status: CLIStatus.Error });
+		expect(mockReadProductionSettings).not.toHaveBeenCalled();
+	});
+
 	it("logs the error when readProductionSettings resolves an error", async () => {
 		const error = new Error("Oh no!");
 		mockReadProductionSettings.mockResolvedValueOnce(error);
@@ -65,7 +89,7 @@ describe("runCli", () => {
 			values: {},
 		});
 
-		expect(mockLogOutro).toHaveBeenCalledWith(chalk.red(error.message));
+		expect(mockLogOutro).toHaveBeenCalledWith(styleText("red", error.message));
 		expect(actual).toBe(CLIStatus.Error);
 	});
 

@@ -1,5 +1,5 @@
 import * as prompts from "@clack/prompts";
-import chalk from "chalk";
+import { styleText } from "node:util";
 
 import { getRerunCommand } from "./getRerunCommand.js";
 
@@ -11,8 +11,9 @@ export function logRerunSuggestion(argv: string[], prompted: object) {
 
 	prompts.log.info(
 		[
-			chalk.italic(`Tip: to run again with the same input values, use:`),
-			chalk.blue(
+			styleText("italic", `Tip: to run again with the same input values, use:`),
+			styleText(
+				"blue",
 				[
 					getRerunCommand(argv),
 					promptedEntries

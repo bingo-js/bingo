@@ -2,7 +2,7 @@ import { describe, expect, it, test, vi } from "vitest";
 import { z } from "zod";
 
 import { createTemplate } from "../../creators/createTemplate.js";
-import { cliArgsOptions } from "../parseProcessArgv.js";
+import { cliArgsOptions } from "../cliArgsOptions.js";
 import { logHelpText } from "./logHelpText.js";
 
 const mockLog = {

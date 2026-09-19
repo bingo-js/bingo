@@ -1,4 +1,5 @@
 import { AnyShape } from "../../types/shapes.js";
+import { getSchemaDescription } from "../../utils/getSchemaDescription.js";
 import { getSchemaTypeName } from "../../utils/getSchemaTypeName.js";
 import { logHelpOptions } from "./logHelpOptions.js";
 
@@ -9,7 +10,7 @@ export function logSchemasHelpOptions(packageName: string, schemas: AnyShape) {
 		Object.entries(schemas)
 			.map(([flag, schema]) => ({
 				flag: `--${flag}`,
-				text: asSentence(schema.description),
+				text: asSentence(getSchemaDescription(schema)),
 				type: getSchemaTypeName(schema),
 			}))
 			// TODO: Once a Zod-to-args conversion is made, reuse that here...

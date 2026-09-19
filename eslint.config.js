@@ -83,6 +83,10 @@ export default defineConfig(
 		},
 		rules: {
 			// These on-by-default rules work well for this repo if configured
+			"@typescript-eslint/no-unnecessary-condition": [
+				"error",
+				{ allowConstantLoopConditions: "only-allowed-literals" },
+			],
 			"@typescript-eslint/no-unused-vars": ["error", { caughtErrors: "all" }],
 		},
 	},

@@ -44,6 +44,10 @@ Only PR titles need to be in that format, not individual commits.
 Don't worry if you get this wrong: you can always change the PR title after sending it.
 Check [previously merged PRs](https://github.com/bingo-js/bingo/pulls?q=is%3Apr+is%3Amerged+-label%3Adependencies+) for reference.
 
+Finally, if your PR changes anything user-facing in a published package, run `pnpm changeset` to [add a changeset](https://changesets.dev/guide/adding-a-changeset).
+Changesets should read the way you'd want the change to appear in a changelog, so don't use conventional commit syntax in them: everything after the colon in your PR title is usually a good starting point.
+Our release automation uses them to work out each package's next version number.
+
 #### Draft PRs
 
 If you don't think your PR is ready for review, [set it as a draft](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-stage-of-a-pull-request#converting-a-pull-request-to-a-draft).

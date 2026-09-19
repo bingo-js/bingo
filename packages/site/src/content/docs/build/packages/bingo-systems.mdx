@@ -155,26 +155,33 @@ _Reading_ file systems are provided to [Input Contexts](/build/details/contexts#
 These file systems expose simplified views of the underlying directories and files that are tailored to working with [`bingo-fs`](/build/packages/bingo-fs).
 
 ```ts
+export type Glob = (patterns: string | string[]) => Promise<string[]>;
+
 export type ReadDirectory = (filePath: string) => Promise<string[]>;
 
 export type ReadFile = (filePath: string) => Promise<string>;
 
 export interface ReadingFileSystem {
+	glob: Glob;
 	readDirectory: ReadDirectory;
 	readFile: ReadFile;
 }
 ```
 
+`glob` resolves with the paths matching one or more [glob patterns](https://nodejs.org/api/fs.html#fspromisesglobpattern-options), relative to the current working directory.
+Patterns are matched by [`node:fs`](https://nodejs.org/api/fs.html).
+
 #### `createReadingFileSystem`
 
 Creates a new `ReadingFileSystem` instance.
-Internally, it calls to [`node:fs`](https://nodejs.org/api/fs.html) to read directories and files.
+Internally, it calls to [`node:fs`](https://nodejs.org/api/fs.html) to match globs and read directories and files.
 
 ```ts
 import { createReadingFileSystem } from "bingo-systems";
 
 const files = createReadingFileSystem();
 
+await files.glob(".github/**/*.yml");
 await files.readDirectory("src");
 await files.readFile("src/index.js");
 ```
@@ -194,7 +201,7 @@ export interface WritingFileSystem extends ReadingFileSystem {
 #### `createWritingFileSystem`
 
 Creates a new `WritingFileSystem` instance.
-Internally, it calls to [`node:fs`](https://nodejs.org/api/fs.html) to read and write directories and files.
+Internally, it calls to [`node:fs`](https://nodejs.org/api/fs.html) to match globs and read and write directories and files.
 
 ```ts
 import { createWritingFileSystem } from "bingo-systems";

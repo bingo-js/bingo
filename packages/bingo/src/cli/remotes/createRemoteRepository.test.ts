@@ -1,5 +1,5 @@
 import { BingoSystem } from "bingo-systems";
-import chalk from "chalk";
+import { styleText } from "node:util";
 import { describe, expect, it, vi } from "vitest";
 
 import { Template } from "../../types/templates.js";
@@ -77,7 +77,7 @@ describe(createRemoteRepository, () => {
 		expect(mockLog.step).toHaveBeenCalledWith(
 			[
 				"You've got a new repository ready to use in:",
-				`  ${chalk.green(`https://github.com/owner/repository`)}`,
+				`  ${styleText("green", `https://github.com/owner/repository`)}`,
 			].join("\n"),
 		);
 	});

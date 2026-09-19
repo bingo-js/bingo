@@ -15,6 +15,7 @@ describe("createInput", () => {
 		const actual = input({
 			fetchers: createSystemFetchers({ fetch: vi.fn() }),
 			fs: {
+				glob: vi.fn(),
 				readDirectory: vi.fn(),
 				readFile: vi.fn(),
 			},
@@ -41,6 +42,7 @@ describe("createInput", () => {
 			},
 			fetchers: createSystemFetchers({ fetch: vi.fn() }),
 			fs: {
+				glob: vi.fn(),
 				readDirectory: vi.fn(),
 				readFile: vi.fn(),
 			},

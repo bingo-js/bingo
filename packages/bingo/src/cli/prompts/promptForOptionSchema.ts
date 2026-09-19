@@ -1,22 +1,25 @@
 import * as prompts from "@clack/prompts";
 import * as z from "zod";
 
+import { getSchemaDescription } from "../../utils/getSchemaDescription.js";
 import { isZodDefaultDef } from "../schemas/isZodDefaultDef.js";
-import { PromptFriendlyZodDef } from "../schemas/types.js";
+import { PromptFriendlyZodDef, ZodDefType } from "../schemas/types.js";
 import { validateNumber, validatorFromSchema } from "./validators.js";
 
 export async function promptForOptionSchema(
 	key: string,
-	schema: z.ZodTypeAny,
+	schema: z.ZodType,
 	description: string | undefined,
 	defaultValue: unknown,
 ) {
-	const def = schema._def as PromptFriendlyZodDef;
+	const def = schema.def as PromptFriendlyZodDef;
 	if (isZodDefaultDef(def)) {
+		const innerType = def.innerType as z.ZodType;
+
 		return await promptForOptionSchema(
 			key,
-			def.innerType,
-			def.innerType.description,
+			innerType,
+			getSchemaDescription(innerType),
 			defaultValue,
 		);
 	}
@@ -27,8 +30,8 @@ export async function promptForOptionSchema(
 	let value: unknown;
 
 	while (value === undefined || value === "") {
-		switch (def.typeName) {
-			case z.ZodFirstPartyTypeKind.ZodBoolean: {
+		switch (def.type) {
+			case ZodDefType.Boolean: {
 				value = await prompts.confirm({
 					initialValue: defaultValue as boolean,
 					message,
@@ -36,8 +39,10 @@ export async function promptForOptionSchema(
 				break;
 			}
 
-			case z.ZodFirstPartyTypeKind.ZodEnum: {
-				const options = def.values.map((value) => ({ value }));
+			case ZodDefType.Enum: {
+				const options = z.core.util
+					.getEnumValues(def.entries)
+					.map((value) => ({ value })) as { value: string }[];
 				const text = await prompts.select({
 					initialValue: defaultValue as string,
 					message,
@@ -47,7 +52,7 @@ export async function promptForOptionSchema(
 				return cancelOrParse(schema, text);
 			}
 
-			case z.ZodFirstPartyTypeKind.ZodNumber:
+			case ZodDefType.Number:
 				value = Number(
 					await prompts.text({
 						message,
@@ -57,13 +62,14 @@ export async function promptForOptionSchema(
 				);
 				break;
 
-			case z.ZodFirstPartyTypeKind.ZodUnion: {
-				const options = def.options.map((option) => ({
+			case ZodDefType.Union: {
+				const options = def.options.flatMap((option) =>
 					// TODO: Handle non-string-like schema data types
 					// https://github.com/bingo-js/bingo/issues/285
-					// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-					value: `${(option._def as { value: number | string }).value}`,
-				}));
+					(option as z.ZodLiteral).def.values.map((value) => ({
+						value: String(value),
+					})),
+				);
 				const text = await prompts.select({
 					initialValue: defaultValue as string,
 					message,
@@ -88,6 +94,6 @@ export async function promptForOptionSchema(
 	return value;
 }
 
-function cancelOrParse(schema: z.ZodTypeAny, text: unknown) {
-	return prompts.isCancel(text) ? text : (schema.parse(text) as unknown);
+function cancelOrParse(schema: z.ZodType, text: unknown) {
+	return prompts.isCancel(text) ? text : schema.parse(text);
 }

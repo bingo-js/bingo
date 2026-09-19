@@ -25,6 +25,9 @@ describe("mergeFileEntries", () => {
 		[["a", {}], "a", "a"],
 		[["a", {}], ["a", {}], "a"],
 		[["a", {}], ["a", {}], "a"],
+		["a", ["a", { executable: false }], "a"],
+		[["a", { executable: false }], "a", "a"],
+		[["a"], ["a", { executable: false }], "a"],
 		[
 			["a", { executable: true }],
 			["a", { executable: true }],

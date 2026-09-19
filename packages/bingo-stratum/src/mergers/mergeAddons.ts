@@ -2,6 +2,7 @@ import hashObject from "hash-object";
 
 import { BlockWithAddons } from "../types/blocks.js";
 import { CreatedBlockAddons } from "../types/creations.js";
+import { createBlockAddons } from "../utils/createBlockAddons.js";
 
 export function mergeAddons<Options extends object | unknown[]>(
 	first: CreatedBlockAddons<object, Options>[],
@@ -20,7 +21,9 @@ export function mergeAddons<Options extends object | unknown[]>(
 		}
 	}
 
-	return Array.from(byBlock).map(([block, addons]) => ({ addons, block }));
+	return Array.from(byBlock).map(([block, addons]) =>
+		createBlockAddons(addons, block, block.about?.name),
+	);
 }
 
 function isNotNullish(value: unknown) {

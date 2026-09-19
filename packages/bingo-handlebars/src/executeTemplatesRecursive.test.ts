@@ -13,13 +13,28 @@ describe("executeTemplatesRecursive", () => {
 		expect(actual).toBeUndefined();
 	});
 
-	it("executes a template when source is an file with no options", () => {
+	it("returns a string when source is a file with no metadata", () => {
 		const actual = executeTemplatesRecursive(["{{abc}}"], options);
 
-		expect(actual).toEqual(["123"]);
+		expect(actual).toBe("123");
 	});
 
-	it("executes a template when source is an file with options", () => {
+	it("returns a string when source is a file with empty metadata", () => {
+		const actual = executeTemplatesRecursive(["{{abc}}", {}], options);
+
+		expect(actual).toBe("123");
+	});
+
+	it("returns a string when source is a file with executable: false metadata", () => {
+		const actual = executeTemplatesRecursive(
+			["{{abc}}", { executable: false }],
+			options,
+		);
+
+		expect(actual).toBe("123");
+	});
+
+	it("returns a tuple when source is a file with executable: true metadata", () => {
 		const actual = executeTemplatesRecursive(
 			["{{abc}}", { executable: true }],
 			options,
