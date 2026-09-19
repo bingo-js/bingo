@@ -56,8 +56,17 @@ async function intakeFile(
 	filePath: string,
 	mode?: number,
 ): Promise<IntakeEntry> {
+	const contents = (await fs.readFile(filePath)).toString();
+
+	// Windows file modes don't include executable bits, so there's no way to
+	// know whether a file is executable: leave the metadata unspecified.
+	// https://github.com/bingo-js/bingo/issues/419
+	if (process.platform === "win32") {
+		return [contents];
+	}
+
 	return [
-		(await fs.readFile(filePath)).toString(),
+		contents,
 		{ executable: isModeExecutable(mode ?? (await fs.stat(filePath)).mode) },
 	];
 }

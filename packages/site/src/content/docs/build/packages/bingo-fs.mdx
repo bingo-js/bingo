@@ -48,6 +48,11 @@ Values are the file or directory underneath that key.
 Directories read in from [`intake`](#intake) or [`intakeDirectory`](#intakedirectory) are represented as `IntakeDirectory` objects.
 `IntakeDirectory` objects represent files as `[string, CreatedFileMetadata?]` tuples.
 
+:::note
+Windows file modes don't include executable bits, so Node.js can't tell whether a file is executable.
+On Windows, files are read in without `executable` metadata: `["..."]` instead of `["...", { executable: false }]`.
+:::
+
 ## Files
 
 > TypeScript type name: `CreatedFileEntry`

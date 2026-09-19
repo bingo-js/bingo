@@ -36,6 +36,7 @@ describe("diffCreatedDirectory", () => {
 		[{ a: "" }, { a: [""] }, undefined],
 		[{ a: "" }, { a: ["", { executable: undefined }] }, undefined],
 		[{ a: "" }, { a: ["", { executable: true }] }, undefined],
+		[{ a: [""] }, { a: ["", { executable: false }] }, undefined],
 		[{ a: [""] }, { a: ["", { executable: true }] }, undefined],
 		[
 			{ a: ["", { executable: undefined }] },
