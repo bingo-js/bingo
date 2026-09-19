@@ -1,5 +1,11 @@
 # bingo
 
+## 0.11.2
+
+### Patch Changes
+
+- [#426](https://github.com/bingo-js/bingo/pull/426) [`7bc09e2`](https://github.com/bingo-js/bingo/commit/7bc09e289f9fb9eea28a231fc66da85d4e962dbe) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - fixed config file names to handle scoped template package names, so `@scope/create-example` reads from `scope-create-example.config.*`
+
 ## 0.11.1
 
 ### Patch Changes
