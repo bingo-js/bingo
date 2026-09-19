@@ -33,6 +33,9 @@ Running `npx create-example` in a repository with that `create-example.config.js
 Configuration files can have any extension supported by your Node.js version, including `.js`, `.mjs`, or if on the latest Node.js versions, `.ts`.
 :::
 
+Configuration file names are based on the template's package name.
+Scoped package names have their leading `@` removed and `/` replaced with `-`: for example, a `@scope/create-example` template would read from a `scope-create-example.config.*` file.
+
 ## `createConfig`
 
 Each template's exported `createConfig` function takes in an object containing any `options` and/or `refinements` to be passed to the template.
