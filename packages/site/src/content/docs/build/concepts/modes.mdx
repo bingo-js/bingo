@@ -37,7 +37,7 @@ Those creations typically includes scripts that delete files from known no-longe
 When running Bingo on the CLI in transition mode, it will:
 
 1. Check if the repository is freshly cloned from the template's [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
-   - If it is, remove all local files and Git history
+   - If it is, remove all local files and Git history (unless it has uncommitted changes, in which case stop with an error instead)
 2. Run the template's producer function
    - If this was a fresh template repository clone, create and push an initial commit
 3. Apply the template's creations to the repository

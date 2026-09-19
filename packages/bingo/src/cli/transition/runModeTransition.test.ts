@@ -98,6 +98,14 @@ vi.mock("../repository/createInitialCommit.js", () => ({
 	},
 }));
 
+const mockHasUncommittedChanges = vi.fn();
+
+vi.mock("../repository/hasUncommittedChanges.js", () => ({
+	get hasUncommittedChanges() {
+		return mockHasUncommittedChanges;
+	},
+}));
+
 const mockClearTemplateFiles = vi.fn();
 
 vi.mock("./clearTemplateFiles.js", () => ({
@@ -143,7 +151,9 @@ const template = createTemplate({
 
 const templateWithRepository = createTemplate({
 	about: { name: "Test Template", repository: { owner: "a", repository: "b" } },
-	options: {},
+	options: {
+		value: z.string().optional(),
+	},
 	produce: vi.fn(),
 });
 
@@ -258,6 +268,92 @@ describe("runModeTransition", () => {
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
 	});
 
+	it("doesn't clear the existing repository when readConfigSettings resolves an error and a forked repository locator is available", async () => {
+		const error = new Error("Oh no!");
+		mockGetForkedRepositoryLocator.mockResolvedValueOnce("a/b");
+		mockReadConfigSettings.mockResolvedValueOnce(error);
+
+		const actual = await runModeTransition({
+			argv,
+			configFile: "example.config.ts",
+			display,
+			from,
+			template: templateWithRepository,
+		});
+
+		expect(actual).toEqual({
+			error,
+			status: CLIStatus.Error,
+		});
+		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
+		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
+	});
+
+	it("returns an error without clearing the existing repository when it has uncommitted changes and a forked repository locator is available", async () => {
+		mockGetForkedRepositoryLocator.mockResolvedValueOnce("a/b");
+		mockHasUncommittedChanges.mockResolvedValueOnce(true);
+
+		const actual = await runModeTransition({
+			argv,
+			configFile: undefined,
+			display,
+			from,
+			template: templateWithRepository,
+		});
+
+		expect(actual).toEqual({
+			error: new Error(
+				"Transitioning a repository cloned from a/b clears all of its files, but this one has uncommitted changes. Commit or stash them, then re-run.",
+			),
+			status: CLIStatus.Error,
+		});
+		expect(mockHasUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
+		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
+		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
+		expect(mockPrepareOptions).not.toHaveBeenCalled();
+		expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, {});
+	});
+
+	it("clears the existing repository after reading config settings and before preparing options when a forked repository locator is available", async () => {
+		mockGetForkedRepositoryLocator.mockResolvedValueOnce("a/b");
+		mockHasUncommittedChanges.mockResolvedValueOnce(false);
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			prompted: promptedOptions,
+		});
+		mockResolveLocalRepository.mockResolvedValueOnce({});
+
+		const actual = await runModeTransition({
+			argv,
+			configFile: undefined,
+			display,
+			from,
+			template: templateWithRepository,
+		});
+
+		expect(actual).toEqual({
+			outro: CLIMessage.New,
+			status: CLIStatus.Success,
+		});
+
+		const [readConfigSettingsAt] =
+			mockReadConfigSettings.mock.invocationCallOrder;
+		const [checkedUncommittedChangesAt] =
+			mockHasUncommittedChanges.mock.invocationCallOrder;
+		const [clearedTemplateFilesAt] =
+			mockClearTemplateFiles.mock.invocationCallOrder;
+		const [clearedLocalGitTagsAt] =
+			mockClearLocalGitTags.mock.invocationCallOrder;
+		const [preparedOptionsAt] = mockPrepareOptions.mock.invocationCallOrder;
+
+		expect(mockHasUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
+		expect(checkedUncommittedChangesAt).toBeGreaterThan(readConfigSettingsAt);
+		expect(clearedTemplateFilesAt).toBeGreaterThan(checkedUncommittedChangesAt);
+		expect(clearedTemplateFilesAt).toBeLessThan(preparedOptionsAt);
+		expect(clearedLocalGitTagsAt).toBeGreaterThan(checkedUncommittedChangesAt);
+		expect(clearedLocalGitTagsAt).toBeLessThan(preparedOptionsAt);
+	});
+
 	it("doesn't clear the existing repository when the template does not have a repository locator", async () => {
 		mockPromptForOptionSchemas.mockResolvedValueOnce({
 			prompted: promptedOptions,
@@ -276,6 +372,7 @@ describe("runModeTransition", () => {
 			outro: CLIMessage.Done,
 			status: CLIStatus.Success,
 		});
+		expect(mockHasUncommittedChanges).not.toHaveBeenCalled();
 		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
 		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
