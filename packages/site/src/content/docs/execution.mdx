@@ -50,7 +50,7 @@ This mode will be used by default if the current directory is a Git repository a
 When running a Bingo template in transition mode, it will:
 
 1. Check if the repository is freshly cloned from the template's [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
-   - If it is, remove all local files and Git history (unless it has uncommitted changes, in which case stop with an error instead)
+   - If it is, remove all local files and Git history
 2. Run the template to generate a list of files, network requests, and shell commands
    - If this was a fresh template repository clone, create and push an initial commit
 3. Apply the template's creations to the repository
