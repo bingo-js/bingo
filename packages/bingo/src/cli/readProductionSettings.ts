@@ -27,12 +27,11 @@ export async function readProductionSettings({
 			: { mode: defaultMode };
 	}
 
-	const configFileTester = from
-		? new RegExp(`${from}\\.config\\.\\w+`)
-		: undefined;
+	const configFilePrefix =
+		from && `${from.replace(/^@/, "").replaceAll("/", "-")}.config.`;
 
 	for (const item of items) {
-		if (configFileTester?.test(item)) {
+		if (configFilePrefix && item.startsWith(configFilePrefix)) {
 			return {
 				configFile: path.join(directory, item),
 				mode: "transition",

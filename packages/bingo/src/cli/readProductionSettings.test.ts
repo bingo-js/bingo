@@ -86,6 +86,37 @@ describe("readProductionSettings", () => {
 		expect(actual).toEqual({ configFile, mode: "transition" });
 	});
 
+	it("returns the config file and mode: transition when a config file is found for a scoped package name", async () => {
+		const configFile = "scope-create-example.config.ts";
+		mockReaddir.mockResolvedValueOnce([configFile]);
+
+		const actual = await readProductionSettings({
+			from: "@scope/create-example",
+		});
+
+		expect(actual).toEqual({ configFile, mode: "transition" });
+	});
+
+	it("returns mode: setup when only a config file named after the raw scoped package name is found without a mode", async () => {
+		mockReaddir.mockResolvedValueOnce(["@scope-create-example.config.ts"]);
+
+		const actual = await readProductionSettings({
+			from: "@scope/create-example",
+		});
+
+		expect(actual).toEqual({ mode: "setup" });
+	});
+
+	it("returns mode: setup when only a config file with a prefixed name is found without a mode", async () => {
+		mockReaddir.mockResolvedValueOnce(["scope-create-example.config.ts"]);
+
+		const actual = await readProductionSettings({
+			from: "create-example",
+		});
+
+		expect(actual).toEqual({ mode: "setup" });
+	});
+
 	it("returns the config file relative to the directory when a config file is found with a directory", async () => {
 		const configFile = "create-example.config.ts";
 		mockReaddir.mockResolvedValueOnce([configFile]);
