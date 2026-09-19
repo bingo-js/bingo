@@ -1,5 +1,11 @@
 # bingo
 
+## 0.11.1
+
+### Patch Changes
+
+- [`ad18088`](https://github.com/bingo-js/bingo/commit/ad18088b399fb24a06136d0fd695f10e20e9191a) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - fixed `--help` to list `--owner`, `--repository`, and `--skip-scripts`, and to describe `--help` as a boolean
+
 ## 0.11.0
 
 ### Minor Changes
