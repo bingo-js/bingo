@@ -190,4 +190,4 @@ The merged result would be:
 ```
 
 Objects are merged recursively, and any other non-null values must match exactly.
-If a Block produces a different value for an Addon key than the value already known, such as `{ value: "a" }` and `{ value: "b" }`, Stratum throws an error naming the Block that produced the Addons, the Block receiving them, and the mismatched key.
+If a Block produces a different value for an Addon key than the value already known, such as `{ value: "a" }` and `{ value: "b" }`, Stratum will throw an error.
