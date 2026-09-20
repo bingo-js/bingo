@@ -48,9 +48,6 @@ const inputEchoArgs = {
 	value: z.union([z.number(), z.string()]),
 };
 
-/**
- * An input whose result type depends on its args.
- */
 interface InputEcho {
 	<Value extends number | string>(
 		context: InputContextWithArgs<{ value: Value }>,
@@ -67,9 +64,6 @@ const inputEchoAllArgs = {
 	values: z.array(z.union([z.number(), z.string()])),
 };
 
-/**
- * An input whose result type depends on its array args.
- */
 interface InputEchoAll {
 	<Value extends number | string>(
 		context: InputContextWithArgs<{ values: readonly Value[] }>,

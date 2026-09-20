@@ -11,9 +11,6 @@ import {
 	InputFromOctokitResult,
 } from "./index.js";
 
-/**
- * Equivalent to the type of a value inferred as const.
- */
 type DeepReadonly<T> = T extends readonly (infer Item)[]
 	? readonly DeepReadonly<Item>[]
 	: T extends object

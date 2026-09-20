@@ -25,9 +25,6 @@ const inputEchoArgs = {
 	value: z.union([z.number(), z.string()]),
 };
 
-/**
- * An input whose result type depends on its args.
- */
 interface InputEcho {
 	<Value extends number | string>(
 		context: InputContextWithArgs<{ value: Value }>,
