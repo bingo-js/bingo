@@ -32,11 +32,8 @@ export type ProcessText = (text: string, filePath: string) => string;
 export function diffCreatedDirectory(
 	actual: CreatedDirectory,
 	created: CreatedDirectory,
-	options: DiffCreatedDirectoryOptions | ProcessText = {},
+	{ processText = (text) => text }: DiffCreatedDirectoryOptions = {},
 ): DiffedCreatedDirectory | undefined {
-	const { processText = (text: string) => text } =
-		typeof options === "function" ? { processText: options } : options;
-
 	const result = diffCreatedDirectoryWorker(actual, created, ".", processText);
 
 	return result && withoutUndefinedProperties(result);

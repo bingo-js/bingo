@@ -157,9 +157,9 @@ describe("diffCreatedDirectory", () => {
 		CreatedDirectory,
 		DiffedCreatedDirectory | undefined,
 	][])("%j and %j", (actual, created, expected) => {
-		expect(
-			withoutColors(diffCreatedDirectory(actual, created, (text) => text)),
-		).toEqual(expected);
+		expect(withoutColors(diffCreatedDirectory(actual, created))).toEqual(
+			expected,
+		);
 	});
 
 	test("processes text with a processText option", () => {
