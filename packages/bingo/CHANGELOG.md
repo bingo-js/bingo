@@ -1,5 +1,11 @@
 # bingo
 
+## 0.11.3
+
+### Patch Changes
+
+- [#428](https://github.com/bingo-js/bingo/pull/428) [`d1d8076`](https://github.com/bingo-js/bingo/commit/d1d8076dfcaa2f8850d5242f64f5b7341af6ce2d) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - refused to clear a repository cloned from the template's repository in transition mode when it has uncommitted changes, and read config settings before clearing
+
 ## 0.11.2
 
 ### Patch Changes
