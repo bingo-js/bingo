@@ -1,6 +1,8 @@
 import { Octokit } from "octokit";
 import { describe, expect, it, vi } from "vitest";
+import { z } from "zod";
 
+import { createInput } from "../creators/createInput.js";
 import { createSystemContext } from "./createSystemContext.js";
 
 const mockOfflineFetchers = {
@@ -27,6 +29,15 @@ vi.mock("bingo-systems", () => ({
 	createSystemRunner: () => mockSystemRunner,
 	createWritingFileSystem: () => mockWritingFileSystem,
 }));
+
+const inputDoubler = createInput({
+	args: {
+		value: z.number(),
+	},
+	produce({ args }) {
+		return args.value * 2;
+	},
+});
 
 const mockDisplay = {
 	item: vi.fn(),
@@ -160,6 +171,14 @@ describe("createSystemContext", () => {
 					offline: true,
 				}),
 			);
+		});
+
+		it("passes args to an input with an args schema", () => {
+			const { take } = createSystemContext({ directory: "." });
+
+			const actual = take(inputDoubler, { value: 2 });
+
+			expect(actual).toBe(4);
 		});
 	});
 });

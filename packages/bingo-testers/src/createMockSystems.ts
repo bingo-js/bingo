@@ -1,4 +1,4 @@
-import { TakeInput } from "bingo";
+import { AnyShape, InferredObject, InputWithArgs, TakeInput } from "bingo";
 import { BingoSystem } from "bingo-systems";
 
 import { createMockFetchers } from "./createMockFetchers.js";
@@ -22,7 +22,10 @@ export function createMockSystems(
 
 	const take =
 		settings.take ??
-		(((input, args) => input({ args, take, ...system })) as TakeInput);
+		(((
+			input: InputWithArgs<unknown, AnyShape>,
+			args: InferredObject<AnyShape>,
+		) => input({ args, take, ...system })) as TakeInput);
 
 	return { system, take };
 }

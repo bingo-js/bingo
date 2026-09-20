@@ -6,7 +6,8 @@ import {
 	createWritingFileSystem,
 } from "bingo-systems";
 
-import { TakeInput } from "../types/inputs.js";
+import { InputWithArgs, TakeInput } from "../types/inputs.js";
+import { AnyShape, InferredObject } from "../types/shapes.js";
 import { createDisplay, Display } from "./createDisplay.js";
 
 export interface SystemContextSettings extends Partial<BingoSystem> {
@@ -27,7 +28,10 @@ export function createSystemContext(settings: SystemContextSettings) {
 		runner: settings.runner ?? createSystemRunner(settings.directory),
 	};
 
-	const take = ((input, args) =>
+	const take = ((
+		input: InputWithArgs<unknown, AnyShape>,
+		args: InferredObject<AnyShape>,
+	) =>
 		input({ args, offline: settings.offline, take, ...system })) as TakeInput;
 
 	return {

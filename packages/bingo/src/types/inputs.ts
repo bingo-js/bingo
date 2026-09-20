@@ -79,10 +79,37 @@ export type InputWithoutArgs<Result> = (
 ) => Result;
 
 /**
+ * Args provided to an Input, checked against the args expected by its context.
+ * Resolves to never on mismatch so calls fall through to the args schema overload.
+ * @template Args Values provided for the Input's args.
+ * @template Context Input context expected by the Input.
+ */
+export type ProvidedInputArgs<Args extends object, Context> =
+	Context extends InputContextWithArgs<infer Expected>
+		? Expected extends Args
+			? Args
+			: never
+		: never;
+
+/**
  * Shared context function to run an Input.
  * @see {@link http://create.bingo/build/details/contexts#input-take}
  */
 export interface TakeInput {
+	/**
+	 * Runs the produce() of an Input whose result type depends on its args.
+	 * @param input Input whose result type depends on its args.
+	 * @param args Values corresponding to the Input's args.
+	 */
+	<
+		const Args extends object,
+		Result,
+		Context extends InputContextWithoutArgs = InputContextWithArgs<Args>,
+	>(
+		input: (context: Context) => Result,
+		args: ProvidedInputArgs<Args, Context>,
+	): Result;
+
 	/**
 	 * Runs the produce() of an Input with args schema.
 	 * @param input Input that defines an args schema.
