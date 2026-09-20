@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"all-properties-lazy": "^0.1.0",
-		"cached-factory": "^0.1.0",
+		"cached-factory": "^0.3.0",
 		"hash-object": "^5.0.1",
 		"octokit": "^5.0.5",
 		"slugify": "^1.6.6",
