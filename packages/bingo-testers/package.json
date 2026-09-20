@@ -22,9 +22,10 @@
 		"build": "tsc"
 	},
 	"dependencies": {
+		"@vitest/utils": "^4.0.15",
 		"all-properties-lazy": "^0.1.0",
-		"diff": "^8.0.2",
 		"octokit": "^5.0.5",
+		"tinyrainbow": "^3.0.3",
 		"without-undefined-properties": "^0.1.2"
 	},
 	"devDependencies": {

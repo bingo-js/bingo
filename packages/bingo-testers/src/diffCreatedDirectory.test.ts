@@ -1,10 +1,30 @@
 import { CreatedDirectory } from "bingo-fs";
+import { stripVTControlCharacters } from "node:util";
+import c from "tinyrainbow";
 import { describe, expect, test } from "vitest";
 
 import {
 	diffCreatedDirectory,
 	DiffedCreatedDirectory,
 } from "./diffCreatedDirectory.js";
+
+function withoutColors(value: unknown): unknown {
+	if (typeof value === "string") {
+		return stripVTControlCharacters(value);
+	}
+
+	if (Array.isArray(value)) {
+		return value.map(withoutColors);
+	}
+
+	if (value && typeof value === "object") {
+		return Object.fromEntries(
+			Object.entries(value).map(([key, inner]) => [key, withoutColors(inner)]),
+		);
+	}
+
+	return value;
+}
 
 describe("diffCreatedDirectory", () => {
 	test.each([
@@ -16,9 +36,8 @@ describe("diffCreatedDirectory", () => {
 			{ a: "" },
 			{ a: "b\n" },
 			{
-				a: `@@ -0,0 +1,1 @@
-+b
-`,
+				a: `+ b
++`,
 			},
 		],
 		[{ a: "b\n" }, { a: "b\n" }, undefined],
@@ -26,9 +45,8 @@ describe("diffCreatedDirectory", () => {
 			{ a: "abc\n" },
 			{ a: "bbc\n" },
 			{
-				a: `@@ -1,1 +1,1 @@
--abc
-+bbc
+				a: `- abc
++ bbc
 `,
 			},
 		],
@@ -67,12 +85,8 @@ describe("diffCreatedDirectory", () => {
 				a: [
 					undefined,
 					{
-						executable: `@@ -1,1 +1,1 @@
--true
-\\ No newline at end of file
-+false
-\\ No newline at end of file
-`,
+						executable: `- true
++ false`,
 					},
 				],
 			},
@@ -92,9 +106,8 @@ describe("diffCreatedDirectory", () => {
 			{ a: ["b\n"] },
 			{ a: "" },
 			{
-				a: `@@ -1,1 +0,0 @@
--b
-`,
+				a: `- b
+-`,
 			},
 		],
 		[
@@ -116,9 +129,8 @@ describe("diffCreatedDirectory", () => {
 			{ a: { b: "d\n" } },
 			{
 				a: {
-					b: `@@ -1,1 +1,1 @@
--c
-+d
+					b: `- c
++ d
 `,
 				},
 			},
@@ -145,8 +157,64 @@ describe("diffCreatedDirectory", () => {
 		CreatedDirectory,
 		DiffedCreatedDirectory | undefined,
 	][])("%j and %j", (actual, created, expected) => {
-		expect(diffCreatedDirectory(actual, created, (text) => text)).toEqual(
+		expect(withoutColors(diffCreatedDirectory(actual, created))).toEqual(
 			expected,
 		);
+	});
+
+	test("processes text with a processText option", () => {
+		const actual = diffCreatedDirectory(
+			{ a: "b\n" },
+			{ a: "b\n\n" },
+			{ processText: (text) => text.trim() },
+		);
+
+		expect(actual).toBeUndefined();
+	});
+
+	describe("colors", () => {
+		test("colors removed and added lines", () => {
+			const actual = diffCreatedDirectory({ a: "b\n" }, { a: "c\n" });
+
+			expect(actual).toEqual({
+				a: [c.red("- b"), c.green("+ c"), ""].join("\n"),
+			});
+		});
+
+		test("highlights the changed segments within lines", () => {
+			const actual = diffCreatedDirectory(
+				{ a: "const value = 123;\nunchanged\n" },
+				{ a: "const value = 456;\nunchanged\n" },
+			);
+
+			expect(actual).toEqual({
+				a: [
+					c.red(`- const value = ${c.inverse("123")};`),
+					c.green(`+ const value = ${c.inverse("456")};`),
+					c.dim("  unchanged"),
+					"",
+				].join("\n"),
+			});
+		});
+
+		test("colors metadata diffs", () => {
+			const actual = diffCreatedDirectory(
+				{ a: ["", { executable: true }] },
+				{ a: ["", { executable: false }] },
+			);
+
+			expect(actual).toEqual({
+				a: [
+					undefined,
+					{
+						executable: [
+							c.red(`- ${c.inverse("tru")}e`),
+							// cspell:disable-next-line
+							c.green(`+ ${c.inverse("fals")}e`),
+						].join("\n"),
+					},
+				],
+			});
+		});
 	});
 });

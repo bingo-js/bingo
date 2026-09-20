@@ -1,7 +1,16 @@
+import { diffStringsUnified } from "@vitest/utils/diff";
 import { CreatedDirectory, CreatedEntry, CreatedFileMetadata } from "bingo-fs";
-import { createTwoFilesPatch } from "diff";
 import path from "node:path";
+import c from "tinyrainbow";
 import { withoutUndefinedProperties } from "without-undefined-properties";
+
+export interface DiffCreatedDirectoryOptions {
+	/**
+	 * Transforms each file's text before comparing, such as to normalize formatting.
+	 * @default (text) => text
+	 */
+	processText?: ProcessText;
+}
 
 export interface DiffedCreatedDirectory {
 	[i: string]: DiffedCreatedDirectory | DiffedCreatedFileEntry | undefined;
@@ -23,7 +32,7 @@ export type ProcessText = (text: string, filePath: string) => string;
 export function diffCreatedDirectory(
 	actual: CreatedDirectory,
 	created: CreatedDirectory,
-	processText: ProcessText,
+	{ processText = (text) => text }: DiffCreatedDirectoryOptions = {},
 ): DiffedCreatedDirectory | undefined {
 	const result = diffCreatedDirectoryWorker(actual, created, ".", processText);
 
@@ -172,17 +181,16 @@ function diffCreatedFileText(
 	pathToFile: string,
 	processText: ProcessText,
 ) {
-	const actualProcessed = processText(created, pathToFile);
-	const createdProcessed = processText(actual, pathToFile);
+	const actualProcessed = processText(actual, pathToFile);
+	const createdProcessed = processText(created, pathToFile);
 
 	return actualProcessed === createdProcessed
 		? undefined
-		: createTwoFilesPatch(
-				pathToFile,
-				pathToFile,
-				createdProcessed,
-				actualProcessed,
-			).replace(/^Index: .+\n=+\n-{3} .+\n\+{3} .+\n/gmu, "");
+		: diffStringsUnified(actualProcessed, createdProcessed, {
+				aColor: c.red,
+				bColor: c.green,
+				omitAnnotationLines: true,
+			});
 }
 function undefinedIfEmpty<T>(value: T) {
 	return !!value &&
