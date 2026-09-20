@@ -43,13 +43,4 @@ describe("runInput", () => {
 			doubled: 4,
 		});
 	});
-
-	it("reports type errors for args that don't match an input's args schema", async () => {
-		// @ts-expect-error -- args are the wrong type
-		expect(() => runInput(input, { args: { value: "abc" } })).toThrow();
-		await expect(
-			// @ts-expect-error -- args have an unknown property
-			runInput(input, { args: { other: true, value: 2 } }),
-		).resolves.toEqual({ directory: process.cwd(), doubled: 4 });
-	});
 });

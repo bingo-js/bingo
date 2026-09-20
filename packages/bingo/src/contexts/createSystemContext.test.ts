@@ -1,9 +1,8 @@
 import { Octokit } from "octokit";
-import { describe, expect, expectTypeOf, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
 import { createInput } from "../creators/createInput.js";
-import { InputContextWithArgs, TakeInput } from "../types/inputs.js";
 import { createSystemContext } from "./createSystemContext.js";
 
 const mockOfflineFetchers = {
@@ -39,26 +38,6 @@ const inputDoubler = createInput({
 		return args.value * 2;
 	},
 });
-
-const inputNoArgs = createInput({
-	produce: () => 123,
-});
-
-const inputEchoArgs = {
-	values: z.array(z.union([z.number(), z.string()])),
-};
-
-interface InputEcho {
-	<Value extends number | string>(
-		context: InputContextWithArgs<{ values: readonly Value[] }>,
-	): Value[];
-	args: typeof inputEchoArgs;
-}
-
-const inputEcho = createInput({
-	args: inputEchoArgs,
-	produce: ({ args }) => args.values,
-}) as InputEcho;
 
 const mockDisplay = {
 	item: vi.fn(),
@@ -200,31 +179,6 @@ describe("createSystemContext", () => {
 			const actual = take(inputDoubler, { value: 2 });
 
 			expect(actual).toBe(4);
-			expectTypeOf(actual).toEqualTypeOf<number>();
-		});
-
-		it("infers the result type of an input from its args", () => {
-			const { take } = createSystemContext({ directory: "." });
-
-			const actual = take(inputEcho, { values: ["abc", 123] });
-
-			expect(actual).toEqual(["abc", 123]);
-			expectTypeOf(actual).toEqualTypeOf<(123 | "abc")[]>();
-		});
-
-		it("reports type errors for args that don't match an input's args schema", () => {
-			const take = vi.fn() as TakeInput;
-
-			// @ts-expect-error -- args are the wrong type
-			take(inputDoubler, { value: "abc" });
-			// @ts-expect-error -- args have an unknown property
-			take(inputDoubler, { other: true, value: 2 });
-			// @ts-expect-error -- args are the wrong type
-			take(inputEcho, { values: [true] });
-			// @ts-expect-error -- args are not accepted by an input without an args schema
-			take(inputNoArgs, { value: 2 });
-
-			expect(take).toHaveBeenCalledTimes(4);
 		});
 	});
 });

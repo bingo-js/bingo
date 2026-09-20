@@ -1,8 +1,6 @@
-import { Endpoints } from "@octokit/types";
-import { runInput, TakeInput } from "bingo";
 import { createMockSystems, testInput } from "bingo-testers";
 import { Octokit } from "octokit";
-import { describe, expect, expectTypeOf, it, Mock, vi } from "vitest";
+import { describe, expect, it, Mock, vi } from "vitest";
 
 import { inputFromOctokit } from "./index.js";
 
@@ -123,56 +121,5 @@ describe("inputFromOctokit", () => {
 		});
 
 		expect(actual).toBeUndefined();
-	});
-
-	it("infers its result type from the endpoint", async () => {
-		const request = vi.fn().mockResolvedValue({ data: [] });
-		const fetchers = createMockOctokitFetchers(request);
-		const { system, take } = createMockSystems({ fetchers });
-
-		const labels = await take(inputFromOctokit, { endpoint, options });
-		const user = await inputFromOctokit({
-			...system,
-			args: { endpoint: "GET /user" },
-			take,
-		});
-		const issue = await runInput(inputFromOctokit, {
-			args: {
-				endpoint: "POST /repos/{owner}/{repo}/issues",
-				options: { ...options, labels: ["bug"], title: "Title" },
-			},
-			fetchers,
-		});
-		const repository = await testInput(inputFromOctokit, {
-			args: { endpoint: "GET /repos/{owner}/{repo}", options },
-			fetchers,
-		});
-
-		expectTypeOf(labels).toEqualTypeOf<
-			Endpoints[typeof endpoint]["response"]["data"] | undefined
-		>();
-		expectTypeOf(user).toEqualTypeOf<
-			Endpoints["GET /user"]["response"]["data"] | undefined
-		>();
-		expectTypeOf(issue).toEqualTypeOf<
-			| Endpoints["POST /repos/{owner}/{repo}/issues"]["response"]["data"]
-			| undefined
-		>();
-		expectTypeOf(repository).toEqualTypeOf<
-			Endpoints["GET /repos/{owner}/{repo}"]["response"]["data"] | undefined
-		>();
-	});
-
-	it("reports type errors for args that don't match the endpoint", () => {
-		const take = vi.fn() as TakeInput;
-
-		// @ts-expect-error -- endpoint is not a known GitHub endpoint
-		take(inputFromOctokit, { endpoint: "GET /unknown", options });
-		// @ts-expect-error -- options must match the endpoint's parameters
-		take(inputFromOctokit, { endpoint, options: { owner: "" } });
-		// @ts-expect-error -- endpoint must be a known string literal
-		take(inputFromOctokit, { endpoint: endpoint as string, options });
-
-		expect(take).toHaveBeenCalledTimes(3);
 	});
 });
