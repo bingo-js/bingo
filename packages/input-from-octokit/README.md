@@ -16,7 +16,6 @@ npm i input-from-octokit
 ```ts
 import { inputFromOctokit } from "input-from-octokit";
 
-// Type: Endpoints["GET /repos/{owner}/{repo}/labels"]["response"]["data"] | undefined
 await take(inputFromOctokit, {
 	endpoint: "GET /repos/{owner}/{repo}/labels",
 	options: { owner: "bingo-js", repo: "bingo" },
@@ -29,10 +28,6 @@ await take(inputFromOctokit, {
 
 - `endpoint` _(required)_: the GitHub API endpoint to request, such as `"GET /repos/{owner}/{repo}/labels"`
 - `options` _(optional)_: any parameters to send with the request, as accepted by [`octokit.request`](https://github.com/octokit/request.js)
-
-Endpoints are typed using [`@octokit/types`](https://github.com/octokit/types.ts).
-The `options` for a request are typed based on the `endpoint`, and are required if that endpoint has any required parameters.
-The result type of the input is inferred from the `endpoint`.
 
 It sends a request to the `endpoint` with [Input Context `octokit`](https://create.bingo/build/details/contexts#input-fetchers) and returns either:
 

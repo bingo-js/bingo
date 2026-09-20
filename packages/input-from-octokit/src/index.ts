@@ -4,8 +4,7 @@ import { GitHubEndpoint } from "bingo-requests";
 import { z } from "zod";
 
 /**
- * Args for {@link inputFromOctokit}, typed based on the endpoint being requested.
- * `options` is required if the endpoint has any required parameters.
+ * Args for {@link inputFromOctokit}.
  * @template Endpoint GitHub API endpoint, such as `GET /repos/{owner}/{repo}/labels`.
  */
 export type InputFromOctokitArgs<Endpoint extends GitHubEndpoint> =
@@ -40,10 +39,6 @@ export type InputFromOctokitArgs<Endpoint extends GitHubEndpoint> =
 export type InputFromOctokitOptions<Endpoint extends GitHubEndpoint> =
 	RequestParameters & WithReadonlyArrays<Endpoints[Endpoint]["parameters"]>;
 
-/**
- * Allows arrays within an object type to also be readonly.
- * Args provided to Inputs are inferred as const, so their arrays are readonly.
- */
 type WithReadonlyArrays<T> = T extends readonly (infer Item)[]
 	? readonly WithReadonlyArrays<Item>[]
 	: T extends object
@@ -72,8 +67,6 @@ const inputFromOctokitArgs = {
 
 /**
  * Input that sends a GitHub API request with Octokit.
- * Unlike most Inputs, it has a generic call signature:
- * its result type is inferred from the `endpoint` arg by `take`, `runInput`, and `testInput`.
  */
 export interface InputFromOctokit {
 	<Endpoint extends GitHubEndpoint>(
