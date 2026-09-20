@@ -1,6 +1,6 @@
 {
 	"name": "input-from-octokit",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "Bingo input that sends a GitHub API request with Octokit.",
 	"homepage": "https://www.create.bingo",
 	"repository": {

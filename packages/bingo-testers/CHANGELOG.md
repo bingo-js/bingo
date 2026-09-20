@@ -1,5 +1,19 @@
 # bingo-testers
 
+## 0.6.0
+
+### Minor Changes
+
+- [#435](https://github.com/bingo-js/bingo/pull/435) [`c4e4cc2`](https://github.com/bingo-js/bingo/commit/c4e4cc278c17c913c895972f5d5b46f3f45b9809) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - `diffCreatedDirectory` now returns file diffs in the colored, line-by-line format test runners print for failed string comparisons, highlighting the changed segments within lines.
+`processText` is now an optional property of an options object instead of a required function argument.
+
+- [#434](https://github.com/bingo-js/bingo/pull/434) [`d731ecd`](https://github.com/bingo-js/bingo/commit/d731ecda765d6872c448729f267f95bb81affb30) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - Allowed `take`, `runInput`, and `testInput` to infer the result type of Inputs with a generic call signature from their args.
+
+### Patch Changes
+
+- Updated dependencies [[`5fa9461`](https://github.com/bingo-js/bingo/commit/5fa946151c5900198f428d7c4519bdb7fcc95fb1), [`d731ecd`](https://github.com/bingo-js/bingo/commit/d731ecda765d6872c448729f267f95bb81affb30)]:
+  - bingo@0.12.0
+
 ## 0.5.11
 
 ### Patch Changes
