@@ -209,6 +209,7 @@ describe("diffCreatedDirectory", () => {
 					{
 						executable: [
 							c.red(`- ${c.inverse("tru")}e`),
+							// cspell:disable-next-line
 							c.green(`+ ${c.inverse("fals")}e`),
 						].join("\n"),
 					},
