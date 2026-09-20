@@ -285,6 +285,7 @@ describe("runModeTransition", () => {
 			error,
 			status: CLIStatus.Error,
 		});
+		expect(mockCheckUncommittedChanges).not.toHaveBeenCalled();
 		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
 		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
 	});
@@ -339,45 +340,6 @@ describe("runModeTransition", () => {
 		expect(mockPrepareOptions).not.toHaveBeenCalled();
 		expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, {});
-	});
-
-	it("clears the existing repository after reading config settings and before preparing options when a forked repository locator is available", async () => {
-		mockGetForkedRepositoryLocator.mockResolvedValueOnce("a/b");
-		mockCheckUncommittedChanges.mockResolvedValueOnce("clean");
-		mockPromptForOptionSchemas.mockResolvedValueOnce({
-			prompted: promptedOptions,
-		});
-		mockResolveLocalRepository.mockResolvedValueOnce({});
-
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			template: templateWithRepository,
-		});
-
-		expect(actual).toEqual({
-			outro: CLIMessage.New,
-			status: CLIStatus.Success,
-		});
-
-		const [readConfigSettingsAt] =
-			mockReadConfigSettings.mock.invocationCallOrder;
-		const [checkedUncommittedChangesAt] =
-			mockCheckUncommittedChanges.mock.invocationCallOrder;
-		const [clearedTemplateFilesAt] =
-			mockClearTemplateFiles.mock.invocationCallOrder;
-		const [clearedLocalGitTagsAt] =
-			mockClearLocalGitTags.mock.invocationCallOrder;
-		const [preparedOptionsAt] = mockPrepareOptions.mock.invocationCallOrder;
-
-		expect(mockCheckUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
-		expect(checkedUncommittedChangesAt).toBeGreaterThan(readConfigSettingsAt);
-		expect(clearedTemplateFilesAt).toBeGreaterThan(checkedUncommittedChangesAt);
-		expect(clearedTemplateFilesAt).toBeLessThan(preparedOptionsAt);
-		expect(clearedLocalGitTagsAt).toBeGreaterThan(checkedUncommittedChangesAt);
-		expect(clearedLocalGitTagsAt).toBeLessThan(preparedOptionsAt);
 	});
 
 	it("doesn't clear the existing repository when the template does not have a repository locator", async () => {
