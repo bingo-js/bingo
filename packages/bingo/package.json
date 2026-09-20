@@ -28,7 +28,7 @@
 		"bingo-fs": "workspace:^",
 		"bingo-requests": "workspace:^",
 		"bingo-systems": "workspace:^",
-		"cached-factory": "^0.1.0",
+		"cached-factory": "^0.3.0",
 		"call-id": "^0.1.0",
 		"get-github-auth-token": "^0.1.2",
 		"git-url-parse": "^16.1.0",
