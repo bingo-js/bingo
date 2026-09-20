@@ -87,7 +87,7 @@ export type InputWithoutArgs<Result> = (
 export type ProvidedInputArgs<Args extends object, Context> =
 	Context extends InputContextWithArgs<infer Expected>
 		? Expected extends Args
-			? Args & Expected
+			? Args
 			: never
 		: never;
 

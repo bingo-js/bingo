@@ -7,51 +7,24 @@ import { z } from "zod";
  * Args for {@link inputFromOctokit}.
  * @template Endpoint GitHub API endpoint, such as `GET /repos/{owner}/{repo}/labels`.
  */
-export type InputFromOctokitArgs<Endpoint extends GitHubEndpoint> =
-	object extends Endpoints[Endpoint]["parameters"]
-		? {
-				/**
-				 * Octokit endpoint to send to.
-				 */
-				endpoint: Endpoint;
+export interface InputFromOctokitArgs<Endpoint extends GitHubEndpoint> {
+	/**
+	 * Octokit endpoint to send to.
+	 */
+	endpoint: Endpoint;
 
-				/**
-				 * Parameter data to attach to the request.
-				 */
-				options?: InputFromOctokitOptions<Endpoint>;
-			}
-		: {
-				/**
-				 * Octokit endpoint to send to.
-				 */
-				endpoint: Endpoint;
-
-				/**
-				 * Parameter data to attach to the request.
-				 */
-				options: InputFromOctokitOptions<Endpoint>;
-			};
-
-/**
- * Parameter data to attach to a request to an endpoint.
- * @template Endpoint GitHub API endpoint, such as `GET /repos/{owner}/{repo}/labels`.
- */
-export type InputFromOctokitOptions<Endpoint extends GitHubEndpoint> =
-	RequestParameters & WithReadonlyArrays<Endpoints[Endpoint]["parameters"]>;
+	/**
+	 * Parameter data to attach to the request.
+	 */
+	options?: RequestParameters &
+		WithReadonlyArrays<Endpoints[Endpoint]["parameters"]>;
+}
 
 type WithReadonlyArrays<T> = T extends readonly (infer Item)[]
 	? readonly WithReadonlyArrays<Item>[]
 	: T extends object
 		? { [Key in keyof T]: WithReadonlyArrays<T[Key]> }
 		: T;
-
-/**
- * Result from {@link inputFromOctokit}: the response data, or `undefined` if the request could not be made.
- * @template Endpoint GitHub API endpoint, such as `GET /repos/{owner}/{repo}/labels`.
- */
-export type InputFromOctokitResult<Endpoint extends GitHubEndpoint> =
-	| Endpoints[Endpoint]["response"]["data"]
-	| undefined;
 
 const inputFromOctokitArgs = {
 	endpoint: z.string(),
@@ -71,7 +44,7 @@ const inputFromOctokitArgs = {
 export interface InputFromOctokit {
 	<Endpoint extends GitHubEndpoint>(
 		context: InputContextWithArgs<InputFromOctokitArgs<Endpoint>>,
-	): Promise<InputFromOctokitResult<Endpoint>>;
+	): Promise<Endpoints[Endpoint]["response"]["data"] | undefined>;
 	args: typeof inputFromOctokitArgs;
 }
 

@@ -4,8 +4,7 @@ import {
 	Input,
 	InputContextWithArgs,
 	InputContextWithoutArgs,
-	InputWithArgs,
-	InputWithoutArgs,
+	InputProducerWithArgs,
 	ProvidedInputArgs,
 	TakeInput,
 } from "bingo";
@@ -48,7 +47,7 @@ export function testInput<Result, ArgsShape extends AnyShape>(
 ): Result;
 
 export function testInput(
-	input: InputWithArgs<unknown, AnyShape> | InputWithoutArgs<unknown>,
+	input: InputProducerWithArgs<unknown, AnyShape>,
 	settings: Partial<
 		InputContextSettingsWithArgs<InferredObject<AnyShape>>
 	> = {},

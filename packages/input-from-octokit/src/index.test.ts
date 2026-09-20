@@ -1,21 +1,10 @@
-import { Endpoints, RequestParameters } from "@octokit/types";
+import { Endpoints } from "@octokit/types";
 import { runInput, TakeInput } from "bingo";
-import { GitHubEndpoint } from "bingo-requests";
 import { createMockSystems, testInput } from "bingo-testers";
 import { Octokit } from "octokit";
 import { describe, expect, expectTypeOf, it, Mock, vi } from "vitest";
 
-import {
-	inputFromOctokit,
-	InputFromOctokitOptions,
-	InputFromOctokitResult,
-} from "./index.js";
-
-type DeepReadonly<T> = T extends readonly (infer Item)[]
-	? readonly DeepReadonly<Item>[]
-	: T extends object
-		? { readonly [Key in keyof T]: DeepReadonly<T[Key]> }
-		: T;
+import { inputFromOctokit } from "./index.js";
 
 const endpoint = "GET /repos/{owner}/{repo}/labels";
 const options = { owner: "TestOwner", repo: "test-repo" };
@@ -162,9 +151,6 @@ describe("inputFromOctokit", () => {
 		expectTypeOf(labels).toEqualTypeOf<
 			Endpoints[typeof endpoint]["response"]["data"] | undefined
 		>();
-		expectTypeOf(labels).toEqualTypeOf<
-			InputFromOctokitResult<typeof endpoint>
-		>();
 		expectTypeOf(user).toEqualTypeOf<
 			Endpoints["GET /user"]["response"]["data"] | undefined
 		>();
@@ -180,8 +166,6 @@ describe("inputFromOctokit", () => {
 	it("reports type errors for args that don't match the endpoint", () => {
 		const take = vi.fn() as TakeInput;
 
-		// @ts-expect-error -- options are required by the endpoint
-		take(inputFromOctokit, { endpoint });
 		// @ts-expect-error -- endpoint is not a known GitHub endpoint
 		take(inputFromOctokit, { endpoint: "GET /unknown", options });
 		// @ts-expect-error -- options must match the endpoint's parameters
@@ -189,21 +173,6 @@ describe("inputFromOctokit", () => {
 		// @ts-expect-error -- endpoint must be a known string literal
 		take(inputFromOctokit, { endpoint: endpoint as string, options });
 
-		expect(take).toHaveBeenCalledTimes(4);
-	});
-
-	it("accepts the parameters of every endpoint as const options", () => {
-		type ConstOptions<Endpoint extends GitHubEndpoint> = DeepReadonly<
-			Endpoints[Endpoint]["parameters"]
-		> &
-			RequestParameters;
-
-		type EndpointsWithUnassignableParameters = {
-			[Endpoint in GitHubEndpoint]: ConstOptions<Endpoint> extends InputFromOctokitOptions<Endpoint>
-				? never
-				: Endpoint;
-		}[GitHubEndpoint];
-
-		expectTypeOf<EndpointsWithUnassignableParameters>().toEqualTypeOf<never>();
+		expect(take).toHaveBeenCalledTimes(3);
 	});
 });
