@@ -13,6 +13,7 @@ import { logStartText } from "../loggers/logStartText.js";
 import { CLIMessage } from "../messages.js";
 import { parseZodArgs } from "../parsers/parseZodArgs.js";
 import { promptForOptionSchemas } from "../prompts/promptForOptionSchemas.js";
+import { checkUncommittedChanges } from "../repository/checkUncommittedChanges.js";
 import { clearLocalGitTags } from "../repository/clearLocalGitTags.js";
 import { createInitialCommit } from "../repository/createInitialCommit.js";
 import { resolveLocalRepository } from "../repository/resolveLocalRepository.js";
@@ -57,18 +58,6 @@ export async function runModeTransition({
 		template.about?.repository &&
 		(await getForkedRepositoryLocator(directory, template.about.repository));
 
-	if (repositoryLocator) {
-		await runSpinnerTask(
-			display,
-			`Clearing from ${repositoryLocator}`,
-			`Cleared from ${repositoryLocator}`,
-			async () => {
-				await clearTemplateFiles(directory);
-				await clearLocalGitTags(system.runner);
-			},
-		);
-	}
-
 	const providedOptions = parseZodArgs(argv, template.options);
 
 	const loadedConfig = await readConfigSettings(
@@ -79,6 +68,33 @@ export async function runModeTransition({
 	if (loadedConfig instanceof Error) {
 		logRerunSuggestion(argv, providedOptions);
 		return { error: loadedConfig, status: CLIStatus.Error };
+	}
+
+	// Templates infer options from files on disk, so clearing must happen before
+	// prepareOptions. It can't be undone, so it's refused on uncommitted changes.
+	if (repositoryLocator) {
+		const uncommittedChanges = await checkUncommittedChanges(system.runner);
+		if (uncommittedChanges !== "clean") {
+			logRerunSuggestion(argv, providedOptions);
+			return {
+				error: new Error(
+					uncommittedChanges === "changes"
+						? `Transitioning a repository cloned from ${repositoryLocator} clears all of its files, but this one has uncommitted changes. Commit or stash them, then re-run.`
+						: `Transitioning a repository cloned from ${repositoryLocator} clears all of its files, but it couldn't be determined whether this one has uncommitted changes. Make sure git is installed and this is a git repository, then re-run.`,
+				),
+				status: CLIStatus.Error,
+			};
+		}
+
+		await runSpinnerTask(
+			display,
+			`Clearing from ${repositoryLocator}`,
+			`Cleared from ${repositoryLocator}`,
+			async () => {
+				await clearTemplateFiles(directory);
+				await clearLocalGitTags(system.runner);
+			},
+		);
 	}
 
 	const preparedOptions =
