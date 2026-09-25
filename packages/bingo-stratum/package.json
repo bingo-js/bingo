@@ -26,7 +26,7 @@
 		"cached-factory": "^0.3.0",
 		"hash-object": "^5.0.1",
 		"octokit": "^5.0.5",
-		"slugify": "^1.6.6",
+		"slugify": "^1.6.9",
 		"without-undefined-properties": "^0.1.2"
 	},
 	"devDependencies": {

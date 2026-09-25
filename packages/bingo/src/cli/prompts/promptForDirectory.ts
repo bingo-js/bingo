@@ -53,7 +53,5 @@ function createDefaultDirectory(name: string) {
 		.filter(Boolean)
 		.join("-");
 
-	// @ts-expect-error -- https://github.com/simov/slugify/issues/196
-	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 	return `my-${slugify(words, { lower: true })}`;
 }
