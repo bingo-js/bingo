@@ -100,6 +100,34 @@ describe("promptForDirectory", () => {
 		});
 	});
 
+	it.each([
+		["create-typescript-app", "my-typescript-app"],
+		["@angular/create", "my-angular"],
+		["@angular/create-app", "my-angular-app"],
+		["@scope/template", "my-scope-template"],
+	])(
+		"prompts with an initial value for a template named %s",
+		async (name, initialValue) => {
+			mockValidateNewDirectory.mockReturnValue(false);
+			mockText.mockResolvedValueOnce(initialValue);
+
+			await promptForDirectory({
+				template: createTemplate({
+					about: { name },
+					options: {},
+					produce: vi.fn(),
+				}),
+			});
+
+			expect(mockText).toHaveBeenCalledWith({
+				initialValue,
+				message:
+					"What will the directory and name of the repository be? (--directory)",
+				validate: mockValidateNewDirectory,
+			});
+		},
+	);
+
 	it("warns and returns the directory when the requested directory exists and the prompt succeeds", async () => {
 		const promptedDirectory = "my-app-prompted";
 
