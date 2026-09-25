@@ -1,5 +1,11 @@
 # bingo
 
+## 0.12.2
+
+### Patch Changes
+
+- [#443](https://github.com/bingo-js/bingo/pull/443) [`569c483`](https://github.com/bingo-js/bingo/commit/569c483ef3dc7944c0137df753b6b1d59708b77b) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - Bumped slugify to ^1.6.9, which fixes its ESM type declarations
+
 ## 0.12.1
 
 ### Patch Changes
