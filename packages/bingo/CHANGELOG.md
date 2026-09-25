@@ -1,5 +1,11 @@
 # bingo
 
+## 0.12.1
+
+### Patch Changes
+
+- [#441](https://github.com/bingo-js/bingo/pull/441) [`d2d6f3c`](https://github.com/bingo-js/bingo/commit/d2d6f3c6a73ec69a8d6e835e374f370714789549) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - Suggested directory names no longer include `@` or `/create` for scoped template packages
+
 ## 0.12.0
 
 ### Minor Changes
