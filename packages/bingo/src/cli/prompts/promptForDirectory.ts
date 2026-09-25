@@ -34,10 +34,7 @@ export async function promptForDirectory<
 
 	const directory = await prompts.text({
 		initialValue:
-			template.about?.name &&
-			// @ts-expect-error -- https://github.com/simov/slugify/issues/196
-			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-			`my-${slugify(template.about.name.replace(/^create[^a-z]+/i, ""), { lower: true })}`,
+			template.about?.name && createDefaultDirectory(template.about.name),
 		message:
 			"What will the directory and name of the repository be? (--directory)",
 		validate: validateNewDirectory,
@@ -48,4 +45,15 @@ export async function promptForDirectory<
 	}
 
 	return directory;
+}
+
+function createDefaultDirectory(name: string) {
+	const [, scope = "", base = name] = /^@([^/]+)\/(.*)$/.exec(name) ?? [];
+	const words = [scope, base.replace(/^create(?:[^a-z]+|$)/i, "")]
+		.filter(Boolean)
+		.join("-");
+
+	// @ts-expect-error -- https://github.com/simov/slugify/issues/196
+	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+	return `my-${slugify(words, { lower: true })}`;
 }
