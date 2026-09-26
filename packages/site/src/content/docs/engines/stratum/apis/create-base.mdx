@@ -171,6 +171,34 @@ export const blockPrettier = base.createBlock({
 });
 ```
 
+### `legacyFiles` {#createblock-legacyfiles}
+
+An optional record mapping file paths the Block used to produce to the paths it now produces instead.
+[Preset Inference](#preset-inference) and inference of existing Blocks in [transition mode](/execution#transition-mode) treat a file at a legacy path as if it were at its current path.
+
+For example, this Block now produces a `.yaml` workflow file, but used to produce a `.yml` one:
+
+```ts
+import { base } from "./base";
+
+export const blockWorkflow = base.createBlock({
+	legacyFiles: {
+		".github/workflows/ci.yml": ".github/workflows/ci.yaml",
+	},
+	produce() {
+		return {
+			files: {
+				".github": {
+					workflows: {
+						"ci.yaml": "# ...",
+					},
+				},
+			},
+		};
+	},
+});
+```
+
 ### `setup` {#createblock-setup}
 
 Additional production function for initializing a new repository with the Block.
@@ -372,6 +400,7 @@ Running that template without an explicit `--value` would be equivalent to runni
 During transition mode, Stratum will attempt to infer a default value for `--preset` based using files on disk.
 That default value is computed by comparing existing files on disk to the files that would be produced by the Blocks.
 If Preset with the greatest percentage matches 35% or more of its created files, it will be used as the default.
+Files at Blocks' [`legacyFiles`](#createblock-legacyfiles) paths are treated as if they were at their current paths.
 
 ### `presets` {#createtemplate-presets}
 

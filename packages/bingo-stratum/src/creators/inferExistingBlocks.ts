@@ -23,6 +23,7 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
 	>,
 	template: StratumTemplate<OptionsShape>,
 ) {
+	const files = applyLegacyFiles(context.files, template.blocks);
 	const blockSettings: ProduceBlockSettings<undefined, Options> = {
 		...context,
 
@@ -52,7 +53,7 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
 			.filter((x) => !!x)
 			.reduce(mergeCreations, {});
 		const counted = countMatchedFilePaths(
-			context.files,
+			files,
 			existingPresetProduction.files,
 		);
 		const percentage = counted.matched / counted.created;
@@ -75,7 +76,7 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
 
 	const existingBlocks = Array.from(existingProductions)
 		.filter(([, production]) => {
-			const counted = countMatchedFilePaths(context.files, production.files);
+			const counted = countMatchedFilePaths(files, production.files);
 
 			return !!counted.matched && !counted.missed;
 		})
@@ -87,6 +88,41 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
 		blocks: existingBlocks.filter((block) => !blocksInPreset.has(block)),
 		preset: slugifyName(existingPreset.about.name),
 	};
+}
+
+/**
+ * Moves any files on disk at Blocks' legacy paths to their current paths,
+ * so they're treated as matches for the files Blocks now produce.
+ */
+function applyLegacyFiles(
+	files: CreatedDirectory | undefined,
+	blocks: Pick<Block<undefined, Options>, "legacyFiles">[],
+) {
+	if (!files) {
+		return files;
+	}
+
+	let result = files;
+
+	for (const block of blocks) {
+		for (const [legacyPath, currentPath] of Object.entries(
+			block.legacyFiles ?? {},
+		)) {
+			const legacyFile = getEntry(result, legacyPath);
+
+			if (!isCreatedFile(legacyFile) || getEntry(result, currentPath)) {
+				continue;
+			}
+
+			result = setEntry(
+				setEntry(result, legacyPath, undefined),
+				currentPath,
+				legacyFile,
+			);
+		}
+	}
+
+	return result;
 }
 
 function countMatchedFilePaths(
@@ -135,6 +171,20 @@ function countMatchedFilePaths(
 	return found;
 }
 
+function getEntry(directory: CreatedDirectory, filePath: string) {
+	let entry: CreatedEntry | undefined = directory;
+
+	for (const part of filePath.split("/")) {
+		if (!isCreatedDirectory(entry)) {
+			return undefined;
+		}
+
+		entry = entry[part];
+	}
+
+	return entry;
+}
+
 function isCreatedDirectory(
 	entry: CreatedEntry | undefined,
 ): entry is CreatedDirectory {
@@ -143,4 +193,27 @@ function isCreatedDirectory(
 
 function isCreatedFile(entry: CreatedEntry | undefined) {
 	return typeof entry === "string" || Array.isArray(entry);
+}
+
+function setEntry(
+	directory: CreatedDirectory,
+	filePath: string,
+	value: CreatedEntry | undefined,
+): CreatedDirectory {
+	const [part, ...rest] = filePath.split("/");
+
+	if (!rest.length) {
+		return { ...directory, [part]: value };
+	}
+
+	const child = directory[part];
+
+	return {
+		...directory,
+		[part]: setEntry(
+			isCreatedDirectory(child) ? child : {},
+			rest.join("/"),
+			value,
+		),
+	};
 }

@@ -219,4 +219,90 @@ describe("inferPreset", () => {
 			expect(actual.preset).toBe("high-percentage");
 		});
 	});
+
+	describe("legacyFiles", () => {
+		const blockRenamed = base.createBlock({
+			about: { name: "Renamed" },
+			legacyFiles: {
+				"directory/renamed.yml": "directory/renamed.yaml",
+			},
+			produce() {
+				return {
+					files: {
+						directory: {
+							"renamed.yaml": "...",
+						},
+					},
+				};
+			},
+		});
+
+		const presetRenamed = base.createPreset({
+			about: { name: "Renamed" },
+			blocks: [blockRenamed],
+		});
+
+		it("infers a preset when its files exist at legacy paths", () => {
+			const template = base.createStratumTemplate({
+				presets: [presetRenamed],
+			});
+
+			const actual = inferExistingBlocks(
+				{
+					files: {
+						directory: { "renamed.yml": "..." },
+						other: "...",
+					},
+					options: { name: "..." },
+				},
+				template,
+			);
+
+			expect(actual.preset).toBe("renamed");
+		});
+
+		it("infers a Block outside the preset when its files exist at legacy paths", () => {
+			const presetA = base.createPreset({
+				about: { name: "A" },
+				blocks: [blockA],
+			});
+			const template = base.createStratumTemplate({
+				blocks: [blockRenamed],
+				presets: [presetA],
+			});
+
+			const actual = inferExistingBlocks(
+				{
+					files: {
+						a: "...",
+						directory: { "renamed.yml": "..." },
+					},
+					options: { name: "..." },
+				},
+				template,
+			);
+
+			expect(actual.blocks).toEqual([blockRenamed]);
+		});
+
+		it("does not treat a legacy file as a match when the current file also exists", () => {
+			const template = base.createStratumTemplate({
+				presets: [presetRenamed],
+			});
+
+			const actual = inferExistingBlocks(
+				{
+					files: {
+						another: "...",
+						directory: { "renamed.yaml": "...", "renamed.yml": "..." },
+						other: "...",
+					},
+					options: { name: "..." },
+				},
+				template,
+			);
+
+			expect(actual.preset).toBeUndefined();
+		});
+	});
 });
