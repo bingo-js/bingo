@@ -30,6 +30,10 @@ function isNotNullish(value: unknown) {
 	return value != null;
 }
 
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+	return !!value && typeof value === "object" && !Array.isArray(value);
+}
+
 function mergeBlockAddonArrays(firsts: unknown[], seconds: unknown[]) {
 	const firstNonNullish = firsts.filter(isNotNullish);
 	const secondNonNullish = seconds.filter(isNotNullish);
@@ -56,9 +60,19 @@ function mergeBlockAddonArraysNonNullish(
 	});
 }
 
-function mergeBlockAddons(first: unknown, second: unknown) {
+function mergeBlockAddons(first: unknown, second: unknown): unknown {
 	if (Array.isArray(first) && Array.isArray(second)) {
 		return mergeBlockAddonArrays(first, second);
+	}
+
+	if (isPlainObject(first) && isPlainObject(second)) {
+		const merged: Record<string, unknown> = { ...first };
+
+		for (const [key, value] of Object.entries(second)) {
+			merged[key] = mergeBlockAddons(first[key], value);
+		}
+
+		return merged;
 	}
 
 	return first ?? second;
