@@ -1,5 +1,11 @@
 # bingo-stratum
 
+## 0.6.4
+
+### Patch Changes
+
+- [#447](https://github.com/bingo-js/bingo/pull/447) [`4ec4e89`](https://github.com/bingo-js/bingo/commit/4ec4e89b2bd23fd11e086862b19a8a4cd729eeef) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - Merged object Addons for the same Block from a Block's `produce()` and mode function, instead of keeping only the first
+
 ## 0.6.3
 
 ### Patch Changes
