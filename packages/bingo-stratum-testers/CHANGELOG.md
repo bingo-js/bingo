@@ -1,5 +1,15 @@
 # bingo-stratum-testers
 
+## 0.5.14
+
+### Patch Changes
+
+- Updated dependencies [[`e0bd07b`](https://github.com/bingo-js/bingo/commit/e0bd07b3b41ac0c5e02c6d3f2d4116003e3800fb)]:
+  - bingo@0.13.0
+  - bingo-fs@0.6.0
+  - bingo-stratum@0.7.0
+  - bingo-systems@0.7.0
+
 ## 0.5.13
 
 ### Patch Changes

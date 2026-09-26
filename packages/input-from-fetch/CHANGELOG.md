@@ -1,5 +1,12 @@
 # input-from-fetch
 
+## 0.6.3
+
+### Patch Changes
+
+- Updated dependencies [[`e0bd07b`](https://github.com/bingo-js/bingo/commit/e0bd07b3b41ac0c5e02c6d3f2d4116003e3800fb)]:
+  - bingo@0.13.0
+
 ## 0.6.2
 
 ### Patch Changes
