@@ -173,6 +173,31 @@ describe("mergeAddons", () => {
 				},
 			],
 		],
+		[
+			[{ addons: { files: ["a"] }, block: blockFirst }],
+			[{ addons: { files: ["b"] }, block: blockFirst }],
+			[{ addons: { files: ["a", "b"] }, block: blockFirst }],
+		],
+		[
+			[{ addons: { files: ["a", "b"] }, block: blockFirst }],
+			[{ addons: { files: ["b", "c"] }, block: blockFirst }],
+			[{ addons: { files: ["a", "b", "c"] }, block: blockFirst }],
+		],
+		[
+			[{ addons: { first: ["a"] }, block: blockFirst }],
+			[{ addons: { second: ["b"] }, block: blockFirst }],
+			[{ addons: { first: ["a"], second: ["b"] }, block: blockFirst }],
+		],
+		[
+			[{ addons: { nested: { values: ["a"] } }, block: blockFirst }],
+			[{ addons: { nested: { values: ["b"] } }, block: blockFirst }],
+			[{ addons: { nested: { values: ["a", "b"] } }, block: blockFirst }],
+		],
+		[
+			[{ addons: { value: "first" }, block: blockFirst }],
+			[{ addons: { value: "second" }, block: blockFirst }],
+			[{ addons: { value: "first" }, block: blockFirst }],
+		],
 	])("%j and %j", (first, second, expected) => {
 		expect(mergeAddons(first, second)).toEqual(expected);
 	});
