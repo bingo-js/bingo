@@ -22,6 +22,7 @@ const system = {
 		glob: vi.fn(),
 		readDirectory: vi.fn(),
 		readFile: vi.fn(),
+		removeFile: vi.fn(),
 		writeDirectory: vi.fn(),
 		writeFile: vi.fn(),
 	},

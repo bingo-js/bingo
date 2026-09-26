@@ -26,6 +26,10 @@ async function writeToSystemWorker(
 				contents[0],
 				contents[1],
 			);
+
+			for (const previous of contents[1]?.previously ?? []) {
+				await system.removeFile(path.join(basePath, previous));
+			}
 		} else if (typeof contents === "object") {
 			await writeToSystemWorker(
 				contents,

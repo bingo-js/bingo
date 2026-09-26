@@ -40,6 +40,12 @@ export interface ReadingFileSystem {
 }
 
 /**
+ * Removes a file if it exists.
+ * @param filePath Path to the file on disk.
+ */
+export type RemoveFile = (filePath: string) => Promise<void>;
+
+/**
  * Creates a directory if it doesn't yet exist.
  * @param directoryPath Path to the directory on disk.
  */
@@ -72,6 +78,11 @@ export interface WriteFileOptions {
  * APIs to read from and write to a file system.
  */
 export interface WritingFileSystem extends ReadingFileSystem {
+	/**
+	 * Removes a file if it exists.
+	 */
+	removeFile: RemoveFile;
+
 	/**
 	 * Creates a directory if it doesn't yet exist.
 	 */

@@ -6,6 +6,7 @@ import {
 } from "bingo";
 import { CreatedDirectory, CreatedEntry } from "bingo-fs";
 import { Options } from "hash-object";
+import * as path from "node:path";
 
 import {
 	produceBlock,
@@ -46,13 +47,18 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
 		}),
 	);
 
+	const files = applyPreviousFilePaths(
+		context.files,
+		Array.from(existingProductions.values()),
+	);
+
 	for (const preset of template.presets) {
 		const existingPresetProduction = preset.blocks
 			.map((block) => existingProductions.get(block))
 			.filter((x) => !!x)
 			.reduce(mergeCreations, {});
 		const counted = countMatchedFilePaths(
-			context.files,
+			files,
 			existingPresetProduction.files,
 		);
 		const percentage = counted.matched / counted.created;
@@ -75,7 +81,7 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
 
 	const existingBlocks = Array.from(existingProductions)
 		.filter(([, production]) => {
-			const counted = countMatchedFilePaths(context.files, production.files);
+			const counted = countMatchedFilePaths(files, production.files);
 
 			return !!counted.matched && !counted.missed;
 		})
@@ -87,6 +93,63 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
 		blocks: existingBlocks.filter((block) => !blocksInPreset.has(block)),
 		preset: slugifyName(existingPreset.about.name),
 	};
+}
+
+/**
+ * Moves any files on disk at produced files' `previously` paths to their current paths,
+ * so they're treated as matches for the files Blocks now produce.
+ */
+function applyPreviousFilePaths(
+	files: CreatedDirectory | undefined,
+	productions: { files?: CreatedDirectory }[],
+) {
+	if (!files) {
+		return files;
+	}
+
+	let result = files;
+
+	for (const production of productions) {
+		for (const [previousPath, currentPath] of collectPreviousFilePaths(
+			production.files,
+		)) {
+			const previousFile = getEntry(result, previousPath);
+
+			if (!isCreatedFile(previousFile) || getEntry(result, currentPath)) {
+				continue;
+			}
+
+			result = setEntry(
+				setEntry(result, previousPath, undefined),
+				currentPath,
+				previousFile,
+			);
+		}
+	}
+
+	return result;
+}
+
+function collectPreviousFilePaths(
+	directory: CreatedDirectory | undefined,
+	basePath: string[] = [],
+): [string, string][] {
+	return Object.entries(directory ?? {}).flatMap(([name, entry]) => {
+		const entryPath = [...basePath, name];
+
+		if (isCreatedDirectory(entry)) {
+			return collectPreviousFilePaths(entry, entryPath);
+		}
+
+		if (!Array.isArray(entry) || entry.length < 2) {
+			return [];
+		}
+
+		return (entry[1]?.previously ?? []).map((previous): [string, string] => [
+			path.posix.join(...basePath, previous),
+			entryPath.join("/"),
+		]);
+	});
 }
 
 function countMatchedFilePaths(
@@ -135,6 +198,20 @@ function countMatchedFilePaths(
 	return found;
 }
 
+function getEntry(directory: CreatedDirectory, filePath: string) {
+	let entry: CreatedEntry | undefined = directory;
+
+	for (const part of filePath.split("/")) {
+		if (!isCreatedDirectory(entry)) {
+			return undefined;
+		}
+
+		entry = entry[part];
+	}
+
+	return entry;
+}
+
 function isCreatedDirectory(
 	entry: CreatedEntry | undefined,
 ): entry is CreatedDirectory {
@@ -143,4 +220,27 @@ function isCreatedDirectory(
 
 function isCreatedFile(entry: CreatedEntry | undefined) {
 	return typeof entry === "string" || Array.isArray(entry);
+}
+
+function setEntry(
+	directory: CreatedDirectory,
+	filePath: string,
+	value: CreatedEntry | undefined,
+): CreatedDirectory {
+	const [part, ...rest] = filePath.split("/");
+
+	if (!rest.length) {
+		return { ...directory, [part]: value };
+	}
+
+	const child = directory[part];
+
+	return {
+		...directory,
+		[part]: setEntry(
+			isCreatedDirectory(child) ? child : {},
+			rest.join("/"),
+			value,
+		),
+	};
 }

@@ -15,6 +15,7 @@ function createSystem() {
 			glob: noop("glob"),
 			readDirectory: noop("readDirectory"),
 			readFile: noop("readFile"),
+			removeFile: vi.fn(),
 			writeDirectory: vi.fn(),
 			writeFile: vi.fn(),
 		},

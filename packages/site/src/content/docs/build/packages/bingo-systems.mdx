@@ -193,6 +193,7 @@ These expose a superset of the _reading_ APIs by adding in methods to write to t
 
 ```ts
 export interface WritingFileSystem extends ReadingFileSystem {
+	removeFile: RemoveFile;
 	writeDirectory: WriteDirectory;
 	writeFile: WriteFile;
 }
