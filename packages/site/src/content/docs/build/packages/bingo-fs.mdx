@@ -64,6 +64,7 @@ Each property value in a directory object may be one of the following:
 - `string`: A file to be created
 - `[string, CreatedFileMetadata?]`: A file to be created with options:
   - `executable`: Whether to add permissions to make the file executable
+  - `previously`: Paths, relative to the file's directory, that earlier versions of the file were created at
 
 For example, this Bingo template produces an executable `.husky/pre-commit` file:
 
@@ -75,6 +76,23 @@ export default createTemplate({
 		return {
 			".husky": {
 				"pre-commit": ["npx lint-staged\n", { executable: true }],
+			},
+		};
+	},
+});
+```
+
+Files with `previously` paths are treated as the same file by [Stratum's Preset Inference](/engines/stratum/apis/create-base#preset-inference), and any files at those paths are removed after the file is written.
+For example, this Bingo template produces a `.github/FUNDING.yaml` file that used to be `.github/FUNDING.yml`:
+
+```ts
+import { createTemplate } from "bingo";
+
+export default createTemplate({
+	produce() {
+		return {
+			".github": {
+				"FUNDING.yaml": ["github: abc", { previously: ["FUNDING.yml"] }],
 			},
 		};
 	},

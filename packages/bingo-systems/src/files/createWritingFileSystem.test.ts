@@ -35,6 +35,16 @@ describe("createWritingFileSystem", () => {
 		});
 	});
 
+	describe("removeFile", () => {
+		it("removes with force: true", async () => {
+			const system = createWritingFileSystem();
+
+			await system.removeFile(filePath);
+
+			expect(mockRm).toHaveBeenCalledWith(filePath, { force: true });
+		});
+	});
+
 	describe("writeFile", () => {
 		it("writes without mode when options does not exist and rm rejects", async () => {
 			mockRm.mockRejectedValueOnce(new Error("Oh no!"));

@@ -220,17 +220,14 @@ describe("inferPreset", () => {
 		});
 	});
 
-	describe("legacyFiles", () => {
+	describe("previous file paths", () => {
 		const blockRenamed = base.createBlock({
 			about: { name: "Renamed" },
-			legacyFiles: {
-				"directory/renamed.yml": "directory/renamed.yaml",
-			},
 			produce() {
 				return {
 					files: {
 						directory: {
-							"renamed.yaml": "...",
+							"renamed.yaml": ["...", { previously: ["renamed.yml"] }],
 						},
 					},
 				};
@@ -242,7 +239,7 @@ describe("inferPreset", () => {
 			blocks: [blockRenamed],
 		});
 
-		it("infers a preset when its files exist at legacy paths", () => {
+		it("infers a preset when its files exist at previous paths", () => {
 			const template = base.createStratumTemplate({
 				presets: [presetRenamed],
 			});
@@ -261,7 +258,7 @@ describe("inferPreset", () => {
 			expect(actual.preset).toBe("renamed");
 		});
 
-		it("infers a Block outside the preset when its files exist at legacy paths", () => {
+		it("infers a Block outside the preset when its files exist at previous paths", () => {
 			const presetA = base.createPreset({
 				about: { name: "A" },
 				blocks: [blockA],
@@ -285,7 +282,7 @@ describe("inferPreset", () => {
 			expect(actual.blocks).toEqual([blockRenamed]);
 		});
 
-		it("does not treat a legacy file as a match when the current file also exists", () => {
+		it("does not treat a file at a previous path as a match when the current file also exists", () => {
 			const template = base.createStratumTemplate({
 				presets: [presetRenamed],
 			});

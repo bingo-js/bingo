@@ -6,6 +6,7 @@ import {
 } from "bingo";
 import { CreatedDirectory, CreatedEntry } from "bingo-fs";
 import { Options } from "hash-object";
+import * as path from "node:path";
 
 import {
 	produceBlock,
@@ -23,7 +24,6 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
 	>,
 	template: StratumTemplate<OptionsShape>,
 ) {
-	const files = applyLegacyFiles(context.files, template.blocks);
 	const blockSettings: ProduceBlockSettings<undefined, Options> = {
 		...context,
 
@@ -45,6 +45,11 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
 				return [block, {}];
 			}
 		}),
+	);
+
+	const files = applyPreviousFilePaths(
+		context.files,
+		Array.from(existingProductions.values()),
 	);
 
 	for (const preset of template.presets) {
@@ -91,12 +96,12 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
 }
 
 /**
- * Moves any files on disk at Blocks' legacy paths to their current paths,
+ * Moves any files on disk at produced files' `previously` paths to their current paths,
  * so they're treated as matches for the files Blocks now produce.
  */
-function applyLegacyFiles(
+function applyPreviousFilePaths(
 	files: CreatedDirectory | undefined,
-	blocks: Pick<Block<undefined, Options>, "legacyFiles">[],
+	productions: { files?: CreatedDirectory }[],
 ) {
 	if (!files) {
 		return files;
@@ -104,25 +109,47 @@ function applyLegacyFiles(
 
 	let result = files;
 
-	for (const block of blocks) {
-		for (const [legacyPath, currentPath] of Object.entries(
-			block.legacyFiles ?? {},
+	for (const production of productions) {
+		for (const [previousPath, currentPath] of collectPreviousFilePaths(
+			production.files,
 		)) {
-			const legacyFile = getEntry(result, legacyPath);
+			const previousFile = getEntry(result, previousPath);
 
-			if (!isCreatedFile(legacyFile) || getEntry(result, currentPath)) {
+			if (!isCreatedFile(previousFile) || getEntry(result, currentPath)) {
 				continue;
 			}
 
 			result = setEntry(
-				setEntry(result, legacyPath, undefined),
+				setEntry(result, previousPath, undefined),
 				currentPath,
-				legacyFile,
+				previousFile,
 			);
 		}
 	}
 
 	return result;
+}
+
+function collectPreviousFilePaths(
+	directory: CreatedDirectory | undefined,
+	basePath: string[] = [],
+): [string, string][] {
+	return Object.entries(directory ?? {}).flatMap(([name, entry]) => {
+		const entryPath = [...basePath, name];
+
+		if (isCreatedDirectory(entry)) {
+			return collectPreviousFilePaths(entry, entryPath);
+		}
+
+		if (!Array.isArray(entry) || entry.length < 2) {
+			return [];
+		}
+
+		return (entry[1]?.previously ?? []).map((previous): [string, string] => [
+			path.posix.join(...basePath, previous),
+			entryPath.join("/"),
+		]);
+	});
 }
 
 function countMatchedFilePaths(

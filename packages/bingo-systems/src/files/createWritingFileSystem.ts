@@ -6,6 +6,9 @@ import { createReadingFileSystem } from "./createReadingFileSystem.js";
 export function createWritingFileSystem() {
 	return {
 		...createReadingFileSystem(),
+		removeFile: async (filePath: string) => {
+			await fs.rm(filePath, { force: true });
+		},
 		writeDirectory: async (directoryPath: string) =>
 			void (await fs.mkdir(directoryPath, { recursive: true })),
 		writeFile: async (

@@ -44,13 +44,6 @@ export interface BlockBase {
 	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-about}
 	 */
 	about?: AboutBase;
-
-	/**
-	 * File paths the Block used to produce, mapped to the paths it now produces instead.
-	 * These let transition mode recognize files from older versions of the Block.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-legacyfiles}
-	 */
-	legacyFiles?: Record<string, string>;
 }
 
 /**
