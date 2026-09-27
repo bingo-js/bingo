@@ -1,5 +1,11 @@
 # bingo-stratum
 
+## 0.7.1
+
+### Patch Changes
+
+- [#455](https://github.com/bingo-js/bingo/pull/455) [`795df4e`](https://github.com/bingo-js/bingo/commit/795df4ef62ce7b534276e331f8570b2cf1a33321) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - Exported template types from the package root
+
 ## 0.7.0
 
 ### Minor Changes
