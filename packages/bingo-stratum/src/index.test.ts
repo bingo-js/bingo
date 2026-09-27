@@ -1,14 +1,13 @@
 import type { AnyShape } from "bingo";
-import { describe, expect, it } from "vitest";
+import { describe, expectTypeOf, it } from "vitest";
 
 import type { StratumTemplate } from "./index.js";
+import type { StratumTemplate as StratumTemplateFromTypes } from "./types/templates.js";
 
 describe("index", () => {
 	it("exports StratumTemplate", () => {
-		const receivesTemplate = <OptionsShape extends AnyShape>(
-			template: StratumTemplate<OptionsShape>,
-		) => template;
-
-		expect(receivesTemplate).toBeTypeOf("function");
+		expectTypeOf<StratumTemplate<AnyShape>>().toEqualTypeOf<
+			StratumTemplateFromTypes<AnyShape>
+		>();
 	});
 });
