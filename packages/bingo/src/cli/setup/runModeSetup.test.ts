@@ -279,6 +279,27 @@ describe("runModeSetup", () => {
 		);
 	});
 
+	it("suggests rerunning with --remote using the template package name when there is no remote", async () => {
+		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			cancelled: false,
+			prompted: {},
+		});
+		mockResolveLocalRepository.mockResolvedValueOnce({});
+		mockRunTemplate.mockResolvedValueOnce({ creation: {} });
+
+		await runModeSetup({
+			argv,
+			display,
+			from,
+			template,
+		});
+
+		expect(mockLog.info).toHaveBeenCalledWith(
+			expect.stringContaining(`npx ${from} --remote`),
+		);
+	});
+
 	it("calls prepareGitRepository when the repository type is None", async () => {
 		const remote = { owner: "user", repository: "repo" };
 		mockPromptForDirectory.mockResolvedValueOnce("test-directory");

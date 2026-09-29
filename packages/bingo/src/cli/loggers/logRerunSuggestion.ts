@@ -3,7 +3,7 @@ import { styleText } from "node:util";
 
 import { getRerunCommand } from "./getRerunCommand.js";
 
-export function logRerunSuggestion(argv: string[], prompted: object) {
+export function logRerunSuggestion(from: string, prompted: object) {
 	const promptedEntries = Object.entries(prompted);
 	if (!promptedEntries.length) {
 		return;
@@ -15,7 +15,7 @@ export function logRerunSuggestion(argv: string[], prompted: object) {
 			styleText(
 				"blue",
 				[
-					getRerunCommand(argv),
+					getRerunCommand(from),
 					promptedEntries
 						.map(([key, value]) => stringifyPair(key, value))
 						.join(" "),

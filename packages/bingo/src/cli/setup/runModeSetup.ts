@@ -83,7 +83,7 @@ export async function runModeSetup({
 		},
 	);
 	if (preparedOptions instanceof Error) {
-		logRerunSuggestion(argv, providedOptions);
+		logRerunSuggestion(from, providedOptions);
 		return { status: CLIStatus.Error };
 	}
 
@@ -98,7 +98,7 @@ export async function runModeSetup({
 		system,
 	});
 	if (baseOptions.cancelled) {
-		logRerunSuggestion(argv, baseOptions.prompted);
+		logRerunSuggestion(from, baseOptions.prompted);
 		return { status: CLIStatus.Cancelled };
 	}
 
@@ -111,7 +111,7 @@ export async function runModeSetup({
 	);
 
 	if (remote instanceof Error) {
-		logRerunSuggestion(argv, baseOptions.prompted);
+		logRerunSuggestion(from, baseOptions.prompted);
 		return { error: remote, status: CLIStatus.Error };
 	}
 
@@ -139,7 +139,7 @@ export async function runModeSetup({
 			}),
 	);
 	if (creation instanceof Error) {
-		logRerunSuggestion(argv, baseOptions.prompted);
+		logRerunSuggestion(from, baseOptions.prompted);
 		return {
 			outro: CLIMessage.Leaving,
 			status: CLIStatus.Error,
@@ -160,13 +160,13 @@ export async function runModeSetup({
 	if (!remote && repositoryType !== GitRepositoryType.Subdirectory) {
 		prompts.log.info(
 			[
-				`Run ${styleText("blue", `${getRerunCommand(argv)} --remote`)} in ${styleText("green", makeRelative(directory))}`,
+				`Run ${styleText("blue", `${getRerunCommand(from)} --remote`)} in ${styleText("green", makeRelative(directory))}`,
 				`to create and sync a remote repository on GitHub.`,
 			].join("\n"),
 		);
 	}
 
-	logRerunSuggestion(argv, baseOptions.prompted);
+	logRerunSuggestion(from, baseOptions.prompted);
 
 	if (preparationError) {
 		return {
