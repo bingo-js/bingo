@@ -14,13 +14,13 @@ vi.mock("@clack/prompts", () => ({
 
 describe("logRerunSuggestion", () => {
 	it("does not log when there are no prompted entries", () => {
-		logRerunSuggestion("my-app", {});
+		logRerunSuggestion("npx my-app", {});
 
 		expect(mockLog.info).not.toHaveBeenCalled();
 	});
 
 	it("logs when there are prompted entries", () => {
-		logRerunSuggestion("my-app", {
+		logRerunSuggestion("npx my-app", {
 			abc: "def",
 		});
 
@@ -28,7 +28,7 @@ describe("logRerunSuggestion", () => {
 	});
 
 	test("value stringification", () => {
-		logRerunSuggestion("my-app", {
+		logRerunSuggestion("npx my-app", {
 			"is-false": false,
 			"is-true": true,
 			multiple: ["def", 456],

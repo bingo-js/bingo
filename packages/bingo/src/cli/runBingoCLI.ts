@@ -1,4 +1,5 @@
 import * as prompts from "@clack/prompts";
+import path from "node:path";
 
 import { packageData } from "../packageData.js";
 import { runInsideClackDisplay } from "./display/runInsideClackDisplay.js";
@@ -37,6 +38,7 @@ export async function runBingoCLI() {
 			argv,
 			display,
 			from: "bingo",
+			rerunFrom: `bingo ${quoteIfSpaced(path.resolve(from))}`,
 			template,
 			values,
 		});
@@ -54,4 +56,8 @@ export async function runBingoCLI() {
 
 		return result;
 	});
+}
+
+function quoteIfSpaced(text: string) {
+	return text.includes(" ") ? `"${text}"` : text;
 }

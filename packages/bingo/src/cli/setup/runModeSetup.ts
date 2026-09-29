@@ -10,7 +10,6 @@ import { Template } from "../../types/templates.js";
 import { ClackDisplay } from "../display/createClackDisplay.js";
 import { runSpinnerTask } from "../display/runSpinnerTask.js";
 import { GitRepositoryType } from "../getGitRepositoryType.js";
-import { getRerunCommand } from "../loggers/getRerunCommand.js";
 import { logRerunSuggestion } from "../loggers/logRerunSuggestion.js";
 import { logStartText } from "../loggers/logStartText.js";
 import { CLIMessage } from "../messages.js";
@@ -31,6 +30,7 @@ export interface RunModeSetupSettings {
 	offline?: boolean;
 	remote?: boolean;
 	repository?: string;
+	rerunCommand: string;
 	skips?: RequestedSkips;
 	template: Template;
 }
@@ -43,6 +43,7 @@ export async function runModeSetup({
 	from,
 	offline = false,
 	remote: requestedRemote,
+	rerunCommand,
 	skips = {},
 	template,
 }: RunModeSetupSettings): Promise<ModeResults> {
@@ -83,7 +84,7 @@ export async function runModeSetup({
 		},
 	);
 	if (preparedOptions instanceof Error) {
-		logRerunSuggestion(from, providedOptions);
+		logRerunSuggestion(rerunCommand, providedOptions);
 		return { status: CLIStatus.Error };
 	}
 
@@ -98,7 +99,7 @@ export async function runModeSetup({
 		system,
 	});
 	if (baseOptions.cancelled) {
-		logRerunSuggestion(from, baseOptions.prompted);
+		logRerunSuggestion(rerunCommand, baseOptions.prompted);
 		return { status: CLIStatus.Cancelled };
 	}
 
@@ -111,7 +112,7 @@ export async function runModeSetup({
 	);
 
 	if (remote instanceof Error) {
-		logRerunSuggestion(from, baseOptions.prompted);
+		logRerunSuggestion(rerunCommand, baseOptions.prompted);
 		return { error: remote, status: CLIStatus.Error };
 	}
 
@@ -139,7 +140,7 @@ export async function runModeSetup({
 			}),
 	);
 	if (creation instanceof Error) {
-		logRerunSuggestion(from, baseOptions.prompted);
+		logRerunSuggestion(rerunCommand, baseOptions.prompted);
 		return {
 			outro: CLIMessage.Leaving,
 			status: CLIStatus.Error,
@@ -160,13 +161,13 @@ export async function runModeSetup({
 	if (!remote && repositoryType !== GitRepositoryType.Subdirectory) {
 		prompts.log.info(
 			[
-				`Run ${styleText("blue", `${getRerunCommand(from)} --remote`)} in ${styleText("green", makeRelative(directory))}`,
+				`Run ${styleText("blue", `${rerunCommand} --remote`)} in ${styleText("green", makeRelative(directory))}`,
 				`to create and sync a remote repository on GitHub.`,
 			].join("\n"),
 		);
 	}
 
-	logRerunSuggestion(from, baseOptions.prompted);
+	logRerunSuggestion(rerunCommand, baseOptions.prompted);
 
 	if (preparationError) {
 		return {

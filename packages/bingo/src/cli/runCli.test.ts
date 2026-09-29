@@ -1,5 +1,5 @@
 import { styleText } from "node:util";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { createTemplate } from "../creators/createTemplate.js";
 import { createClackDisplay } from "./display/createClackDisplay.js";
@@ -61,6 +61,10 @@ const template = createTemplate({
 const argv = ["npx", "bingo-example"];
 
 describe("runCli", () => {
+	afterEach(() => {
+		vi.unstubAllEnvs();
+	});
+
 	it("logs unknown flags and errors when an unknown flag is provided", async () => {
 		const actual = await runCLI({
 			argv,
@@ -217,6 +221,48 @@ describe("runCli", () => {
 				skips: {
 					scripts: true,
 				},
+			}),
+		);
+	});
+	it("provides a rerun command based on from when rerunFrom is not provided", async () => {
+		vi.stubEnv("npm_config_user_agent", "");
+		mockReadProductionSettings.mockResolvedValueOnce({
+			mode: "setup",
+		});
+
+		await runCLI({
+			argv,
+			display: createClackDisplay(),
+			from: "create-example",
+			template,
+			values: {},
+		});
+
+		expect(mockRunModeSetup).toHaveBeenCalledWith(
+			expect.objectContaining({
+				rerunCommand: "npx create-example",
+			}),
+		);
+	});
+
+	it("provides a rerun command based on rerunFrom when it is provided", async () => {
+		vi.stubEnv("npm_config_user_agent", "");
+		mockReadProductionSettings.mockResolvedValueOnce({
+			mode: "setup",
+		});
+
+		await runCLI({
+			argv,
+			display: createClackDisplay(),
+			from: "bingo",
+			rerunFrom: "bingo /path/to/template.js",
+			template,
+			values: {},
+		});
+
+		expect(mockRunModeSetup).toHaveBeenCalledWith(
+			expect.objectContaining({
+				rerunCommand: "npx bingo /path/to/template.js",
 			}),
 		);
 	});
