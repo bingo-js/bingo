@@ -100,6 +100,8 @@ const argv = ["npx", "bingo-my-app"];
 
 const from = "create-example";
 
+const rerunCommand = "npx create-example";
+
 const display: ClackDisplay = {
 	dumpItems: vi.fn(),
 	item: vi.fn(),
@@ -127,6 +129,7 @@ describe("runModeSetup", () => {
 			argv,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -143,6 +146,7 @@ describe("runModeSetup", () => {
 			argv,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -162,6 +166,7 @@ describe("runModeSetup", () => {
 			argv,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -184,6 +189,7 @@ describe("runModeSetup", () => {
 			argv,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -214,6 +220,7 @@ describe("runModeSetup", () => {
 			argv,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -239,6 +246,7 @@ describe("runModeSetup", () => {
 			argv,
 			display,
 			from,
+			rerunCommand,
 			skips: { requests: true },
 			template,
 		});
@@ -266,6 +274,7 @@ describe("runModeSetup", () => {
 			argv,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -276,6 +285,28 @@ describe("runModeSetup", () => {
 					requests: true,
 				},
 			}),
+		);
+	});
+
+	it("suggests rerunning with --remote using the rerun command when there is no remote", async () => {
+		mockPromptForDirectory.mockResolvedValueOnce("test-directory");
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			cancelled: false,
+			prompted: {},
+		});
+		mockResolveLocalRepository.mockResolvedValueOnce({});
+		mockRunTemplate.mockResolvedValueOnce({ creation: {} });
+
+		await runModeSetup({
+			argv,
+			display,
+			from,
+			rerunCommand,
+			template,
+		});
+
+		expect(mockLog.info).toHaveBeenCalledWith(
+			expect.stringContaining(`${rerunCommand} --remote`),
 		);
 	});
 
@@ -296,6 +327,7 @@ describe("runModeSetup", () => {
 			argv,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -322,6 +354,7 @@ describe("runModeSetup", () => {
 			argv,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -347,6 +380,7 @@ describe("runModeSetup", () => {
 			argv,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -371,6 +405,7 @@ describe("runModeSetup", () => {
 			argv,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 

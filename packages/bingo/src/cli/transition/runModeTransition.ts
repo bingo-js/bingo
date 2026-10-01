@@ -31,6 +31,7 @@ export interface RunModeTransitionSettings {
 	from: string;
 	offline?: boolean;
 	remote?: boolean;
+	rerunCommand: string;
 	skips?: RequestedSkips;
 	template: Template;
 }
@@ -43,6 +44,7 @@ export async function runModeTransition({
 	from,
 	offline = false,
 	remote: requestedRemote,
+	rerunCommand,
 	skips = {},
 	template,
 }: RunModeTransitionSettings): Promise<ModeResults> {
@@ -66,7 +68,7 @@ export async function runModeTransition({
 		template,
 	);
 	if (loadedConfig instanceof Error) {
-		logRerunSuggestion(argv, providedOptions);
+		logRerunSuggestion(rerunCommand, providedOptions);
 		return { error: loadedConfig, status: CLIStatus.Error };
 	}
 
@@ -75,7 +77,7 @@ export async function runModeTransition({
 	if (repositoryLocator) {
 		const uncommittedChanges = await checkUncommittedChanges(system.runner);
 		if (uncommittedChanges !== "clean") {
-			logRerunSuggestion(argv, providedOptions);
+			logRerunSuggestion(rerunCommand, providedOptions);
 			return {
 				error: new Error(
 					uncommittedChanges === "changes"
@@ -116,7 +118,7 @@ export async function runModeTransition({
 			},
 		));
 	if (preparedOptions instanceof Error) {
-		logRerunSuggestion(argv, providedOptions);
+		logRerunSuggestion(rerunCommand, providedOptions);
 		return { status: CLIStatus.Error };
 	}
 
@@ -125,7 +127,7 @@ export async function runModeTransition({
 		system,
 	});
 	if (baseOptions.cancelled) {
-		logRerunSuggestion(argv, baseOptions.prompted);
+		logRerunSuggestion(rerunCommand, baseOptions.prompted);
 		return { status: CLIStatus.Cancelled };
 	}
 
@@ -138,7 +140,7 @@ export async function runModeTransition({
 	);
 
 	if (remote instanceof Error) {
-		logRerunSuggestion(argv, baseOptions.prompted);
+		logRerunSuggestion(rerunCommand, baseOptions.prompted);
 		return { error: remote, status: CLIStatus.Error };
 	}
 
@@ -170,7 +172,7 @@ export async function runModeTransition({
 			}),
 	);
 	if (creation instanceof Error) {
-		logRerunSuggestion(argv, baseOptions.prompted);
+		logRerunSuggestion(rerunCommand, baseOptions.prompted);
 		return {
 			outro: CLIMessage.Leaving,
 			status: CLIStatus.Error,
@@ -192,7 +194,7 @@ export async function runModeTransition({
 				)
 			: undefined;
 
-	logRerunSuggestion(argv, baseOptions.prompted);
+	logRerunSuggestion(rerunCommand, baseOptions.prompted);
 
 	return commit instanceof Error
 		? {

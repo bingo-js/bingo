@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { Template } from "../types/templates.js";
 import { ClackDisplay } from "./display/createClackDisplay.js";
+import { getRerunCommand } from "./loggers/getRerunCommand.js";
 import { logHelpText } from "./loggers/logHelpText.js";
 import { logOutro } from "./loggers/logOutro.js";
 import { logUnknownFlags } from "./loggers/logUnknownFlags.js";
@@ -30,6 +31,7 @@ export interface RunCLISettings {
 	argv: string[];
 	display: ClackDisplay;
 	from: string;
+	rerunFrom?: string;
 	template: Template;
 	values: RunCLIRawValues;
 }
@@ -38,6 +40,7 @@ export async function runCLI({
 	argv,
 	display,
 	from,
+	rerunFrom = from,
 	template,
 	values,
 }: RunCLISettings) {
@@ -66,6 +69,7 @@ export async function runCLI({
 		display,
 		from,
 		remote: validatedValues.remote,
+		rerunCommand: getRerunCommand(rerunFrom),
 		skips: {
 			files: validatedValues["skip-files"],
 			requests: validatedValues["skip-requests"],

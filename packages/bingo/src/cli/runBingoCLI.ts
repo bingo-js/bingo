@@ -1,4 +1,5 @@
 import * as prompts from "@clack/prompts";
+import path from "node:path";
 
 import { packageData } from "../packageData.js";
 import { runInsideClackDisplay } from "./display/runInsideClackDisplay.js";
@@ -7,7 +8,7 @@ import { logHelpOptions } from "./loggers/logHelpOptions.js";
 import { parseProcessArgv } from "./parseProcessArgv.js";
 import { runCLI } from "./runCLI.js";
 import { CLIStatus } from "./status.js";
-import { makeRelative } from "./utils.js";
+import { makeRelative, quoteIfSpaced } from "./utils.js";
 
 /**
  * Runs the full Bingo CLI, including reading process arguments.
@@ -37,6 +38,7 @@ export async function runBingoCLI() {
 			argv,
 			display,
 			from: "bingo",
+			rerunFrom: `bingo ${quoteIfSpaced(path.resolve(from))}`,
 			template,
 			values,
 		});

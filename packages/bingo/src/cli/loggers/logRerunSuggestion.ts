@@ -1,9 +1,7 @@
 import * as prompts from "@clack/prompts";
 import { styleText } from "node:util";
 
-import { getRerunCommand } from "./getRerunCommand.js";
-
-export function logRerunSuggestion(argv: string[], prompted: object) {
+export function logRerunSuggestion(rerunCommand: string, prompted: object) {
 	const promptedEntries = Object.entries(prompted);
 	if (!promptedEntries.length) {
 		return;
@@ -15,7 +13,7 @@ export function logRerunSuggestion(argv: string[], prompted: object) {
 			styleText(
 				"blue",
 				[
-					getRerunCommand(argv),
+					rerunCommand,
 					promptedEntries
 						.map(([key, value]) => stringifyPair(key, value))
 						.join(" "),

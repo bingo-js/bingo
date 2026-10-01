@@ -161,6 +161,8 @@ const argv = ["npx", "bingo-my-app"];
 
 const from = "create-example";
 
+const rerunCommand = "npx create-example";
+
 const promptedOptions = {
 	abc: "def",
 };
@@ -175,6 +177,7 @@ describe("runModeTransition", () => {
 			configFile: "example.config.ts",
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -182,7 +185,7 @@ describe("runModeTransition", () => {
 			error,
 			status: CLIStatus.Error,
 		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, {});
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
 	});
 
 	it("returns the error when prepareOptions throws an error", async () => {
@@ -194,11 +197,12 @@ describe("runModeTransition", () => {
 			configFile: undefined,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
 		expect(actual).toEqual({ status: CLIStatus.Error });
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, {});
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
 	});
 
 	it("returns the cancellation when promptForOptions is cancelled", async () => {
@@ -212,13 +216,17 @@ describe("runModeTransition", () => {
 			configFile: undefined,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
 		expect(actual).toEqual({
 			status: CLIStatus.Cancelled,
 		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			promptedOptions,
+		);
 	});
 
 	it("returns the error when resolveLocalRepository resolves with an error", async () => {
@@ -234,6 +242,7 @@ describe("runModeTransition", () => {
 			configFile: undefined,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -241,7 +250,10 @@ describe("runModeTransition", () => {
 			error: remote,
 			status: CLIStatus.Error,
 		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			promptedOptions,
+		);
 	});
 
 	it("returns the error when runTemplate resolves with an error", async () => {
@@ -258,6 +270,7 @@ describe("runModeTransition", () => {
 			configFile: undefined,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -265,7 +278,10 @@ describe("runModeTransition", () => {
 			outro: CLIMessage.Leaving,
 			status: CLIStatus.Error,
 		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			promptedOptions,
+		);
 	});
 
 	it("doesn't clear the existing repository when readConfigSettings resolves an error and a forked repository locator is available", async () => {
@@ -278,6 +294,7 @@ describe("runModeTransition", () => {
 			configFile: "example.config.ts",
 			display,
 			from,
+			rerunCommand,
 			template: templateWithRepository,
 		});
 
@@ -299,6 +316,7 @@ describe("runModeTransition", () => {
 			configFile: undefined,
 			display,
 			from,
+			rerunCommand,
 			template: templateWithRepository,
 		});
 
@@ -313,7 +331,7 @@ describe("runModeTransition", () => {
 		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
 		expect(mockPrepareOptions).not.toHaveBeenCalled();
 		expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, {});
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
 	});
 
 	it("returns an error without clearing the existing repository when uncommitted changes can't be determined and a forked repository locator is available", async () => {
@@ -325,6 +343,7 @@ describe("runModeTransition", () => {
 			configFile: undefined,
 			display,
 			from,
+			rerunCommand,
 			template: templateWithRepository,
 		});
 
@@ -339,7 +358,7 @@ describe("runModeTransition", () => {
 		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
 		expect(mockPrepareOptions).not.toHaveBeenCalled();
 		expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, {});
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
 	});
 
 	it("doesn't clear the existing repository when the template does not have a repository locator", async () => {
@@ -353,6 +372,7 @@ describe("runModeTransition", () => {
 			configFile: undefined,
 			display,
 			from,
+			rerunCommand,
 			template,
 		});
 
@@ -363,7 +383,10 @@ describe("runModeTransition", () => {
 		expect(mockCheckUncommittedChanges).not.toHaveBeenCalled();
 		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
 		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			promptedOptions,
+		);
 	});
 
 	it("clears the existing repository online when a forked repository locator is available and offline is falsy", async () => {
@@ -382,6 +405,7 @@ describe("runModeTransition", () => {
 			configFile: undefined,
 			display,
 			from,
+			rerunCommand,
 			template: templateWithRepository,
 		});
 
@@ -396,7 +420,10 @@ describe("runModeTransition", () => {
 			amend: true,
 			push: true,
 		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			promptedOptions,
+		);
 	});
 
 	it("clears the existing repository online when a remote is true, a locator exists, and offline is falsy", async () => {
@@ -416,6 +443,7 @@ describe("runModeTransition", () => {
 			display,
 			from,
 			remote: true,
+			rerunCommand,
 			template: templateWithRepository,
 		});
 
@@ -430,7 +458,10 @@ describe("runModeTransition", () => {
 			amend: true,
 			push: true,
 		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			promptedOptions,
+		);
 	});
 
 	it("clears the existing repository online when a remote is true, a locator does not exist, and offline is falsy", async () => {
@@ -446,6 +477,7 @@ describe("runModeTransition", () => {
 			display,
 			from,
 			remote: true,
+			rerunCommand,
 			template: templateWithRepository,
 		});
 
@@ -460,7 +492,10 @@ describe("runModeTransition", () => {
 			amend: true,
 			push: true,
 		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			promptedOptions,
+		);
 	});
 
 	it("clears the existing repository offline when a forked repository locator is available and offline is true", async () => {
@@ -482,6 +517,7 @@ describe("runModeTransition", () => {
 			display,
 			from,
 			offline: true,
+			rerunCommand,
 			template: templateWithRepository,
 		});
 
@@ -496,6 +532,9 @@ describe("runModeTransition", () => {
 			amend: true,
 			push: false,
 		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(argv, promptedOptions);
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			promptedOptions,
+		);
 	});
 });
