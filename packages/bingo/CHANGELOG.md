@@ -1,5 +1,11 @@
 # bingo
 
+## 0.13.1
+
+### Patch Changes
+
+- [#458](https://github.com/bingo-js/bingo/pull/458) [`7c79076`](https://github.com/bingo-js/bingo/commit/7c79076ebf00f8e9df59b59dbb286c46bbabc7a2) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - Used the template package name, local template path, and invoking package runner in suggested rerun commands
+
 ## 0.13.0
 
 ### Minor Changes
