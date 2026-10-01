@@ -1,5 +1,11 @@
 # bingo-testers
 
+## 0.8.0
+
+### Minor Changes
+
+- [#461](https://github.com/bingo-js/bingo/pull/461) [`bd54017`](https://github.com/bingo-js/bingo/commit/bd54017b4816878daa38ad1996947213bb09fcc8) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Changed `diffCreatedDirectory` to async and added support for an async `processText` option.
+
 ## 0.7.0
 
 ### Minor Changes
