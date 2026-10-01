@@ -156,14 +156,14 @@ describe("diffCreatedDirectory", () => {
 		CreatedDirectory,
 		CreatedDirectory,
 		DiffedCreatedDirectory | undefined,
-	][])("%j and %j", (actual, created, expected) => {
-		expect(withoutColors(diffCreatedDirectory(actual, created))).toEqual(
+	][])("%j and %j", async (actual, created, expected) => {
+		expect(withoutColors(await diffCreatedDirectory(actual, created))).toEqual(
 			expected,
 		);
 	});
 
-	test("processes text with a processText option", () => {
-		const actual = diffCreatedDirectory(
+	test("processes text with a processText option", async () => {
+		const actual = await diffCreatedDirectory(
 			{ a: "b\n" },
 			{ a: "b\n\n" },
 			{ processText: (text) => text.trim() },
@@ -172,17 +172,27 @@ describe("diffCreatedDirectory", () => {
 		expect(actual).toBeUndefined();
 	});
 
+	test("processes text with an async processText function", async () => {
+		const actual = await diffCreatedDirectory(
+			{ a: "b\n" },
+			{ a: "b\n\n" },
+			{ processText: async (text) => Promise.resolve(text.trim()) },
+		);
+
+		expect(actual).toBeUndefined();
+	});
+
 	describe("colors", () => {
-		test("colors removed and added lines", () => {
-			const actual = diffCreatedDirectory({ a: "b\n" }, { a: "c\n" });
+		test("colors removed and added lines", async () => {
+			const actual = await diffCreatedDirectory({ a: "b\n" }, { a: "c\n" });
 
 			expect(actual).toEqual({
 				a: [c.red("- b"), c.green("+ c"), ""].join("\n"),
 			});
 		});
 
-		test("highlights the changed segments within lines", () => {
-			const actual = diffCreatedDirectory(
+		test("highlights the changed segments within lines", async () => {
+			const actual = await diffCreatedDirectory(
 				{ a: "const value = 123;\nunchanged\n" },
 				{ a: "const value = 456;\nunchanged\n" },
 			);
@@ -197,8 +207,8 @@ describe("diffCreatedDirectory", () => {
 			});
 		});
 
-		test("colors metadata diffs", () => {
-			const actual = diffCreatedDirectory(
+		test("colors metadata diffs", async () => {
+			const actual = await diffCreatedDirectory(
 				{ a: ["", { executable: true }] },
 				{ a: ["", { executable: false }] },
 			);
