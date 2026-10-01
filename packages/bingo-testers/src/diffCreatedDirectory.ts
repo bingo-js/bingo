@@ -27,24 +27,32 @@ export interface DiffedCreatedFileMetadata {
 	executable?: string;
 }
 
-export type ProcessText = (text: string, filePath: string) => string;
+export type ProcessText = (
+	text: string,
+	filePath: string,
+) => Promise<string> | string;
 
-export function diffCreatedDirectory(
+export async function diffCreatedDirectory(
 	actual: CreatedDirectory,
 	created: CreatedDirectory,
 	{ processText = (text) => text }: DiffCreatedDirectoryOptions = {},
-): DiffedCreatedDirectory | undefined {
-	const result = diffCreatedDirectoryWorker(actual, created, ".", processText);
+): Promise<DiffedCreatedDirectory | undefined> {
+	const result = await diffCreatedDirectoryWorker(
+		actual,
+		created,
+		".",
+		processText,
+	);
 
 	return result && withoutUndefinedProperties(result);
 }
 
-function diffCreatedDirectoryChild(
+async function diffCreatedDirectoryChild(
 	childActual: CreatedEntry | undefined,
 	childCreated: CreatedEntry | undefined,
 	pathToChild: string,
 	processText: ProcessText,
-): DiffedCreatedFileEntry | undefined {
+): Promise<DiffedCreatedFileEntry | undefined> {
 	if (childActual === undefined) {
 		return childCreated;
 	}
@@ -66,13 +74,13 @@ function diffCreatedDirectoryChild(
 
 	if (Array.isArray(childActual)) {
 		if (Array.isArray(childCreated)) {
-			const fileDiff = diffCreatedFileText(
+			const fileDiff = await diffCreatedFileText(
 				childActual[0],
 				childCreated[0],
 				pathToChild,
 				processText,
 			);
-			const optionsDiff = diffCreatedFileMetadata(
+			const optionsDiff = await diffCreatedFileMetadata(
 				childActual[1],
 				childCreated[1],
 				pathToChild,
@@ -120,12 +128,12 @@ function diffCreatedDirectoryChild(
 	return `Mismatched ${pathToChild}: actual is ${typeof childActual}; created is ${typeof childCreated}.`;
 }
 
-function diffCreatedDirectoryWorker(
+async function diffCreatedDirectoryWorker(
 	actual: CreatedDirectory,
 	created: CreatedDirectory,
 	pathTo: string,
 	processText: ProcessText,
-): DiffedCreatedDirectory | undefined {
+): Promise<DiffedCreatedDirectory | undefined> {
 	const result: DiffedCreatedDirectory = {};
 
 	for (const [childName, childCreated] of Object.entries(created)) {
@@ -137,7 +145,7 @@ function diffCreatedDirectoryWorker(
 		const childActual = actual[childName];
 		const pathToChild = path.join(pathTo, childName);
 
-		const childDiffed = diffCreatedDirectoryChild(
+		const childDiffed = await diffCreatedDirectoryChild(
 			childActual,
 			childCreated,
 			pathToChild,
@@ -152,11 +160,11 @@ function diffCreatedDirectoryWorker(
 	return undefinedIfEmpty(withoutUndefinedProperties(result));
 }
 
-function diffCreatedFileMetadata(
+async function diffCreatedFileMetadata(
 	actual: CreatedFileMetadata | undefined,
 	created: CreatedFileMetadata | undefined,
 	pathToFile: string,
-): DiffedCreatedFileMetadata | undefined {
+): Promise<DiffedCreatedFileMetadata | undefined> {
 	if (
 		actual?.executable === undefined ||
 		created?.executable === undefined ||
@@ -166,7 +174,7 @@ function diffCreatedFileMetadata(
 	}
 
 	return {
-		executable: diffCreatedFileText(
+		executable: await diffCreatedFileText(
 			actual.executable.toString(),
 			created.executable.toString(),
 			pathToFile,
@@ -175,14 +183,14 @@ function diffCreatedFileMetadata(
 	};
 }
 
-function diffCreatedFileText(
+async function diffCreatedFileText(
 	actual: string,
 	created: string,
 	pathToFile: string,
 	processText: ProcessText,
-) {
-	const actualProcessed = processText(actual, pathToFile);
-	const createdProcessed = processText(created, pathToFile);
+): Promise<string | undefined> {
+	const actualProcessed = await processText(actual, pathToFile);
+	const createdProcessed = await processText(created, pathToFile);
 
 	return actualProcessed === createdProcessed
 		? undefined
