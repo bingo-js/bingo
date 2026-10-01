@@ -8,7 +8,7 @@ import { logHelpOptions } from "./loggers/logHelpOptions.js";
 import { parseProcessArgv } from "./parseProcessArgv.js";
 import { runCLI } from "./runCLI.js";
 import { CLIStatus } from "./status.js";
-import { makeRelative } from "./utils.js";
+import { makeRelative, quoteIfSpaced } from "./utils.js";
 
 /**
  * Runs the full Bingo CLI, including reading process arguments.
@@ -56,8 +56,4 @@ export async function runBingoCLI() {
 
 		return result;
 	});
-}
-
-function quoteIfSpaced(text: string) {
-	return text.includes(" ") ? `"${text}"` : text;
 }

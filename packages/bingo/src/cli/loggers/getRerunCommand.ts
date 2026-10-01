@@ -13,7 +13,6 @@ function getPackageRunner() {
 		return "pnpm dlx";
 	}
 
-	// Yarn Classic (v1) doesn't have a dlx command
 	if (userAgent.startsWith("yarn/") && !userAgent.startsWith("yarn/1.")) {
 		return "yarn dlx";
 	}

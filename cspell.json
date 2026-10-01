@@ -12,5 +12,12 @@
 		"packages/site/src/content",
 		"pnpm-lock.yaml"
 	],
-	"words": ["joshuakgoldberg", "Rajlich", "rumpl", "tinyrainbow"]
+	"words": [
+		"bunx",
+		"joshuakgoldberg",
+		"Rajlich",
+		"rumpl",
+		"tinyrainbow",
+		"unstub"
+	]
 }

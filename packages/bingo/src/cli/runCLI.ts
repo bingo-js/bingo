@@ -31,10 +31,6 @@ export interface RunCLISettings {
 	argv: string[];
 	display: ClackDisplay;
 	from: string;
-
-	/**
-	 * What to run with the package runner to rerun the CLI, if not just `from`.
-	 */
 	rerunFrom?: string;
 	template: Template;
 	values: RunCLIRawValues;
