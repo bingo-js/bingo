@@ -108,6 +108,7 @@ describe("parseOptionsArgs", () => {
 			issues: [
 				{
 					flag: "value",
+					kind: "invalid",
 					message: '--value: Expected a number, received "abc".',
 				},
 			],
@@ -135,6 +136,7 @@ describe("parseOptionsArgs", () => {
 			issues: [
 				{
 					flag: "value",
+					kind: "invalid",
 					message: '--value: Expected valid JSON, received "{".',
 				},
 			],
@@ -174,7 +176,7 @@ describe("parseOptionsArgs", () => {
 
 		expect(actual).toEqual({
 			issues: [],
-			unknown: { mode: true, offline: true, x: true },
+			unknown: { mode: "setup", offline: true, x: true },
 			values: {},
 		});
 	});

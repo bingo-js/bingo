@@ -185,7 +185,11 @@ describe("runModeTransition", () => {
 			error,
 			status: CLIStatus.Error,
 		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			{},
+			template.options,
+		);
 	});
 
 	it("returns the error when prepareOptions throws an error", async () => {
@@ -202,7 +206,11 @@ describe("runModeTransition", () => {
 		});
 
 		expect(actual).toEqual({ status: CLIStatus.Error });
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			{},
+			template.options,
+		);
 	});
 
 	it("returns the cancellation when promptForOptions is cancelled", async () => {
@@ -226,6 +234,7 @@ describe("runModeTransition", () => {
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
 			rerunCommand,
 			promptedOptions,
+			template.options,
 		);
 	});
 
@@ -253,6 +262,7 @@ describe("runModeTransition", () => {
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
 			rerunCommand,
 			promptedOptions,
+			template.options,
 		);
 	});
 
@@ -281,6 +291,7 @@ describe("runModeTransition", () => {
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
 			rerunCommand,
 			promptedOptions,
+			template.options,
 		);
 	});
 
@@ -331,7 +342,11 @@ describe("runModeTransition", () => {
 		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
 		expect(mockPrepareOptions).not.toHaveBeenCalled();
 		expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			{},
+			templateWithRepository.options,
+		);
 	});
 
 	it("returns an error without clearing the existing repository when uncommitted changes can't be determined and a forked repository locator is available", async () => {
@@ -358,7 +373,11 @@ describe("runModeTransition", () => {
 		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
 		expect(mockPrepareOptions).not.toHaveBeenCalled();
 		expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+			rerunCommand,
+			{},
+			templateWithRepository.options,
+		);
 	});
 
 	it("doesn't clear the existing repository when the template does not have a repository locator", async () => {
@@ -386,6 +405,7 @@ describe("runModeTransition", () => {
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
 			rerunCommand,
 			promptedOptions,
+			template.options,
 		);
 	});
 
@@ -423,6 +443,7 @@ describe("runModeTransition", () => {
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
 			rerunCommand,
 			promptedOptions,
+			templateWithRepository.options,
 		);
 	});
 
@@ -461,6 +482,7 @@ describe("runModeTransition", () => {
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
 			rerunCommand,
 			promptedOptions,
+			templateWithRepository.options,
 		);
 	});
 
@@ -495,6 +517,7 @@ describe("runModeTransition", () => {
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
 			rerunCommand,
 			promptedOptions,
+			templateWithRepository.options,
 		);
 	});
 
@@ -535,6 +558,7 @@ describe("runModeTransition", () => {
 		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
 			rerunCommand,
 			promptedOptions,
+			templateWithRepository.options,
 		);
 	});
 });

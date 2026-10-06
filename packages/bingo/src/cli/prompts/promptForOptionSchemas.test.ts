@@ -55,7 +55,7 @@ describe(promptForOptionSchemas, () => {
 			system,
 		});
 
-		expect(actual).toBe(result);
+		expect(actual).toEqual(result);
 		expect(mockPromptForOptions).toHaveBeenCalledWith({
 			flags: [
 				{
@@ -76,6 +76,33 @@ describe(promptForOptionSchemas, () => {
 				},
 			],
 			values: { directory, title: "abc" },
+		});
+	});
+
+	it("completes prompted values with their schemas' outputs while keeping prompted values as entered", async () => {
+		mockPromptForOptions.mockResolvedValueOnce({
+			cancelled: false,
+			completed: { count: 1, directory, length: "abc", title: "xyz" },
+			prompted: { count: 1, length: "abc" },
+		});
+		const template = createTemplate({
+			options: {
+				count: z.number(),
+				length: z.string().transform((text) => text.length),
+				title: z.string().transform((text) => text.toUpperCase()),
+			},
+			produce: vi.fn(),
+		});
+
+		const actual = await promptForOptionSchemas(template, {
+			existing: { title: "xyz" },
+			system,
+		});
+
+		expect(actual).toEqual({
+			cancelled: false,
+			completed: { count: 1, directory, length: 3, title: "xyz" },
+			prompted: { count: 1, length: "abc" },
 		});
 	});
 

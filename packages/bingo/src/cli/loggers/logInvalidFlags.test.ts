@@ -12,8 +12,16 @@ vi.mock("@clack/prompts", () => ({
 describe(logInvalidFlags, () => {
 	it("logs each issue's message on its own line", () => {
 		logInvalidFlags([
-			{ flag: "count", message: '--count: Expected a number, received "abc".' },
-			{ flag: "title", message: "--title requires a value." },
+			{
+				flag: "count",
+				kind: "invalid",
+				message: '--count: Expected a number, received "abc".',
+			},
+			{
+				flag: "title",
+				kind: "invalid",
+				message: "--title requires a value.",
+			},
 		]);
 
 		expect(prompts.log.error).toHaveBeenCalledWith(

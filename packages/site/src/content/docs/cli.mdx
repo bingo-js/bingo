@@ -201,8 +201,11 @@ Flags are parsed based on their option's type:
 
 - Booleans may be provided as `--flag`, `--flag=false`, or `--no-flag`
 - Numbers are converted from text, as in `--count 3`
-- Arrays may be provided by repeating the flag, as in `--keywords a --keywords b`
+- Arrays may be provided by repeating the flag, as in `--keywords a --keywords b`, or as one JSON array if they contain booleans, objects, or arrays, as in `--flags '[true,false]'`
 - Objects are provided as JSON, as in `--logo '{"alt":"My logo","src":"logo.png"}'`
+- Values that start with `-` may be provided inline with `=`, as in `--prefix=-dev`, and must be if they start with `--`
+
+Values that can't be converted to their option's type, such as `--count abc` for a number, are reported as errors.
 
 Any required options that are not provided will be prompted for by the template's CLI.
 

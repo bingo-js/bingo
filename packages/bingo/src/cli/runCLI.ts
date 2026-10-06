@@ -9,6 +9,7 @@ import { logInvalidFlags } from "./loggers/logInvalidFlags.js";
 import { logOutro } from "./loggers/logOutro.js";
 import { logUnknownFlags } from "./loggers/logUnknownFlags.js";
 import { RunCLIRawValues } from "./parseProcessArgv.js";
+import { getTemplateOptionsError } from "./parsers/getTemplateOptionsError.js";
 import { getUnknownFlags } from "./parsers/getUnknownFlags.js";
 import { parseOptionsArgs } from "./parsers/parseOptionsArgs.js";
 import { readProductionSettings } from "./readProductionSettings.js";
@@ -46,15 +47,18 @@ export async function runCLI({
 	template,
 	values,
 }: RunCLISettings) {
+	const optionsError = getTemplateOptionsError(template.options);
+	if (optionsError) {
+		return { error: optionsError, status: CLIStatus.Error };
+	}
+
 	const { issues, unknown } = parseOptionsArgs(argv, template.options);
 	const unknownFlags = getUnknownFlags(unknown, template.options);
 	if (unknownFlags.length) {
 		logUnknownFlags(unknownFlags);
-	}
-	if (issues.length) {
-		logInvalidFlags(issues);
-	}
-	if (unknownFlags.length || issues.length) {
+		if (issues.length) {
+			logInvalidFlags(issues);
+		}
 		return { status: CLIStatus.Error };
 	}
 
@@ -69,6 +73,11 @@ export async function runCLI({
 	}
 	if (validatedValues.help) {
 		return logHelpText(productionSettings.mode, from, template);
+	}
+
+	if (issues.length) {
+		logInvalidFlags(issues);
+		return { status: CLIStatus.Error };
 	}
 
 	const sharedSettings = {
