@@ -199,6 +199,7 @@ npx example-template --add-extra-fun
 ### `options`
 
 The [Zod](https://zod.dev) values for options that will be made available to the template's producer methods.
+Options must be created with Zod 4.2 or newer, which supports [Standard JSON Schema](https://standardschema.dev/json-schema) for the Bingo CLI to parse, describe, and prompt for them.
 
 For example, this template defines a required `name` string and optional `value` number:
 

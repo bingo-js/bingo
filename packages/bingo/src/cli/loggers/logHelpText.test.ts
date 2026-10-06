@@ -172,4 +172,45 @@ describe("logHelpText", () => {
 			]
 		`);
 	});
+
+	test("template options of each type", () => {
+		logHelpText(
+			"transition",
+			"./template.js",
+			createTemplate({
+				about: { name: "My Template" },
+				options: {
+					access: z
+						.union([z.literal("public"), z.literal("restricted")])
+						.default("public")
+						.describe("npm access"),
+					count: z.number().int().optional().describe("how many"),
+					emoji: z.string().optional(),
+					hidden: z.string().optional().meta({ hidden: true }),
+					keywords: z.array(z.string()).optional().describe("keywords"),
+					logo: z
+						.object({ alt: z.string(), src: z.string() })
+						.optional()
+						.describe("logo for the repository"),
+					private: z.boolean().optional().describe("whether it's private"),
+					type: z.enum(["commonjs", "module"]).describe("module type"),
+				},
+				produce: vi.fn(),
+			}),
+		);
+
+		expect(mockLog.message.mock.calls[1]).toMatchInlineSnapshot(`
+			[
+			  "My Template options:
+
+			  --access ("public" | "restricted"): Npm access.
+			  --count (integer): How many.
+			  --emoji (string): 
+			  --keywords (string[]): Keywords.
+			  --logo (json): Logo for the repository.
+			  --private (boolean): Whether it's private.
+			  --type ("commonjs" | "module"): Module type.",
+			]
+		`);
+	});
 });

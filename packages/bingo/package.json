@@ -35,6 +35,7 @@
 		"hash-object": "^5.0.1",
 		"hosted-git-info": "^9.0.2",
 		"new-github-repository": "^0.2.4",
+		"parse-standard-args": "link:../../../parse-standard-args",
 		"read-package-up": "^12.0.0",
 		"read-pkg": "^10.0.0",
 		"slugify": "^1.6.9",
