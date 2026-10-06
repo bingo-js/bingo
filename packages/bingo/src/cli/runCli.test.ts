@@ -1,5 +1,6 @@
 import { styleText } from "node:util";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { z } from "zod";
 
 import { createTemplate } from "../creators/createTemplate.js";
 import { createClackDisplay } from "./display/createClackDisplay.js";
@@ -19,6 +20,14 @@ const mockLogUnknownFlags = vi.fn();
 vi.mock("./loggers/logUnknownFlags.js", () => ({
 	get logUnknownFlags() {
 		return mockLogUnknownFlags;
+	},
+}));
+
+const mockLogInvalidFlags = vi.fn();
+
+vi.mock("./loggers/logInvalidFlags.js", () => ({
+	get logInvalidFlags() {
+		return mockLogInvalidFlags;
 	},
 }));
 
@@ -67,7 +76,7 @@ describe("runCli", () => {
 
 	it("logs unknown flags and errors when an unknown flag is provided", async () => {
 		const actual = await runCLI({
-			argv,
+			argv: [...argv, "--skip-file"],
 			display: createClackDisplay(),
 			from: "",
 			template,
@@ -76,6 +85,58 @@ describe("runCli", () => {
 
 		expect(mockLogUnknownFlags).toHaveBeenCalledWith([
 			{ flag: "skip-file", suggestion: "skip-files" },
+		]);
+		expect(mockLogInvalidFlags).not.toHaveBeenCalled();
+		expect(actual).toEqual({ status: CLIStatus.Error });
+		expect(mockReadProductionSettings).not.toHaveBeenCalled();
+	});
+
+	it("does not log unknown flags when only known CLI flags and template options are provided", async () => {
+		mockReadProductionSettings.mockResolvedValueOnce({
+			mode: "setup",
+		});
+
+		await runCLI({
+			argv: [
+				...argv,
+				"--offline",
+				"--mode",
+				"setup",
+				"--no-value",
+				"--title=abc",
+			],
+			display: createClackDisplay(),
+			from: "",
+			template: createTemplate({
+				options: {
+					title: z.string() as unknown,
+					value: z.boolean().default(true) as unknown,
+				},
+				produce: vi.fn(),
+			}),
+			values: { mode: "setup", offline: true },
+		});
+
+		expect(mockLogUnknownFlags).not.toHaveBeenCalled();
+		expect(mockLogInvalidFlags).not.toHaveBeenCalled();
+		expect(mockRunModeSetup).toHaveBeenCalled();
+	});
+
+	it("logs invalid flags and errors when a template option's value can't be converted", async () => {
+		const actual = await runCLI({
+			argv: [...argv, "--count", "abc"],
+			display: createClackDisplay(),
+			from: "",
+			template: createTemplate({
+				options: { count: z.number() as unknown },
+				produce: vi.fn(),
+			}),
+			values: {},
+		});
+
+		expect(mockLogUnknownFlags).not.toHaveBeenCalled();
+		expect(mockLogInvalidFlags).toHaveBeenCalledWith([
+			{ flag: "count", message: '--count: Expected a number, received "abc".' },
 		]);
 		expect(actual).toEqual({ status: CLIStatus.Error });
 		expect(mockReadProductionSettings).not.toHaveBeenCalled();

@@ -32,7 +32,9 @@ describe("logRerunSuggestion", () => {
 			"is-false": false,
 			"is-true": true,
 			multiple: ["def", 456],
+			multipleObjects: [{ a: 1 }, { b: "it's" }],
 			numeric: 123,
+			object: { a: "b c", d: [1] },
 			spaced: "a bb ccc",
 			stringy: "abc",
 		});
@@ -40,7 +42,7 @@ describe("logRerunSuggestion", () => {
 		expect(mockLog.info.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
-			    "Tip: to run again with the same input values, use: npx my-app --is-false false --is-true --multiple def --multiple 456 --numeric 123 --spaced "a bb ccc" --stringy abc",
+			    "Tip: to run again with the same input values, use: npx my-app --is-false=false --is-true --multiple def --multiple 456 --multipleObjects '{"a":1}' --multipleObjects '{"b":"it'\\''s"}' --numeric 123 --object '{"a":"b c","d":[1]}' --spaced "a bb ccc" --stringy abc",
 			  ],
 			]
 		`);

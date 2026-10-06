@@ -11,7 +11,7 @@ import { runSpinnerTask } from "../display/runSpinnerTask.js";
 import { logRerunSuggestion } from "../loggers/logRerunSuggestion.js";
 import { logStartText } from "../loggers/logStartText.js";
 import { CLIMessage } from "../messages.js";
-import { parseZodArgs } from "../parsers/parseZodArgs.js";
+import { parseOptionsArgs } from "../parsers/parseOptionsArgs.js";
 import { promptForOptionSchemas } from "../prompts/promptForOptionSchemas.js";
 import { checkUncommittedChanges } from "../repository/checkUncommittedChanges.js";
 import { clearLocalGitTags } from "../repository/clearLocalGitTags.js";
@@ -60,7 +60,7 @@ export async function runModeTransition({
 		template.about?.repository &&
 		(await getForkedRepositoryLocator(directory, template.about.repository));
 
-	const providedOptions = parseZodArgs(argv, template.options);
+	const providedOptions = parseOptionsArgs(argv, template.options).values;
 
 	const loadedConfig = await readConfigSettings(
 		configFile,

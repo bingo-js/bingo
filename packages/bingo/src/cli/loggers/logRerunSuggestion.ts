@@ -30,8 +30,12 @@ function stringifyPair(key: string, value: unknown): string {
 
 	const flag = `--${key}`;
 
-	if (typeof value === "boolean" && value) {
-		return flag;
+	if (typeof value === "boolean") {
+		return value ? flag : `${flag}=false`;
+	}
+
+	if (typeof value === "object" && value !== null) {
+		return `${flag} '${JSON.stringify(value).replaceAll("'", `'\\''`)}'`;
 	}
 
 	const valueStringified = String(value);

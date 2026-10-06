@@ -6,17 +6,11 @@ import { createTemplate } from "../../creators/createTemplate.js";
 import { SystemContext } from "../../types/system.js";
 import { promptForOptionSchemas } from "./promptForOptionSchemas.js";
 
-const mockCancel = Symbol("cancel");
+const mockPromptForOptions = vi.fn();
 
-vi.mock("@clack/prompts", () => ({
-	isCancel: (value: unknown) => value === mockCancel,
-}));
-
-const mockPromptForOptionSchema = vi.fn();
-
-vi.mock("./promptForOptionSchema.js", () => ({
-	get promptForOptionSchema() {
-		return mockPromptForOptionSchema;
+vi.mock("parse-standard-args/prompts", () => ({
+	get promptForOptions() {
+		return mockPromptForOptions;
 	},
 }));
 
@@ -41,83 +35,70 @@ const system: SystemContext = {
 };
 
 describe(promptForOptionSchemas, () => {
-	it("does not prompt when an optional option has no default", async () => {
-		const template = createTemplate({
-			options: { value: z.string().optional() },
-			produce: vi.fn(),
-		});
-
-		const actual = await promptForOptionSchemas(template, {
-			existing: {},
-			system,
-		});
-
-		expect(actual).toEqual({
+	it("prompts with a flag for each option and existing values, including the system directory", async () => {
+		const result = {
 			cancelled: false,
-			completed: { directory },
-			prompted: {},
-		});
-		expect(mockPromptForOptionSchema).not.toHaveBeenCalled();
-	});
-
-	it("does not prompt when an option already has an existing value", async () => {
-		const template = createTemplate({
-			options: { value: z.string() },
-			produce: vi.fn(),
-		});
-
-		const actual = await promptForOptionSchemas(template, {
-			existing: { value: "abc" },
-			system,
-		});
-
-		expect(actual).toEqual({
-			cancelled: false,
-			completed: { directory, value: "abc" },
-			prompted: {},
-		});
-		expect(mockPromptForOptionSchema).not.toHaveBeenCalled();
-	});
-
-	it("prompts with the schema's description and default when an option is required", async () => {
-		mockPromptForOptionSchema.mockResolvedValueOnce("prompted value");
+			completed: { directory, title: "abc", value: "def" },
+			prompted: { value: "def" },
+		};
+		mockPromptForOptions.mockResolvedValueOnce(result);
 		const template = createTemplate({
 			options: {
+				title: z.string(),
 				value: z.string().describe("very cool value").default("abc"),
 			},
 			produce: vi.fn(),
 		});
 
 		const actual = await promptForOptionSchemas(template, {
-			existing: {},
+			existing: { title: "abc" },
 			system,
 		});
 
-		expect(actual).toEqual({
-			cancelled: false,
-			completed: { directory, value: "prompted value" },
-			prompted: { value: "prompted value" },
+		expect(actual).toBe(result);
+		expect(mockPromptForOptions).toHaveBeenCalledWith({
+			flags: [
+				{
+					key: "title",
+					kind: "string",
+					multiple: false,
+					required: true,
+					schema: template.options.title,
+				},
+				{
+					default: "abc",
+					description: "very cool value",
+					key: "value",
+					kind: "string",
+					multiple: false,
+					required: false,
+					schema: template.options.value,
+				},
+			],
+			values: { directory, title: "abc" },
 		});
-		expect(mockPromptForOptionSchema).toHaveBeenCalledWith(
-			"value",
-			template.options.value,
-			"very cool value",
-			"abc",
-		);
 	});
 
-	it("returns cancelled when a prompt is cancelled", async () => {
-		mockPromptForOptionSchema.mockResolvedValueOnce(mockCancel);
+	it("prefers an existing directory over the system directory", async () => {
+		mockPromptForOptions.mockResolvedValueOnce({
+			cancelled: true,
+			prompted: {},
+		});
 		const template = createTemplate({
-			options: { value: z.string() },
+			options: { directory: z.string() },
 			produce: vi.fn(),
 		});
 
 		const actual = await promptForOptionSchemas(template, {
-			existing: {},
+			existing: { directory: "other-directory" },
 			system,
 		});
 
 		expect(actual).toEqual({ cancelled: true, prompted: {} });
+		expect(mockPromptForOptions).toHaveBeenCalledWith(
+			expect.objectContaining({
+				values: { directory: "other-directory" },
+			}),
+		);
 	});
 });

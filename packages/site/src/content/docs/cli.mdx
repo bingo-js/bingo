@@ -197,6 +197,13 @@ For example, if a template defines a `title` option, `--title` will be type `str
 	type="dlx"
 />
 
+Flags are parsed based on their option's type:
+
+- Booleans may be provided as `--flag`, `--flag=false`, or `--no-flag`
+- Numbers are converted from text, as in `--count 3`
+- Arrays may be provided by repeating the flag, as in `--keywords a --keywords b`
+- Objects are provided as JSON, as in `--logo '{"alt":"My logo","src":"logo.png"}'`
+
 Any required options that are not provided will be prompted for by the template's CLI.
 
 :::tip

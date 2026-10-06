@@ -13,7 +13,7 @@ import { GitRepositoryType } from "../getGitRepositoryType.js";
 import { logRerunSuggestion } from "../loggers/logRerunSuggestion.js";
 import { logStartText } from "../loggers/logStartText.js";
 import { CLIMessage } from "../messages.js";
-import { parseZodArgs } from "../parsers/parseZodArgs.js";
+import { parseOptionsArgs } from "../parsers/parseOptionsArgs.js";
 import { promptForDirectory } from "../prompts/promptForDirectory.js";
 import { promptForOptionSchemas } from "../prompts/promptForOptionSchemas.js";
 import { prepareGitRepository } from "../repository/prepareGitRepository.js";
@@ -64,12 +64,12 @@ export async function runModeSetup({
 		offline,
 	});
 
-	const providedOptions = parseZodArgs(argv, {
+	const providedOptions = parseOptionsArgs(argv, {
 		directory: z.string().optional(),
 		owner: z.string().optional(),
 		repository: z.string().optional(),
 		...template.options,
-	});
+	}).values;
 
 	const preparedOptions = await runSpinnerTask(
 		display,

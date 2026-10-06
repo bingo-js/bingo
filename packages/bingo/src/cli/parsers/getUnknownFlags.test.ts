@@ -34,6 +34,15 @@ describe(getUnknownFlags, () => {
 		expect(actual).toEqual([{ flag: "titles", suggestion: "title" }]);
 	});
 
+	it("returns a suggestion when an unknown flag differs from a template option only by case", () => {
+		const actual = getUnknownFlags(
+			{ BUNDLER: "vite" },
+			{ bundler: z.string() },
+		);
+
+		expect(actual).toEqual([{ flag: "BUNDLER", suggestion: "bundler" }]);
+	});
+
 	it("returns no suggestion when an unknown flag is not close to any known flag", () => {
 		const actual = getUnknownFlags({ wat: true }, {});
 
