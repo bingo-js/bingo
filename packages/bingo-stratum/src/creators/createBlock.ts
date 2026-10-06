@@ -49,7 +49,11 @@ export function createBlock<
 	block.produce = (context: BlockContextWithAddons<Addons, Options>) => {
 		return produce({
 			...context,
-			addons: applyZodDefaults(addonsSchema, context.addons),
+			addons: applyZodDefaults(
+				addonsSchema,
+				context.addons,
+				blockDefinition.about?.name,
+			),
 		});
 	};
 

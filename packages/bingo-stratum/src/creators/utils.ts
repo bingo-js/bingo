@@ -6,8 +6,23 @@ import { Block } from "../types/blocks.js";
 export function applyZodDefaults<Shape extends AnyOptionalShape>(
 	shape: Shape,
 	value: InferredObject<Shape> | undefined,
+	blockName?: string,
 ): InferredObject<Shape> {
-	return z.object(shape).parse(value ?? {}) as InferredObject<Shape>;
+	const result = z.strictObject(shape).safeParse(value ?? {});
+	if (result.success) {
+		return result.data as InferredObject<Shape>;
+	}
+
+	const unrecognized = result.error.issues.find(
+		(issue) => issue.code === "unrecognized_keys",
+	);
+	if (unrecognized) {
+		throw new Error(
+			`Unknown Addon(s) for ${blockName ? `Block ${blockName}` : "Block"}: ${unrecognized.keys.join(", ")}.`,
+		);
+	}
+
+	throw result.error;
 }
 
 export function isBlockWithName<

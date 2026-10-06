@@ -142,6 +142,47 @@ describe("createBlock", () => {
 			});
 		});
 
+		it("throws when producing with an unknown Addon and the Block has an about name", () => {
+			const block = createBlock<
+				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
+				{ name: string }
+			>({
+				about: { name: "Example" },
+				addons: {
+					names: z.array(z.string()).default([]),
+				},
+			});
+
+			expect(() =>
+				block.produce({
+					addons: { names: [], unknown: true } as { names: string[] },
+					options: { name: "abc", preset: "test" },
+				}),
+			).toThrowErrorMatchingInlineSnapshot(
+				`[Error: Unknown Addon(s) for Block Example: unknown.]`,
+			);
+		});
+
+		it("throws when producing with an unknown Addon and the Block has no about name", () => {
+			const block = createBlock<
+				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
+				{ name: string }
+			>({
+				addons: {
+					names: z.array(z.string()).default([]),
+				},
+			});
+
+			expect(() =>
+				block.produce({
+					addons: { names: [], unknown: true } as { names: string[] },
+					options: { name: "abc", preset: "test" },
+				}),
+			).toThrowErrorMatchingInlineSnapshot(
+				`[Error: Unknown Addon(s) for Block: unknown.]`,
+			);
+		});
+
 		it("produces Addons for another Block", () => {
 			const blockReceiving = createBlock<
 				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
