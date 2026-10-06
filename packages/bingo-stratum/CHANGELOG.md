@@ -1,5 +1,11 @@
 # bingo-stratum
 
+## 0.8.0
+
+### Minor Changes
+
+- [#467](https://github.com/bingo-js/bingo/pull/467) [`e9e9df3`](https://github.com/bingo-js/bingo/commit/e9e9df304fb35df322caca843a10d388e3854d3c) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - Report unknown Block Addons instead of silently dropping them
+
 ## 0.7.1
 
 ### Patch Changes
