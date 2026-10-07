@@ -204,5 +204,6 @@ export async function runModeTransition({
 		: {
 				outro: repositoryLocator ? CLIMessage.New : CLIMessage.Done,
 				status: CLIStatus.Success,
+				suggestions: creation.suggestions,
 			};
 }

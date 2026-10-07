@@ -40,7 +40,7 @@ vi.mock("../repository/resolveLocalRepository.js", () => ({
 	},
 }));
 
-const mockRunTemplate = vi.fn();
+const mockRunTemplate = vi.fn().mockResolvedValue({});
 
 vi.mock("../../runners/runTemplate.js", () => ({
 	get runTemplate() {
@@ -387,6 +387,31 @@ describe("runModeTransition", () => {
 			rerunCommand,
 			promptedOptions,
 		);
+	});
+
+	it("returns suggestions from the creation when everything succeeds", async () => {
+		const suggestions = ["Suggestion."];
+
+		mockPromptForOptionSchemas.mockResolvedValueOnce({
+			prompted: promptedOptions,
+		});
+		mockResolveLocalRepository.mockResolvedValueOnce({});
+		mockRunTemplate.mockResolvedValueOnce({ creation: {}, suggestions });
+
+		const actual = await runModeTransition({
+			argv,
+			configFile: undefined,
+			display,
+			from,
+			rerunCommand,
+			template,
+		});
+
+		expect(actual).toEqual({
+			outro: CLIMessage.Done,
+			status: CLIStatus.Success,
+			suggestions,
+		});
 	});
 
 	it("clears the existing repository online when a forked repository locator is available and offline is falsy", async () => {
