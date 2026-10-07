@@ -1,5 +1,11 @@
 # bingo
 
+## 0.13.2
+
+### Patch Changes
+
+- [#470](https://github.com/bingo-js/bingo/pull/470) [`8b3d7a0`](https://github.com/bingo-js/bingo/commit/8b3d7a0d5232770c68d5932a0b392dd820c0d6c2) Thanks [@JoshuaKGoldberg](https://github.com/JoshuaKGoldberg)! - Log creation suggestions in transition mode's outro, as in setup mode
+
 ## 0.13.1
 
 ### Patch Changes
