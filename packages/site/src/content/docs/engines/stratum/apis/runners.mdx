@@ -53,11 +53,11 @@ const blockReadme = base.createBlock({
 runBlock(blockReadme, { options: { title: "My App" } });
 ```
 
-### `addons` {#runblock-addons}
+### `props` {#runblock-props}
 
-Any number of [Addons](/engines/stratum/apis/create-base#createblock-addons) defined by the Block.
+Any number of [Props](/engines/stratum/apis/create-base#createblock-props) defined by the Block.
 
-For example, given this Block with a `prefix` Addon and a `name` Option, both can be specified in `runBlock`:
+For example, given this Block with a `prefix` Prop and a `name` Option, both can be specified in `runBlock`:
 
 ```ts
 import { Base, createBlock } from "bingo-stratum";
@@ -65,13 +65,13 @@ import { Base, createBlock } from "bingo-stratum";
 declare const base: Base<{ name: string }>;
 
 const blockPrefixedReadme = base.createBlock({
-	addons: {
+	props: {
 		prefix: z.string().default("My"),
 	},
-	produce({ addons, options }) {
+	produce({ props, options }) {
 		return {
 			files: {
-				"README.md": `# ${addons.prefix} ${options.title}`,
+				"README.md": `# ${props.prefix} ${options.title}`,
 			},
 		};
 	},
@@ -79,7 +79,7 @@ const blockPrefixedReadme = base.createBlock({
 
 // { files: { "README.md": `# The App` }}
 runBlock(blockPrefixedReadme, {
-	addons: {
+	props: {
 		prefix: "The",
 	},
 	options: {
@@ -282,11 +282,11 @@ await runPreset(preset, { options });
 Any optional Stratum customizations.
 These are analogous to [Details > Configurations > Refinements](/engines/stratum/details/configurations).
 
-#### `addons` {#preset-addons}
+#### `extensions` {#preset-extensions}
 
-Any [Addons](/engines/stratum/apis/create-base#createblock-addons) to pass to the Preset's Blocks.
+Extensions allow you to add additional [Props](/engines/stratum/apis/create-base#createblock-props) to any of the Preset's existing Blocks.
 
-For example, this production adds a `"generated"` Addon to a Prettier Block:
+For example, this production extends the preset by adding a `"generated"` Prop to its Prettier Block:
 
 ```ts
 import { Preset, runPreset } from "bingo";
@@ -297,7 +297,7 @@ import { blockPrettier } from "./blockPrettier";
 declare const preset: Preset;
 
 await runPreset(preset, {
-	addons: [
+	extensions: [
 		blockPrettier({
 			ignores: ["generated"],
 		}),

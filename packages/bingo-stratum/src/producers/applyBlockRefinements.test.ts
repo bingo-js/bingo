@@ -25,17 +25,17 @@ const blockC = base.createBlock({
 	produce: vi.fn(),
 });
 
-const blockWithAddons = base.createBlock({
-	about: { name: "With Addons" },
-	addons: {
+const blockWithProps = base.createBlock({
+	about: { name: "With Props" },
+	produce: vi.fn(),
+	props: {
 		names: z.array(z.string()).default([]),
 	},
-	produce: vi.fn(),
 });
 
 const blocksAvailable = [blockA, blockB, blockC];
 
-describe("applyBlockRefinements", () => {
+describe(applyBlockRefinements, () => {
 	it("returns the initial blocks when no exclusion options or refinements are provided", () => {
 		const initial = [blockA, blockB];
 
@@ -176,7 +176,7 @@ describe("applyBlockRefinements", () => {
 		expect(actual).toEqual([blockA, blockC]);
 	});
 
-	it("returns added blocks when an added Block has Addons", () => {
+	it("returns added blocks when an added Block has Props", () => {
 		const initial = [blockA];
 
 		const actual = applyBlockRefinements(
@@ -184,12 +184,12 @@ describe("applyBlockRefinements", () => {
 			initial,
 			{ value: "" },
 			{
-				add: [blockWithAddons],
+				add: [blockWithProps],
 				exclude: [],
 			},
 		);
 
-		expect(actual).toEqual([blockA, blockWithAddons]);
+		expect(actual).toEqual([blockA, blockWithProps]);
 	});
 
 	it("returns modified blocks when both exclusion options and refinements are provided", () => {

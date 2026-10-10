@@ -1,5 +1,5 @@
 import { Block } from "./blocks.js";
-import { CreatedBlockAddons } from "./creations.js";
+import { CreatedBlockExtension } from "./creations.js";
 
 /**
  * Blocks to add and/or exclude from production.
@@ -18,12 +18,12 @@ export interface BlockRefinements<Options extends object = object> {
  */
 export interface StratumRefinements<Options extends object = object> {
 	/**
-	 * Any extra addon values to merge in and pass to blocks.
-	 */
-	addons?: CreatedBlockAddons<object, Options>[];
-
-	/**
 	 * Blocks to add and/or exclude from production.
 	 */
 	blocks?: BlockRefinements<Options>;
+
+	/**
+	 * Any extra props to merge in and pass to blocks.
+	 */
+	extensions?: CreatedBlockExtension<object, Options>[];
 }

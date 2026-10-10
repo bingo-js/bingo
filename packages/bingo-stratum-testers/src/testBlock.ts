@@ -1,23 +1,23 @@
 import { ProductionMode } from "bingo";
 import {
-	BlockWithAddons,
-	BlockWithoutAddons,
+	BlockWithoutProps,
+	BlockWithProps,
 	produceBlock,
-	ProduceBlockSettingsWithAddons,
+	ProduceBlockSettingsWithProps,
 } from "bingo-stratum";
 import { BlockCreation } from "bingo-stratum/lib/types/creations.js";
 import { StratumTemplateOptions } from "bingo-stratum/lib/types/templates.js";
 
 import { createFailingObject } from "./utils.js";
 
-export interface BlockContextSettingsWithOptionalAddons<
-	Addons extends object,
+export interface BlockContextSettingsWithOptionalProps<
+	Props extends object,
 	Options extends object,
-> extends BlockContextSettingsWithoutAddons<Options> {
-	addons?: Partial<Addons>;
+> extends BlockContextSettingsWithoutProps<Options> {
+	props?: Partial<Props>;
 }
 
-export interface BlockContextSettingsWithoutAddons<Options extends object> {
+export interface BlockContextSettingsWithoutProps<Options extends object> {
 	/**
 	 * Which repository mode Bingo to simulate being run in.
 	 * @see {@link https://create.bingo/build/concepts/modes}
@@ -40,26 +40,26 @@ export interface BlockContextSettingsWithoutAddons<Options extends object> {
  * Simulates running a Block in-memory for tests.
  * @see {@link https://www.create.bingo/engines/stratum/packages/bingo-stratum-testers/#testblock}
  */
-export function testBlock<Addons extends object, Options extends object>(
-	block: BlockWithAddons<Addons, Options>,
-	settings: BlockContextSettingsWithOptionalAddons<Addons, Options>,
+export function testBlock<Props extends object, Options extends object>(
+	block: BlockWithProps<Props, Options>,
+	settings: BlockContextSettingsWithOptionalProps<Props, Options>,
 ): Partial<BlockCreation<Options>>;
 export function testBlock<Options extends object>(
-	block: BlockWithoutAddons<Options>,
-	settings?: BlockContextSettingsWithoutAddons<Options>,
+	block: BlockWithoutProps<Options>,
+	settings?: BlockContextSettingsWithoutProps<Options>,
 ): Partial<BlockCreation<Options>>;
-export function testBlock<Addons extends object, Options extends object>(
-	block: BlockWithAddons<Addons, Options> | BlockWithoutAddons<Options>,
-	settings: BlockContextSettingsWithOptionalAddons<Addons, Options> = {},
+export function testBlock<Props extends object, Options extends object>(
+	block: BlockWithoutProps<Options> | BlockWithProps<Props, Options>,
+	settings: BlockContextSettingsWithOptionalProps<Props, Options> = {},
 ): Partial<BlockCreation<Options>> {
 	return produceBlock(
-		block as BlockWithAddons<Addons, Options>,
+		block as BlockWithProps<Props, Options>,
 		{
 			...settings,
-			addons: settings.addons ?? {},
 			options:
 				settings.options ??
 				(createFailingObject("options", "the Block") as Options),
-		} as ProduceBlockSettingsWithAddons<Addons, Options>,
+			props: settings.props ?? {},
+		} as ProduceBlockSettingsWithProps<Props, Options>,
 	);
 }
