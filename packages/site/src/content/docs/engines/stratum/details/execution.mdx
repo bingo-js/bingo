@@ -6,18 +6,18 @@ title: Stratum Execution
 Stratum [Templates](/engines/stratum/concepts/templates) don't have their own explicit `produce()` function.
 They instead automatically produce all the [Blocks](/engines/stratum/concepts/blocks) defined by their Preset.
 
-Stratum continuosly re-runs Blocks until no new Addons are provided.
+Stratum continuosly re-runs Blocks until no new Props are provided.
 The algorithm is roughly...
 
-1. Collect all Blocks defined in the Preset, along with their Addons:
-   1. Run any [`intake`](/engines/stratum/apis/create-base#createblock-intake) methods to generate default Addons value
+1. Collect all Blocks defined in the Preset, along with all Props provided by any [Extensions](/engines/stratum/concepts/blocks#extensions) that those Blocks have produced:
+   1. Run any [`intake`](/engines/stratum/apis/create-base#createblock-intake) methods to generate default Prop values
    2. Apply all [`refinements`](/engines/stratum/details/configurations/#refinements) on top of those
 2. Create a queue of Blocks to be run, starting with all defined in the Preset
 3. For each Block in the queue:
-   1. Get the Creation from the Block, passing any current known Addons
+   1. Get the Creation from the Block, passing any current known Props
    2. If a [Mode](/build/concepts/modes) is specified, additionally generate the approprate Block Creations
    3. Store that Block's Creation
-   4. If the Block specified new addons for any defined Blocks:
-      1. Merge those Addons into the Blocks' existing Addons, throwing an error if any values conflict
+   4. If the Block specified Extensions for any defined Blocks:
+      1. Merge those Props into the Blocks' existing Props, throwing an error if any values conflict
       2. Add those Blocks to the queue of Blocks to re-run
 4. Merge all Block Creations together

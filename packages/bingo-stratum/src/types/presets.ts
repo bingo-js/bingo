@@ -1,7 +1,7 @@
 import { AboutBase, AnyShape, InferredObject } from "bingo";
 
 import { Base } from "./bases.js";
-import { Block, BlockWithAddons, BlockWithoutAddons } from "./blocks.js";
+import { Block, BlockWithoutProps, BlockWithProps } from "./blocks.js";
 
 export interface Preset<OptionsShape extends AnyShape = AnyShape> {
 	about: PresetAbout;
@@ -19,5 +19,5 @@ export interface PresetDefinition<Options extends object = object> {
 	// Note it needs to pass tsc both in this repo and in create-typescript-app.
 	// https://github.com/bingo-js/bingo/issues/283
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	blocks: (BlockWithAddons<any, Options> | BlockWithoutAddons<Options>)[];
+	blocks: (BlockWithoutProps<Options> | BlockWithProps<any, Options>)[];
 }

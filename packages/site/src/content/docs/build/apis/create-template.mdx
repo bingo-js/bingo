@@ -399,7 +399,7 @@ For example, this template deletes any already-existing test config files when r
 import { createTemplate } from "bingo";
 
 export default createTemplate({
-	setup({ addons }) {
+	setup() {
 		return {
 			commands: ["rm .mocha* jest.config.* vitest.config.*"],
 		};

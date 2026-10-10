@@ -11,7 +11,7 @@ const base = createBase({
 	},
 });
 
-describe("produceBlocks", () => {
+describe(produceBlocks, () => {
 	test("files from one block", () => {
 		const block = base.createBlock({
 			about: {
@@ -35,23 +35,23 @@ describe("produceBlocks", () => {
 		});
 	});
 
-	it("adds addons when provided only under blockAddons", () => {
+	it("adds props when provided only under blockExtensions", () => {
 		const block = base.createBlock({
 			about: {
 				name: "Example Block",
 			},
-			addons: {
-				extra: z.string().optional(),
-			},
-			produce({ addons, options }) {
+			produce({ options, props }) {
 				return {
-					files: { "README.md": [options.value, addons.extra].join("\n") },
+					files: { "README.md": [options.value, props.extra].join("\n") },
 				};
+			},
+			props: {
+				extra: z.string().optional(),
 			},
 		});
 
 		const result = produceBlocks([block], {
-			blockAddons: [block({ extra: "line" })],
+			blockExtensions: [block({ extra: "line" })],
 			options: { value: "Hello, world!" },
 		});
 
@@ -62,23 +62,23 @@ describe("produceBlocks", () => {
 		});
 	});
 
-	it("adds addons when provided only via Block intake", () => {
+	it("adds props when provided only via Block intake", () => {
 		const block = base.createBlock({
 			about: {
 				name: "Example Block",
-			},
-			addons: {
-				extra: z.string().optional(),
 			},
 			intake({ files }) {
 				return {
 					extra: (files["README.md"] as IntakeFileEntry)[0].split("\n").at(-1),
 				};
 			},
-			produce({ addons, options }) {
+			produce({ options, props }) {
 				return {
-					files: { "README.md": [options.value, addons.extra].join("\n") },
+					files: { "README.md": [options.value, props.extra].join("\n") },
 				};
+			},
+			props: {
+				extra: z.string().optional(),
 			},
 		});
 
@@ -96,38 +96,36 @@ describe("produceBlocks", () => {
 		});
 	});
 
-	it("adds merges addons when provided by Block intake and blockAddons", () => {
+	it("merges props when provided by Block intake and blockExtensions", () => {
 		const block = base.createBlock({
 			about: {
 				name: "Example Block",
 			},
-			addons: {
+			intake() {
+				return {
+					a: "intake a",
+					b: "intake b",
+				};
+			},
+			produce({ options, props }) {
+				return {
+					files: {
+						"README.md": [options.value, props.a, props.b, props.c].join("\n"),
+					},
+				};
+			},
+			props: {
 				a: z.string().optional(),
 				b: z.string().optional(),
 				c: z.string().optional(),
 			},
-			intake() {
-				return {
-					a: "intake",
-					b: "intake",
-				};
-			},
-			produce({ addons, options }) {
-				return {
-					files: {
-						"README.md": [options.value, addons.a, addons.b, addons.c].join(
-							"\n",
-						),
-					},
-				};
-			},
 		});
 
 		const result = produceBlocks([block], {
-			blockAddons: [
+			blockExtensions: [
 				block({
-					b: "provided",
-					c: "provided",
+					b: "provided b",
+					c: "provided c",
 				}),
 			],
 			options: { value: "Hello, world!" },
@@ -135,19 +133,19 @@ describe("produceBlocks", () => {
 
 		expect(result).toEqual({
 			files: {
-				"README.md": "Hello, world!\nintake\nprovided\nprovided",
+				"README.md": "Hello, world!\nintake a\nprovided b\nprovided c",
 			},
 		});
 	});
 
-	it("doesn't include addons to blocks that aren't defined", () => {
+	it("doesn't include props to blocks that aren't defined", () => {
 		const blockKnown = base.createBlock({
 			about: {
 				name: "Known Block",
 			},
 			produce({ options }) {
 				return {
-					addons: [blockUnknown({ extra: "line" })],
+					extensions: [blockUnknown({ extra: "line" })],
 					files: { "README.md": options.value },
 				};
 			},
@@ -157,10 +155,10 @@ describe("produceBlocks", () => {
 			about: {
 				name: "Unknown Block",
 			},
-			addons: {
+			produce: vi.fn(),
+			props: {
 				extra: z.string().optional(),
 			},
-			produce: vi.fn(),
 		});
 
 		const result = produceBlocks([blockKnown], {
@@ -168,25 +166,25 @@ describe("produceBlocks", () => {
 		});
 
 		expect(result).toEqual({
-			addons: [blockUnknown({ extra: "line" })],
+			extensions: [blockUnknown({ extra: "line" })],
 			files: {
 				"README.md": "Hello, world!",
 			},
 		});
 	});
 
-	it("merges addons produced by a Block into another Block's existing addons", () => {
+	it("merges props produced by a Block into another Block's existing props", () => {
 		const blockReceiving = base.createBlock({
 			about: {
 				name: "Receiving Block",
 			},
-			addons: {
-				lines: z.array(z.string()).default([]),
-			},
-			produce({ addons }) {
+			produce({ props }) {
 				return {
-					files: { "README.md": addons.lines.join("\n") },
+					files: { "README.md": props.lines.join("\n") },
 				};
+			},
+			props: {
+				lines: z.array(z.string()).default([]),
 			},
 		});
 
@@ -196,36 +194,36 @@ describe("produceBlocks", () => {
 			},
 			produce() {
 				return {
-					addons: [blockReceiving({ lines: ["b", "c"] })],
+					extensions: [blockReceiving({ lines: ["b", "c"] })],
 				};
 			},
 		});
 
 		const result = produceBlocks([blockReceiving, blockProducing], {
-			blockAddons: [blockReceiving({ lines: ["a", "b"] })],
+			blockExtensions: [blockReceiving({ lines: ["a", "b"] })],
 			options: { value: "Hello, world!" },
 		});
 
 		expect(result).toEqual({
-			addons: [blockReceiving({ lines: ["b", "c"] })],
+			extensions: [blockReceiving({ lines: ["b", "c"] })],
 			files: {
 				"README.md": "a\nb\nc",
 			},
 		});
 	});
 
-	it("throws an error when a Block produces addons that conflict with another Block's existing addons", () => {
+	it("throws an error when a Block produces extensions that conflict with another Block's existing props", () => {
 		const blockReceiving = base.createBlock({
 			about: {
 				name: "Receiving Block",
 			},
-			addons: {
-				nested: z.object({ value: z.string() }).optional(),
-			},
-			produce({ addons }) {
+			produce({ props }) {
 				return {
-					files: { "README.md": addons.nested?.value },
+					files: { "README.md": props.nested?.value },
 				};
+			},
+			props: {
+				nested: z.object({ value: z.string() }).optional(),
 			},
 		});
 
@@ -235,7 +233,7 @@ describe("produceBlocks", () => {
 			},
 			produce() {
 				return {
-					addons: [blockReceiving({ nested: { value: "a" } })],
+					extensions: [blockReceiving({ nested: { value: "a" } })],
 				};
 			},
 		});
@@ -246,7 +244,7 @@ describe("produceBlocks", () => {
 			},
 			produce() {
 				return {
-					addons: [blockReceiving({ nested: { value: "b" } })],
+					extensions: [blockReceiving({ nested: { value: "b" } })],
 				};
 			},
 		});
@@ -257,37 +255,37 @@ describe("produceBlocks", () => {
 				{ options: { value: "Hello, world!" } },
 			),
 		).toThrowError(
-			`Could not merge addons from Block Second Producing Block into Block Receiving Block. Mismatched addons at 'nested.value': existing 'a' vs. new 'b'.`,
+			`Could not merge the props from Block Second Producing Block's extension into Block Receiving Block. Mismatched props at 'nested.value': existing 'a' vs. new 'b'.`,
 		);
 	});
 
 	it("describes Blocks as anonymous in merge errors when they don't have names", () => {
 		const blockReceiving = base.createBlock({
-			addons: {
-				value: z.string().optional(),
-			},
-			produce({ addons }) {
+			produce({ props }) {
 				return {
-					files: { "README.md": addons.value },
+					files: { "README.md": props.value },
 				};
+			},
+			props: {
+				value: z.string().optional(),
 			},
 		});
 
 		const blockProducing = base.createBlock({
 			produce() {
 				return {
-					addons: [blockReceiving({ value: "b" })],
+					extensions: [blockReceiving({ value: "b" })],
 				};
 			},
 		});
 
 		expect(() =>
 			produceBlocks([blockReceiving, blockProducing], {
-				blockAddons: [blockReceiving({ value: "a" })],
+				blockExtensions: [blockReceiving({ value: "a" })],
 				options: { value: "Hello, world!" },
 			}),
 		).toThrowError(
-			`Could not merge addons from Block (anonymous) into Block (anonymous). Mismatched addons at 'value': existing 'a' vs. new 'b'.`,
+			`Could not merge the props from Block (anonymous)'s extension into Block (anonymous). Mismatched props at 'value': existing 'a' vs. new 'b'.`,
 		);
 	});
 

@@ -11,14 +11,14 @@ const base = createBase({
 	},
 });
 
-describe("testIntake", () => {
+describe(testIntake, () => {
 	it("returns undefined when the Block doesn't define an intake", () => {
 		const block = base.createBlock({
-			addons: {
-				value: z.string().optional(),
-			},
 			produce() {
 				return {};
+			},
+			props: {
+				value: z.string().optional(),
 			},
 		});
 
@@ -29,9 +29,6 @@ describe("testIntake", () => {
 
 	it("returns the intake result when the Block defines an intake", () => {
 		const block = base.createBlock({
-			addons: {
-				value: z.string().optional(),
-			},
 			intake({ files }) {
 				return {
 					value: (files["value.txt"] as IntakeFileEntry)[0],
@@ -39,6 +36,9 @@ describe("testIntake", () => {
 			},
 			produce() {
 				return {};
+			},
+			props: {
+				value: z.string().optional(),
 			},
 		});
 
@@ -55,9 +55,6 @@ describe("testIntake", () => {
 
 	describe("options", () => {
 		const blockUsingOptions = base.createBlock({
-			addons: {
-				extra: z.string().optional(),
-			},
 			intake({ options }) {
 				return {
 					extra: options.value + "!",
@@ -65,6 +62,9 @@ describe("testIntake", () => {
 			},
 			produce() {
 				return {};
+			},
+			props: {
+				extra: z.string().optional(),
 			},
 		});
 

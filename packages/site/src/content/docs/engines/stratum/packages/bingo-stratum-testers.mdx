@@ -63,9 +63,9 @@ However, some properties will cause `testBlock` to throw an error if they're not
 
 - [`options`](#testblock-options): each property throws an error if accessed at all
 
-### `addons` {#testblock-addons}
+### `props` {#testblock-props}
 
-[Block Addons](/engines/stratum/concepts/blocks#addons) may be provided under `addons`.
+[Block Props](/engines/stratum/concepts/blocks#props) may be provided under `props`.
 
 For example, this test asserts that a Prettier block adds a `useTabs` arg to its output `".prettierrc.json"`:
 
@@ -77,15 +77,15 @@ import { z } from "zod";
 import { base } from "./base";
 
 const blockPrettier = base.createBlock({
-	addons: {
+	props: {
 		useTabs: z.boolean(),
 	},
-	produce({ addons }) {
+	produce({ props }) {
 		return {
 			files: {
 				".prettierrc.json": JSON.stringify({
 					$schema: "http://json.schemastore.org/prettierrc",
-					useTabs: addons.useTabs,
+					useTabs: props.useTabs,
 				}),
 			},
 		};
@@ -95,7 +95,7 @@ const blockPrettier = base.createBlock({
 describe("blockPrettier", () => {
 	it("creates a .prettierrc.json when provided options", () => {
 		const actual = testBlock(blockPrettier, {
-			addons: {
+			props: {
 				config: {
 					useTabs: true,
 				},
@@ -167,7 +167,7 @@ It takes in two arguments:
 A [bingo-fs directory](/build/packages/bingo-fs) may be provided under `files`.
 Files in the directory must be stored as [`[string, CreatedFileMetatdata?]` tuples](/build/packages/bingo-fs#files)
 
-For example, this test asserts that an nvmrc Block intakes a `version` Addon from an existing `.nvmrc` file on disk:
+For example, this test asserts that an nvmrc Block intakes a `version` Prop from an existing `.nvmrc` file on disk:
 
 ```ts
 import { testIntake } from "create-testers";

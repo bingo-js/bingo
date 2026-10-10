@@ -1,63 +1,63 @@
 import { AnyOptionalShape, InferredObject } from "bingo";
 
 import {
-	BlockContextWithAddons,
-	BlockDefinitionWithAddons,
-	BlockDefinitionWithoutAddons,
-	BlockWithAddons,
-	BlockWithoutAddons,
+	BlockContextWithProps,
+	BlockDefinitionWithoutProps,
+	BlockDefinitionWithProps,
+	BlockWithoutProps,
+	BlockWithProps,
 } from "../types/blocks.js";
-import { createBlockAddons } from "../utils/createBlockAddons.js";
-import { applyZodDefaults, isDefinitionWithAddons } from "./utils.js";
+import { createBlockExtension } from "../utils/createBlockExtension.js";
+import { applyZodDefaults, isDefinitionWithProps } from "./utils.js";
 
 export function createBlock<
-	AddonsShape extends AnyOptionalShape,
+	PropsShape extends AnyOptionalShape,
 	Options extends object,
 >(
-	blockDefinition: BlockDefinitionWithAddons<AddonsShape, Options>,
-): BlockWithAddons<InferredObject<AddonsShape>, Options>;
+	blockDefinition: BlockDefinitionWithProps<PropsShape, Options>,
+): BlockWithProps<InferredObject<PropsShape>, Options>;
 export function createBlock<Options extends object>(
-	blockDefinition: BlockDefinitionWithoutAddons<Options>,
-): BlockWithoutAddons<Options>;
+	blockDefinition: BlockDefinitionWithoutProps<Options>,
+): BlockWithoutProps<Options>;
 export function createBlock<
-	AddonsShape extends AnyOptionalShape,
+	PropsShape extends AnyOptionalShape,
 	Options extends object,
 >(
 	blockDefinition:
-		| BlockDefinitionWithAddons<AddonsShape, Options>
-		| BlockDefinitionWithoutAddons<Options>,
+		| BlockDefinitionWithoutProps<Options>
+		| BlockDefinitionWithProps<PropsShape, Options>,
 ) {
 	const produce = blockDefinition.produce ?? produceNothing;
 
-	// Blocks without Addons can't be called as functions.
-	if (!isDefinitionWithAddons(blockDefinition)) {
+	// Blocks without Props can't be called as functions.
+	if (!isDefinitionWithProps(blockDefinition)) {
 		return { ...blockDefinition, produce };
 	}
 
-	const addonsSchema = blockDefinition.addons;
+	const propsSchema = blockDefinition.props;
 
-	type Addons = InferredObject<AddonsShape>;
+	type Props = InferredObject<PropsShape>;
 
-	// Blocks with Addons do need to be callable as functions...
-	function block(addons: Addons) {
-		return createBlockAddons(addons, block, blockDefinition.about?.name);
+	// Blocks with Props do need to be callable as functions...
+	function block(props: Props) {
+		return createBlockExtension(block, props, blockDefinition.about?.name);
 	}
 
 	// ...and also still have the Block Definition properties.
 	Object.assign(block, blockDefinition);
 
-	block.produce = (context: BlockContextWithAddons<Addons, Options>) => {
+	block.produce = (context: BlockContextWithProps<Props, Options>) => {
 		return produce({
 			...context,
-			addons: applyZodDefaults(
-				addonsSchema,
-				context.addons,
+			props: applyZodDefaults(
+				propsSchema,
+				context.props,
 				blockDefinition.about?.name,
 			),
 		});
 	};
 
-	return block as BlockWithAddons<Addons, Options>;
+	return block as BlockWithProps<Props, Options>;
 }
 
 function produceNothing() {
