@@ -303,4 +303,9 @@ export interface BlockWithoutProps<Options extends object> extends BlockBase {
 	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-transition}
 	 */
 	transition?: BlockAugmentWithoutProps<Options>;
+
+	/**
+	 * Just returns this Block instance, to allow it to be treated as a function, similar to Blocks with Props.
+	 */
+	(): BlockWithoutProps<Options>;
 }
