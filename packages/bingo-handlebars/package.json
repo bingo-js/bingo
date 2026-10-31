@@ -22,7 +22,7 @@
 		"build": "tsc"
 	},
 	"dependencies": {
-		"handlebars": "4.7.8"
+		"handlebars": "^4.7.10"
 	},
 	"devDependencies": {
 		"bingo-fs": "workspace:^"
