@@ -2,16 +2,16 @@ import { ProductionMode } from "bingo";
 import { IntakeDirectory } from "bingo-fs";
 
 import { mergeBlockCreations } from "../mergers/mergeBlockCreations.js";
-import { Block, BlockWithAddons } from "../types/blocks.js";
-import { CreatedBlockAddons } from "../types/creations.js";
+import { Block, BlockWithProps } from "../types/blocks.js";
+import { CreatedBlockExtension } from "../types/creations.js";
 import {
 	BlockProduction,
-	getUpdatedBlockAddons,
-} from "./getUpdatedBlockAddons.js";
+	getUpdatedBlockExtensions,
+} from "./getUpdatedBlockExtensions.js";
 import { produceBlock } from "./produceBlock.js";
 
 export interface ProduceBlocksSettings<Options extends object> {
-	blockAddons?: CreatedBlockAddons<object, Options>[];
+	blockExtensions?: CreatedBlockExtension<object, Options>[];
 	files?: IntakeDirectory;
 	mode?: ProductionMode;
 	offline?: boolean;
@@ -21,7 +21,7 @@ export interface ProduceBlocksSettings<Options extends object> {
 export function produceBlocks<Options extends object>(
 	blocks: Block<object | undefined, Options>[],
 	{
-		blockAddons,
+		blockExtensions,
 		files = {},
 		mode,
 		offline,
@@ -29,29 +29,29 @@ export function produceBlocks<Options extends object>(
 	}: ProduceBlocksSettings<Options>,
 ) {
 	// From Templating Engines > Stratum > Details > Execution:
-	// This engine continuously re-runs Blocks until no new Addons are provided.
+	// This engine continuously re-runs Blocks until no new extensions are provided.
 
-	// Collect all Blocks defined in the Preset, along with their Addons:
+	// Collect all Blocks defined in the Preset, along with their Extensions:
 	const blockProductions = new Map<
 		Block<object | undefined, Options>,
 		BlockProduction<object>
 	>();
 
-	// 1.1. Run any intake methods to generate default Addons values
+	// 1.1. Run any intake methods to generate default Prop values
 	for (const block of blocks) {
-		if (isBlockWithAddons(block)) {
-			const addons = block.intake?.({ files, options });
-			if (addons) {
-				blockProductions.set(block, { addons });
+		if (isBlockWithProps(block)) {
+			const props = block.intake?.({ files, options });
+			if (props) {
+				blockProductions.set(block, { props });
 			}
 		}
 	}
 	// 2.2. Apply all provided refinements on top of those
-	for (const { addons, block } of blockAddons ?? []) {
+	for (const { block, props } of blockExtensions ?? []) {
 		blockProductions.set(block, {
-			addons: {
-				...blockProductions.get(block)?.addons,
-				...addons,
+			props: {
+				...blockProductions.get(block)?.props,
+				...props,
 			},
 		});
 	}
@@ -65,41 +65,41 @@ export function produceBlocks<Options extends object>(
 		for (const currentBlock of blocksToBeRun) {
 			blocksToBeRun.delete(currentBlock);
 
-			// 3.1. Get the Creation from the Block, passing any current known Addons
+			// 3.1. Get the Creation from the Block, passing any current known Props
 			// 3.2. If a mode is specified, additionally generate the appropriate Block Creations
 			const previousProduction = blockProductions.get(currentBlock);
-			const previousAddons = previousProduction?.addons ?? {};
+			const previousProps = previousProduction?.props ?? {};
 			const blockCreation = produceBlock(
-				currentBlock as BlockWithAddons<object, Options>,
+				currentBlock as BlockWithProps<object, Options>,
 				{
-					addons: previousAddons,
 					mode,
 					offline,
 					options,
+					props: previousProps,
 				},
 			);
 
 			// 3.3. Store that Block's Creation
 			blockProductions.set(currentBlock, {
-				addons: previousAddons,
 				creation: blockCreation,
+				props: previousProps,
 			});
 
-			// 3.4. If the Block specified new addons for any defined Blocks:
-			// 3.4.1: Merge those Addons into the Blocks' existing Addons, throwing an error if any values conflict
-			const updatedBlockAddons = getUpdatedBlockAddons(
+			// 3.4. If the Block specified new extensions for any defined Blocks:
+			// 3.4.1: Merge those Extensions into the Blocks' existing Props, throwing an error if any values conflict
+			const updatedBlockExtensions = getUpdatedBlockExtensions(
 				allowedBlocks,
 				blockProductions,
 				currentBlock,
-				blockCreation.addons,
+				blockCreation.extensions,
 			);
 
 			// 3.4.2: Add those Blocks to the queue to re-run
-			for (const [updatedBlock, updatedAddons] of updatedBlockAddons) {
+			for (const [updatedBlock, updatedProps] of updatedBlockExtensions) {
 				const addedBlockPreviousProduction = blockProductions.get(updatedBlock);
 				blockProductions.set(updatedBlock, {
 					...addedBlockPreviousProduction,
-					addons: updatedAddons,
+					props: updatedProps,
 				});
 				blocksToBeRun.add(updatedBlock);
 			}
@@ -115,8 +115,8 @@ export function produceBlocks<Options extends object>(
 	);
 }
 
-function isBlockWithAddons<Options extends object>(
+function isBlockWithProps<Options extends object>(
 	block: Block<object | undefined, Options>,
-): block is BlockWithAddons<object, Options> {
-	return "addons" in block;
+): block is BlockWithProps<object, Options> {
+	return "props" in block;
 }

@@ -9,13 +9,13 @@ Recap: [Bingo creations](/build/concepts/creations) may specify two areas of rep
 - ["Indirect" creations](/build/concepts/creations#indirect-creations): to hint to the Bingo CLI
 
 [Block Productions](/engines/stratum/concepts/blocks) may produce any properties from standard Bingo creations.
-They may also produce a new `addons` property to signal inputs to other Blocks.
+They may also produce a new `extensions` property to add Props to other Blocks.
 
-### `addons`
+### `extensions`
 
-Any [Block Addons](/engines/stratum/concepts/blocks#addons) to signal should be factored into the created repository.
+Any [Props](/engines/stratum/concepts/blocks#props) for other blocks, that this Block wants to be included in the created repository.
 
-For example, given the following `blockGitignore` with an `ignores` Addon, a `blockTypeScript` could signal to ignore the `/lib` directory:
+For example, given the following `blockGitignore` with an `ignores` Prop, a `blockTypeScript` could signal to ignore the `/lib` directory:
 
 ```ts
 import { z } from "zod";
@@ -23,13 +23,13 @@ import { z } from "zod";
 import { base } from "./base";
 
 export const blockGitignore = base.createBlock({
-	addons: {
+	props: {
 		ignores: z.array(z.string()).default([]),
 	},
-	produce({ addons }) {
+	produce({ props }) {
 		return {
 			files: {
-				".gitignore": [...addons.ignores, "/node_modules"].join("\n"),
+				".gitignore": [...props.ignores, "/node_modules"].join("\n"),
 			},
 		};
 	},
@@ -38,7 +38,7 @@ export const blockGitignore = base.createBlock({
 export const blockTypeScript = base.createBlock({
 	produce() {
 		return {
-			addons: [
+			extensions: [
 				blockGitignore({
 					ignores: ["/lib"],
 				}),
@@ -65,5 +65,5 @@ Producing a template with those two Blocks would result in a `.gitignore` with t
 
 See also:
 
-- [Concepts > Blocks > Merging](/engines/stratum/concepts/blocks#addons) for how Addons are merged together
+- [Concepts > Blocks > Merging](/engines/stratum/concepts/blocks#merging) for how Props are merged
 - [Details > Execution](/engines/stratum/details/execution) for how Stratum templates execute their Blocks

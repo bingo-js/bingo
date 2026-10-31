@@ -19,7 +19,7 @@ export interface RunPresetSettings<
 	StratumRefinements<InferredObject<OptionsShape>>
 > {
 	/**
-	 * Existing file creations to be used for Blocks that can intake Addons.
+	 * Existing file creations to be used for Blocks that can intake Props.
 	 */
 	files?: IntakeDirectory;
 }

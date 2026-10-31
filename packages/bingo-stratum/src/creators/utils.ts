@@ -18,7 +18,7 @@ export function applyZodDefaults<Shape extends AnyOptionalShape>(
 	);
 	if (unrecognized) {
 		throw new Error(
-			`Unknown Addon(s) for ${blockName ? `Block ${blockName}` : "Block"}: ${unrecognized.keys.join(", ")}.`,
+			`Unknown Prop(s) for ${blockName ? `Block ${blockName}` : "Block"}: ${unrecognized.keys.join(", ")}.`,
 		);
 	}
 
@@ -26,14 +26,14 @@ export function applyZodDefaults<Shape extends AnyOptionalShape>(
 }
 
 export function isBlockWithName<
-	Addons extends object | undefined,
+	Props extends object | undefined,
 	Options extends object,
 >(
-	block: Block<Addons, Options>,
-): block is Block<Addons, Options> & { about: { name: string } } {
+	block: Block<Props, Options>,
+): block is Block<Props, Options> & { about: { name: string } } {
 	return !!block.about?.name;
 }
 
-export function isDefinitionWithAddons(definition: object) {
-	return "addons" in definition;
+export function isDefinitionWithProps(definition: object) {
+	return "props" in definition;
 }

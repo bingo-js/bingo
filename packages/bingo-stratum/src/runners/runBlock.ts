@@ -2,23 +2,23 @@ import { createSystemContextWithAuth, runCreation } from "bingo";
 import { BingoSystem } from "bingo-systems";
 
 import { produceBlock } from "../producers/produceBlock.js";
-import { BlockWithAddons, BlockWithoutAddons } from "../types/blocks.js";
+import { BlockWithoutProps, BlockWithProps } from "../types/blocks.js";
 
 export type RunBlockSettings<
-	Addons extends object | undefined,
+	Props extends object | undefined,
 	Options extends object,
-> = Addons extends object
-	? RunBlockSettingsWithOptionalAddons<Addons, Options>
-	: RunBlockSettingsWithoutAddons<Options>;
+> = Props extends object
+	? RunBlockSettingsWithOptionalProps<Props, Options>
+	: RunBlockSettingsWithoutProps<Options>;
 
-export interface RunBlockSettingsWithOptionalAddons<
-	Addons extends object,
+export interface RunBlockSettingsWithOptionalProps<
+	Props extends object,
 	Options extends object,
-> extends RunBlockSettingsWithoutAddons<Options> {
-	addons?: Addons;
+> extends RunBlockSettingsWithoutProps<Options> {
+	props?: Props;
 }
 
-export interface RunBlockSettingsWithoutAddons<
+export interface RunBlockSettingsWithoutProps<
 	Options extends object,
 > extends Partial<BingoSystem> {
 	directory?: string;
@@ -26,24 +26,24 @@ export interface RunBlockSettingsWithoutAddons<
 	options: Options;
 }
 
-export interface RunBlockSettingsWithRequiredAddons<
-	Addons extends object,
+export interface RunBlockSettingsWithRequiredProps<
+	Props extends object,
 	Options extends object,
-> extends RunBlockSettingsWithoutAddons<Options> {
-	addons: Addons;
+> extends RunBlockSettingsWithoutProps<Options> {
+	props: Props;
 }
 
-export async function runBlock<Addons extends object, Options extends object>(
-	block: BlockWithAddons<Addons, Options>,
-	settings: RunBlockSettingsWithOptionalAddons<Addons, Options>,
+export async function runBlock<Props extends object, Options extends object>(
+	block: BlockWithProps<Props, Options>,
+	settings: RunBlockSettingsWithOptionalProps<Props, Options>,
 ): Promise<void>;
 export async function runBlock<Options extends object>(
-	block: BlockWithoutAddons<Options>,
-	settings: RunBlockSettingsWithoutAddons<Options>,
+	block: BlockWithoutProps<Options>,
+	settings: RunBlockSettingsWithoutProps<Options>,
 ): Promise<void>;
-export async function runBlock<Addons extends object, Options extends object>(
-	block: BlockWithAddons<Addons, Options> | BlockWithoutAddons<Options>,
-	settings: RunBlockSettings<Addons, Options>,
+export async function runBlock<Props extends object, Options extends object>(
+	block: BlockWithoutProps<Options> | BlockWithProps<Props, Options>,
+	settings: RunBlockSettings<Props, Options>,
 ): Promise<void> {
 	const { directory = ".", offline } = settings;
 	const system = await createSystemContextWithAuth({ directory, ...settings });
@@ -51,8 +51,8 @@ export async function runBlock<Addons extends object, Options extends object>(
 	const creation = produceBlock(
 		// TODO: Why are these assertions necessary?
 		// https://github.com/bingo-js/bingo/issues/283
-		block as BlockWithAddons<Addons, Options>,
-		settings as RunBlockSettingsWithRequiredAddons<Addons, Options>,
+		block as BlockWithProps<Props, Options>,
+		settings as RunBlockSettingsWithRequiredProps<Props, Options>,
 	);
 
 	await runCreation(creation, { offline, system });

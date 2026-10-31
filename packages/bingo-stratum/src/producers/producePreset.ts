@@ -20,7 +20,7 @@ export interface ProducePresetSettings<
 	StratumRefinements<InferredObject<OptionsShape>>
 > {
 	/**
-	 * Existing file creations to be used for Blocks that can intake Addons.
+	 * Existing file creations to be used for Blocks that can intake Props.
 	 */
 	files?: IntakeDirectory;
 
@@ -60,7 +60,7 @@ export function producePreset<OptionsShape extends AnyShape>(
 	);
 
 	const creation = produceBlocks(blocks, {
-		blockAddons: refinements.addons,
+		blockExtensions: refinements.extensions,
 		files,
 		mode,
 		offline,
@@ -68,7 +68,7 @@ export function producePreset<OptionsShape extends AnyShape>(
 	});
 
 	return {
-		addons: [],
+		extensions: [],
 		files: {},
 		requests: [],
 		scripts: [],

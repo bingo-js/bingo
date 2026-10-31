@@ -1,5 +1,4 @@
 {
-	"editor.codeActionsOnSave": { "source.fixAll.eslint": "explicit" },
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
 	"editor.rulers": [80],
@@ -16,5 +15,5 @@
 	"eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
 	"eslint.useFlatConfig": true,
 	"js/ts.implicitProjectConfig.checkJs": false,
-	"typescript.tsdk": "node_modules/typescript/lib"
+	"js/ts.tsdk.path": "node_modules/typescript/lib"
 }

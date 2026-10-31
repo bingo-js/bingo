@@ -1,23 +1,23 @@
 import hashObject from "hash-object";
 import { inspect } from "node:util";
 
-export function mergeAddonsIfUpdated<T extends object>(
-	existingAddons: T,
-	newAddons: T,
+export function mergePropsIfUpdated<T extends object>(
+	existingProps: T,
+	newProps: T,
 	path: string[] = [],
 ): Error | T | undefined {
-	if (Array.isArray(existingAddons)) {
-		if (!Array.isArray(newAddons)) {
-			return createMismatchError(path, existingAddons, newAddons);
+	if (Array.isArray(existingProps)) {
+		if (!Array.isArray(newProps)) {
+			return createMismatchError(path, existingProps, newProps);
 		}
-		return mergeAddonsArraysIfUpdated(existingAddons, newAddons) as T;
-	} else if (Array.isArray(newAddons)) {
-		return createMismatchError(path, existingAddons, newAddons);
+		return mergePropArraysIfUpdated(existingProps, newProps) as T;
+	} else if (Array.isArray(newProps)) {
+		return createMismatchError(path, existingProps, newProps);
 	}
 
-	const newEntries = Object.entries(newAddons) as [keyof T, unknown][];
-	const result = { ...existingAddons };
-	let updated = newEntries.length !== Object.keys(existingAddons).length;
+	const newEntries = Object.entries(newProps) as [keyof T, unknown][];
+	const result = { ...existingProps };
+	let updated = newEntries.length !== Object.keys(existingProps).length;
 
 	for (const [key, value] of newEntries) {
 		const keyPath = [...path, key as string];
@@ -58,7 +58,7 @@ export function mergeAddonsIfUpdated<T extends object>(
 				return createMismatchError(keyPath, result[key], value);
 			}
 
-			const nestedMerge = mergeAddonsIfUpdated(result[key], value, keyPath);
+			const nestedMerge = mergePropsIfUpdated(result[key], value, keyPath);
 			if (nestedMerge) {
 				if (nestedMerge instanceof Error) {
 					return nestedMerge;
@@ -95,26 +95,26 @@ function createMismatchError(
 	const updated = inspect(newValue, { breakLength: Infinity });
 
 	return new Error(
-		`Mismatched addons${location}: existing ${existing} vs. new ${updated}.`,
+		`Mismatched props${location}: existing ${existing} vs. new ${updated}.`,
 	);
 }
 
-function mergeAddonsArraysIfUpdated<T extends object>(
-	existingAddons: T[],
-	newAddons: T[],
+function mergePropArraysIfUpdated<T extends object>(
+	existingProps: T[],
+	newProps: T[],
 ) {
-	const result = [...existingAddons];
-	const hashes = new Set(existingAddons.map(createHash));
+	const result = [...existingProps];
+	const hashes = new Set(existingProps.map(createHash));
 	let updated = false;
 
-	for (const newAddon of newAddons) {
-		const newHash = createHash(newAddon);
+	for (const newProp of newProps) {
+		const newHash = createHash(newProp);
 		if (hashes.has(newHash)) {
 			continue;
 		}
 
 		hashes.add(newHash);
-		result.push(newAddon);
+		result.push(newProp);
 		updated = true;
 	}
 

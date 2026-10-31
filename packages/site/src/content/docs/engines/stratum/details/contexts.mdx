@@ -18,23 +18,23 @@ Other Stratum constructs do not reuse Bingo's existing contexts:
 
 The Context object provided to the [`produce`](/engines/stratum/apis/create-base#createblock-produce), [`setup`](/engines/stratum/apis/create-base#createblock-setup), and [`transition`](/engines/stratum/apis/create-base#createblock-transition) properties of [Blocks](/engines/stratum/concepts/blocks).
 
-### `addons`
+### `props`
 
-Any [Block Addons](/engines/stratum/concepts/blocks#addons) that have been provided by other Blocks.
+Any [Block Props](/engines/stratum/concepts/blocks#props) that have been provided by other Blocks, through [Extensions](/engines/stratum/concepts/blocks#extensions).
 
-For example, this Gitignore Block defines an `ignores` Addon that other Blocks can use to add to its created `.gitignore` file:
+For example, this Gitignore Block defines an `ignores` Prop that other Blocks can use to add to its created `.gitignore` file:
 
 ```ts
 import { base } from "./base";
 
 export const blockGitignore = base.createBlock({
-	addons: {
+	props: {
 		ignores: z.array(z.string()).default([]),
 	},
-	produce({ addons }) {
+	produce({ props }) {
 		return {
 			files: {
-				".gitignore": ["/node_modules", ...addons.ignores].join("\n"),
+				".gitignore": ["/node_modules", ...props.ignores].join("\n"),
 			},
 		};
 	},
@@ -88,7 +88,7 @@ import { z } from "zod";
 import { base } from "./base";
 
 export const blockNpmignore = base.createBlock({
-	addons: {
+	props: {
 		ignores: z.array(z.string()).optional(),
 	},
 	intake({ files }) {
@@ -96,10 +96,10 @@ export const blockNpmignore = base.createBlock({
 			ignores: files[".npmignore"]?.split("\n").filter(Boolean),
 		};
 	},
-	async produce({ addons }) {
+	async produce({ props }) {
 		return {
 			files: {
-				".npmignore": [...addons.ignores, ""].join("\n"),
+				".npmignore": [...props.ignores, ""].join("\n"),
 			},
 		};
 	},

@@ -7,10 +7,10 @@ const base = createBase({
 	options: { name: z.string() },
 });
 
-describe("createBase", () => {
+describe(createBase, () => {
 	describe("createBlock", () => {
-		describe("without Addons", () => {
-			it("produces without Addons", () => {
+		describe("without Props", () => {
+			it("produces without Props", () => {
 				const block = base.createBlock({
 					produce({ options }) {
 						return {
@@ -33,14 +33,11 @@ describe("createBase", () => {
 			});
 		});
 
-		describe("with Addons", () => {
-			it("applies Zod defaults when producing with Addons", () => {
+		describe("with Props", () => {
+			it("applies Zod defaults when producing with Props", () => {
 				const block = base.createBlock({
-					addons: {
-						names: z.array(z.string()).default([]),
-					},
-					produce({ addons, options }) {
-						const { names } = addons;
+					produce({ options, props }) {
+						const { names } = props;
 
 						return {
 							files: {
@@ -50,11 +47,14 @@ describe("createBase", () => {
 							},
 						};
 					},
+					props: {
+						names: z.array(z.string()).default([]),
+					},
 				});
 
 				const production = block.produce({
-					addons: { names: ["def"] },
 					options: { name: "abc", preset: "test" },
+					props: { names: ["def"] },
 				});
 
 				expect(production).toEqual({

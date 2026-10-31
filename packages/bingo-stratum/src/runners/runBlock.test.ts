@@ -33,8 +33,8 @@ function noop(label: string) {
 	return vi.fn().mockReturnValue(`Not implemented: ${label}`);
 }
 
-describe("runBlock", () => {
-	test("Block without Addons", async () => {
+describe(runBlock, () => {
+	test("Block without Props", async () => {
 		const block = base.createBlock({
 			produce({ options }) {
 				return {
@@ -72,21 +72,21 @@ describe("runBlock", () => {
 		`);
 	});
 
-	describe("Block with Addons", () => {
+	describe("Block with Props", () => {
 		const block = base.createBlock({
-			addons: {
-				descriptions: z.array(z.string()).default([]),
-			},
-			produce({ addons, options }) {
+			produce({ options, props }) {
 				return {
 					files: {
-						"README.md": `# ${options.title}\n${addons.descriptions.join("\n")}`,
+						"README.md": `# ${options.title}\n${props.descriptions.join("\n")}`,
 					},
 				};
 			},
+			props: {
+				descriptions: z.array(z.string()).default([]),
+			},
 		});
 
-		test("default Addon value", async () => {
+		test("default Prop value", async () => {
 			const system = createSystem();
 
 			await runBlock(block, {
@@ -115,14 +115,14 @@ describe("runBlock", () => {
 			`);
 		});
 
-		test("provided Addon value", async () => {
+		test("provided Prop value", async () => {
 			const system = createSystem();
 
 			await runBlock(block, {
-				addons: {
+				options: { title: "abc" },
+				props: {
 					descriptions: ["def"],
 				},
-				options: { title: "abc" },
 				...system,
 			});
 

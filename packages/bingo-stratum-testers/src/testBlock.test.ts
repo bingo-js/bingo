@@ -20,7 +20,7 @@ const blockStandalone = base.createBlock({
 	},
 });
 
-describe("testBlock", () => {
+describe(testBlock, () => {
 	it("doesn't throw an error when settings isn't provided and the block uses no settings", () => {
 		const actual = testBlock(blockStandalone);
 
@@ -33,22 +33,22 @@ describe("testBlock", () => {
 		expect(actual).toEqual({ files: { "value.txt": "abc" } });
 	});
 
-	describe("addons", () => {
-		const blockUsingAddons = base.createBlock({
-			addons: {
-				value: z.string().optional(),
-			},
-			produce({ addons }) {
+	describe("props", () => {
+		const blockUsingProps = base.createBlock({
+			produce({ props }) {
 				return {
 					files: {
-						"value.txt": addons.value ?? "default",
+						"value.txt": props.value ?? "default",
 					},
 				};
 			},
+			props: {
+				value: z.string().optional(),
+			},
 		});
 
-		it("does not throw an error when addons isn't provided and a block uses addons", () => {
-			const actual = testBlock(blockUsingAddons, {});
+		it("does not throw an error when props aren't provided and a block has props", () => {
+			const actual = testBlock(blockUsingProps, {});
 
 			expect(actual).toMatchInlineSnapshot(`
 				{
@@ -59,9 +59,9 @@ describe("testBlock", () => {
 			`);
 		});
 
-		it("passes addons to the block when provided", () => {
-			const actual = testBlock(blockUsingAddons, {
-				addons: { value: "abc" },
+		it("passes props to the block when provided", () => {
+			const actual = testBlock(blockUsingProps, {
+				props: { value: "abc" },
 			});
 
 			expect(actual).toEqual({ files: { "value.txt": "abc" } });

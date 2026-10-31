@@ -6,10 +6,10 @@ import {
 } from "bingo";
 
 import {
-	BlockDefinitionWithAddons,
-	BlockDefinitionWithoutAddons,
-	BlockWithAddons,
-	BlockWithoutAddons,
+	BlockDefinitionWithoutProps,
+	BlockDefinitionWithProps,
+	BlockWithoutProps,
+	BlockWithProps,
 } from "./blocks.js";
 import { Preset, PresetDefinition } from "./presets.js";
 import { StratumRefinements } from "./refinements.js";
@@ -69,13 +69,13 @@ export type BaseOptionsFor<TypeOfBase> = TypeOfBase extends {
  * @see {@link https://www.create.bingo/engines/stratum/concepts/blocks}
  */
 export interface CreateBlock<Options extends object> {
-	<AddonsShape extends AnyOptionalShape>(
-		blockDefinition: BlockDefinitionWithAddons<AddonsShape, Options>,
-	): BlockWithAddons<InferredObject<AddonsShape>, Options>;
+	<PropsShape extends AnyOptionalShape>(
+		blockDefinition: BlockDefinitionWithProps<PropsShape, Options>,
+	): BlockWithProps<InferredObject<PropsShape>, Options>;
 
 	(
-		blockDefinition: BlockDefinitionWithoutAddons<Options>,
-	): BlockWithoutAddons<Options>;
+		blockDefinition: BlockDefinitionWithoutProps<Options>,
+	): BlockWithoutProps<Options>;
 }
 
 /**

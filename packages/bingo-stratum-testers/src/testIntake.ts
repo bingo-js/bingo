@@ -1,5 +1,5 @@
 import { IntakeDirectory } from "bingo-fs";
-import { BlockWithAddons } from "bingo-stratum";
+import { BlockWithProps } from "bingo-stratum";
 import { StratumTemplateOptions } from "bingo-stratum/lib/types/templates.js";
 
 import { createFailingObject } from "./utils.js";
@@ -20,10 +20,10 @@ export interface TestIntakeSettings<Options extends object> {
  * Simulates running a Block's intake in-memory for tests.
  * @see {@link https://www.create.bingo/engines/stratum/packages/bingo-stratum-testers/#testintake}
  */
-export function testIntake<Addons extends object, Options extends object>(
-	block: BlockWithAddons<Addons, Options>,
+export function testIntake<Props extends object, Options extends object>(
+	block: BlockWithProps<Props, Options>,
 	settings: TestIntakeSettings<Options>,
-): Partial<Addons> | undefined {
+): Partial<Props> | undefined {
 	return block.intake?.({
 		...settings,
 		options:

@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { mergeAddonsIfUpdated } from "./mergeAddonsIfUpdated.js";
+import { mergePropsIfUpdated } from "./mergePropsIfUpdated.js";
 
-describe("mergeAddonsIfUpdated", () => {
+describe(mergePropsIfUpdated, () => {
 	it.each([
 		[{}, {}, undefined],
 		[[], [], undefined],
-		[[], {}, new Error("Mismatched addons: existing [] vs. new {}.")],
-		[{}, [], new Error("Mismatched addons: existing {} vs. new [].")],
+		[[], {}, new Error("Mismatched props: existing [] vs. new {}.")],
+		[{}, [], new Error("Mismatched props: existing {} vs. new [].")],
 		[["a"], ["a"], undefined],
 		[["a"], ["b"], ["a", "b"]],
 		[{ a: true }, {}, { a: true }],
@@ -16,22 +16,22 @@ describe("mergeAddonsIfUpdated", () => {
 		[
 			{ a: true },
 			{ a: false },
-			new Error("Mismatched addons at 'a': existing true vs. new false."),
+			new Error("Mismatched props at 'a': existing true vs. new false."),
 		],
 		[
 			{ a: [] },
 			{ a: false },
-			new Error("Mismatched addons at 'a': existing [] vs. new false."),
+			new Error("Mismatched props at 'a': existing [] vs. new false."),
 		],
 		[
 			{ a: {} },
 			{ a: false },
-			new Error("Mismatched addons at 'a': existing {} vs. new false."),
+			new Error("Mismatched props at 'a': existing {} vs. new false."),
 		],
 		[
 			{ a: {} },
 			{ a: [] },
-			new Error("Mismatched addons at 'a': existing {} vs. new []."),
+			new Error("Mismatched props at 'a': existing {} vs. new []."),
 		],
 		[{ a: true }, { b: true }, { a: true, b: true }],
 		[{}, { b: true }, { b: true }],
@@ -45,12 +45,12 @@ describe("mergeAddonsIfUpdated", () => {
 		[
 			{ a: { a1: true } },
 			{ a: { a1: false } },
-			new Error("Mismatched addons at 'a.a1': existing true vs. new false."),
+			new Error("Mismatched props at 'a.a1': existing true vs. new false."),
 		],
 		[
 			{ a: { a1: "b" } },
 			{ a: { a1: "c" } },
-			new Error("Mismatched addons at 'a.a1': existing 'b' vs. new 'c'."),
+			new Error("Mismatched props at 'a.a1': existing 'b' vs. new 'c'."),
 		],
 		[{ a: { a1: ["a2"] } }, { a: { a1: ["a2"] } }, undefined],
 		[{ a: { a1: ["a2"] } }, { a: { a1: ["a3"] } }, { a: { a1: ["a2", "a3"] } }],
@@ -61,7 +61,7 @@ describe("mergeAddonsIfUpdated", () => {
 			undefined,
 		],
 	])("when given %j and %j, produces %j", (existingArgs, newArgs, expected) => {
-		const actual = mergeAddonsIfUpdated(existingArgs, newArgs);
+		const actual = mergePropsIfUpdated(existingArgs, newArgs);
 
 		expect(actual).toEqual(expected);
 	});

@@ -14,8 +14,8 @@ const options = {
 	value: "Hello, world!",
 };
 
-describe("produceBlock", () => {
-	it("returns the creation when no Addons or mode are defined", () => {
+describe(produceBlock, () => {
+	it("returns the creation when no Props or mode are defined", () => {
 		const block = base.createBlock({
 			produce({ options }) {
 				return {
@@ -33,28 +33,28 @@ describe("produceBlock", () => {
 		});
 	});
 
-	it("passes Addons to the Block when addons is defined", () => {
+	it("passes Props to the Block when props is defined", () => {
 		const block = base.createBlock({
-			addons: {
-				extra: z.record(z.string(), z.string()).optional(),
-			},
-			produce({ addons, options }) {
+			produce({ options, props }) {
 				return {
 					files: {
 						"README.md": options.value,
-						...addons.extra,
+						...props.extra,
 					},
 				};
+			},
+			props: {
+				extra: z.record(z.string(), z.string()).optional(),
 			},
 		});
 
 		const actual = produceBlock(block, {
-			addons: {
+			options,
+			props: {
 				extra: {
 					"a.txt": "a",
 				},
 			},
-			options,
 		});
 
 		expect(actual).toEqual({

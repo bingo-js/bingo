@@ -2,7 +2,7 @@ import { mergeCreations } from "bingo";
 import { withoutUndefinedProperties } from "without-undefined-properties";
 
 import { BlockCreation } from "../types/creations.js";
-import { mergeAddons } from "./mergeAddons.js";
+import { mergeExtensions } from "./mergeProps.js";
 
 export function mergeBlockCreations<Options extends object>(
 	first: Partial<BlockCreation<Options>>,
@@ -10,7 +10,11 @@ export function mergeBlockCreations<Options extends object>(
 ) {
 	return withoutUndefinedProperties({
 		...mergeCreations(first, second),
-		addons: applyMerger(first.addons, second.addons, mergeAddons),
+		extensions: applyMerger(
+			first.extensions,
+			second.extensions,
+			mergeExtensions,
+		),
 	});
 }
 

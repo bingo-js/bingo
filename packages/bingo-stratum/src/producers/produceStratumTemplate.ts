@@ -9,7 +9,7 @@ import { produceBlocks } from "./produceBlocks.js";
 
 export interface ProduceStratumTemplateSettings<OptionsShape extends AnyShape> {
 	/**
-	 * Existing file creations to be used for Blocks that can intake Addons.
+	 * Existing file creations to be used for Blocks that can intake Props.
 	 */
 	files?: IntakeDirectory;
 	mode?: ProductionMode;
@@ -43,7 +43,7 @@ export function produceStratumTemplate<
 	);
 
 	return produceBlocks(blocks, {
-		blockAddons: refinements.addons,
+		blockExtensions: refinements.extensions,
 		files,
 		mode,
 		offline,

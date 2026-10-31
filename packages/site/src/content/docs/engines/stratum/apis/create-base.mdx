@@ -107,10 +107,10 @@ base.createBlock({
 });
 ```
 
-### `addons` {#createblock-addons}
+### `props` {#createblock-props}
 
-Block Definitions may include an `addons` object defining [Zod](https://zod.dev) values as its properties.
-Whenever a new instance of a Block with args is constructed, those Addons must be provided to it.
+Block Definitions may include a `props` object defining [Zod](https://zod.dev) values as its properties.
+Whenever a new instance of a Block with props is constructed, those values must be provided to it.
 
 For example, this Prettier block optionally allows adding in any plugins with a `plugins` arg:
 
@@ -120,17 +120,17 @@ import { z } from "zod";
 import { base } from "./base";
 
 export const blockPrettier = base.createBlock({
-	addons: {
+	props: {
 		plugins: z.array(z.string()).optional(),
 	},
-	async produce({ addons }) {
+	async produce({ props }) {
 		return {
 			files: {
 				".prettierrc.json":
-					addons.plugins &&
+					props.plugins &&
 					JSON.stringify({
 						$schema: "http://json.schemastore.org/prettierrc",
-						plugins: addons.plugins,
+						plugins: props.plugins,
 					}),
 			},
 		};
@@ -138,14 +138,14 @@ export const blockPrettier = base.createBlock({
 });
 ```
 
-See [Stratum > Concepts > Blocks > Addons](/engines/stratum/concepts/blocks#addons) for more information.
+See [Stratum > Concepts > Blocks > Props](/engines/stratum/concepts/blocks#props) for more information.
 
 ### `intake` {#createblock-intake}
 
-An optional function to intake default [`addons`](#createblock-addons) values from existing files on disk.
+An optional function to intake default [`props`](#createblock-props) values from existing files on disk.
 
 It receives one parameter: an [Intake Context](/engines/stratum/details/contexts#intake-contexts) object containing any existing files.
-It may return an object with any default values for the Block's Addons.
+It may return an object with any default values for the Block's Props.
 
 For example, this Block reads in existing Prettier plugins from a Prettier config file:
 
@@ -155,7 +155,7 @@ import { z } from "zod";
 import { base } from "./base";
 
 export const blockPrettier = base.createBlock({
-	addons: {
+	props: {
 		plugins: z.array(z.string()).optional(),
 	},
 	intake({ files }) {
@@ -165,7 +165,7 @@ export const blockPrettier = base.createBlock({
 			plugins: existingConfig && JSON.parse(existingConfig).plugins,
 		};
 	},
-	async produce({ addons }) {
+	async produce({ props }) {
 		// ...
 	},
 });

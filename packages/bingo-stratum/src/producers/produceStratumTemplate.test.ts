@@ -4,47 +4,7 @@ import { z } from "zod";
 import { createBase } from "../creators/createBase.js";
 import { produceStratumTemplate } from "./produceStratumTemplate.js";
 
-describe("produceStratumTemplate", () => {
-	it("passes addons to the preset when provided", () => {
-		const baseWithOption = createBase({
-			options: {
-				value: z.string(),
-			},
-		});
-
-		const blockUsingOption = baseWithOption.createBlock({
-			produce({ options }) {
-				return {
-					files: {
-						"value.txt": options.value,
-					},
-				};
-			},
-		});
-
-		const presetUsingOption = baseWithOption.createPreset({
-			about: { name: "Test" },
-			blocks: [blockUsingOption],
-		});
-
-		const template = baseWithOption.createStratumTemplate({
-			presets: [presetUsingOption],
-		});
-
-		const actual = produceStratumTemplate(template, {
-			options: {
-				preset: "test",
-				value: "abc",
-			},
-		});
-
-		expect(actual).toEqual({
-			files: {
-				"value.txt": "abc",
-			},
-		});
-	});
-
+describe(produceStratumTemplate, () => {
 	it("passes options to the preset when provided", () => {
 		const baseWithOption = createBase({
 			options: {

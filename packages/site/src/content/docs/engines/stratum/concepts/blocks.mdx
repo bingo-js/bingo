@@ -83,12 +83,12 @@ If `create` is run with `--name My Repository`, a `README.md` would be generated
 # My Repository
 ```
 
-## Addons
+## Props
 
-Blocks can define additional optional data called _"Addons"_ that they can be receive from other Blocks.
-Blocks define Addons as the properties for a [Zod](https://zod.dev) object schema and then receive them in their context.
+Blocks can define additional optional data called _"Props"_ that they can be receive from other Blocks.
+Blocks define Props as the properties for a [Zod](https://zod.dev) object schema and then receive them in their context.
 
-For example, this Block takes in a string array under a `names` Addon, to be printed in a `names.txt` file:
+For example, this Block takes in a string array under a `names` Prop, to be printed in a `names.txt` file:
 
 ```ts
 import { z } from "zod";
@@ -96,23 +96,25 @@ import { z } from "zod";
 import { base } from "./base";
 
 export const blockNames = base.createBlock({
-	addons: {
+	props: {
 		names: z.array(z.string()).default([]),
 	},
-	async produce({ addons }) {
+	async produce({ props }) {
 		return {
 			files: {
-				"names.txt": addons.names.join("\n"),
+				"names.txt": props.names.join("\n"),
 			},
 		};
 	},
 });
 ```
 
-Other Blocks may produce Addons to be given to any other Blocks.
-These Addons will be merged together when a Preset containing the Blocks is run.
+## Extensions
 
-For example, the following Names Block receives composed Addons from the FruitNames Block:
+Blocks have the abilty to provide Props to other Blocks by declaring Extensions.
+The Props provided by these Extensions will be merged together when a Preset containing the Blocks is run.
+
+For example, the following `Names` Block receives composed Props from the `FruitNames` Block:
 
 ```ts
 import { z } from "zod";
@@ -120,13 +122,13 @@ import { z } from "zod";
 import { base } from "./base";
 
 export const blockNames = base.createBlock({
-	addons: {
+	props: {
 		names: z.array(z.string()).default([]),
 	},
-	async produce({ addons }) {
+	async produce({ props }) {
 		return {
 			files: {
-				"names.txt": addons.names.join("\n"),
+				"names.txt": props.names.join("\n"),
 			},
 		};
 	},
@@ -135,7 +137,7 @@ export const blockNames = base.createBlock({
 export const blockFruitNames = base.createBlock({
 	async produce() {
 		return {
-			addons: [
+			extensions: [
 				blockNames({
 					names: ["apple", "banana", "cherry"],
 				}),
@@ -156,14 +158,14 @@ cherry
 
 ### Merging
 
-At runtime, the `create` engine will often need to re-run Blocks continuously as they receive Addons from other Blocks.
-Blocks will be re-run whenever other Blocks signal new Addon data to them that they haven't yet seen.
+At runtime, the `create` engine will often need to re-run Blocks continuously as they receive Props from other Blocks through their Extensions.
+Blocks will be re-run whenever other Blocks signal new Prop data to them that they haven't yet seen.
 This allows Blocks to not need any explicit indication of what order to run in.
 
-Addons are merged by concatenating arrays and removing duplicate elements.
+Props are merged by concatenating arrays and removing duplicate elements.
 Duplicates are detected by [`hash-object`](https://www.npmjs.com/package/hash-object) object hashing.
 
-For example, given the following two Addons to be merged:
+For example, given the following two set of Props to be merged:
 
 ```ts
 [
@@ -190,4 +192,4 @@ The merged result would be:
 ```
 
 Objects are merged recursively, and any other non-null values must match exactly.
-If a Block produces a different value for an Addon key than the value already known, such as `{ value: "a" }` and `{ value: "b" }`, Stratum will throw an error.
+If a Block produces a different value for an Prop key than the value already known, such as `{ value: "a" }` and `{ value: "b" }`, Stratum will throw an error.

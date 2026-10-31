@@ -33,19 +33,19 @@ export default createConfig({
 
 All Stratum Templates support the following `refinements` in their configuration files:
 
-### `addons`
+### `extensions`
 
-Any [Addons](/engines/stratum/concepts/blocks#addons) to be passed to the [Blocks](/engines/stratum/concepts/blocks) provided by the selected [Preset](/engines/stratum/concepts/presets).
-These will be [merged](/build/details/merging) in with Addons provided by other Blocks.
+Any [Props](/engines/stratum/concepts/blocks#props) to be passed to the [Blocks](/engines/stratum/concepts/blocks) provided by the selected [Preset](/engines/stratum/concepts/presets).
+These will be [merged](/build/details/merging) in with Props provided by other Blocks.
 
-For example, this configuration file adds the word `"arethetypeswrong"` to a CSpell Block's Addons:
+For example, this configuration file adds the word `"arethetypeswrong"` to a CSpell Block's Props:
 
 ```ts title="create-typescript-app.config.ts"
 import { blockCSpell, createConfig } from "create-typescript-app";
 
 export default createConfig({
 	refinements: {
-		addons: [
+		extensions: [
 			blockCSpell({
 				words: ["arethetypeswrong"],
 			}),
@@ -54,7 +54,7 @@ export default createConfig({
 });
 ```
 
-Running `npx create-typescript-app` in a repository with that configuration file would merge in that `words` to the Addons provided to its CSpell Block.
+Running `npx create-typescript-app` in a repository with that configuration file would merge in that `words` with any other Props provided to its CSpell Block.
 
 ### `blocks`
 
@@ -145,9 +145,9 @@ export default createConfig({
 });
 ```
 
-#### Custom Blocks and Addons
+#### Custom Blocks and Extensions
 
-Custom Blocks can provide Addons to any other Blocks, including those provided by the package.
+Custom Blocks can provide Props to any other Blocks, including those provided by the package, by producing Extensions that include those prop assignments.
 This allows your repositories to blend in seamlessly with the features provided by your Template.
 
 For example, to add an [`@arethetypeswrong/cli`](https://www.npmjs.com/package/@arethetypeswrong/cli) lint task to the `package.json` file, a repository using the `create-typescript-app` Template could create and use a custom Block:
@@ -162,7 +162,7 @@ export const blockLintAreTheTypesWrong = base.createBlock({
 	},
 	produce() {
 		return {
-			addons: [
+			extensions: [
 				blockPackageJson({
 					properties: {
 						devDependencies: {
