@@ -1,5 +1,22 @@
 # bingo-stratum-testers
 
+## 0.6.0
+
+### Minor Changes
+
+- [#472](https://github.com/bingo-js/bingo/pull/472) [`bb00c04`](https://github.com/bingo-js/bingo/commit/bb00c0462ba8fd853c0dabec15549a5e1655dc9f) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Break up the `addons` api into `props` and `extensions`.
+The `addons` name was being applied to two different concepts:
+  1. Extending a template by passing parameters to a block from the template
+  2. Defining the parameters that blocks can take in
+
+  Now, `extensions` is the name for concept 1, and `props` is the name for concept 2.
+  This helps disambiguate the name and provide users more clarity for each purpose.
+
+### Patch Changes
+
+- Updated dependencies [[`bb00c04`](https://github.com/bingo-js/bingo/commit/bb00c0462ba8fd853c0dabec15549a5e1655dc9f)]:
+  - bingo-stratum@0.9.0
+
 ## 0.5.15
 
 ### Patch Changes
