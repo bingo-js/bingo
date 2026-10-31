@@ -158,9 +158,6 @@ importers:
       without-undefined-properties:
         specifier: ^0.1.2
         version: 0.1.2
-      zod:
-        specifier: ^4.4.3
-        version: 4.4.3
     devDependencies:
       '@types/hosted-git-info':
         specifier: 3.0.5
@@ -171,6 +168,9 @@ importers:
       octokit:
         specifier: 5.0.5
         version: 5.0.5
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
 
   packages/bingo-fs:
     devDependencies:
@@ -306,10 +306,6 @@ importers:
         version: 5.6.2
 
   packages/input-from-fetch:
-    dependencies:
-      zod:
-        specifier: ^4.4.3
-        version: 4.4.3
     devDependencies:
       bingo:
         specifier: workspace:^
@@ -317,12 +313,11 @@ importers:
       bingo-testers:
         specifier: workspace:^
         version: link:../bingo-testers
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
 
   packages/input-from-file:
-    dependencies:
-      zod:
-        specifier: ^4.4.3
-        version: 4.4.3
     devDependencies:
       bingo:
         specifier: workspace:^
@@ -330,6 +325,9 @@ importers:
       bingo-testers:
         specifier: workspace:^
         version: link:../bingo-testers
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
 
   packages/input-from-file-json:
     dependencies:
@@ -352,9 +350,6 @@ importers:
       bingo-requests:
         specifier: workspace:^
         version: link:../bingo-requests
-      zod:
-        specifier: ^4.4.3
-        version: 4.4.3
     devDependencies:
       bingo:
         specifier: workspace:^
@@ -365,12 +360,11 @@ importers:
       octokit:
         specifier: 5.0.5
         version: 5.0.5
-
-  packages/input-from-script:
-    dependencies:
       zod:
         specifier: ^4.4.3
         version: 4.4.3
+
+  packages/input-from-script:
     devDependencies:
       bingo:
         specifier: workspace:^
@@ -378,6 +372,9 @@ importers:
       bingo-testers:
         specifier: workspace:^
         version: link:../bingo-testers
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
 
   packages/site:
     dependencies:

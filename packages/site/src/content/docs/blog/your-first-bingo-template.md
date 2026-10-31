@@ -46,7 +46,7 @@ In a new empty directory, create a `package.json`, install `bingo` as a dependen
 ```
 
 ```shell
-npm i bingo
+npm i bingo zod
 ```
 
 ```js title="template.js"

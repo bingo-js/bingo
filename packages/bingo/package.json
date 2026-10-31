@@ -38,13 +38,16 @@
 		"read-package-up": "^12.0.0",
 		"read-pkg": "^10.0.0",
 		"slugify": "^1.6.9",
-		"without-undefined-properties": "^0.1.2",
-		"zod": "^4.4.3"
+		"without-undefined-properties": "^0.1.2"
 	},
 	"devDependencies": {
 		"@types/hosted-git-info": "3.0.5",
 		"@types/node": "24.10.1",
-		"octokit": "5.0.5"
+		"octokit": "5.0.5",
+		"zod": "^4.4.3"
+	},
+	"peerDependencies": {
+		"zod": "^4.4.3"
 	},
 	"engines": {
 		"node": ">=22"

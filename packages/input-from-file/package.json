@@ -21,15 +21,14 @@
 	"scripts": {
 		"build": "tsc"
 	},
-	"dependencies": {
-		"zod": "^4.4.3"
-	},
 	"devDependencies": {
 		"bingo": "workspace:^",
-		"bingo-testers": "workspace:^"
+		"bingo-testers": "workspace:^",
+		"zod": "^4.4.3"
 	},
 	"peerDependencies": {
-		"bingo": "workspace:^"
+		"bingo": "workspace:^",
+		"zod": "^4.4.3"
 	},
 	"engines": {
 		"node": ">=18"

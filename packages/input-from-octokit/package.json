@@ -23,16 +23,17 @@
 	},
 	"dependencies": {
 		"@octokit/types": "^16.0.0",
-		"bingo-requests": "workspace:^",
-		"zod": "^4.4.3"
+		"bingo-requests": "workspace:^"
 	},
 	"devDependencies": {
 		"bingo": "workspace:^",
 		"bingo-testers": "workspace:^",
-		"octokit": "5.0.5"
+		"octokit": "5.0.5",
+		"zod": "^4.4.3"
 	},
 	"peerDependencies": {
-		"bingo": "workspace:^"
+		"bingo": "workspace:^",
+		"zod": "^4.4.3"
 	},
 	"engines": {
 		"node": ">=18"
