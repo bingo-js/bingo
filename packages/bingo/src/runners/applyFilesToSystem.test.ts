@@ -1,3 +1,4 @@
+import { normalize } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 
 import { applyFilesToSystem } from "./applyFilesToSystem.js";
@@ -28,11 +29,11 @@ describe(applyFilesToSystem, () => {
 
 		expect(system.writeDirectory.mock.calls).toEqual([
 			["root"],
-			["root/.github"],
+			[normalize("root/.github")],
 		]);
 		expect(system.writeFile.mock.calls).toEqual([
-			["root/.github/FUNDING.yaml", "github: abc"],
-			["root/README.md", "# Hello", { executable: true }],
+			[normalize("root/.github/FUNDING.yaml"), "github: abc"],
+			[normalize("root/README.md"), "# Hello", { executable: true }],
 		]);
 		expect(system.removeFile).not.toHaveBeenCalled();
 	});
@@ -51,12 +52,12 @@ describe(applyFilesToSystem, () => {
 		);
 
 		expect(system.writeFile).toHaveBeenCalledWith(
-			"root/.github/FUNDING.yaml",
+			normalize("root/.github/FUNDING.yaml"),
 			"github: abc",
 			{ previously: ["FUNDING.yml"] },
 		);
 		expect(system.removeFile.mock.calls).toEqual([
-			["root/.github/FUNDING.yml"],
+			[normalize("root/.github/FUNDING.yml")],
 		]);
 	});
 });
