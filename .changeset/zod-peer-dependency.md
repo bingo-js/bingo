@@ -6,8 +6,8 @@
 "input-from-script": minor
 ---
 
-Declare `zod` as a peer dependency
+Declare `zod` as an optional peer dependency
 
-`bingo` and the `input-from-*` packages now list `zod` (`^4.4.3`) under `peerDependencies`.
-Projects install `zod` alongside `bingo`, and `bingo` inspects schemas from that same copy of `zod`.
-A `zod` version outside the supported range produces a peer-range warning at install time.
+`bingo` and the `input-from-*` packages list `zod` (`^4.4.3`) under both `dependencies` and optional `peerDependencies`.
+Package managers that support peers with defaults, such as pnpm and Yarn, give `bingo` the project's own copy of `zod` and warn when its version falls outside the supported range.
+Projects that use `zod` only through `bingo` get it installed as a regular dependency.
