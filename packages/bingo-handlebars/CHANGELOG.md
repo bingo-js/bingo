@@ -1,5 +1,11 @@
 # bingo-handlebars
 
+## 0.2.2
+
+### Patch Changes
+
+- [#482](https://github.com/bingo-js/bingo/pull/482) [`17d11df`](https://github.com/bingo-js/bingo/commit/17d11dfccf04c0420cb203dd1e717461d289f7e2) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Update `handlebars` to resolve vulnerability.
+
 ## 0.2.1
 
 ### Patch Changes

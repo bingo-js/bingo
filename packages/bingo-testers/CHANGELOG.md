@@ -1,5 +1,12 @@
 # bingo-testers
 
+## 0.8.1
+
+### Patch Changes
+
+- Updated dependencies [[`471336b`](https://github.com/bingo-js/bingo/commit/471336be2234f8569c0b7ad0cadebb9f5fc388cd)]:
+  - bingo@0.14.0
+
 ## 0.8.0
 
 ### Minor Changes

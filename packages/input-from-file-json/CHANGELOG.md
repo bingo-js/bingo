@@ -1,5 +1,13 @@
 # input-from-file-json
 
+## 0.5.10
+
+### Patch Changes
+
+- Updated dependencies [[`471336b`](https://github.com/bingo-js/bingo/commit/471336be2234f8569c0b7ad0cadebb9f5fc388cd)]:
+  - bingo@0.14.0
+  - input-from-file@0.6.0
+
 ## 0.5.9
 
 ### Patch Changes
