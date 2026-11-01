@@ -30,6 +30,8 @@ describe(createBlock, () => {
 				},
 			});
 
+			expect(block()).toBe(block);
+
 			const production = block.produce({
 				options: { name: "abc", preset: "test" },
 			});

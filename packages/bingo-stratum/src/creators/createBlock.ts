@@ -31,7 +31,11 @@ export function createBlock<
 
 	// Blocks without Props can't be called as functions.
 	if (!isDefinitionWithProps(blockDefinition)) {
-		return { ...blockDefinition, produce };
+		const block = () => {
+			return block;
+		};
+		Object.assign(block, { ...blockDefinition, produce });
+		return block;
 	}
 
 	const propsSchema = blockDefinition.props;
