@@ -1,5 +1,14 @@
 # bingo-stratum
 
+## 0.9.1
+
+### Patch Changes
+
+- [#477](https://github.com/bingo-js/bingo/pull/477) [`9a98512`](https://github.com/bingo-js/bingo/commit/9a98512c30b41c289c450cc5a140f477d08007aa) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Made `BlocksWithoutProps` a function so that it can be used in similar contexts as `BlockWithProps` (e.g.
+`vitest` describe titles).
+- Updated dependencies [[`471336b`](https://github.com/bingo-js/bingo/commit/471336be2234f8569c0b7ad0cadebb9f5fc388cd)]:
+  - bingo@0.14.0
+
 ## 0.9.0
 
 ### Minor Changes
