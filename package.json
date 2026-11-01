@@ -1,5 +1,5 @@
 {
-	"name": "bingo",
+	"name": "bingo-monorepo",
 	"version": "0.0.0",
 	"private": true,
 	"description": "Composable, testable, type-safe templates. 💝",
@@ -67,6 +67,6 @@
 		"vitest": "4.0.15"
 	},
 	"engines": {
-		"node": ">=18.3.0"
+		"node": "^22.15.0 || ^24.15.0 || >=26.0.0"
 	}
 }

@@ -40,6 +40,6 @@
 		"bingo-systems": "workspace:^"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": "^22.15.0 || ^24.15.0 || >=26.0.0"
 	}
 }
