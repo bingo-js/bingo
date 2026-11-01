@@ -1,5 +1,4 @@
 import * as fs from "node:fs";
-import { z } from "zod";
 
 export function validateNewDirectory(value: string) {
 	if (value && fs.existsSync(value)) {
@@ -7,20 +6,6 @@ export function validateNewDirectory(value: string) {
 	}
 
 	return validateText(value);
-}
-
-export function validateNumber(value: string) {
-	if (isNaN(parseFloat(value))) {
-		return "Please enter a numeric value.";
-	}
-}
-
-export function validatorFromSchema(schema: z.ZodType) {
-	return (value: string) => {
-		return (
-			schema.safeParse(value).error?.issues[0].message ?? validateText(value)
-		);
-	};
 }
 
 function validateText(value: string) {

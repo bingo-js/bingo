@@ -1,12 +1,10 @@
-import * as prompts from "@clack/prompts";
+import { describeOptions } from "parse-standard-args";
+import { promptForOptions } from "parse-standard-args/prompts";
 import { z } from "zod";
 
 import { AnyShape, InferredObject } from "../../types/shapes.js";
 import { SystemContext } from "../../types/system.js";
 import { Template } from "../../types/templates.js";
-import { getSchemaDefaultValue } from "../../utils/getSchemaDefaultValue.js";
-import { getSchemaDescription } from "../../utils/getSchemaDescription.js";
-import { promptForOptionSchema } from "./promptForOptionSchema.js";
 
 export type PromptedOptions<Options extends object> =
 	| PromptedOptionsCancelled<Options>
@@ -37,45 +35,39 @@ export async function promptForOptionSchemas<
 ): Promise<PromptedOptions<InferredObject<OptionsShape>>> {
 	type Options = InferredObject<OptionsShape>;
 
-	const { directory } = system;
-	const completed: InferredObject<AnyShape> = {
-		directory,
-		...existing,
-	};
-	const prompted: Partial<Options> = {};
+	const result = await promptForOptions({
+		flags: describeOptions(template.options),
+		values: {
+			directory: system.directory,
+			...existing,
+		},
+	});
 
-	for (const [key, schema] of Object.entries(template.options)) {
-		const defaultValue = getSchemaDefaultValue(schema);
-		if (
-			(isOptionalSchema(schema) && defaultValue === undefined) ||
-			completed[key] !== undefined
-		) {
-			continue;
-		}
-
-		const produced = await promptForOptionSchema(
-			key,
-			schema,
-			getSchemaDescription(schema),
-			defaultValue,
-		);
-		if (prompts.isCancel(produced)) {
-			return { cancelled: true, prompted };
-		}
-
-		(prompted as typeof completed)[key] = produced;
+	if (result.cancelled) {
+		return result as PromptedOptionsCancelled<Options>;
 	}
+
+	// Prompted values are kept as entered, so they can be suggested as CLI flags.
+	// Templates are given their schemas' outputs, such as transformed values.
+	const parsed = await Promise.all(
+		Object.entries(result.prompted).map(async ([key, value]) => [
+			key,
+			await getSchemaOutput(template.options[key], value),
+		]),
+	);
 
 	return {
 		cancelled: false,
 		completed: {
-			...completed,
-			...prompted,
+			...result.completed,
+			...Object.fromEntries(parsed),
 		} as Options,
-		prompted,
+		prompted: result.prompted as Partial<Options>,
 	};
 }
 
-function isOptionalSchema(schema: z.ZodType) {
-	return schema.safeParse(undefined).success;
+async function getSchemaOutput(schema: z.ZodType, value: unknown) {
+	const result = await schema["~standard"].validate(value);
+
+	return result.issues ? value : result.value;
 }

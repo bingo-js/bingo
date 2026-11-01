@@ -45,6 +45,13 @@ export default defineConfig(
 	...jsonc.configs["flat/recommended-with-json"],
 	...markdown.configs.recommended,
 	packageJson.configs.recommended,
+	{
+		files: ["packages/bingo/package.json"],
+		rules: {
+			// TODO: Remove once parse-standard-args is published and no longer link:ed.
+			"package-json/valid-dependencies": "off",
+		},
+	},
 	perfectionist.configs["recommended-natural"],
 	regexp.configs["flat/recommended"],
 	{

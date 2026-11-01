@@ -13,7 +13,7 @@ import { GitRepositoryType } from "../getGitRepositoryType.js";
 import { logRerunSuggestion } from "../loggers/logRerunSuggestion.js";
 import { logStartText } from "../loggers/logStartText.js";
 import { CLIMessage } from "../messages.js";
-import { parseZodArgs } from "../parsers/parseZodArgs.js";
+import { parseOptionsArgs } from "../parsers/parseOptionsArgs.js";
 import { promptForDirectory } from "../prompts/promptForDirectory.js";
 import { promptForOptionSchemas } from "../prompts/promptForOptionSchemas.js";
 import { prepareGitRepository } from "../repository/prepareGitRepository.js";
@@ -64,12 +64,13 @@ export async function runModeSetup({
 		offline,
 	});
 
-	const providedOptions = parseZodArgs(argv, {
+	const optionsShape = {
 		directory: z.string().optional(),
 		owner: z.string().optional(),
 		repository: z.string().optional(),
 		...template.options,
-	});
+	};
+	const providedOptions = parseOptionsArgs(argv, optionsShape).values;
 
 	const preparedOptions = await runSpinnerTask(
 		display,
@@ -84,7 +85,7 @@ export async function runModeSetup({
 		},
 	);
 	if (preparedOptions instanceof Error) {
-		logRerunSuggestion(rerunCommand, providedOptions);
+		logRerunSuggestion(rerunCommand, providedOptions, optionsShape);
 		return { status: CLIStatus.Error };
 	}
 
@@ -99,7 +100,7 @@ export async function runModeSetup({
 		system,
 	});
 	if (baseOptions.cancelled) {
-		logRerunSuggestion(rerunCommand, baseOptions.prompted);
+		logRerunSuggestion(rerunCommand, baseOptions.prompted, optionsShape);
 		return { status: CLIStatus.Cancelled };
 	}
 
@@ -112,7 +113,7 @@ export async function runModeSetup({
 	);
 
 	if (remote instanceof Error) {
-		logRerunSuggestion(rerunCommand, baseOptions.prompted);
+		logRerunSuggestion(rerunCommand, baseOptions.prompted, optionsShape);
 		return { error: remote, status: CLIStatus.Error };
 	}
 
@@ -140,7 +141,7 @@ export async function runModeSetup({
 			}),
 	);
 	if (creation instanceof Error) {
-		logRerunSuggestion(rerunCommand, baseOptions.prompted);
+		logRerunSuggestion(rerunCommand, baseOptions.prompted, optionsShape);
 		return {
 			outro: CLIMessage.Leaving,
 			status: CLIStatus.Error,
@@ -167,7 +168,7 @@ export async function runModeSetup({
 		);
 	}
 
-	logRerunSuggestion(rerunCommand, baseOptions.prompted);
+	logRerunSuggestion(rerunCommand, baseOptions.prompted, optionsShape);
 
 	if (preparationError) {
 		return {

@@ -2,10 +2,10 @@ import * as prompts from "@clack/prompts";
 import { BingoSystem, SystemRunner } from "bingo-systems";
 import { styleText } from "node:util";
 import { Octokit } from "octokit";
+import { describeOptions } from "parse-standard-args";
+import { promptForFlag } from "parse-standard-args/prompts";
 
 import { RepositoryLocator, Template } from "../../types/templates.js";
-import { promptForOptionSchema } from "../prompts/promptForOptionSchema.js";
-import { isStringLikeSchema } from "../schemas/isStringLikeSchema.js";
 import { hasAccessToOwner } from "./hasAccessToOwner.js";
 import { PartialRepositoryLocator } from "./types.js";
 
@@ -33,20 +33,18 @@ export async function resolveRemoteRepositoryToCreate(
 		);
 	}
 
-	const ownerSchema = template.options.owner;
+	const [ownerFlag] = describeOptions({ owner: template.options.owner });
 
-	if (!isStringLikeSchema(ownerSchema)) {
+	if (ownerFlag.kind === "json" || ownerFlag.multiple) {
 		return new Error(
 			"--remote requested, but could not infer an owner because this template's owner option is not a string-like.",
 		);
 	}
 
 	while (true) {
-		const prompted = await promptForOptionSchema(
-			"owner",
-			ownerSchema,
-			"organization or username owning the repository",
-			undefined,
+		const prompted = await promptForFlag(
+			ownerFlag,
+			"What will the organization or username owning the repository be? (--owner)",
 		);
 
 		if (typeof prompted !== "string") {

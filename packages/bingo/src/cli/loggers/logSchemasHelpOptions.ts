@@ -1,21 +1,19 @@
+import { describeOptions, formatFlagType } from "parse-standard-args";
+
 import { AnyShape } from "../../types/shapes.js";
-import { getSchemaDescription } from "../../utils/getSchemaDescription.js";
-import { getSchemaTypeName } from "../../utils/getSchemaTypeName.js";
 import { logHelpOptions } from "./logHelpOptions.js";
 
 export function logSchemasHelpOptions(packageName: string, schemas: AnyShape) {
 	logHelpOptions(
 		packageName,
 		packageName,
-		Object.entries(schemas)
-			.map(([flag, schema]) => ({
-				flag: `--${flag}`,
-				text: asSentence(getSchemaDescription(schema)),
-				type: getSchemaTypeName(schema),
-			}))
-			// TODO: Once a Zod-to-args conversion is made, reuse that here...
-			// https://github.com/bingo-js/bingo/issues/285
-			.filter((entry) => !entry.type.startsWith("object")),
+		describeOptions(schemas)
+			.filter((flag) => !flag.hidden)
+			.map((flag) => ({
+				flag: `--${flag.key}`,
+				text: asSentence(flag.description),
+				type: formatFlagType(flag),
+			})),
 	);
 }
 

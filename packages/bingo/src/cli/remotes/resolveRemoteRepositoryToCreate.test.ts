@@ -7,11 +7,11 @@ import { z } from "zod";
 import { createTemplate } from "../../creators/createTemplate.js";
 import { resolveRemoteRepositoryToCreate } from "./resolveRemoteRepositoryToCreate.js";
 
-const mockPromptForOptionSchema = vi.fn();
+const mockPromptForFlag = vi.fn();
 
-vi.mock("../prompts/promptForOptionSchema.js", () => ({
-	get promptForOptionSchema() {
-		return mockPromptForOptionSchema;
+vi.mock("parse-standard-args/prompts", () => ({
+	get promptForFlag() {
+		return mockPromptForFlag;
 	},
 }));
 
@@ -142,8 +142,30 @@ describe(resolveRemoteRepositoryToCreate, () => {
 		);
 	});
 
+	it("returns an error if an owner cannot be inferred and the template's owner option is an array", async () => {
+		const result = await resolveRemoteRepositoryToCreate(
+			{ repository: stubRepository },
+			{
+				...mockSystem,
+				runner: vi.fn().mockResolvedValueOnce({}),
+			},
+			createTemplate({
+				options: {
+					owner: z.array(z.string()) as unknown,
+				},
+				produce: vi.fn(),
+			}),
+		);
+
+		expect(result).toEqual(
+			new Error(
+				"--remote requested, but could not infer an owner because this template's owner option is not a string-like.",
+			),
+		);
+	});
+
 	it("returns the prompted owner when prompting succeeds and the owner is accessible", async () => {
-		mockPromptForOptionSchema.mockResolvedValueOnce(stubOwner);
+		mockPromptForFlag.mockResolvedValueOnce(stubOwner);
 		mockHasAccessToOwner.mockResolvedValueOnce(true);
 
 		const actual = await resolveRemoteRepositoryToCreate(
@@ -161,12 +183,16 @@ describe(resolveRemoteRepositoryToCreate, () => {
 		);
 
 		expect(actual).toEqual({ owner: stubOwner, repository: stubRepository });
+		expect(mockPromptForFlag).toHaveBeenCalledWith(
+			expect.objectContaining({ key: "owner", kind: "string" }),
+			"What will the organization or username owning the repository be? (--owner)",
+		);
 	});
 
 	it("re-prompts when the prompted owner is not accessible", async () => {
 		const inaccessibleOwner = "inaccessible-owner";
 
-		mockPromptForOptionSchema
+		mockPromptForFlag
 			.mockResolvedValueOnce(inaccessibleOwner)
 			.mockResolvedValueOnce(stubOwner);
 		mockHasAccessToOwner
@@ -194,7 +220,7 @@ describe(resolveRemoteRepositoryToCreate, () => {
 	});
 
 	it("returns an error when prompting fails", async () => {
-		mockPromptForOptionSchema.mockResolvedValueOnce(new Error("Cancelled."));
+		mockPromptForFlag.mockResolvedValueOnce(new Error("Cancelled."));
 
 		const actual = await resolveRemoteRepositoryToCreate(
 			{ repository: stubRepository },
