@@ -46,6 +46,14 @@
 		"@types/node": "24.10.1",
 		"octokit": "5.0.5"
 	},
+	"peerDependencies": {
+		"zod": "^4.4.3"
+	},
+	"peerDependenciesMeta": {
+		"zod": {
+			"optional": true
+		}
+	},
 	"engines": {
 		"node": ">=22"
 	}

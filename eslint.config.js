@@ -91,6 +91,27 @@ export default defineConfig(
 		},
 	},
 	{
+		/**
+		 * These packages declare `zod` as a peer dependency with a default:
+		 * a `dependencies` entry plus an optional peer on the same range.
+		 * pnpm and Yarn give them the consuming project's `zod` when it has one,
+		 * and fall back to the package's own copy otherwise.
+		 * Both rules flag that pairing, so they are off for these files.
+		 * https://github.com/bingo-js/bingo/issues/475
+		 */
+		files: [
+			"packages/bingo/package.json",
+			"packages/input-from-fetch/package.json",
+			"packages/input-from-file/package.json",
+			"packages/input-from-octokit/package.json",
+			"packages/input-from-script/package.json",
+		],
+		rules: {
+			"package-json/specify-peers-locally": "off",
+			"package-json/unique-dependencies": "off",
+		},
+	},
+	{
 		files: ["*.jsonc"],
 		rules: {
 			"jsonc/comma-dangle": "off",
