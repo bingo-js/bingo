@@ -22,6 +22,7 @@
 		"build": "tsc"
 	},
 	"dependencies": {
+		"execa": "^9.6.1",
 		"zod": "^4.4.3"
 	},
 	"devDependencies": {
