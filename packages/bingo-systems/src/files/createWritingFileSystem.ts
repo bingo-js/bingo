@@ -6,16 +6,17 @@ import { createReadingFileSystem } from "./createReadingFileSystem.js";
 export function createWritingFileSystem() {
 	return {
 		...createReadingFileSystem(),
-		removeFile: async (filePath: string) => {
+		removeFile: async (filePath: string): Promise<void> => {
 			await fs.rm(filePath, { force: true });
 		},
-		writeDirectory: async (directoryPath: string) =>
-			void (await fs.mkdir(directoryPath, { recursive: true })),
+		writeDirectory: async (directoryPath: string): Promise<void> => {
+			await fs.mkdir(directoryPath, { recursive: true });
+		},
 		writeFile: async (
 			filePath: string,
 			contents: string,
 			options?: CreatedFileMetadata,
-		) => {
+		): Promise<void> => {
 			try {
 				// If the file had custom permissions written, it might support
 				// being deleted but not being written to.

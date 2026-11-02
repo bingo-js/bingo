@@ -1,11 +1,10 @@
 {
 	"compilerOptions": {
 		"allowImportingTsExtensions": false,
-		"baseUrl": ".",
 		"composite": true,
 		"noEmit": true,
 		"paths": {
-			"~/*": ["src/*"]
+			"~/*": ["./src/*"]
 		},
 		"target": "esnext"
 	},

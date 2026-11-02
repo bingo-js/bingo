@@ -77,7 +77,7 @@ describe("getRequestSender", () => {
 		};
 
 		const actual = getRequestSender(
-			{ fetch: vi.fn(), octokit: undefined } as SystemFetchers,
+			{ fetch: vi.fn(), octokit: undefined },
 			request,
 		);
 

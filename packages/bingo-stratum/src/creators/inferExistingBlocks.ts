@@ -29,7 +29,7 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
 
 		// TODO: It would be better to run the base.prepare first to generate option defaults.
 		// https://github.com/bingo-js/bingo/issues/289
-		options: context.options as Options,
+		options: context.options,
 	};
 
 	let record: undefined | { percentage: number; preset: Preset<OptionsShape> };

@@ -13,7 +13,7 @@ export const inputFromFileJSON = createInput({
 		try {
 			return JSON.parse(text) as unknown;
 		} catch (error) {
-			return error as SyntaxError;
+			return error;
 		}
 	},
 });

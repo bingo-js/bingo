@@ -12,7 +12,7 @@ export async function promptForOptionSchema(
 	description: string | undefined,
 	defaultValue: unknown,
 ) {
-	const def = schema.def as PromptFriendlyZodDef;
+	const def = schema.def as unknown as PromptFriendlyZodDef;
 	if (isZodDefaultDef(def)) {
 		const innerType = def.innerType as z.ZodType;
 

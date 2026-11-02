@@ -42,11 +42,7 @@ function mergeCreatedDirectoriesWorker(
 					second as CreatedDirectory,
 					nextPath,
 				)
-			: mergeFileEntries(
-					first as CreatedFileEntry,
-					second as CreatedFileEntry,
-					nextPath,
-				);
+			: mergeFileEntries(first, second as CreatedFileEntry, nextPath);
 	}
 
 	return result;

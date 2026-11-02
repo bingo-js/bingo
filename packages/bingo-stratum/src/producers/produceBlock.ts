@@ -94,6 +94,7 @@ export function produceBlock<
 ): Partial<BlockCreation<Options>> {
 	let creation = block.produce(settings);
 
+	// eslint-disable-next-line @typescript-eslint/unbound-method
 	const augment = settings.mode && block[settings.mode];
 	if (augment) {
 		const augmented = augment({
