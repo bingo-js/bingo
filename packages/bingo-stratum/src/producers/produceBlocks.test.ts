@@ -97,7 +97,13 @@ describe(produceBlocks, () => {
 	});
 
 	it("merges props when provided by Block intake and blockExtensions", () => {
-		const block = base.createBlock({
+		const propsSchema = {
+			a: z.string().optional(),
+			b: z.string().optional(),
+			c: z.string().optional(),
+		};
+
+		const block = base.createBlock<typeof propsSchema>({
 			about: {
 				name: "Example Block",
 			},
@@ -114,11 +120,7 @@ describe(produceBlocks, () => {
 					},
 				};
 			},
-			props: {
-				a: z.string().optional(),
-				b: z.string().optional(),
-				c: z.string().optional(),
-			},
+			props: propsSchema,
 		});
 
 		const result = produceBlocks([block], {
