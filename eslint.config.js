@@ -36,15 +36,12 @@ export default defineConfig(
 	},
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
 	js.configs.recommended,
-	// https://github.com/eslint-community/eslint-plugin-eslint-comments/issues/214
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
 	comments.recommended,
 	jsdoc.configs["flat/contents-typescript-error"],
 	jsdoc.configs["flat/logical-typescript-error"],
 	jsdoc.configs["flat/stylistic-typescript-error"],
 	...jsonc.configs["flat/recommended-with-json"],
 	...markdown.configs.recommended,
-	packageJson.configs.recommended,
 	perfectionist.configs["recommended-natural"],
 	regexp.configs["flat/recommended"],
 	{
@@ -91,33 +88,16 @@ export default defineConfig(
 		},
 	},
 	{
-		/**
-		 * These packages declare `zod` as a peer dependency with a default:
-		 * a `dependencies` entry plus an optional peer on the same range.
-		 * pnpm and Yarn give them the consuming project's `zod` when it has one,
-		 * and fall back to the package's own copy otherwise.
-		 * Both rules flag that pairing, so they are off for these files.
-		 * https://github.com/bingo-js/bingo/issues/475
-		 */
-		files: [
-			"packages/bingo/package.json",
-			"packages/input-from-fetch/package.json",
-			"packages/input-from-file/package.json",
-			"packages/input-from-file-json/package.json",
-			"packages/input-from-octokit/package.json",
-			"packages/input-from-script/package.json",
-		],
+		extends: [packageJson.configs.recommended, packageJson.configs.stylistic],
+		files: ["**/package.json"],
+		// TODO: Tech Debt we need to resolve
 		rules: {
+			"package-json/require-exports": "off",
+			"package-json/require-sideEffects": "off",
+			// https://github.com/michaelfaith/eslint-plugin-package-json/issues/2422
 			"package-json/specify-peers-locally": "off",
+			// https://github.com/michaelfaith/eslint-plugin-package-json/issues/2423
 			"package-json/unique-dependencies": "off",
-		},
-	},
-	{
-		files: ["*.jsonc"],
-		rules: {
-			"jsonc/comma-dangle": "off",
-			"jsonc/no-comments": "off",
-			"jsonc/sort-keys": "error",
 		},
 	},
 	{
