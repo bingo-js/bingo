@@ -368,9 +368,6 @@ importers:
 
   packages/input-from-script:
     dependencies:
-      execa:
-        specifier: ^9.6.1
-        version: 9.6.1
       zod:
         specifier: ^4.4.3
         version: 4.4.3
