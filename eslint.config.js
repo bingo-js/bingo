@@ -94,7 +94,9 @@ export default defineConfig(
 		rules: {
 			"package-json/require-exports": "off",
 			"package-json/require-sideEffects": "off",
+			// https://github.com/michaelfaith/eslint-plugin-package-json/issues/2422
 			"package-json/specify-peers-locally": "off",
+			// https://github.com/michaelfaith/eslint-plugin-package-json/issues/2423
 			"package-json/unique-dependencies": "off",
 		},
 	},
