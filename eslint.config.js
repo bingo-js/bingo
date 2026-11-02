@@ -103,6 +103,7 @@ export default defineConfig(
 			"packages/bingo/package.json",
 			"packages/input-from-fetch/package.json",
 			"packages/input-from-file/package.json",
+			"packages/input-from-file-json/package.json",
 			"packages/input-from-octokit/package.json",
 			"packages/input-from-script/package.json",
 		],
