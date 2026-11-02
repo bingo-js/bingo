@@ -11,13 +11,13 @@ export default defineConfig({
 		konamiEmojiBlast(),
 		starlight({
 			components: {
-				Footer: "src/components/Footer.astro",
-				Head: "src/components/Head.astro",
+				Footer: "./src/components/Footer.astro",
+				Head: "./src/components/Head.astro",
 			},
-			customCss: ["src/styles.css"],
+			customCss: ["./src/styles.css"],
 			favicon: "/favicon.png",
 			logo: {
-				src: "src/assets/favicon.png",
+				src: "./src/assets/favicon.png",
 			},
 			plugins: [
 				starlightBlog({

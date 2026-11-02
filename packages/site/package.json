@@ -13,20 +13,20 @@
 		"start": "astro dev"
 	},
 	"dependencies": {
-		"@astrojs/check": "^0.9.6",
 		"@astrojs/starlight": "^0.37.0",
-		"@konami-emoji-blast/astro": "^0.1.1",
+		"@konami-emoji-blast/astro": "^0.3.0",
 		"@types/node": "^24.10.1",
 		"astro": "^5.16.3",
-		"konami-emoji-blast": "^0.6.0",
+		"konami-emoji-blast": "^0.7.0",
 		"remark-custom-heading-id": "^2.0.0",
 		"starlight-blog": "^0.25.2",
 		"starlight-links-validator": "^0.19.2",
 		"starlight-package-managers": "^0.11.1",
-		"starlight-sidebar-topics": "^0.6.2",
-		"typescript": "^5.9.3"
+		"starlight-sidebar-topics": "^0.6.2"
 	},
 	"devDependencies": {
-		"sharp": "0.34.5"
+		"@astrojs/check": "0.9.12",
+		"sharp": "0.34.5",
+		"typescript": "6.0.3"
 	}
 }
