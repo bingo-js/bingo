@@ -6,9 +6,7 @@ describe("createSystemFetchersOffline", () => {
 	it("rejects when called", async () => {
 		const fetchers = createSystemFetchersOffline();
 
-		await expect(
-			async () => await fetchers.fetch(""),
-		).rejects.toMatchInlineSnapshot(
+		await expect(fetchers.fetch("")).rejects.toMatchInlineSnapshot(
 			`[Error: Offline specified. This request should be caught by its Input.]`,
 		);
 	});

@@ -45,7 +45,6 @@ export function testInput<Result, ArgsShape extends AnyShape>(
 	input: Input<Result, ArgsShape>,
 	settings?: Partial<InputContextSettingsWithArgs<InferredObject<ArgsShape>>>,
 ): Result;
-
 export function testInput(
 	input: InputProducerWithArgs<unknown, AnyShape>,
 	settings: Partial<

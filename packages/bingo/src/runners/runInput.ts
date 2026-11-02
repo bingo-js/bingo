@@ -41,7 +41,6 @@ export function runInput<Result, ArgsShape extends AnyShape>(
 	input: Input<Result, ArgsShape>,
 	settings: RunInputSettings<InferredObject<ArgsShape>>,
 ): Result;
-
 export function runInput(
 	input: (
 		context: InputContextWithoutArgs & {

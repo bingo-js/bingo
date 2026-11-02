@@ -3,7 +3,7 @@ import { z } from "zod";
 import { PromptFriendlyZodDef, ZodDefType } from "./types.js";
 
 export function isStringLikeSchema(schema: z.ZodType): boolean {
-	const def = schema.def as PromptFriendlyZodDef;
+	const def = schema.def as unknown as PromptFriendlyZodDef;
 
 	switch (def.type) {
 		case ZodDefType.Boolean:

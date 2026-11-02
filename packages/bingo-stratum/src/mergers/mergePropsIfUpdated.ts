@@ -82,7 +82,8 @@ export function mergePropsIfUpdated<T extends object>(
 function createHash(value: unknown) {
 	return typeof value === "object"
 		? hashObject(value as Record<string, unknown>)
-		: String(value as boolean | null | number | string | undefined);
+		: // eslint-disable-next-line @typescript-eslint/no-base-to-string
+			String(value);
 }
 
 function createMismatchError(
