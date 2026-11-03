@@ -92,7 +92,6 @@ export default defineConfig(
 		files: ["**/package.json"],
 		// TODO: Tech Debt we need to resolve
 		rules: {
-			"package-json/require-sideEffects": "off",
 			// https://github.com/michaelfaith/eslint-plugin-package-json/issues/2422
 			"package-json/specify-peers-locally": "off",
 			// https://github.com/michaelfaith/eslint-plugin-package-json/issues/2423
