@@ -46,7 +46,7 @@
 		"eslint-plugin-jsdoc": "65.4.2",
 		"eslint-plugin-jsonc": "3.4.2",
 		"eslint-plugin-markdown": "5.1.0",
-		"eslint-plugin-package-json": "1.13.0",
+		"eslint-plugin-package-json": "1.14.0",
 		"eslint-plugin-perfectionist": "5.13.0",
 		"eslint-plugin-regexp": "3.3.3",
 		"eslint-plugin-yml": "3.9.0",

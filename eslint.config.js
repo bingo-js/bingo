@@ -90,13 +90,6 @@ export default defineConfig(
 	{
 		extends: [packageJson.configs.recommended, packageJson.configs.stylistic],
 		files: ["**/package.json"],
-		// TODO: Tech Debt we need to resolve
-		rules: {
-			// https://github.com/michaelfaith/eslint-plugin-package-json/issues/2422
-			"package-json/specify-peers-locally": "off",
-			// https://github.com/michaelfaith/eslint-plugin-package-json/issues/2423
-			"package-json/unique-dependencies": "off",
-		},
 	},
 	{
 		extends: [vitest.configs.recommended],
