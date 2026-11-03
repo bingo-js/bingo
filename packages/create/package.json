@@ -13,6 +13,9 @@
 		"email": "npm@joshuakgoldberg.com"
 	},
 	"type": "module",
+	"exports": {
+		"./package.json": "./package.json"
+	},
 	"bin": "./bin/index.js",
 	"files": [
 		"bin"
