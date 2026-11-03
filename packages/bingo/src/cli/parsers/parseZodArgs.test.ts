@@ -64,7 +64,7 @@ describe("parseZodArgs", () => {
 
 		const act = () => parseZodArgs(args, options);
 
-		expect(act).toThrowError(
+		expect(act).toThrow(
 			`create does not know how to parse this Zod literal on the CLI: null`,
 		);
 	});
@@ -75,7 +75,7 @@ describe("parseZodArgs", () => {
 
 		const act = () => parseZodArgs(args, options);
 
-		expect(act).toThrowError(
+		expect(act).toThrow(
 			`create does not know how to parse this Zod literal on the CLI: Symbol(abc)`,
 		);
 	});

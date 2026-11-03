@@ -13,7 +13,6 @@
 		"yaml"
 	],
 	"eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
-	"eslint.useFlatConfig": true,
 	"js/ts.implicitProjectConfig.checkJs": false,
 	"js/ts.tsdk.path": "node_modules/typescript/lib"
 }
