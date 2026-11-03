@@ -1,16 +1,29 @@
+name: Setup
+
 description: Sets up the repo for a typical CI job
 
-name: Setup
+inputs:
+  cache:
+    description: Cache the pnpm store
+    default: true
+    required: false
+  install-flags:
+    description: Flags to pass to `pnpm install`
+    required: false
+    type: string
+  node-version:
+    description: Node.js version to use
+    default: 26.13.0
+    required: false
 
 runs:
   steps:
-    - uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
+    - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
       with:
-        version: 10
-    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-      with:
-        cache: pnpm
-        node-version: "26"
-    - run: pnpm install --frozen-lockfile
+        cache: ${{ inputs.cache }}
+        install: ${{ inputs.install-flags == '' }}
+        runtime: node@${{ inputs.node-version }}
+    - run: pnpm install ${{ inputs.install-flags }}
+      if: ${{ inputs.install-flags != '' }}
       shell: bash
   using: composite
