@@ -12,6 +12,7 @@
 		"name": "Josh Goldberg ✨",
 		"email": "npm@joshuakgoldberg.com"
 	},
+	"sideEffects": false,
 	"type": "module",
 	"exports": {
 		"./package.json": "./package.json"
