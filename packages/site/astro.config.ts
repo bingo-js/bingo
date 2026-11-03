@@ -1,3 +1,4 @@
+import { unified } from "@astrojs/markdown-remark";
 import starlight from "@astrojs/starlight";
 import { konamiEmojiBlast } from "@konami-emoji-blast/astro";
 import { defineConfig } from "astro/config";
@@ -255,7 +256,9 @@ export default defineConfig({
 		}),
 	],
 	markdown: {
-		remarkPlugins: [remarkHeadingId],
+		processor: unified({
+			remarkPlugins: [remarkHeadingId],
+		}),
 	},
 	site: "https://create.bingo",
 });
