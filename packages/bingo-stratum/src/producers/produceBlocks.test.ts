@@ -256,7 +256,7 @@ describe(produceBlocks, () => {
 				[blockReceiving, blockProducingFirst, blockProducingSecond],
 				{ options: { value: "Hello, world!" } },
 			),
-		).toThrowError(
+		).toThrow(
 			`Could not merge the props from Block Second Producing Block's extension into Block Receiving Block. Mismatched props at 'nested.value': existing 'a' vs. new 'b'.`,
 		);
 	});
@@ -286,7 +286,7 @@ describe(produceBlocks, () => {
 				blockExtensions: [blockReceiving({ value: "a" })],
 				options: { value: "Hello, world!" },
 			}),
-		).toThrowError(
+		).toThrow(
 			`Could not merge the props from Block (anonymous)'s extension into Block (anonymous). Mismatched props at 'value': existing 'a' vs. new 'b'.`,
 		);
 	});

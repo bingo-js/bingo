@@ -16,9 +16,7 @@ describe("getSourceFromPath", () => {
 				"incorrect",
 			);
 
-		expect(act).toThrowError(
-			`Source 'incorrect' does not exist under '/template'.`,
-		);
+		expect(act).toThrow(`Source 'incorrect' does not exist under '/template'.`);
 	});
 
 	it("throws an error when the requested path does not match any child directory", () => {
@@ -33,7 +31,7 @@ describe("getSourceFromPath", () => {
 				"inner/incorrect",
 			);
 
-		expect(act).toThrowError(
+		expect(act).toThrow(
 			`Source 'inner/incorrect' does not exist under '/template'.`,
 		);
 	});
