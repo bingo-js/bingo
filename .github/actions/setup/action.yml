@@ -1,4 +1,4 @@
-description: Prepares the repo for a typical CI job
+description: Sets up the repo for a typical CI job
 
 name: Setup
 
