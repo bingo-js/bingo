@@ -4,7 +4,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/prepare
+      - uses: ./.github/actions/setup
       - run: pnpm build
 
   build_site:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/prepare
+      - uses: ./.github/actions/setup
       - run: pnpm site:build
 
   lint:
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/prepare
+      - uses: ./.github/actions/setup
       - run: pnpm run -r prebuild
       - run: pnpm build
       - run: pnpm lint
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/prepare
+      - uses: ./.github/actions/setup
       - run: pnpm knip
 
   lint_markdown:
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/prepare
+      - uses: ./.github/actions/setup
       - run: pnpm lint:md
 
   lint_packages:
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/prepare
+      - uses: ./.github/actions/setup
       - run: pnpm lint:packages
 
   lint_spelling:
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/prepare
+      - uses: ./.github/actions/setup
       - run: pnpm lint:spelling
 
   prettier:
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/prepare
+      - uses: ./.github/actions/setup
       - run: pnpm format --list-different
 
   test:
@@ -70,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/prepare
+      - uses: ./.github/actions/setup
       - run: pnpm run -r prebuild
       - run: pnpm run build
       - run: pnpm run test --coverage
@@ -84,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: ./.github/actions/prepare
+      - uses: ./.github/actions/setup
       - run: pnpm tsc
 
 name: CI
