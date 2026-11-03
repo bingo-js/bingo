@@ -1,12 +1,12 @@
 import { ProductionMode } from "bingo";
 import {
+	type BlockCreation,
 	BlockWithoutProps,
 	BlockWithProps,
 	produceBlock,
 	ProduceBlockSettingsWithProps,
+	type StratumTemplateOptions,
 } from "bingo-stratum";
-import { BlockCreation } from "bingo-stratum/lib/types/creations.js";
-import { StratumTemplateOptions } from "bingo-stratum/lib/types/templates.js";
 
 import { createFailingObject } from "./utils.js";
 
