@@ -31,7 +31,6 @@ export default defineConfig(
 			"packages/site/src/content",
 			"packages/site/src/env.d.ts",
 			"pnpm-lock.yaml",
-			"pnpm-workspace.yaml",
 		],
 	},
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
@@ -117,8 +116,14 @@ export default defineConfig(
 			],
 		},
 	},
-  {
-    files: ['pnpm-workspace.yaml'],
-    rules: { 'yml/sort-keys': ['error', { order: { type: 'asc' }, pathPattern: '^.*$' }] },
-  },
+	{
+		files: ["pnpm-workspace.yaml"],
+		rules: {
+			"yml/file-extension": "off",
+			"yml/sort-keys": [
+				"error",
+				{ order: { type: "asc" }, pathPattern: "^.*$" },
+			],
+		},
+	},
 );
