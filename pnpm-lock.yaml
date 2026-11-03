@@ -384,18 +384,12 @@ importers:
       '@astrojs/starlight':
         specifier: ^0.42.8
         version: 0.42.8(@astrojs/markdown-remark@7.3.5)(astro@7.4.5(@astrojs/markdown-remark@7.3.5)(@types/node@24.10.1)(jiti@2.7.0)(yaml@2.9.1))(typescript@6.0.3)
-      '@konami-emoji-blast/astro':
-        specifier: ^0.3.0
-        version: 0.3.0(astro@7.4.5(@astrojs/markdown-remark@7.3.5)(@types/node@24.10.1)(jiti@2.7.0)(yaml@2.9.1))(konami-emoji-blast@0.7.0)
       '@types/node':
         specifier: ^24.10.1
         version: 24.10.1
       astro:
         specifier: ^7.4.5
         version: 7.4.5(@astrojs/markdown-remark@7.3.5)(@types/node@24.10.1)(jiti@2.7.0)(yaml@2.9.1)
-      konami-emoji-blast:
-        specifier: ^0.7.0
-        version: 0.7.0
       remark-custom-heading-id:
         specifier: ^2.0.0
         version: 2.0.0
@@ -1290,12 +1284,6 @@ packages:
 
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
-
-  '@konami-emoji-blast/astro@0.3.0':
-    resolution: {integrity: sha512-+sqgd/92Q3zgi7KDlpmxRS5+1H0k2zohxpVJT1ldsmsvkfcpGBScRGh/klK25K8WtTLpKkLNDKPg3MadSjYn7g==}
-    peerDependencies:
-      astro: ^2 || ^3 || ^4 || ^5.0.0 || ^6.0.0
-      konami-emoji-blast: 0.7.0
 
   '@manypkg/find-root@3.1.0':
     resolution: {integrity: sha512-BcSqCyKhBVZ5YkSzOiheMCV41kqAFptW6xGqYSTjkVTl9XQpr+pqHhwgGCOHQtjDCv7Is6EFyA14Sm5GVbVABA==}
@@ -2541,10 +2529,6 @@ packages:
   emmet@2.4.7:
     resolution: {integrity: sha512-O5O5QNqtdlnQM2bmKHtJgyChcrFMgQuulI+WdiOw2NArzprUqqxUW6bgYtKvzKgrsYpuLWalOkdhNP+1jluhCA==}
 
-  emoji-blast@0.11.0:
-    resolution: {integrity: sha512-RYy1ZjHqYQLjOkficpqzvAzGfE1GUcn1Bp7Ec1wq0lVIoRgNLMx4lRZWo9p0HsEawrI9Zmh0mloLXcf8ewIzfQ==}
-    engines: {node: '>=18'}
-
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
 
@@ -3194,12 +3178,6 @@ packages:
     resolution: {integrity: sha512-Hbd8nvkIsNgFfXgC7Jsb5LHv7jj6VwA3tmfHd53XPX2z9Vc9RnAZqV0BIiP4OrtYqKwCoLseFHQZerb1bNlbSw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
-
-  konami-code-js@0.8.3:
-    resolution: {integrity: sha512-TDiZMsSWTPCZVClclyU7HTZC/3Ql972HhvT/D33evd3+8FgR1DZcCVe84kKsSSvDqzJII0R4m74WASZDlcpIoQ==}
-
-  konami-emoji-blast@0.7.0:
-    resolution: {integrity: sha512-E26wU5gUPK08BqRNGEMFJjjNLp/WuW3J7YT2SI6QWx2oAqESnU2s6mNcGZ189Q7RzdwEHfCyl1W7zI5riN650Q==}
 
   launch-editor@2.14.1:
     resolution: {integrity: sha512-QWBrQsMpH7gPr965dsKD/3cKWiNoTjpATQf++Xq63N6sKRGMwlVXz41O1IZTMfZQgBctD/K5Zt06+/I6pP6+HA==}
@@ -5703,11 +5681,6 @@ snapshots:
 
   '@keyv/serialize@1.1.1': {}
 
-  '@konami-emoji-blast/astro@0.3.0(astro@7.4.5(@astrojs/markdown-remark@7.3.5)(@types/node@24.10.1)(jiti@2.7.0)(yaml@2.9.1))(konami-emoji-blast@0.7.0)':
-    dependencies:
-      astro: 7.4.5(@astrojs/markdown-remark@7.3.5)(@types/node@24.10.1)(jiti@2.7.0)(yaml@2.9.1)
-      konami-emoji-blast: 0.7.0
-
   '@manypkg/find-root@3.1.0':
     dependencies:
       '@manypkg/tools': 2.1.2
@@ -6954,8 +6927,6 @@ snapshots:
       '@emmetio/abbreviation': 2.3.3
       '@emmetio/css-abbreviation': 2.1.8
 
-  emoji-blast@0.11.0: {}
-
   emoji-regex@10.4.0: {}
 
   entities@4.5.0: {}
@@ -7749,13 +7720,6 @@ snapshots:
       unbash: 6.0.3
       yaml: 2.9.1
       zod: 4.6.7
-
-  konami-code-js@0.8.3: {}
-
-  konami-emoji-blast@0.7.0:
-    dependencies:
-      emoji-blast: 0.11.0
-      konami-code-js: 0.8.3
 
   launch-editor@2.14.1:
     dependencies:
