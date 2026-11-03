@@ -21,11 +21,12 @@
 		"build": "tsc -b tsconfig.build.json",
 		"format": "prettier .",
 		"lint": "eslint . --max-warnings 0",
-		"lint:knip": "knip",
 		"lint:md": "markdownlint \"**/*.md\" \".github/**/*.md\"",
-		"lint:packages": "pnpm dedupe --check",
 		"lint:spelling": "cspell \"**\" \".github/**/*\"",
 		"prepare": "husky",
+		"site:build": "pnpm --filter=site build",
+		"site:check": "pnpm --filter=site check",
+		"site:dev": "pnpm --filter=site dev",
 		"test": "vitest"
 	},
 	"lint-staged": {
