@@ -24,7 +24,7 @@ jobs:
       - uses: $/.github/actions/setup
       - run: pnpm run -r prebuild
       - run: pnpm build
-      - uses: changesets/action/pack@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+      - uses: changesets/action/pack@v2.1.2
         id: pack
         with:
           publish-plan-artifact-id: ${{ needs.select_mode.outputs.publish-plan-artifact-id }}
@@ -38,7 +38,7 @@ jobs:
       id-token: write
     steps:
       - uses: $/.github/actions/setup
-      - uses: changesets/action/publish@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+      - uses: changesets/action/publish@v2.1.2
         with:
           pack-dir-artifact-id: ${{ needs.pack.outputs.pack-dir-artifact-id }}
 
@@ -52,7 +52,7 @@ jobs:
       publish-plan-artifact-id: ${{ steps.select_mode.outputs.publish-plan-artifact-id }}
     steps:
       - uses: $/.github/actions/setup
-      - uses: changesets/action/select-mode@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+      - uses: changesets/action/select-mode@v2.1.2
         id: select_mode
 
   version:
@@ -65,7 +65,7 @@ jobs:
       pull-requests: write
     steps:
       - uses: $/.github/actions/setup
-      - uses: changesets/action/version@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+      - uses: changesets/action/version@v2.1.2
         with:
           commit-message: "chore: version packages"
           github-token: ${{ secrets.ACCESS_TOKEN }}
