@@ -1,7 +1,17 @@
+name: Post Release
+
+on:
+  release:
+    types:
+      - published
+
 jobs:
   post_release:
     name: Post Release
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
     steps:
       - uses: apexskier/github-release-commenter@e7813a9625eabd79a875b4bc4046cfcae377ab34 # v1.4.1
         with:
@@ -12,14 +22,3 @@ jobs:
             The release is available on [GitHub releases]({release_link}).
 
             Cheers! 📦🚀
-
-name: Post Release
-
-on:
-  release:
-    types:
-      - published
-
-permissions:
-  issues: write
-  pull-requests: write

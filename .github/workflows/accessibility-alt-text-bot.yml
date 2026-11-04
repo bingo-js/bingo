@@ -1,10 +1,3 @@
-jobs:
-  accessibility_alt_text_bot:
-    if: ${{ !endsWith(github.actor, '[bot]') }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: github/accessibility-alt-text-bot@9b4b0e03eefd10cfafc676d9b67068ec30b68e90 # v1.7.0
-
 name: Accessibility Alt Text Bot
 
 on:
@@ -21,6 +14,12 @@ on:
       - edited
       - opened
 
-permissions:
-  issues: write
-  pull-requests: write
+jobs:
+  accessibility_alt_text_bot:
+    if: ${{ !endsWith(github.actor, '[bot]') }}
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: github/accessibility-alt-text-bot@7e895d46677f15841def9acef1239ea7c12593a5 # v1.7.3
