@@ -1,18 +1,24 @@
-jobs:
-  contributors:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-        with:
-          fetch-depth: 0
-      - uses: ./.github/actions/setup
-      - env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        uses: JoshuaKGoldberg/all-contributors-auto-action@944abe4387e751b5bbb38616cb25cf4a4ca998f2 # v0.5.0
-
 name: Contributors
 
 on:
   push:
     branches:
       - main
+
+jobs:
+  new_contributor_check:
+    name: New Contributor Check
+    if: github.event.repository.fork != true
+    runs-on: ubuntu-slim
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      - uses: JoshuaKGoldberg/all-contributors-auto-action@c578423db9b2c14d3cee9c72f6c2aed31c128030 # v0.7.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

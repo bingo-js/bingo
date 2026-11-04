@@ -1,0 +1,22 @@
+name: OctoGuide
+
+on:
+  pull_request_target:
+    types:
+      - edited
+      - opened
+
+jobs:
+  octoguide:
+    if: ${{ !endsWith(github.actor, '[bot]') && !contains(github.event.pull_request.labels.*.name, 'autorelease') }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: octoguide/bot@566236613d04a933e6f1a0d8c85039027a200ab2 # 0.32.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          rules: |-
+            {
+              "pr-title-conventional": true
+            }
