@@ -11,24 +11,21 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
       - run: pnpm build
 
   build_site:
     name: Build Site
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
       - run: pnpm site:build
 
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
       - run: pnpm run -r prebuild
       - run: pnpm build
       - run: pnpm lint
@@ -37,48 +34,42 @@ jobs:
     name: Lint Knip
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
       - run: pnpm knip
 
   lint_markdown:
     name: Lint Markdown
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
       - run: pnpm lint:md
 
   lint_packages:
     name: Lint Packages
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
       - run: pnpm lint:packages
 
   lint_spelling:
     name: Lint Spelling
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
       - run: pnpm lint:spelling
 
   prettier:
     name: Prettier
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
       - run: pnpm format --list-different
 
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
       - run: pnpm run -r prebuild
       - run: pnpm run build
       - run: pnpm run test --coverage
@@ -91,6 +82,5 @@ jobs:
     name: Type Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
       - run: pnpm tsc
