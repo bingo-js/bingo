@@ -24,9 +24,11 @@ export default defineConfig(
 			"node_modules",
 			"packages/*/dist",
 			"packages/*/lib",
-			"packages/*/tsconfig.tsbuildinfo",
+			// Remove after https://github.com/bingo-js/bingo/issues/527
+			"packages/*/bin/*.js",
 			"packages/*/src/**/*.d.ts",
 			"packages/*/src/**/*.js",
+			"packages/*/tsconfig.tsbuildinfo",
 			"packages/site/.astro",
 			"packages/site/src/content",
 			"packages/site/src/env.d.ts",
@@ -44,10 +46,26 @@ export default defineConfig(
 	perfectionist.configs["recommended-natural"],
 	regexp.configs["flat/recommended"],
 	{
-		extends: [...tseslint.configs.strict, ...tseslint.configs.stylistic],
+		extends: [
+			tseslint.configs.strictTypeChecked,
+			tseslint.configs.stylisticTypeChecked,
+		],
 		files: ["**/*.js", "**/*.ts"],
+		ignores: ["**/*.md/*"],
+		languageOptions: {
+			parserOptions: {
+				projectService: {
+					allowDefaultProject: ["*.config.{js,ts}"],
+				},
+			},
+		},
 		rules: {
-			// These off-by-default rules work well for this repo and we like them on.
+			// These on-by-default rules work well for this repo if configured
+			"@typescript-eslint/no-unnecessary-condition": [
+				"error",
+				{ allowConstantLoopConditions: "only-allowed-literals" },
+			],
+			"@typescript-eslint/no-unused-vars": ["error", { caughtErrors: "all" }],
 			"jsdoc/informative-docs": "error",
 
 			// These on-by-default rules cause too much friction for this repo
@@ -66,27 +84,6 @@ export default defineConfig(
 		settings: { perfectionist: { partitionByComment: true, type: "natural" } },
 	},
 	{
-		extends: [
-			...tseslint.configs.strictTypeChecked,
-			...tseslint.configs.stylisticTypeChecked,
-		],
-		files: ["**/*.js", "**/*.ts"],
-		ignores: ["**/*.md/*", "packages/*/bin/*.js", "packages/*/*.config.*"],
-		languageOptions: {
-			parserOptions: {
-				projectService: true,
-			},
-		},
-		rules: {
-			// These on-by-default rules work well for this repo if configured
-			"@typescript-eslint/no-unnecessary-condition": [
-				"error",
-				{ allowConstantLoopConditions: "only-allowed-literals" },
-			],
-			"@typescript-eslint/no-unused-vars": ["error", { caughtErrors: "all" }],
-		},
-	},
-	{
 		extends: [packageJson.configs.recommended, packageJson.configs.stylistic],
 		files: ["**/package.json"],
 	},
@@ -100,10 +97,7 @@ export default defineConfig(
 		settings: { vitest: { typecheck: true } },
 	},
 	{
-		extends: [
-			...yml.configs["flat/recommended"],
-			...yml.configs["flat/prettier"],
-		],
+		extends: [yml.configs["flat/recommended"], yml.configs["flat/prettier"]],
 		files: ["**/*.{yml,yaml}"],
 		rules: {
 			"yml/file-extension": ["error", { extension: "yml" }],
