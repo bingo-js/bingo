@@ -18,7 +18,7 @@
 		"lib/"
 	],
 	"scripts": {
-		"build": "tsc -b tsconfig.build.json",
+		"build": "tsc -b",
 		"format": "prettier .",
 		"lint": "eslint . --max-warnings 0",
 		"lint:md": "markdownlint \"**/*.md\" \".github/**/*.md\"",
