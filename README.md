@@ -5,7 +5,7 @@
 <p align="center">
 	<!-- prettier-ignore-start -->
 	<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-	<a href="#contributors" target="_blank"><img alt="👪 All Contributors: 9" src="https://img.shields.io/badge/%F0%9F%91%AA_all_contributors-9-21bb42.svg" /></a>
+	<a href="#contributors" target="_blank"><img alt="👪 All Contributors: 10" src="https://img.shields.io/badge/%F0%9F%91%AA_all_contributors-10-21bb42.svg" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 	<!-- prettier-ignore-end -->
 	<a href="https://github.com/bingo-js/bingo/blob/main/.github/CODE_OF_CONDUCT.md" target="_blank"><img alt="🤝 Code of Conduct: Kept" src="https://img.shields.io/badge/%F0%9F%A4%9D_code_of_conduct-kept-21bb42" /></a>
@@ -41,6 +41,7 @@ See **[create.bingo](https://create.bingo)** for documentation on getting starte
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/YashSaxena9"><img src="https://avatars.githubusercontent.com/u/50399404?v=4?s=100" width="100px;" alt="Yash Saxena"/><br /><sub><b>Yash Saxena</b></sub></a><br /><a href="https://github.com/bingo-js/bingo/issues?q=author%3Ayashsaxena9" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://blimy-shteinberg.netlify.app/"><img src="https://avatars.githubusercontent.com/u/150670573?v=4?s=100" width="100px;" alt="blimyp"/><br /><sub><b>blimyp</b></sub></a><br /><a href="https://github.com/bingo-js/bingo/commits?author=blimyp" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/michaelfaith"><img src="https://avatars.githubusercontent.com/u/8071845?v=4?s=100" width="100px;" alt="michael faith"/><br /><sub><b>michael faith</b></sub></a><br /><a href="#maintenance-michaelfaith" title="Maintenance">🚧</a> <a href="https://github.com/bingo-js/bingo/commits?author=michaelfaith" title="Code">💻</a> <a href="#infra-michaelfaith" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#ideas-michaelfaith" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/bingo-js/bingo/issues?q=author%3Amichaelfaith" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
