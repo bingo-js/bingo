@@ -1,7 +1,3 @@
-// https://github.com/typescript-eslint/typescript-eslint/issues/10508
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import js from "@eslint/js";
 import markdown from "@eslint/markdown";
