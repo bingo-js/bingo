@@ -99,6 +99,15 @@
         "ideas",
         "bug"
       ]
+    },
+    {
+      "login": "blimyp",
+      "name": "blimyp",
+      "avatar_url": "https://avatars.githubusercontent.com/u/150670573?v=4",
+      "profile": "https://blimy-shteinberg.netlify.app/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
