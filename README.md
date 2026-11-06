@@ -41,7 +41,7 @@ See **[create.bingo](https://create.bingo)** for documentation on getting starte
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/YashSaxena9"><img src="https://avatars.githubusercontent.com/u/50399404?v=4?s=100" width="100px;" alt="Yash Saxena"/><br /><sub><b>Yash Saxena</b></sub></a><br /><a href="https://github.com/bingo-js/bingo/issues?q=author%3Ayashsaxena9" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/michaelfaith"><img src="https://avatars.githubusercontent.com/u/8071845?v=4?s=100" width="100px;" alt="michael faith"/><br /><sub><b>michael faith</b></sub></a><br /><a href="#maintenance-michaelfaith" title="Maintenance">🚧</a> <a href="https://github.com/bingo-js/bingo/commits?author=michaelfaith" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/michaelfaith"><img src="https://avatars.githubusercontent.com/u/8071845?v=4?s=100" width="100px;" alt="michael faith"/><br /><sub><b>michael faith</b></sub></a><br /><a href="#maintenance-michaelfaith" title="Maintenance">🚧</a> <a href="https://github.com/bingo-js/bingo/commits?author=michaelfaith" title="Code">💻</a> <a href="#infra-michaelfaith" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#ideas-michaelfaith" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/bingo-js/bingo/issues?q=author%3Amichaelfaith" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>

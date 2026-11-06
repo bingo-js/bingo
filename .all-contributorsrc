@@ -94,7 +94,10 @@
       "profile": "https://github.com/michaelfaith",
       "contributions": [
         "maintenance",
-        "code"
+        "code",
+        "infra",
+        "ideas",
+        "bug"
       ]
     }
   ],
