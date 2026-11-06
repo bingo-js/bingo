@@ -38,7 +38,6 @@
 		"@eslint-community/eslint-plugin-eslint-comments": "4.8.1",
 		"@eslint/js": "10.0.1",
 		"@eslint/markdown": "8.0.3",
-		"@types/eslint-plugin-markdown": "2.0.2",
 		"@types/node": "24.10.1",
 		"@vitest/coverage-v8": "5.1.0",
 		"@vitest/eslint-plugin": "1.6.28",
