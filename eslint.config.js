@@ -19,34 +19,29 @@ export default defineConfig(
 	{
 		ignores: [
 			"**/*.snap",
+			"**/node_modules",
 			"coverage",
-			"lib",
-			"node_modules",
+			"packages/*/.astro",
 			"packages/*/dist",
 			"packages/*/lib",
 			// Remove after https://github.com/bingo-js/bingo/issues/527
 			"packages/*/bin/*.js",
-			"packages/*/src/**/*.d.ts",
-			"packages/*/src/**/*.js",
 			"packages/*/tsconfig.tsbuildinfo",
-			"packages/site/.astro",
 			"packages/site/src/content",
 			"packages/site/src/env.d.ts",
 			"pnpm-lock.yaml",
 		],
 	},
 	{ linterOptions: { reportUnusedDisableDirectives: "error" } },
-	js.configs.recommended,
-	comments.recommended,
-	jsdoc.configs["flat/contents-typescript-error"],
-	jsdoc.configs["flat/logical-typescript-error"],
-	jsdoc.configs["flat/stylistic-typescript-error"],
-	...jsonc.configs["flat/recommended-with-json"],
-	...markdown.configs.recommended,
-	perfectionist.configs["recommended-natural"],
-	regexp.configs["flat/recommended"],
 	{
 		extends: [
+			comments.recommended,
+			js.configs.recommended,
+			jsdoc.configs["flat/contents-typescript-error"],
+			jsdoc.configs["flat/logical-typescript-error"],
+			jsdoc.configs["flat/stylistic-typescript-error"],
+			perfectionist.configs["recommended-natural"],
+			regexp.configs["flat/recommended"],
 			tseslint.configs.strictTypeChecked,
 			tseslint.configs.stylisticTypeChecked,
 		],
@@ -84,8 +79,20 @@ export default defineConfig(
 		settings: { perfectionist: { partitionByComment: true, type: "natural" } },
 	},
 	{
+		extends: [jsonc.configs["flat/recommended-with-json"]],
+		files: ["**/*.json"],
+	},
+	{
 		extends: [packageJson.configs.recommended, packageJson.configs.stylistic],
 		files: ["**/package.json"],
+	},
+	{
+		extends: [markdown.configs.recommended],
+		files: ["**/*.md"],
+		rules: {
+			// https://github.com/eslint/markdown/issues/294
+			"markdown/no-missing-label-refs": "off",
+		},
 	},
 	{
 		extends: [vitest.configs.recommended],
