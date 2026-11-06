@@ -4,10 +4,10 @@
 
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import js from "@eslint/js";
+import markdown from "@eslint/markdown";
 import vitest from "@vitest/eslint-plugin";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsonc from "eslint-plugin-jsonc";
-import markdown from "eslint-plugin-markdown";
 import packageJson from "eslint-plugin-package-json";
 import perfectionist from "eslint-plugin-perfectionist";
 import * as regexp from "eslint-plugin-regexp";
@@ -46,7 +46,6 @@ export default defineConfig(
 			tseslint.configs.stylisticTypeChecked,
 		],
 		files: ["**/*.js", "**/*.ts"],
-		ignores: ["**/*.md/*"],
 		languageOptions: {
 			parserOptions: {
 				projectService: {
@@ -89,11 +88,13 @@ export default defineConfig(
 	{
 		extends: [markdown.configs.recommended],
 		files: ["**/*.md"],
+		ignores: ["CHANGELOG.md"],
 		rules: {
 			// https://github.com/eslint/markdown/issues/294
 			"markdown/no-missing-label-refs": "off",
 		},
 	},
+	// Test only rules
 	{
 		extends: [vitest.configs.recommended],
 		files: ["**/*.test.*"],
