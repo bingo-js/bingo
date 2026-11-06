@@ -96,6 +96,15 @@
         "maintenance",
         "code"
       ]
+    },
+    {
+      "login": "pratham2511",
+      "name": "Pratham Pansare",
+      "avatar_url": "https://avatars.githubusercontent.com/u/145864145?v=4",
+      "profile": "http://prathampansare.vercel.app",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
