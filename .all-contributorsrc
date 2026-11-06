@@ -86,6 +86,16 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "michaelfaith",
+      "name": "michael faith",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8071845?v=4",
+      "profile": "https://github.com/michaelfaith",
+      "contributions": [
+        "maintenance",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -95,7 +105,7 @@
   ],
   "imageSize": 100,
   "projectName": "bingo",
-  "projectOwner": "JoshuaKGoldberg",
+  "projectOwner": "bingo-js",
   "repoHost": "https://github.com",
   "repoType": "github"
 }
