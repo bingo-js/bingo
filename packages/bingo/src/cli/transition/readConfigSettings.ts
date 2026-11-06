@@ -20,8 +20,7 @@ export async function readConfigSettings<
 
 	const relativeConfigFile = path.join(process.cwd(), directory, configFile);
 	const contents = (await tryImportConfig(relativeConfigFile)) as
-		| Error
-		| TemplateConfig<OptionsShape, Refinements>;
+		Error | TemplateConfig<OptionsShape, Refinements>;
 
 	if (contents instanceof Error) {
 		return contents;

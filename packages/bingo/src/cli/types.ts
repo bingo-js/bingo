@@ -17,8 +17,7 @@ export interface ModeResultsNonError extends ModeResultsBase {
 }
 
 export type ProductionSettings =
-	| ProductionSettingsSetup
-	| ProductionSettingsTransition;
+	ProductionSettingsSetup | ProductionSettingsTransition;
 
 export interface ProductionSettingsSetup {
 	mode: "setup";

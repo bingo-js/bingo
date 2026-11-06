@@ -7,10 +7,7 @@ import { ContextLog } from "./templates.js";
  * Either a value, an async function, or a sync function to generate the value or undefined.
  */
 export type LazyOptionalOption<T> =
-	| (() => Promise<T | undefined>)
-	| (() => T | undefined)
-	| T
-	| undefined;
+	(() => Promise<T | undefined>) | (() => T | undefined) | T | undefined;
 
 /**
  * "Lazy" version of an options shape: each property might be a lazy-loading function.
