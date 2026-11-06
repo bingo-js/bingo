@@ -1,9 +1,10 @@
 {
+	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
 		"outDir": "lib",
 		"rootDir": "src",
 		"types": ["node"]
 	},
-	"extends": "../../tsconfig.base.json",
-	"include": ["src"]
+	"include": ["src"],
+	"references": [{ "path": "../bingo-fs" }]
 }
