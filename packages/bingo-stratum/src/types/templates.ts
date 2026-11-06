@@ -119,7 +119,9 @@ export type StratumTemplateOptionsShape = {
  */
 export type StratumTemplateOptionsShapeFor<OptionsShape extends AnyShape> =
 	OptionsShape & {
-		[Key in keyof StratumTemplateOptionsShape]: StratumTemplateOptionsShape[Key];
+		[
+			Key in keyof StratumTemplateOptionsShape
+		]: StratumTemplateOptionsShape[Key];
 	};
 
 /**

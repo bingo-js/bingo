@@ -9,8 +9,7 @@ import { getSchemaDescription } from "../../utils/getSchemaDescription.js";
 import { promptForOptionSchema } from "./promptForOptionSchema.js";
 
 export type PromptedOptions<Options extends object> =
-	| PromptedOptionsCancelled<Options>
-	| PromptedOptionsProduced<Options>;
+	PromptedOptionsCancelled<Options> | PromptedOptionsProduced<Options>;
 
 export interface PromptedOptionsCancelled<Options extends object> {
 	cancelled: true;
