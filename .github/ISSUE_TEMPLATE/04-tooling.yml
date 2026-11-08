@@ -22,6 +22,6 @@ body:
     type: textarea
 description: Report a bug or request an enhancement in repository tooling
 labels:
-  - "area: tooling"
+  - 'area: tooling'
 name: 🛠 Tooling
-title: "🛠 Tooling: <short description of the change>"
+title: '🛠 Tooling: <short description of the change>'

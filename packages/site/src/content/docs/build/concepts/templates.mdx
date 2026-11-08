@@ -1,5 +1,5 @@
 ---
-description: "How Bingo templates define their options and producer functions."
+description: 'How Bingo templates define their options and producer functions.'
 title: Templates
 ---
 
@@ -24,20 +24,20 @@ It returns a [`Creation`](/build/concepts/creations) object.
 The following example template takes in a `repository` option and produces a `README.md` file with a heading:
 
 ```ts title="template.js"
-import { createTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate } from 'bingo';
+import { z } from 'zod';
 
 export default createTemplate({
-	options: {
-		title: z.string(),
-	},
-	produce({ options }) {
-		return {
-			files: {
-				"README.md": `# ${options.title}`,
-			},
-		};
-	},
+  options: {
+    title: z.string(),
+  },
+  produce({ options }) {
+    return {
+      files: {
+        'README.md': `# ${options.title}`,
+      },
+    };
+  },
 });
 ```
 

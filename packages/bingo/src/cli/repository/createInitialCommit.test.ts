@@ -1,14 +1,14 @@
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, test, vi } from 'vitest';
 
-import { createInitialCommit } from "./createInitialCommit.js";
+import { createInitialCommit } from './createInitialCommit.js';
 
-describe("createInitialCommit", () => {
-	test("runs without --amend when amend is falsy", async () => {
-		const runner = vi.fn();
+describe('createInitialCommit', () => {
+  test('runs without --amend when amend is falsy', async () => {
+    const runner = vi.fn();
 
-		await createInitialCommit(runner, { push: false });
+    await createInitialCommit(runner, { push: false });
 
-		expect(runner.mock.calls).toMatchInlineSnapshot(`
+    expect(runner.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
 			    "git add -A",
@@ -18,14 +18,14 @@ describe("createInitialCommit", () => {
 			  ],
 			]
 		`);
-	});
+  });
 
-	test("runs with --amend when amend is true", async () => {
-		const runner = vi.fn();
+  test('runs with --amend when amend is true', async () => {
+    const runner = vi.fn();
 
-		await createInitialCommit(runner, { amend: true, push: false });
+    await createInitialCommit(runner, { amend: true, push: false });
 
-		expect(runner.mock.calls).toMatchInlineSnapshot(`
+    expect(runner.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
 			    "git add -A",
@@ -35,14 +35,14 @@ describe("createInitialCommit", () => {
 			  ],
 			]
 		`);
-	});
+  });
 
-	test("pushes to the remote when push is true", async () => {
-		const runner = vi.fn();
+  test('pushes to the remote when push is true', async () => {
+    const runner = vi.fn();
 
-		await createInitialCommit(runner, { push: true });
+    await createInitialCommit(runner, { push: true });
 
-		expect(runner.mock.calls).toMatchInlineSnapshot(`
+    expect(runner.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
 			    "git add -A",
@@ -55,5 +55,5 @@ describe("createInitialCommit", () => {
 			  ],
 			]
 		`);
-	});
+  });
 });

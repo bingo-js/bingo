@@ -1,5 +1,5 @@
-import { Block } from "./blocks.js";
-import { CreatedBlockExtension } from "./creations.js";
+import { Block } from './blocks.js';
+import { CreatedBlockExtension } from './creations.js';
 
 /**
  * Blocks to add and/or exclude from production.
@@ -7,8 +7,8 @@ import { CreatedBlockExtension } from "./creations.js";
  * @see {@link https://www.create.bingo/engines/stratum/details/configurations#blocks}
  */
 export interface BlockRefinements<Options extends object = object> {
-	add?: Block<object | undefined, Options>[];
-	exclude?: Block<object | undefined, Options>[];
+  add?: Block<object | undefined, Options>[];
+  exclude?: Block<object | undefined, Options>[];
 }
 
 /**
@@ -17,13 +17,13 @@ export interface BlockRefinements<Options extends object = object> {
  * @see {@link https://www.create.bingo/engines/stratum/details/configurations#settings}
  */
 export interface StratumRefinements<Options extends object = object> {
-	/**
-	 * Blocks to add and/or exclude from production.
-	 */
-	blocks?: BlockRefinements<Options>;
+  /**
+   * Blocks to add and/or exclude from production.
+   */
+  blocks?: BlockRefinements<Options>;
 
-	/**
-	 * Any extra props to merge in and pass to blocks.
-	 */
-	extensions?: CreatedBlockExtension<object, Options>[];
+  /**
+   * Any extra props to merge in and pass to blocks.
+   */
+  extensions?: CreatedBlockExtension<object, Options>[];
 }

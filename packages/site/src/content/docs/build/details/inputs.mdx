@@ -1,5 +1,5 @@
 ---
-description: "How template options can be defaulted using system resources."
+description: 'How template options can be defaulted using system resources.'
 title: Inputs
 ---
 
@@ -14,16 +14,16 @@ Inputs are created using [APIs > `createInput()`](/build/apis/create-input).
 For example, this Input defines a required `path` string to read from a file on disk:
 
 ```ts
-import { createInput } from "bingo";
-import { z } from "zod";
+import { createInput } from 'bingo';
+import { z } from 'zod';
 
 export const inputFromFile = createInput({
-	args: {
-		path: z.string(),
-	},
-	async produce({ args, fs }) {
-		return await fs.readFile(args.path);
-	},
+  args: {
+    path: z.string(),
+  },
+  async produce({ args, fs }) {
+    return await fs.readFile(args.path);
+  },
 });
 ```
 

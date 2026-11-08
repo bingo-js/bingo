@@ -26,17 +26,17 @@ It returns an a Promise for an object with:
 For example, given this template that creates a README.md file, `produceTemplate` would generate an creation object with that file:
 
 ```ts
-import { createTemplate, produceTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate, produceTemplate } from 'bingo';
+import { z } from 'zod';
 
 const template = createTemplate({
-	produce() {
-		return {
-			files: {
-				"README.md": `# Hello, World!`,
-			},
-		};
-	},
+  produce() {
+    return {
+      files: {
+        'README.md': `# Hello, World!`,
+      },
+    };
+  },
 });
 
 // { creation: { files: { "README.md": "# Hello, World!" } } }
@@ -60,27 +60,27 @@ It may also include any other optional options.
 For example, this Template is run with a `title` option:
 
 ```ts
-import { createTemplate, produceTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate, produceTemplate } from 'bingo';
+import { z } from 'zod';
 
 const template = createTemplate({
-	options: {
-		title: z.string(),
-	},
-	produce({ options }) {
-		return {
-			files: {
-				"README.md": `# ${options.title}`,
-			},
-		};
-	},
+  options: {
+    title: z.string(),
+  },
+  produce({ options }) {
+    return {
+      files: {
+        'README.md': `# ${options.title}`,
+      },
+    };
+  },
 });
 
 // {
 //   creation: { files: { "README.md": "# My App" } },
 //   options: { title: "My App" },
 // }
-await produceTemplate(template, { options: { title: "My App" } });
+await produceTemplate(template, { options: { title: 'My App' } });
 ```
 
 ### `mode`
@@ -133,15 +133,15 @@ This is equivalent to the [`--offline` CLI flag](/cli#--offline).
 For example, this template adds an `--offline` flag to its installation script if `offline` is true:
 
 ```ts
-import { createTemplate, produceTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate, produceTemplate } from 'bingo';
+import { z } from 'zod';
 
 const template = createTemplate({
-	produce({ offline }) {
-		return {
-			scripts: [offline ? "pnpm install --offline" : "pnpm install"],
-		};
-	},
+  produce({ offline }) {
+    return {
+      scripts: [offline ? 'pnpm install --offline' : 'pnpm install'],
+    };
+  },
 });
 
 // { scripts: ["pnpm install"] }
@@ -158,15 +158,15 @@ Any optional customizations from a template-specific config file.
 For example, [Stratum](/engines/stratum/about) templates allow customizing [Blocks](/engines/stratum/concepts/blocks) via refinements:
 
 ```ts title="create-typescript-app.config.ts"
-import { blockAreTheTypesWrong, template } from "create-typescript-app";
-import { produceTemplate } from "bingo";
+import { blockAreTheTypesWrong, template } from 'create-typescript-app';
+import { produceTemplate } from 'bingo';
 
 await produceTemplate(template, {
-	refinements: {
-		blocks: {
-			add: [blockAreTheTypesWrong],
-		},
-	},
+  refinements: {
+    blocks: {
+      add: [blockAreTheTypesWrong],
+    },
+  },
 });
 ```
 

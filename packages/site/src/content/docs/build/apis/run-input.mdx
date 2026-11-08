@@ -15,12 +15,12 @@ Given an [Input](/build/details/inputs), runs its `produce()` with any provided 
 For example, this Input production reads data from an existing `data.json` file on disk:
 
 ```ts
-import { createInput, runInput } from "bingo";
+import { createInput, runInput } from 'bingo';
 
 const inputDataJson = createInput({
-	async produce({ fs }) {
-		return await JSON.parse(await fs.readFile("data.json"));
-	},
+  async produce({ fs }) {
+    return await JSON.parse(await fs.readFile('data.json'));
+  },
 });
 
 // Type: string
@@ -34,20 +34,20 @@ Any args to provide to [`produce()`](/build/apis/create-input#produce), as defin
 For example, this Input production reads data from a JSON file on disk by path:
 
 ```ts
-import { Template } from "bingo";
-import { z } from "zod";
+import { Template } from 'bingo';
+import { z } from 'zod';
 
 const inputJsonFile = createInput({
-	args: {
-		path: z.string(),
-	},
-	async produce({ args, fs }) {
-		return await JSON.parse(await fs.readFile(args.path));
-	},
+  args: {
+    path: z.string(),
+  },
+  async produce({ args, fs }) {
+    return await JSON.parse(await fs.readFile(args.path));
+  },
 });
 
 await runInput(inputJsonFile, {
-	args: "data.json",
+  args: 'data.json',
 });
 ```
 
@@ -60,20 +60,20 @@ This is equivalent to the [`--offline` CLI flag](/cli#--offline).
 For example, this input returns `undefined` instead of fetching a cat fact when `offline` is enabled:
 
 ```ts
-import { createInput, runInput } from "bingo";
-import { z } from "zod";
+import { createInput, runInput } from 'bingo';
+import { z } from 'zod';
 
 export const inputCatFact = createInput({
-	async produce({ fetchers, offline }) {
-		if (offline) {
-			return undefined;
-		}
+  async produce({ fetchers, offline }) {
+    if (offline) {
+      return undefined;
+    }
 
-		const response = await fetchers.fetch("https://catfact.ninja/fact");
-		const data = (await response.json()) as { fact: string };
+    const response = await fetchers.fetch('https://catfact.ninja/fact');
+    const data = (await response.json()) as { fact: string };
 
-		return data.fact;
-	},
+    return data.fact;
+  },
 });
 
 // "Cats can jump up to 7 times their tail length."

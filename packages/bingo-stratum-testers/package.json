@@ -1,44 +1,44 @@
 {
-	"name": "bingo-stratum-testers",
-	"version": "0.7.0",
-	"description": "Test utilities for Stratum Blocks and Presets. 🧑‍🔧",
-	"homepage": "https://www.create.bingo/engines/stratum/packages/bingo-stratum-testers",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bingo-js/bingo",
-		"directory": "packages/bingo-stratum-testers"
-	},
-	"license": "MIT",
-	"author": {
-		"name": "Josh Goldberg ✨",
-		"email": "npm@joshuakgoldberg.com"
-	},
-	"sideEffects": false,
-	"type": "module",
-	"exports": {
-		".": "./lib/index.js",
-		"./package.json": "./package.json"
-	},
-	"files": [
-		"lib/"
-	],
-	"scripts": {
-		"build": "tsc"
-	},
-	"devDependencies": {
-		"bingo": "workspace:^",
-		"bingo-fs": "workspace:^",
-		"bingo-stratum": "workspace:^",
-		"bingo-systems": "workspace:^",
-		"zod": "4.4.3"
-	},
-	"peerDependencies": {
-		"bingo": "workspace:^",
-		"bingo-fs": "workspace:^",
-		"bingo-stratum": "workspace:^",
-		"bingo-systems": "workspace:^"
-	},
-	"engines": {
-		"node": "^22.15.0 || ^24.15.0 || >=26.0.0"
-	}
+  "name": "bingo-stratum-testers",
+  "version": "0.7.0",
+  "description": "Test utilities for Stratum Blocks and Presets. 🧑‍🔧",
+  "homepage": "https://www.create.bingo/engines/stratum/packages/bingo-stratum-testers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingo-js/bingo",
+    "directory": "packages/bingo-stratum-testers"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Josh Goldberg ✨",
+    "email": "npm@joshuakgoldberg.com"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "bingo": "workspace:^",
+    "bingo-fs": "workspace:^",
+    "bingo-stratum": "workspace:^",
+    "bingo-systems": "workspace:^",
+    "zod": "4.4.3"
+  },
+  "peerDependencies": {
+    "bingo": "workspace:^",
+    "bingo-fs": "workspace:^",
+    "bingo-stratum": "workspace:^",
+    "bingo-systems": "workspace:^"
+  },
+  "engines": {
+    "node": "^22.15.0 || ^24.15.0 || >=26.0.0"
+  }
 }

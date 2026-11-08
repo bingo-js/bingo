@@ -1,84 +1,84 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from 'vitest';
 
-import { createWritingFileSystem } from "./createWritingFileSystem.js";
+import { createWritingFileSystem } from './createWritingFileSystem.js';
 
 const mockMkdir = vi.fn();
 const mockRm = vi.fn();
 const mockWriteFile = vi.fn();
 
-vi.mock("node:fs/promises", () => ({
-	get mkdir() {
-		return mockMkdir;
-	},
-	get rm() {
-		return mockRm;
-	},
-	get writeFile() {
-		return mockWriteFile;
-	},
+vi.mock('node:fs/promises', () => ({
+  get mkdir() {
+    return mockMkdir;
+  },
+  get rm() {
+    return mockRm;
+  },
+  get writeFile() {
+    return mockWriteFile;
+  },
 }));
 
-const contents = "abc123";
-const directoryPath = "path/to/file";
-const filePath = "path/to/file";
+const contents = 'abc123';
+const directoryPath = 'path/to/file';
+const filePath = 'path/to/file';
 
-describe("createWritingFileSystem", () => {
-	describe("writeDirectory", () => {
-		it("writes with recursive: true", async () => {
-			const system = createWritingFileSystem();
+describe('createWritingFileSystem', () => {
+  describe('writeDirectory', () => {
+    it('writes with recursive: true', async () => {
+      const system = createWritingFileSystem();
 
-			await system.writeDirectory(directoryPath);
+      await system.writeDirectory(directoryPath);
 
-			expect(mockMkdir).toHaveBeenCalledWith(directoryPath, {
-				recursive: true,
-			});
-		});
-	});
+      expect(mockMkdir).toHaveBeenCalledWith(directoryPath, {
+        recursive: true,
+      });
+    });
+  });
 
-	describe("removeFile", () => {
-		it("removes with force: true", async () => {
-			const system = createWritingFileSystem();
+  describe('removeFile', () => {
+    it('removes with force: true', async () => {
+      const system = createWritingFileSystem();
 
-			await system.removeFile(filePath);
+      await system.removeFile(filePath);
 
-			expect(mockRm).toHaveBeenCalledWith(filePath, { force: true });
-		});
-	});
+      expect(mockRm).toHaveBeenCalledWith(filePath, { force: true });
+    });
+  });
 
-	describe("writeFile", () => {
-		it("writes without mode when options does not exist and rm rejects", async () => {
-			mockRm.mockRejectedValueOnce(new Error("Oh no!"));
-			const system = createWritingFileSystem();
+  describe('writeFile', () => {
+    it('writes without mode when options does not exist and rm rejects', async () => {
+      mockRm.mockRejectedValueOnce(new Error('Oh no!'));
+      const system = createWritingFileSystem();
 
-			await system.writeFile(filePath, contents);
+      await system.writeFile(filePath, contents);
 
-			expect(mockWriteFile).toHaveBeenCalledWith(filePath, contents, undefined);
-		});
+      expect(mockWriteFile).toHaveBeenCalledWith(filePath, contents, undefined);
+    });
 
-		it("writes without mode when options does not exist and rm does not reject", async () => {
-			const system = createWritingFileSystem();
+    it('writes without mode when options does not exist and rm does not reject', async () => {
+      const system = createWritingFileSystem();
 
-			await system.writeFile(filePath, contents);
+      await system.writeFile(filePath, contents);
 
-			expect(mockWriteFile).toHaveBeenCalledWith(filePath, contents, undefined);
-		});
+      expect(mockWriteFile).toHaveBeenCalledWith(filePath, contents, undefined);
+    });
 
-		it("writes without mode when options.executable is false", async () => {
-			const system = createWritingFileSystem();
+    it('writes without mode when options.executable is false', async () => {
+      const system = createWritingFileSystem();
 
-			await system.writeFile(filePath, contents, { executable: false });
+      await system.writeFile(filePath, contents, { executable: false });
 
-			expect(mockWriteFile).toHaveBeenCalledWith(filePath, contents, undefined);
-		});
+      expect(mockWriteFile).toHaveBeenCalledWith(filePath, contents, undefined);
+    });
 
-		it("writes with mode 0x755 when options.executable is true", async () => {
-			const system = createWritingFileSystem();
+    it('writes with mode 0x755 when options.executable is true', async () => {
+      const system = createWritingFileSystem();
 
-			await system.writeFile(filePath, contents, { executable: true });
+      await system.writeFile(filePath, contents, { executable: true });
 
-			expect(mockWriteFile).toHaveBeenCalledWith(filePath, contents, {
-				mode: 0x755,
-			});
-		});
-	});
+      expect(mockWriteFile).toHaveBeenCalledWith(filePath, contents, {
+        mode: 0x755,
+      });
+    });
+  });
 });

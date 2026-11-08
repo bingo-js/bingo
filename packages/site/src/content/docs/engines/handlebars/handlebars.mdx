@@ -22,26 +22,26 @@ Generates files creations from a directory of templates or a single template fil
 For example, this template uses a `../template/package.json.hbs` file relative to the template's source file:
 
 ```ts
-import { createTemplate } from "bingo";
-import { handlebars } from "bingo-handlebars";
-import path from "node:path";
+import { createTemplate } from 'bingo';
+import { handlebars } from 'bingo-handlebars';
+import path from 'node:path';
 
 export default createTemplate({
-	about: { name: "My Handlebars Template" },
-	options: {
-		owner: z.string(),
-		repository: z.string(),
-	},
-	async produce({ options }) {
-		return {
-			files: {
-				"package.json": await handlebars(
-					path.join(import.meta.dirname, "../template/package.json.hbs"),
-					options,
-				),
-			},
-		};
-	},
+  about: { name: 'My Handlebars Template' },
+  options: {
+    owner: z.string(),
+    repository: z.string(),
+  },
+  async produce({ options }) {
+    return {
+      files: {
+        'package.json': await handlebars(
+          path.join(import.meta.dirname, '../template/package.json.hbs'),
+          options,
+        ),
+      },
+    };
+  },
 });
 ```
 
@@ -61,11 +61,11 @@ Given the options `{ owner: "your-username", repository : "my-handlebars-app" }`
 
 ```json title="package.json"
 {
-	"name": "my-handlebars-app",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/your-username/my-handlebars-app"
-	}
+  "name": "my-handlebars-app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/my-handlebars-app"
+  }
 }
 ```
 
@@ -75,24 +75,21 @@ Behaves the same as `handlebars()`, but only supports generating from a director
 Throws an error if the `sourcePath` is a file.
 
 ```ts
-import { createTemplate } from "bingo";
-import { handlebarsDirectory } from "bingo-handlebars";
-import path from "node:path";
+import { createTemplate } from 'bingo';
+import { handlebarsDirectory } from 'bingo-handlebars';
+import path from 'node:path';
 
 export default createTemplate({
-	about: { name: "My Handlebars Template" },
-	options: {
-		owner: z.string(),
-		repository: z.string(),
-	},
-	async produce({ options }) {
-		return {
-			files: await handlebarsDirectory(
-				path.join(import.meta.dirname, "../template"),
-				options,
-			),
-		};
-	},
+  about: { name: 'My Handlebars Template' },
+  options: {
+    owner: z.string(),
+    repository: z.string(),
+  },
+  async produce({ options }) {
+    return {
+      files: await handlebarsDirectory(path.join(import.meta.dirname, '../template'), options),
+    };
+  },
 });
 ```
 
@@ -104,26 +101,26 @@ Behaves the same as `handlebars()`, but only supports generating a single file.
 Throws an error if the `sourcePath` is a directory.
 
 ```ts
-import { createTemplate } from "bingo";
-import { handlebarsFile } from "bingo-handlebars";
-import path from "node:path";
+import { createTemplate } from 'bingo';
+import { handlebarsFile } from 'bingo-handlebars';
+import path from 'node:path';
 
 export default createTemplate({
-	about: { name: "My Handlebars Template" },
-	options: {
-		owner: z.string(),
-		repository: z.string(),
-	},
-	async produce({ options }) {
-		return {
-			files: {
-				"package.json": await handlebarsFile(
-					path.join(import.meta.dirname, "../template/package.json.hbs"),
-					options,
-				),
-			},
-		};
-	},
+  about: { name: 'My Handlebars Template' },
+  options: {
+    owner: z.string(),
+    repository: z.string(),
+  },
+  async produce({ options }) {
+    return {
+      files: {
+        'package.json': await handlebarsFile(
+          path.join(import.meta.dirname, '../template/package.json.hbs'),
+          options,
+        ),
+      },
+    };
+  },
 });
 ```
 
@@ -137,24 +134,21 @@ Any file names ending with `.hbs` will have that suffix removed.
 For example, this template uses a `../template` directory relative to the template's source file for all its `files` Creations:
 
 ```ts
-import { createTemplate } from "bingo";
-import { handlebars } from "bingo-handlebars";
-import path from "node:path";
+import { createTemplate } from 'bingo';
+import { handlebars } from 'bingo-handlebars';
+import path from 'node:path';
 
 export default createTemplate({
-	about: { name: "My Handlebars Template" },
-	options: {
-		owner: z.string(),
-		repository: z.string(),
-	},
-	async produce({ options }) {
-		return {
-			files: await handlebars(
-				path.join(import.meta.dirname, "template"),
-				options,
-			),
-		};
-	},
+  about: { name: 'My Handlebars Template' },
+  options: {
+    owner: z.string(),
+    repository: z.string(),
+  },
+  async produce({ options }) {
+    return {
+      files: await handlebars(path.join(import.meta.dirname, 'template'), options),
+    };
+  },
 });
 ```
 

@@ -1,104 +1,105 @@
-import * as prompts from "@clack/prompts";
-import { styleText } from "node:util";
+import { styleText } from 'node:util';
 
-import { AnyShape } from "../../types/shapes.js";
-import { Template } from "../../types/templates.js";
-import { CLIMessage } from "../messages.js";
-import { CLIStatus } from "../status.js";
-import { ModeResults } from "../types.js";
-import { logHelpOptions } from "./logHelpOptions.js";
-import { logSchemasHelpOptions } from "./logSchemasHelpOptions.js";
+import * as prompts from '@clack/prompts';
+
+import { AnyShape } from '../../types/shapes.js';
+import { Template } from '../../types/templates.js';
+import { CLIMessage } from '../messages.js';
+import { CLIStatus } from '../status.js';
+import { ModeResults } from '../types.js';
+import { logHelpOptions } from './logHelpOptions.js';
+import { logSchemasHelpOptions } from './logSchemasHelpOptions.js';
 
 export function logHelpText<OptionsShape extends AnyShape, Refinements>(
-	mode: string,
-	from: string,
-	template: Template<OptionsShape, Refinements>,
+  mode: string,
+  from: string,
+  template: Template<OptionsShape, Refinements>,
 ): ModeResults {
-	const packageName = template.about?.name ?? from;
+  const packageName = template.about?.name ?? from;
 
-	prompts.log.info(
-		[
-			"Running ",
-			styleText("green", `--help`),
-			" for ",
-			styleText("green", `--mode ${mode}`),
-			".",
-		].join(""),
-	);
+  prompts.log.info(
+    [
+      'Running ',
+      styleText('green', `--help`),
+      ' for ',
+      styleText('green', `--mode ${mode}`),
+      '.',
+    ].join(''),
+  );
 
-	logHelpOptions("Bingo template", from, [
-		{
-			examples: ["--directory my-fancy-project"],
-			flag: "--directory",
-			text: "What local directory path to run under",
-			type: "string",
-		},
-		{
-			examples: ["--help"],
-			flag: "--help",
-			text: "Prints help text.",
-			type: "boolean",
-		},
-		{
-			examples: ["--mode setup", "--mode transition"],
-			flag: "--mode",
-			text: "Which mode to run in.",
-			type: '"setup" | "transition"',
-		},
-		{
-			examples: ["--offline"],
-			flag: "--offline",
-			text: 'Whether to run in an "offline" mode that skips network requests.',
-			type: "boolean",
-		},
-		{
-			examples: ["--owner my-org"],
-			flag: "--owner",
-			text: "What GitHub organization or user the repository will be under.",
-			type: "string",
-		},
-		{
-			examples: ["--remote"],
-			flag: "--remote",
-			text: "Whether to create a remote repository on GitHub if one does not already exist.",
-			type: "boolean",
-		},
-		{
-			examples: ["--repository my-fancy-project"],
-			flag: "--repository",
-			text: "What the repository will be named.",
-			type: "string",
-		},
-		{
-			examples: ["--skip-files"],
-			flag: "--skip-files",
-			text: "Whether to skip creating files on disk.",
-			type: "boolean",
-		},
-		{
-			examples: ["--skip-requests"],
-			flag: "--skip-requests",
-			text: "Whether to skip sending network requests as specified by templates.",
-			type: "boolean",
-		},
-		{
-			examples: ["--skip-scripts"],
-			flag: "--skip-scripts",
-			text: "Whether to skip running local scripts as specified by templates.",
-			type: "boolean",
-		},
-		{
-			examples: ["--version"],
-			flag: "--version",
-			text: "Prints package versions.",
-			type: "boolean",
-		},
-	]);
+  logHelpOptions('Bingo template', from, [
+    {
+      examples: ['--directory my-fancy-project'],
+      flag: '--directory',
+      text: 'What local directory path to run under',
+      type: 'string',
+    },
+    {
+      examples: ['--help'],
+      flag: '--help',
+      text: 'Prints help text.',
+      type: 'boolean',
+    },
+    {
+      examples: ['--mode setup', '--mode transition'],
+      flag: '--mode',
+      text: 'Which mode to run in.',
+      type: '"setup" | "transition"',
+    },
+    {
+      examples: ['--offline'],
+      flag: '--offline',
+      text: 'Whether to run in an "offline" mode that skips network requests.',
+      type: 'boolean',
+    },
+    {
+      examples: ['--owner my-org'],
+      flag: '--owner',
+      text: 'What GitHub organization or user the repository will be under.',
+      type: 'string',
+    },
+    {
+      examples: ['--remote'],
+      flag: '--remote',
+      text: 'Whether to create a remote repository on GitHub if one does not already exist.',
+      type: 'boolean',
+    },
+    {
+      examples: ['--repository my-fancy-project'],
+      flag: '--repository',
+      text: 'What the repository will be named.',
+      type: 'string',
+    },
+    {
+      examples: ['--skip-files'],
+      flag: '--skip-files',
+      text: 'Whether to skip creating files on disk.',
+      type: 'boolean',
+    },
+    {
+      examples: ['--skip-requests'],
+      flag: '--skip-requests',
+      text: 'Whether to skip sending network requests as specified by templates.',
+      type: 'boolean',
+    },
+    {
+      examples: ['--skip-scripts'],
+      flag: '--skip-scripts',
+      text: 'Whether to skip running local scripts as specified by templates.',
+      type: 'boolean',
+    },
+    {
+      examples: ['--version'],
+      flag: '--version',
+      text: 'Prints package versions.',
+      type: 'boolean',
+    },
+  ]);
 
-	logSchemasHelpOptions(packageName, template.options);
+  logSchemasHelpOptions(packageName, template.options);
 
-	return {
-		outro: CLIMessage.Ok,
-		status: CLIStatus.Success,
-	};
+  return {
+    outro: CLIMessage.Ok,
+    status: CLIStatus.Success,
+  };
 }

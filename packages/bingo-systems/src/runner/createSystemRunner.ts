@@ -1,14 +1,14 @@
-import { execa, parseCommandString } from "execa";
+import { execa, parseCommandString } from 'execa';
 
-import { getColorsEnv } from "./getColorsEnv.js";
-import { SystemRunner } from "./runner.js";
+import { getColorsEnv } from './getColorsEnv.js';
+import { SystemRunner } from './runner.js';
 
-export function createSystemRunner(directory = "."): SystemRunner {
-	const executor = execa({
-		cwd: directory,
-		env: getColorsEnv(),
-		reject: false,
-	});
+export function createSystemRunner(directory = '.'): SystemRunner {
+  const executor = execa({
+    cwd: directory,
+    env: getColorsEnv(),
+    reject: false,
+  });
 
-	return (command: string) => executor`${parseCommandString(command)}`;
+  return (command: string) => executor`${parseCommandString(command)}`;
 }

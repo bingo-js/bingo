@@ -1,14 +1,14 @@
 {
-	"extends": "../../tsconfig.base.json",
-	"compilerOptions": {
-		"outDir": "lib",
-		"rootDir": "src",
-		"types": ["node"]
-	},
-	"include": ["src"],
-	"references": [
-		{ "path": "../bingo-fs" },
-		{ "path": "../bingo-requests" },
-		{ "path": "../bingo-systems" }
-	]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src",
+    "types": ["node"]
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../bingo-fs" },
+    { "path": "../bingo-requests" },
+    { "path": "../bingo-systems" }
+  ]
 }

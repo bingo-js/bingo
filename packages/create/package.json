@@ -1,30 +1,30 @@
 {
-	"name": "create",
-	"version": "0.5.5",
-	"description": "You probably meant `npm create`, not `npx create`. ❌",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bingo-js/bingo",
-		"directory": "packages/create"
-	},
-	"license": "MIT",
-	"author": {
-		"name": "Josh Goldberg ✨",
-		"email": "npm@joshuakgoldberg.com"
-	},
-	"sideEffects": false,
-	"type": "module",
-	"exports": {
-		"./package.json": "./package.json"
-	},
-	"bin": "./bin/index.js",
-	"files": [
-		"bin"
-	],
-	"dependencies": {
-		"chalk": "^5.6.2"
-	},
-	"engines": {
-		"node": ">=18"
-	}
+  "name": "create",
+  "version": "0.5.5",
+  "description": "You probably meant `npm create`, not `npx create`. ❌",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingo-js/bingo",
+    "directory": "packages/create"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Josh Goldberg ✨",
+    "email": "npm@joshuakgoldberg.com"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "bin": "./bin/index.js",
+  "files": [
+    "bin"
+  ],
+  "dependencies": {
+    "chalk": "^5.6.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
 }

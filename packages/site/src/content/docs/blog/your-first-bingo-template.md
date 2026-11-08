@@ -39,9 +39,9 @@ In a new empty directory, create a `package.json`, install `bingo` as a dependen
 
 ```json title="package.json"
 {
-	"name": "my-template",
-	"version": "0.0.0",
-	"type": "module"
+  "name": "my-template",
+  "version": "0.0.0",
+  "type": "module"
 }
 ```
 
@@ -50,16 +50,16 @@ npm i bingo
 ```
 
 ```js title="template.js"
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 const template = createTemplate({
-	produce() {
-		return {
-			files: {
-				"README.md": "# Hello, world!",
-			},
-		};
-	},
+  produce() {
+    return {
+      files: {
+        'README.md': '# Hello, world!',
+      },
+    };
+  },
 });
 
 export default template;
@@ -110,9 +110,9 @@ Create an `index.js` file with the following content:
 
 ```js title="index.js"
 #!/usr/bin/env node
-import { runTemplateCLI } from "bingo";
+import { runTemplateCLI } from 'bingo';
 
-import template from "./template.js";
+import template from './template.js';
 
 process.exitCode = await runTemplateCLI(template);
 ```

@@ -18,41 +18,41 @@ Any [Props](/engines/stratum/concepts/blocks#props) for other blocks, that this 
 For example, given the following `blockGitignore` with an `ignores` Prop, a `blockTypeScript` could signal to ignore the `/lib` directory:
 
 ```ts
-import { z } from "zod";
+import { z } from 'zod';
 
-import { base } from "./base";
+import { base } from './base';
 
 export const blockGitignore = base.createBlock({
-	props: {
-		ignores: z.array(z.string()).default([]),
-	},
-	produce({ props }) {
-		return {
-			files: {
-				".gitignore": [...props.ignores, "/node_modules"].join("\n"),
-			},
-		};
-	},
+  props: {
+    ignores: z.array(z.string()).default([]),
+  },
+  produce({ props }) {
+    return {
+      files: {
+        '.gitignore': [...props.ignores, '/node_modules'].join('\n'),
+      },
+    };
+  },
 });
 
 export const blockTypeScript = base.createBlock({
-	produce() {
-		return {
-			extensions: [
-				blockGitignore({
-					ignores: ["/lib"],
-				}),
-			],
-			files: {
-				"tsconfig.json": JSON.stringify({
-					compilerOptions: {
-						outDir: "lib",
-						strict: true,
-					},
-				}),
-			},
-		};
-	},
+  produce() {
+    return {
+      extensions: [
+        blockGitignore({
+          ignores: ['/lib'],
+        }),
+      ],
+      files: {
+        'tsconfig.json': JSON.stringify({
+          compilerOptions: {
+            outDir: 'lib',
+            strict: true,
+          },
+        }),
+      },
+    };
+  },
 });
 ```
 

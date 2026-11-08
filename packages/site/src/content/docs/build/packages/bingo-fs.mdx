@@ -3,7 +3,7 @@ description: The virtual file system used by Bingo. 🗄️
 title: bingo-fs
 ---
 
-import { PackageManagers } from "starlight-package-managers";
+import { PackageManagers } from 'starlight-package-managers';
 
 The virtual file system used by Bingo.
 🗄️
@@ -28,10 +28,10 @@ For example, given a structure like:
 
 ```json
 {
-	"README.md": "...",
-	"src": {
-		"index.ts": "..."
-	}
+  "README.md": "...",
+  "src": {
+    "index.ts": "..."
+  }
 }
 ```
 
@@ -69,16 +69,16 @@ Each property value in a directory object may be one of the following:
 For example, this Bingo template produces an executable `.husky/pre-commit` file:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	produce() {
-		return {
-			".husky": {
-				"pre-commit": ["npx lint-staged\n", { executable: true }],
-			},
-		};
-	},
+  produce() {
+    return {
+      '.husky': {
+        'pre-commit': ['npx lint-staged\n', { executable: true }],
+      },
+    };
+  },
 });
 ```
 
@@ -86,16 +86,16 @@ Files with `previously` paths are treated as the same file by [Stratum's Preset 
 For example, this Bingo template produces a `.github/FUNDING.yaml` file that used to be `.github/FUNDING.yml`:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	produce() {
-		return {
-			".github": {
-				"FUNDING.yaml": ["github: abc", { previously: ["FUNDING.yml"] }],
-			},
-		};
-	},
+  produce() {
+    return {
+      '.github': {
+        'FUNDING.yaml': ['github: abc', { previously: ['FUNDING.yml'] }],
+      },
+    };
+  },
 });
 ```
 
@@ -116,10 +116,10 @@ Returns the directory or file if it existed, or `undefined` if it didn't.
 For example, retrieving all files in a `src/` directory:
 
 ```ts
-import { intake } from "bingo-fs";
+import { intake } from 'bingo-fs';
 
 // { "index.ts": "..." }
-await intake("src");
+await intake('src');
 ```
 
 #### `exclude` {#intake-exclude}
@@ -129,11 +129,11 @@ An optional regular expression to filter out directory children.
 For example, you may want to avoid `.git` and `node_modules` directories:
 
 ```ts
-import { intake } from "bingo-fs";
+import { intake } from 'bingo-fs';
 
 // Result: { README.md: "...", src: { "index.ts": "..." }, ... }
-await intake(".", {
-	exclude: /node_modules|^\.git$/,
+await intake('.', {
+  exclude: /node_modules|^\.git$/,
 });
 ```
 
@@ -152,10 +152,10 @@ Returns the directory or file if it existed, or `undefined` if it didn't.
 For example, retrieving all files in a `src/` directory:
 
 ```ts
-import { intakeDirectory } from "bingo-fs";
+import { intakeDirectory } from 'bingo-fs';
 
 // { "index.ts": "..." }
-await intakeDirectory("src");
+await intakeDirectory('src');
 ```
 
 #### `exclude` {#intakedirectory-exclude}
@@ -165,10 +165,10 @@ An optional regular expression to filter out directory children.
 For example, you may want to avoid `.git` and `node_modules` directories:
 
 ```ts
-import { intakeDirectory } from "bingo-fs";
+import { intakeDirectory } from 'bingo-fs';
 
 // Result: { README.md: "...", src: { "index.ts": "..." }, ... }
-await intakeDirectory(".", {
-	exclude: /node_modules|^\.git$/,
+await intakeDirectory('.', {
+  exclude: /node_modules|^\.git$/,
 });
 ```

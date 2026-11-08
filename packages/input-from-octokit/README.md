@@ -14,11 +14,11 @@ npm i input-from-octokit
 ```
 
 ```ts
-import { inputFromOctokit } from "input-from-octokit";
+import { inputFromOctokit } from 'input-from-octokit';
 
 await take(inputFromOctokit, {
-	endpoint: "GET /repos/{owner}/{repo}/labels",
-	options: { owner: "bingo-js", repo: "bingo" },
+  endpoint: 'GET /repos/{owner}/{repo}/labels',
+  options: { owner: 'bingo-js', repo: 'bingo' },
 });
 ```
 

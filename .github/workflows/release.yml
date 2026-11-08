@@ -67,6 +67,6 @@ jobs:
       - uses: $/.github/actions/setup
       - uses: changesets/action/version@v2.1.2
         with:
-          commit-message: "chore: version packages"
+          commit-message: 'chore: version packages'
           github-token: ${{ secrets.ACCESS_TOKEN }}
-          pr-title: "chore: version packages"
+          pr-title: 'chore: version packages'

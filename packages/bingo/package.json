@@ -1,65 +1,65 @@
 {
-	"name": "bingo",
-	"version": "0.15.0",
-	"description": "Delightful templates for web repositories. 💝",
-	"homepage": "https://create.bingo",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bingo-js/bingo",
-		"directory": "packages/bingo"
-	},
-	"license": "MIT",
-	"author": {
-		"name": "Josh Goldberg ✨",
-		"email": "npm@joshuakgoldberg.com"
-	},
-	"sideEffects": false,
-	"type": "module",
-	"exports": {
-		".": "./lib/index.js",
-		"./package.json": "./package.json"
-	},
-	"bin": "./bin/index.js",
-	"files": [
-		"bin/",
-		"lib/"
-	],
-	"scripts": {
-		"build": "tsc"
-	},
-	"dependencies": {
-		"@clack/prompts": "^0.11.0",
-		"all-properties-lazy": "^0.1.0",
-		"bingo-fs": "workspace:^",
-		"bingo-requests": "workspace:^",
-		"bingo-systems": "workspace:^",
-		"cached-factory": "^0.3.0",
-		"call-id": "^0.1.0",
-		"get-github-auth-token": "^0.1.2",
-		"git-url-parse": "^16.1.0",
-		"hash-object": "^5.0.1",
-		"hosted-git-info": "^9.0.2",
-		"new-github-repository": "^0.2.4",
-		"read-package-up": "^12.0.0",
-		"read-pkg": "^10.0.0",
-		"slugify": "^1.6.9",
-		"without-undefined-properties": "^0.1.2",
-		"zod": "^4.4.3"
-	},
-	"devDependencies": {
-		"@types/hosted-git-info": "3.0.5",
-		"@types/node": "24.10.1",
-		"octokit": "5.0.5"
-	},
-	"peerDependencies": {
-		"zod": "^4.4.3"
-	},
-	"peerDependenciesMeta": {
-		"zod": {
-			"optional": true
-		}
-	},
-	"engines": {
-		"node": "^22.15.0 || ^24.15.0 || >=26.0.0"
-	}
+  "name": "bingo",
+  "version": "0.15.0",
+  "description": "Delightful templates for web repositories. 💝",
+  "homepage": "https://create.bingo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingo-js/bingo",
+    "directory": "packages/bingo"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Josh Goldberg ✨",
+    "email": "npm@joshuakgoldberg.com"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": "./bin/index.js",
+  "files": [
+    "bin/",
+    "lib/"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "all-properties-lazy": "^0.1.0",
+    "bingo-fs": "workspace:^",
+    "bingo-requests": "workspace:^",
+    "bingo-systems": "workspace:^",
+    "cached-factory": "^0.3.0",
+    "call-id": "^0.1.0",
+    "get-github-auth-token": "^0.1.2",
+    "git-url-parse": "^16.1.0",
+    "hash-object": "^5.0.1",
+    "hosted-git-info": "^9.0.2",
+    "new-github-repository": "^0.2.4",
+    "read-package-up": "^12.0.0",
+    "read-pkg": "^10.0.0",
+    "slugify": "^1.6.9",
+    "without-undefined-properties": "^0.1.2",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/hosted-git-info": "3.0.5",
+    "@types/node": "24.10.1",
+    "octokit": "5.0.5"
+  },
+  "peerDependencies": {
+    "zod": "^4.4.3"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": "^22.15.0 || ^24.15.0 || >=26.0.0"
+  }
 }

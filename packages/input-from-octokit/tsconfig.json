@@ -1,13 +1,13 @@
 {
-	"extends": "../../tsconfig.base.json",
-	"compilerOptions": {
-		"outDir": "lib",
-		"rootDir": "src"
-	},
-	"include": ["src"],
-	"references": [
-		{ "path": "../bingo" },
-		{ "path": "../bingo-requests" },
-		{ "path": "../bingo-testers" }
-	]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src"
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../bingo" },
+    { "path": "../bingo-requests" },
+    { "path": "../bingo-testers" }
+  ]
 }

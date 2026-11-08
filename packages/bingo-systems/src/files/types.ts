@@ -23,20 +23,20 @@ export type ReadFile = (filePath: string) => Promise<string>;
  * APIs to read from a file system.
  */
 export interface ReadingFileSystem {
-	/**
-	 * Finds the paths matching one or more glob patterns.
-	 */
-	glob: Glob;
+  /**
+   * Finds the paths matching one or more glob patterns.
+   */
+  glob: Glob;
 
-	/**
-	 * Reads the names of a directory's children.
-	 */
-	readDirectory: ReadDirectory;
+  /**
+   * Reads the names of a directory's children.
+   */
+  readDirectory: ReadDirectory;
 
-	/**
-	 * Reads the contents of a file.
-	 */
-	readFile: ReadFile;
+  /**
+   * Reads the contents of a file.
+   */
+  readFile: ReadFile;
 }
 
 /**
@@ -59,37 +59,37 @@ export type WriteDirectory = (directoryPath: string) => Promise<void>;
  * @returns Promise for the text contents of the file.
  */
 export type WriteFile = (
-	filePath: string,
-	contents: string,
-	options?: WriteFileOptions,
+  filePath: string,
+  contents: string,
+  options?: WriteFileOptions,
 ) => Promise<void>;
 
 /**
  * Extra metadata for writing a file.
  */
 export interface WriteFileOptions {
-	/**
-	 * Whether the file has an executable bit enabled.
-	 */
-	executable?: boolean;
+  /**
+   * Whether the file has an executable bit enabled.
+   */
+  executable?: boolean;
 }
 
 /**
  * APIs to read from and write to a file system.
  */
 export interface WritingFileSystem extends ReadingFileSystem {
-	/**
-	 * Removes a file if it exists.
-	 */
-	removeFile: RemoveFile;
+  /**
+   * Removes a file if it exists.
+   */
+  removeFile: RemoveFile;
 
-	/**
-	 * Creates a directory if it doesn't yet exist.
-	 */
-	writeDirectory: WriteDirectory;
+  /**
+   * Creates a directory if it doesn't yet exist.
+   */
+  writeDirectory: WriteDirectory;
 
-	/**
-	 * Writes contents to a file, updating it if it already exists.
-	 */
-	writeFile: WriteFile;
+  /**
+   * Writes contents to a file, updating it if it already exists.
+   */
+  writeFile: WriteFile;
 }

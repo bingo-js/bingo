@@ -1,5 +1,5 @@
-import { slugifyName } from "./slugifyName.js";
+import { slugifyName } from './slugifyName.js';
 
 export function createBlockRefinementOption(prefix: string, blockName: string) {
-	return `${prefix}-${slugifyName(blockName)}`;
+  return `${prefix}-${slugifyName(blockName)}`;
 }

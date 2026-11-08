@@ -3,7 +3,7 @@ description: The virtual file system used by Bingo. 🗄️
 title: bingo-requests
 ---
 
-import { PackageManagers } from "starlight-package-managers";
+import { PackageManagers } from 'starlight-package-managers';
 
 Descriptions of network requests as used by Bingo.
 📠
@@ -37,11 +37,11 @@ These additionally contain:
 For example, this object describes a `GET` request to `https://create.bingo`:
 
 ```ts
-import { CreatedFetchRequest } from "bingo-requests";
+import { CreatedFetchRequest } from 'bingo-requests';
 
 export const request: CreatedFetchRequest = {
-	type: "fetch",
-	url: "https://create.bingo",
+  type: 'fetch',
+  url: 'https://create.bingo',
 };
 ```
 
@@ -52,27 +52,27 @@ If you need to send two requests to the same URL, you can give them different `i
 For example, these two objects describe separate `POST` requests to `https://create.bingo`:
 
 ```ts
-import { CreatedFetchRequest } from "bingo-requests";
+import { CreatedFetchRequest } from 'bingo-requests';
 
 export const requests: CreatedFetchRequest[] = [
-	{
-		id: "first",
-		init: {
-			body: "(first)",
-			method: "POST",
-		},
-		type: "fetch",
-		url: "https://create.bingo",
-	},
-	{
-		id: "second",
-		init: {
-			body: "(second)",
-			method: "POST",
-		},
-		type: "fetch",
-		url: "https://create.bingo",
-	},
+  {
+    id: 'first',
+    init: {
+      body: '(first)',
+      method: 'POST',
+    },
+    type: 'fetch',
+    url: 'https://create.bingo',
+  },
+  {
+    id: 'second',
+    init: {
+      body: '(second)',
+      method: 'POST',
+    },
+    type: 'fetch',
+    url: 'https://create.bingo',
+  },
 ];
 ```
 
@@ -94,16 +94,16 @@ These additionally contain:
 For example, this object describes a request to add a label to a repository:
 
 ```ts
-import { CreatedOctokitRequest } from "bingo-requests";
+import { CreatedOctokitRequest } from 'bingo-requests';
 
 export const request: CreatedOctokitRequest = {
-	endpoint: "POST /repos/{owner}/{repo}/labels",
-	parameters: {
-		name: "good first issue",
-		owner: "JoshuaKGoldberg",
-		repo: "create-typescript-app",
-	},
-	type: "octokit",
+  endpoint: 'POST /repos/{owner}/{repo}/labels',
+  parameters: {
+    name: 'good first issue',
+    owner: 'JoshuaKGoldberg',
+    repo: 'create-typescript-app',
+  },
+  type: 'octokit',
 };
 ```
 
@@ -114,29 +114,29 @@ If you need to send two requests to the same endpoint, you can give them differe
 For example, these two objects describe separate requests to add labels to a repository:
 
 ```ts
-import { CreatedFetchRequest } from "bingo-requests";
+import { CreatedFetchRequest } from 'bingo-requests';
 
 export const requests: CreatedFetchRequest[] = [
-	{
-		endpoint: "POST /repos/{owner}/{repo}/labels",
-		id: "first",
-		parameters: {
-			name: "good first issue",
-			owner: "JoshuaKGoldberg",
-			repo: "create-typescript-app",
-		},
-		type: "octokit",
-	},
-	{
-		endpoint: "POST /repos/{owner}/{repo}/labels",
-		id: "second",
-		parameters: {
-			name: "wontfix",
-			owner: "JoshuaKGoldberg",
-			repo: "create-typescript-app",
-		},
-		type: "octokit",
-	},
+  {
+    endpoint: 'POST /repos/{owner}/{repo}/labels',
+    id: 'first',
+    parameters: {
+      name: 'good first issue',
+      owner: 'JoshuaKGoldberg',
+      repo: 'create-typescript-app',
+    },
+    type: 'octokit',
+  },
+  {
+    endpoint: 'POST /repos/{owner}/{repo}/labels',
+    id: 'second',
+    parameters: {
+      name: 'wontfix',
+      owner: 'JoshuaKGoldberg',
+      repo: 'create-typescript-app',
+    },
+    type: 'octokit',
+  },
 ];
 ```
 

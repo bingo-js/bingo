@@ -15,12 +15,12 @@ Applies a [Creation](/build/concepts/creations) to disk by writing files, sendin
 For example, given this created `README.md` file, `runTemplate` would write that file to disk:
 
 ```ts
-import { createTemplate, runTemplate } from "bingo";
+import { createTemplate, runTemplate } from 'bingo';
 
 await runCreation({
-	files: {
-		"README.md": `# Hello, World!`,
-	},
+  files: {
+    'README.md': `# Hello, World!`,
+  },
 });
 ```
 
@@ -35,30 +35,30 @@ This is equivalent to the [`--offline` CLI flag](/cli#--offline).
 For example, this would only write files to disk, and not send any requests:
 
 ```ts
-import { createTemplate, runTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate, runTemplate } from 'bingo';
+import { z } from 'zod';
 
 await runCration(
-	{
-		files: {
-			"README.md": `# Hello, World!`,
-		},
-		requests: [
-			{
-				id: "default-branch",
-				async send({ octokit }) {
-					await octokit.rest.repos.update({
-						default_branch: "main",
-						owner: options.owner,
-						repo: options.repository,
-					});
-				},
-			},
-		],
-	},
-	{
-		offline: true,
-	},
+  {
+    files: {
+      'README.md': `# Hello, World!`,
+    },
+    requests: [
+      {
+        id: 'default-branch',
+        async send({ octokit }) {
+          await octokit.rest.repos.update({
+            default_branch: 'main',
+            owner: options.owner,
+            repo: options.repository,
+          });
+        },
+      },
+    ],
+  },
+  {
+    offline: true,
+  },
 );
 ```
 
@@ -78,22 +78,22 @@ They can be swapped out if you want to change or otherwise intercept system call
 For example, this adds a log to every shell command:
 
 ```ts
-import { runCreation } from "bingo";
-import { createSystemRunner } from "bingo-systems";
+import { runCreation } from 'bingo';
+import { createSystemRunner } from 'bingo-systems';
 
 const defaultRunner = createSystemRunner();
 
 await runCreation(
-	{
-		scripts: ["npm format --write"],
-	},
-	{
-		system: {
-			runner: async (...args) => {
-				console.log("Running:", args);
-				return await defaultRunner(args);
-			},
-		},
-	},
+  {
+    scripts: ['npm format --write'],
+  },
+  {
+    system: {
+      runner: async (...args) => {
+        console.log('Running:', args);
+        return await defaultRunner(args);
+      },
+    },
+  },
 );
 ```

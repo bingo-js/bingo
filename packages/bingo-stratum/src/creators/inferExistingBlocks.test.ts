@@ -1,305 +1,301 @@
-import { describe, expect, it } from "vitest";
-import { z } from "zod";
+import { describe, expect, it } from 'vitest';
+import { z } from 'zod';
 
-import { createBase } from "./createBase.js";
-import { inferExistingBlocks } from "./inferExistingBlocks.js";
+import { createBase } from './createBase.js';
+import { inferExistingBlocks } from './inferExistingBlocks.js';
 
 const base = createBase({
-	options: { name: z.string() },
+  options: { name: z.string() },
 });
 
 const blockA = base.createBlock({
-	about: { name: "A" },
-	produce() {
-		return {
-			files: {
-				a: "...",
-			},
-		};
-	},
+  about: { name: 'A' },
+  produce() {
+    return {
+      files: {
+        a: '...',
+      },
+    };
+  },
 });
 
 const blockB = base.createBlock({
-	about: { name: "B" },
-	produce() {
-		return {
-			files: {
-				b: "...",
-			},
-		};
-	},
+  about: { name: 'B' },
+  produce() {
+    return {
+      files: {
+        b: '...',
+      },
+    };
+  },
 });
 
 const blockAB = base.createBlock({
-	produce() {
-		return {
-			files: {
-				a: "...",
-				b: "...",
-			},
-		};
-	},
+  produce() {
+    return {
+      files: {
+        a: '...',
+        b: '...',
+      },
+    };
+  },
 });
 
-describe("inferPreset", () => {
-	describe("blocks", () => {
-		it("returns no blocks when no blocks match and a preset is inferred", () => {
-			const presetAB = base.createPreset({
-				about: { name: "AB" },
-				blocks: [blockA, blockB],
-			});
+describe('inferPreset', () => {
+  describe('blocks', () => {
+    it('returns no blocks when no blocks match and a preset is inferred', () => {
+      const presetAB = base.createPreset({
+        about: { name: 'AB' },
+        blocks: [blockA, blockB],
+      });
 
-			const context = {
-				files: {
-					b: "...",
-				},
-				options: {
-					name: "...",
-				},
-			};
+      const context = {
+        files: {
+          b: '...',
+        },
+        options: {
+          name: '...',
+        },
+      };
 
-			const template = base.createStratumTemplate({
-				presets: [presetAB],
-			});
+      const template = base.createStratumTemplate({
+        presets: [presetAB],
+      });
 
-			const actual = inferExistingBlocks(context, template);
+      const actual = inferExistingBlocks(context, template);
 
-			expect(actual.blocks).toEqual([]);
-		});
+      expect(actual.blocks).toEqual([]);
+    });
 
-		it("returns no blocks when a block only partially matches and a preset is inferred", () => {
-			const presetAB = base.createPreset({
-				about: { name: "AB" },
-				blocks: [blockAB],
-			});
+    it('returns no blocks when a block only partially matches and a preset is inferred', () => {
+      const presetAB = base.createPreset({
+        about: { name: 'AB' },
+        blocks: [blockAB],
+      });
 
-			const context = {
-				files: {
-					a: "...",
-				},
-				options: {
-					name: "...",
-				},
-			};
+      const context = {
+        files: {
+          a: '...',
+        },
+        options: {
+          name: '...',
+        },
+      };
 
-			const template = base.createStratumTemplate({
-				presets: [presetAB],
-			});
+      const template = base.createStratumTemplate({
+        presets: [presetAB],
+      });
 
-			const actual = inferExistingBlocks(context, template);
+      const actual = inferExistingBlocks(context, template);
 
-			expect(actual.blocks).toEqual([]);
-		});
+      expect(actual.blocks).toEqual([]);
+    });
 
-		it("returns no blocks when one block in the inferred preset matches", () => {
-			const presetA = base.createPreset({
-				about: { name: "A" },
-				blocks: [blockA],
-			});
+    it('returns no blocks when one block in the inferred preset matches', () => {
+      const presetA = base.createPreset({
+        about: { name: 'A' },
+        blocks: [blockA],
+      });
 
-			const context = {
-				files: {
-					a: "...",
-				},
-				options: {
-					name: "...",
-				},
-			};
+      const context = {
+        files: {
+          a: '...',
+        },
+        options: {
+          name: '...',
+        },
+      };
 
-			const template = base.createStratumTemplate({
-				blocks: [blockB],
-				presets: [presetA],
-			});
+      const template = base.createStratumTemplate({
+        blocks: [blockB],
+        presets: [presetA],
+      });
 
-			const actual = inferExistingBlocks(context, template);
+      const actual = inferExistingBlocks(context, template);
 
-			expect(actual.blocks).toEqual([]);
-		});
+      expect(actual.blocks).toEqual([]);
+    });
 
-		it("returns only inferred blocks not in the preset when blocks in and out of the inferred preset match", () => {
-			const presetA = base.createPreset({
-				about: { name: "A" },
-				blocks: [blockA],
-			});
+    it('returns only inferred blocks not in the preset when blocks in and out of the inferred preset match', () => {
+      const presetA = base.createPreset({
+        about: { name: 'A' },
+        blocks: [blockA],
+      });
 
-			const context = {
-				files: {
-					a: "...",
-					b: "...",
-				},
-				options: {
-					name: "...",
-				},
-			};
+      const context = {
+        files: {
+          a: '...',
+          b: '...',
+        },
+        options: {
+          name: '...',
+        },
+      };
 
-			const template = base.createStratumTemplate({
-				blocks: [blockB],
-				presets: [presetA],
-			});
+      const template = base.createStratumTemplate({
+        blocks: [blockB],
+        presets: [presetA],
+      });
 
-			const actual = inferExistingBlocks(context, template);
+      const actual = inferExistingBlocks(context, template);
 
-			expect(actual.blocks).toEqual([blockB]);
-		});
-	});
+      expect(actual.blocks).toEqual([blockB]);
+    });
+  });
 
-	describe("preset", () => {
-		const files = {
-			a: "...",
-			b: "...",
-			c: "...",
-			d: "...",
-			e: "...",
-		};
+  describe('preset', () => {
+    const files = {
+      a: '...',
+      b: '...',
+      c: '...',
+      d: '...',
+      e: '...',
+    };
 
-		const context = {
-			files,
-			options: {
-				name: "...",
-			},
-		};
+    const context = {
+      files,
+      options: {
+        name: '...',
+      },
+    };
 
-		const presetErrors = base.createPreset({
-			about: { name: "Errors" },
-			blocks: [
-				base.createBlock({
-					produce() {
-						throw new Error("Oh no!");
-					},
-				}),
-			],
-		});
+    const presetErrors = base.createPreset({
+      about: { name: 'Errors' },
+      blocks: [
+        base.createBlock({
+          produce() {
+            throw new Error('Oh no!');
+          },
+        }),
+      ],
+    });
 
-		const presetLowPercentageA = base.createPreset({
-			about: { name: "Low Percentage A" },
-			blocks: [blockA],
-		});
+    const presetLowPercentageA = base.createPreset({
+      about: { name: 'Low Percentage A' },
+      blocks: [blockA],
+    });
 
-		const presetLowPercentageB = base.createPreset({
-			about: { name: "Low Percentage B" },
-			blocks: [blockB],
-		});
+    const presetLowPercentageB = base.createPreset({
+      about: { name: 'Low Percentage B' },
+      blocks: [blockB],
+    });
 
-		const presetHighPercentage = base.createPreset({
-			about: { name: "High Percentage" },
-			blocks: [blockAB],
-		});
+    const presetHighPercentage = base.createPreset({
+      about: { name: 'High Percentage' },
+      blocks: [blockAB],
+    });
 
-		it("infers no preset without erroring when a block throws an error", () => {
-			const template = base.createStratumTemplate({
-				presets: [presetErrors],
-			});
+    it('infers no preset without erroring when a block throws an error', () => {
+      const template = base.createStratumTemplate({
+        presets: [presetErrors],
+      });
 
-			const actual = inferExistingBlocks(context, template);
+      const actual = inferExistingBlocks(context, template);
 
-			expect(actual.preset).toBeUndefined();
-		});
+      expect(actual.preset).toBeUndefined();
+    });
 
-		it("infers no preset when no preset has a 35% match", () => {
-			const template = base.createStratumTemplate({
-				presets: [presetLowPercentageA, presetLowPercentageB],
-			});
+    it('infers no preset when no preset has a 35% match', () => {
+      const template = base.createStratumTemplate({
+        presets: [presetLowPercentageA, presetLowPercentageB],
+      });
 
-			const actual = inferExistingBlocks(context, template);
+      const actual = inferExistingBlocks(context, template);
 
-			expect(actual.preset).toBeUndefined();
-		});
+      expect(actual.preset).toBeUndefined();
+    });
 
-		it("infers the matching preset when a preset has a 35% match", () => {
-			const template = base.createStratumTemplate({
-				presets: [
-					presetLowPercentageA,
-					presetLowPercentageB,
-					presetHighPercentage,
-				],
-			});
+    it('infers the matching preset when a preset has a 35% match', () => {
+      const template = base.createStratumTemplate({
+        presets: [presetLowPercentageA, presetLowPercentageB, presetHighPercentage],
+      });
 
-			const actual = inferExistingBlocks(context, template);
+      const actual = inferExistingBlocks(context, template);
 
-			expect(actual.preset).toBe("high-percentage");
-		});
-	});
+      expect(actual.preset).toBe('high-percentage');
+    });
+  });
 
-	describe("previous file paths", () => {
-		const blockRenamed = base.createBlock({
-			about: { name: "Renamed" },
-			produce() {
-				return {
-					files: {
-						directory: {
-							"renamed.yaml": ["...", { previously: ["renamed.yml"] }],
-						},
-					},
-				};
-			},
-		});
+  describe('previous file paths', () => {
+    const blockRenamed = base.createBlock({
+      about: { name: 'Renamed' },
+      produce() {
+        return {
+          files: {
+            directory: {
+              'renamed.yaml': ['...', { previously: ['renamed.yml'] }],
+            },
+          },
+        };
+      },
+    });
 
-		const presetRenamed = base.createPreset({
-			about: { name: "Renamed" },
-			blocks: [blockRenamed],
-		});
+    const presetRenamed = base.createPreset({
+      about: { name: 'Renamed' },
+      blocks: [blockRenamed],
+    });
 
-		it("infers a preset when its files exist at previous paths", () => {
-			const template = base.createStratumTemplate({
-				presets: [presetRenamed],
-			});
+    it('infers a preset when its files exist at previous paths', () => {
+      const template = base.createStratumTemplate({
+        presets: [presetRenamed],
+      });
 
-			const actual = inferExistingBlocks(
-				{
-					files: {
-						directory: { "renamed.yml": "..." },
-						other: "...",
-					},
-					options: { name: "..." },
-				},
-				template,
-			);
+      const actual = inferExistingBlocks(
+        {
+          files: {
+            directory: { 'renamed.yml': '...' },
+            other: '...',
+          },
+          options: { name: '...' },
+        },
+        template,
+      );
 
-			expect(actual.preset).toBe("renamed");
-		});
+      expect(actual.preset).toBe('renamed');
+    });
 
-		it("infers a Block outside the preset when its files exist at previous paths", () => {
-			const presetA = base.createPreset({
-				about: { name: "A" },
-				blocks: [blockA],
-			});
-			const template = base.createStratumTemplate({
-				blocks: [blockRenamed],
-				presets: [presetA],
-			});
+    it('infers a Block outside the preset when its files exist at previous paths', () => {
+      const presetA = base.createPreset({
+        about: { name: 'A' },
+        blocks: [blockA],
+      });
+      const template = base.createStratumTemplate({
+        blocks: [blockRenamed],
+        presets: [presetA],
+      });
 
-			const actual = inferExistingBlocks(
-				{
-					files: {
-						a: "...",
-						directory: { "renamed.yml": "..." },
-					},
-					options: { name: "..." },
-				},
-				template,
-			);
+      const actual = inferExistingBlocks(
+        {
+          files: {
+            a: '...',
+            directory: { 'renamed.yml': '...' },
+          },
+          options: { name: '...' },
+        },
+        template,
+      );
 
-			expect(actual.blocks).toEqual([blockRenamed]);
-		});
+      expect(actual.blocks).toEqual([blockRenamed]);
+    });
 
-		it("does not treat a file at a previous path as a match when the current file also exists", () => {
-			const template = base.createStratumTemplate({
-				presets: [presetRenamed],
-			});
+    it('does not treat a file at a previous path as a match when the current file also exists', () => {
+      const template = base.createStratumTemplate({
+        presets: [presetRenamed],
+      });
 
-			const actual = inferExistingBlocks(
-				{
-					files: {
-						another: "...",
-						directory: { "renamed.yaml": "...", "renamed.yml": "..." },
-						other: "...",
-					},
-					options: { name: "..." },
-				},
-				template,
-			);
+      const actual = inferExistingBlocks(
+        {
+          files: {
+            another: '...',
+            directory: { 'renamed.yaml': '...', 'renamed.yml': '...' },
+            other: '...',
+          },
+          options: { name: '...' },
+        },
+        template,
+      );
 
-			expect(actual.preset).toBeUndefined();
-		});
-	});
+      expect(actual.preset).toBeUndefined();
+    });
+  });
 });

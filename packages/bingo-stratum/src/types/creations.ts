@@ -1,9 +1,9 @@
-import { Creation } from "bingo";
+import { Creation } from 'bingo';
 
-import { BlockWithProps } from "./blocks.js";
+import { BlockWithProps } from './blocks.js';
 
 export interface BlockCreation<Options extends object> extends Creation {
-	extensions: CreatedBlockExtension<object, Options>[];
+  extensions: CreatedBlockExtension<object, Options>[];
 }
 
 /**
@@ -12,9 +12,9 @@ export interface BlockCreation<Options extends object> extends Creation {
  * @template Options Options values as described by the Base's options schema.
  */
 export interface CreatedBlockExtension<
-	Props extends object = object,
-	Options extends object = object,
+  Props extends object = object,
+  Options extends object = object,
 > {
-	block: BlockWithProps<Props, Options>;
-	props: Props;
+  block: BlockWithProps<Props, Options>;
+  props: Props;
 }

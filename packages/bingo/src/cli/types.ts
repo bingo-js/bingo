@@ -1,29 +1,28 @@
-import { CLIStatus } from "./status.js";
+import { CLIStatus } from './status.js';
 
 export type ModeResults = ModeResultsError | ModeResultsNonError;
 
 export interface ModeResultsBase {
-	outro?: string;
-	suggestions?: string[];
+  outro?: string;
+  suggestions?: string[];
 }
 
 export interface ModeResultsError extends ModeResultsBase {
-	error?: Error;
-	status: CLIStatus.Error;
+  error?: Error;
+  status: CLIStatus.Error;
 }
 
 export interface ModeResultsNonError extends ModeResultsBase {
-	status: CLIStatus.Cancelled | CLIStatus.Success;
+  status: CLIStatus.Cancelled | CLIStatus.Success;
 }
 
-export type ProductionSettings =
-	ProductionSettingsSetup | ProductionSettingsTransition;
+export type ProductionSettings = ProductionSettingsSetup | ProductionSettingsTransition;
 
 export interface ProductionSettingsSetup {
-	mode: "setup";
+  mode: 'setup';
 }
 
 export interface ProductionSettingsTransition {
-	configFile?: string;
-	mode: "transition";
+  configFile?: string;
+  mode: 'transition';
 }

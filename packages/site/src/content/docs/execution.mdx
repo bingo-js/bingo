@@ -1,9 +1,9 @@
 ---
-description: "The different ways Bingo can operate."
+description: 'The different ways Bingo can operate.'
 title: Execution
 ---
 
-import { PackageManagers } from "starlight-package-managers";
+import { PackageManagers } from 'starlight-package-managers';
 
 [Template CLIs](/cli) will automatically detect which execution mode it is being run in:
 
@@ -69,11 +69,7 @@ For example, to update an existing repository to the latest [`create-typescript-
 
 You can force running in transition mode in a non-Git directory with `--mode transition`:
 
-<PackageManagers
-	args="--mode transition"
-	pkg="create-typescript-app"
-	type="dlx"
-/>
+<PackageManagers args="--mode transition" pkg="create-typescript-app" type="dlx" />
 
 Transition mode can be used even if the repository wasn't built with the template being transitioned to.
 Templates can include specific logic to migrate existing repositories onto their tooling.

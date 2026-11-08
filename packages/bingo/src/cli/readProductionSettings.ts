@@ -1,49 +1,46 @@
-import * as fs from "node:fs/promises";
-import path from "node:path";
+import * as fs from 'node:fs/promises';
+import path from 'node:path';
 
-import { ProductionMode } from "../types/modes.js";
-import { tryCatchSafe } from "../utils/tryCatch.js";
-import { ProductionSettings } from "./types.js";
+import { ProductionMode } from '../types/modes.js';
+import { tryCatchSafe } from '../utils/tryCatch.js';
+import { ProductionSettings } from './types.js';
 
 export interface ReadProductionSettingsOptions {
-	directory?: string;
-	from?: string;
-	mode?: ProductionMode;
+  directory?: string;
+  from?: string;
+  mode?: ProductionMode;
 }
 
 export async function readProductionSettings({
-	directory = ".",
-	from,
-	mode,
+  directory = '.',
+  from,
+  mode,
 }: ReadProductionSettingsOptions = {}): Promise<Error | ProductionSettings> {
-	const items = await tryCatchSafe(fs.readdir(directory));
-	let defaultMode: ProductionMode = mode ?? "setup";
+  const items = await tryCatchSafe(fs.readdir(directory));
+  let defaultMode: ProductionMode = mode ?? 'setup';
 
-	if (!items) {
-		return defaultMode === "transition"
-			? new Error(
-					"Cannot run with --mode transition on a directory that does not yet exist.",
-				)
-			: { mode: defaultMode };
-	}
+  if (!items) {
+    return defaultMode === 'transition'
+      ? new Error('Cannot run with --mode transition on a directory that does not yet exist.')
+      : { mode: defaultMode };
+  }
 
-	const configFilePrefix =
-		from && `${from.replace(/^@/, "").replaceAll("/", "-")}.config.`;
+  const configFilePrefix = from && `${from.replace(/^@/, '').replaceAll('/', '-')}.config.`;
 
-	for (const item of items) {
-		if (configFilePrefix && item.startsWith(configFilePrefix)) {
-			return {
-				configFile: path.join(directory, item),
-				mode: "transition",
-			};
-		}
+  for (const item of items) {
+    if (configFilePrefix && item.startsWith(configFilePrefix)) {
+      return {
+        configFile: path.join(directory, item),
+        mode: 'transition',
+      };
+    }
 
-		if (item === ".git" && mode !== "setup") {
-			defaultMode = "transition";
-		}
-	}
+    if (item === '.git' && mode !== 'setup') {
+      defaultMode = 'transition';
+    }
+  }
 
-	return {
-		mode: defaultMode,
-	};
+  return {
+    mode: defaultMode,
+  };
 }

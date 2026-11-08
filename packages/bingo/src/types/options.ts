@@ -1,19 +1,22 @@
-import { CreatedDirectory } from "bingo-fs";
+import { CreatedDirectory } from 'bingo-fs';
 
-import { TakeInput } from "./inputs.js";
-import { ContextLog } from "./templates.js";
+import { TakeInput } from './inputs.js';
+import { ContextLog } from './templates.js';
 
 /**
  * Either a value, an async function, or a sync function to generate the value or undefined.
  */
 export type LazyOptionalOption<T> =
-	(() => Promise<T | undefined>) | (() => T | undefined) | T | undefined;
+  | (() => Promise<T | undefined>)
+  | (() => T | undefined)
+  | T
+  | undefined;
 
 /**
  * "Lazy" version of an options shape: each property might be a lazy-loading function.
  */
 export type LazyOptionalOptions<Options> = {
-	[K in keyof Options]: LazyOptionalOption<Options[K]>;
+  [K in keyof Options]: LazyOptionalOption<Options[K]>;
 };
 
 /**
@@ -21,30 +24,30 @@ export type LazyOptionalOptions<Options> = {
  * @see {@link http://create.bingo/build/apis/prepare-options}
  */
 export interface OptionsContext<Options extends object> {
-	/**
-	 * Existing directory of files on disk, if available.
-	 */
-	files?: CreatedDirectory;
+  /**
+   * Existing directory of files on disk, if available.
+   */
+  files?: CreatedDirectory;
 
-	/**
-	 * Logs a message to the running user.
-	 */
-	log: ContextLog;
+  /**
+   * Logs a message to the running user.
+   */
+  log: ContextLog;
 
-	/**
-	 * Whether Bingo is being run in an "offline" mode.
-	 * @see {@link http://create.bingo/build/details/contexts#options-offline}
-	 */
-	offline?: boolean;
+  /**
+   * Whether Bingo is being run in an "offline" mode.
+   * @see {@link http://create.bingo/build/details/contexts#options-offline}
+   */
+  offline?: boolean;
 
-	/**
-	 * Any values explicitly provided by the user.
-	 */
-	options: Partial<Options>;
+  /**
+   * Any values explicitly provided by the user.
+   */
+  options: Partial<Options>;
 
-	/**
-	 * Runs an Input.
-	 * @see {@link http://create.bingo/build/details/contexts#input-take}
-	 */
-	take: TakeInput;
+  /**
+   * Runs an Input.
+   * @see {@link http://create.bingo/build/details/contexts#input-take}
+   */
+  take: TakeInput;
 }

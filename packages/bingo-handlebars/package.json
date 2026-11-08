@@ -1,40 +1,40 @@
 {
-	"name": "bingo-handlebars",
-	"version": "0.3.0",
-	"description": "Use Handlebars templates for files in Bingo templates. 🥸",
-	"homepage": "https://www.create.bingo/engines/handlebars/about",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bingo-js/bingo",
-		"directory": "packages/bingo-handlebars"
-	},
-	"license": "MIT",
-	"author": {
-		"name": "Josh Goldberg ✨",
-		"email": "npm@joshuakgoldberg.com"
-	},
-	"sideEffects": false,
-	"type": "module",
-	"exports": {
-		".": "./lib/index.js",
-		"./package.json": "./package.json"
-	},
-	"files": [
-		"lib/"
-	],
-	"scripts": {
-		"build": "tsc"
-	},
-	"dependencies": {
-		"handlebars": "^4.7.10"
-	},
-	"devDependencies": {
-		"bingo-fs": "workspace:^"
-	},
-	"peerDependencies": {
-		"bingo-fs": "workspace:^"
-	},
-	"engines": {
-		"node": "^22.15.0 || ^24.15.0 || >=26.0.0"
-	}
+  "name": "bingo-handlebars",
+  "version": "0.3.0",
+  "description": "Use Handlebars templates for files in Bingo templates. 🥸",
+  "homepage": "https://www.create.bingo/engines/handlebars/about",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingo-js/bingo",
+    "directory": "packages/bingo-handlebars"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Josh Goldberg ✨",
+    "email": "npm@joshuakgoldberg.com"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.10"
+  },
+  "devDependencies": {
+    "bingo-fs": "workspace:^"
+  },
+  "peerDependencies": {
+    "bingo-fs": "workspace:^"
+  },
+  "engines": {
+    "node": "^22.15.0 || ^24.15.0 || >=26.0.0"
+  }
 }

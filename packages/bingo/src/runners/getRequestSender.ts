@@ -1,34 +1,34 @@
-import { CreatedRequest } from "bingo-requests";
-import { SystemFetchers } from "bingo-systems";
+import { CreatedRequest } from 'bingo-requests';
+import { SystemFetchers } from 'bingo-systems';
 
 export interface RequestSender {
-	id: string;
-	send: () => Promise<void>;
+  id: string;
+  send: () => Promise<void>;
 }
 
 export function getRequestSender(
-	fetchers: SystemFetchers,
-	request: CreatedRequest,
+  fetchers: SystemFetchers,
+  request: CreatedRequest,
 ): RequestSender | undefined {
-	switch (request.type) {
-		case "fetch":
-			return {
-				id: request.id ?? request.url,
-				send: async () => {
-					await fetchers.fetch(request.url, request.init);
-				},
-			};
+  switch (request.type) {
+    case 'fetch':
+      return {
+        id: request.id ?? request.url,
+        send: async () => {
+          await fetchers.fetch(request.url, request.init);
+        },
+      };
 
-		case "octokit": {
-			const { octokit } = fetchers;
-			return (
-				octokit && {
-					id: request.id ?? request.endpoint,
-					send: async () => {
-						await octokit.request(request.endpoint, request.parameters);
-					},
-				}
-			);
-		}
-	}
+    case 'octokit': {
+      const { octokit } = fetchers;
+      return (
+        octokit && {
+          id: request.id ?? request.endpoint,
+          send: async () => {
+            await octokit.request(request.endpoint, request.parameters);
+          },
+        }
+      );
+    }
+  }
 }

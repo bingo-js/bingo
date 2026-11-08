@@ -1,5 +1,5 @@
 ---
-description: "The pieces of a repository as described by templates."
+description: 'The pieces of a repository as described by templates.'
 title: Creations
 ---
 
@@ -42,18 +42,18 @@ Properties whose values are objects represent a directory.
 For example, this template generates a `.github/CODE_OF_CONDUCT.md` file:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	produce() {
-		return {
-			files: {
-				".github": {
-					"CODE_OF_CONDUCT.md": `# Contributor Covenant Code of Conduct \n ...`,
-				},
-			},
-		};
-	},
+  produce() {
+    return {
+      files: {
+        '.github': {
+          'CODE_OF_CONDUCT.md': `# Contributor Covenant Code of Conduct \n ...`,
+        },
+      },
+    };
+  },
 });
 ```
 
@@ -74,29 +74,29 @@ Each object under `requests` describes a network request to send.
 For example, this template populates a `good first issue` label:
 
 ```ts
-import { createTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate } from 'bingo';
+import { z } from 'zod';
 
 export default createTemplate({
-	options: {
-		owner: z.string(),
-		repository: z.string(),
-	},
-	produce({ options }) {
-		return {
-			requests: [
-				{
-					endpoint: "POST /repos/{owner}/{repo}/labels",
-					parameters: {
-						owner: options.owner,
-						repo: options.repository,
-						title: "good first issue",
-					},
-					type: "octokit",
-				},
-			],
-		};
-	},
+  options: {
+    owner: z.string(),
+    repository: z.string(),
+  },
+  produce({ options }) {
+    return {
+      requests: [
+        {
+          endpoint: 'POST /repos/{owner}/{repo}/labels',
+          parameters: {
+            owner: options.owner,
+            repo: options.repository,
+            title: 'good first issue',
+          },
+          type: 'octokit',
+        },
+      ],
+    };
+  },
 });
 ```
 
@@ -120,14 +120,14 @@ They are run all at the same time.
 For example, this template runs pnpm package installation:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	produce() {
-		return {
-			scripts: "pnpm install",
-		};
-	},
+  produce() {
+    return {
+      scripts: 'pnpm install',
+    };
+  },
 });
 ```
 
@@ -141,23 +141,23 @@ Each script with the same `phase` will start running its commands at the same ti
 For example, this template runs pnpm package installation and duplication in series within a first phase, then Prettier formatting in a subsequent phase after dependencies are done resolving:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	produce() {
-		return {
-			scripts: [
-				{
-					commands: ["pnpm install", "pnpm dedupe"],
-					phase: 0,
-				},
-				{
-					commands: ["pnpx prettier . --write"],
-					phase: 1,
-				},
-			],
-		};
-	},
+  produce() {
+    return {
+      scripts: [
+        {
+          commands: ['pnpm install', 'pnpm dedupe'],
+          phase: 0,
+        },
+        {
+          commands: ['pnpx prettier . --write'],
+          phase: 1,
+        },
+      ],
+    };
+  },
 });
 ```
 
@@ -174,10 +174,10 @@ For example, given the following production of scripts:
 
 ```ts
 [
-	{ commands: ["a", "b"], phase: 0 },
-	{ commands: ["c", "d"], phase: 1 },
-	{ commands: ["e", "f"], phase: 1 },
-	{ commands: ["g"], phase: 2 },
+  { commands: ['a', 'b'], phase: 0 },
+  { commands: ['c', 'd'], phase: 1 },
+  { commands: ['e', 'f'], phase: 1 },
+  { commands: ['g'], phase: 2 },
 ];
 ```
 
@@ -200,28 +200,28 @@ Some native commands throw an error if a file doesn't yet exist, which might not
 For example, this template a `.github/CONTRIBUTING.md` and deletes a root-level `CONTRIBUTING.md` during transition if it exists:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	produce() {
-		return {
-			files: {
-				".github": {
-					"CONTRIBUTING.md": "...",
-				},
-			},
-		};
-	},
-	transition() {
-		return {
-			scripts: [
-				{
-					commands: ["rm CONTRIBUTING.md"],
-					silent: true,
-				},
-			],
-		};
-	},
+  produce() {
+    return {
+      files: {
+        '.github': {
+          'CONTRIBUTING.md': '...',
+        },
+      },
+    };
+  },
+  transition() {
+    return {
+      scripts: [
+        {
+          commands: ['rm CONTRIBUTING.md'],
+          silent: true,
+        },
+      ],
+    };
+  },
 });
 ```
 
@@ -239,16 +239,14 @@ These will be logged to users after running the template's CLI.
 For example, this template directs the user to create an automation token:
 
 ```ts
-import { base } from "./base";
+import { base } from './base';
 
 export default createTemplate({
-	produce() {
-		return {
-			suggestions: [
-				"Set an NPM_TOKEN secret to an npm access token with automation permissions",
-			],
-		};
-	},
+  produce() {
+    return {
+      suggestions: ['Set an NPM_TOKEN secret to an npm access token with automation permissions'],
+    };
+  },
 });
 ```
 

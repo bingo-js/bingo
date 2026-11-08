@@ -3,7 +3,7 @@ description: The 'bingo' CLI for quickly developing templates locally.
 title: Builder CLI
 ---
 
-import { PackageManagers } from "starlight-package-managers";
+import { PackageManagers } from 'starlight-package-managers';
 
 When working on a Bingo template repository, it can be useful to quickly preview file changes locally.
 Bingo provides a `bingo` CLI that directly runs a template.
@@ -32,11 +32,7 @@ See:
 
 For example, running a local `./template.js` file with a custom [`--directory`](/cli#--directory):
 
-<PackageManagers
-	args="./template.js --directory my-fancy-project"
-	pkg="bingo"
-	type="dlx"
-/>
+<PackageManagers args="./template.js --directory my-fancy-project" pkg="bingo" type="dlx" />
 
 ## Template Flags
 
@@ -44,11 +40,7 @@ For example, running a local `./template.js` file with a custom [`--directory`](
 
 For example, if a template defines a `title` option, `--title` will be type `string`:
 
-<PackageManagers
-	args="./template.js --title 'My New App'"
-	pkg="bingo"
-	type="dlx"
-/>
+<PackageManagers args="./template.js --title 'My New App'" pkg="bingo" type="dlx" />
 
 Any required options that are not provided will be prompted for interactively.
 

@@ -1,49 +1,49 @@
 {
-	"name": "bingo-testers",
-	"version": "0.9.0",
-	"description": "Test utilities for composable, testable, type-safe templates. ⚗️",
-	"homepage": "https://www.create.bingo/build/packages/bingo-testers",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bingo-js/bingo",
-		"directory": "packages/bingo-testers"
-	},
-	"license": "MIT",
-	"author": {
-		"name": "Josh Goldberg ✨",
-		"email": "npm@joshuakgoldberg.com"
-	},
-	"sideEffects": false,
-	"type": "module",
-	"exports": {
-		".": "./lib/index.js",
-		"./package.json": "./package.json"
-	},
-	"files": [
-		"lib/"
-	],
-	"scripts": {
-		"build": "tsc"
-	},
-	"dependencies": {
-		"@vitest/utils": "^4.0.15",
-		"all-properties-lazy": "^0.1.0",
-		"octokit": "^5.0.5",
-		"tinyrainbow": "^3.0.3",
-		"without-undefined-properties": "^0.1.2"
-	},
-	"devDependencies": {
-		"bingo": "workspace:^",
-		"bingo-fs": "workspace:^",
-		"bingo-systems": "workspace:^",
-		"zod": "4.4.3"
-	},
-	"peerDependencies": {
-		"bingo": "workspace:^",
-		"bingo-fs": "workspace:^",
-		"bingo-systems": "workspace:^"
-	},
-	"engines": {
-		"node": "^22.15.0 || ^24.15.0 || >=26.0.0"
-	}
+  "name": "bingo-testers",
+  "version": "0.9.0",
+  "description": "Test utilities for composable, testable, type-safe templates. ⚗️",
+  "homepage": "https://www.create.bingo/build/packages/bingo-testers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingo-js/bingo",
+    "directory": "packages/bingo-testers"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Josh Goldberg ✨",
+    "email": "npm@joshuakgoldberg.com"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@vitest/utils": "^4.0.15",
+    "all-properties-lazy": "^0.1.0",
+    "octokit": "^5.0.5",
+    "tinyrainbow": "^3.0.3",
+    "without-undefined-properties": "^0.1.2"
+  },
+  "devDependencies": {
+    "bingo": "workspace:^",
+    "bingo-fs": "workspace:^",
+    "bingo-systems": "workspace:^",
+    "zod": "4.4.3"
+  },
+  "peerDependencies": {
+    "bingo": "workspace:^",
+    "bingo-fs": "workspace:^",
+    "bingo-systems": "workspace:^"
+  },
+  "engines": {
+    "node": "^22.15.0 || ^24.15.0 || >=26.0.0"
+  }
 }

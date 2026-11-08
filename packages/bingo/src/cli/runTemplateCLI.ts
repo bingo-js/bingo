@@ -1,53 +1,50 @@
-import * as prompts from "@clack/prompts";
-import { styleText } from "node:util";
+import { styleText } from 'node:util';
 
-import { packageData } from "../packageData.js";
-import { Template } from "../types/templates.js";
-import {
-	DisplayPackageData,
-	runInsideClackDisplay,
-} from "./display/runInsideClackDisplay.js";
-import { getTemplatePackageData } from "./getTemplatePackageData.js";
-import { parseProcessArgv } from "./parseProcessArgv.js";
-import { runCLI } from "./runCLI.js";
-import { CLIStatus } from "./status.js";
+import * as prompts from '@clack/prompts';
+
+import { packageData } from '../packageData.js';
+import { Template } from '../types/templates.js';
+import { DisplayPackageData, runInsideClackDisplay } from './display/runInsideClackDisplay.js';
+import { getTemplatePackageData } from './getTemplatePackageData.js';
+import { parseProcessArgv } from './parseProcessArgv.js';
+import { runCLI } from './runCLI.js';
+import { CLIStatus } from './status.js';
 
 /**
  * Runs an interactive CLI to generate and apply a template's output.
  * @see {@link https://create.bingo/build/apis/run-template-cli}
  */
 export async function runTemplateCLI(
-	template: Template,
-	providedTemplatePackageData?: DisplayPackageData,
+  template: Template,
+  providedTemplatePackageData?: DisplayPackageData,
 ) {
-	const templatePackageData =
-		providedTemplatePackageData ?? (await getTemplatePackageData());
+  const templatePackageData = providedTemplatePackageData ?? (await getTemplatePackageData());
 
-	if (templatePackageData instanceof Error) {
-		console.error(templatePackageData);
-		return CLIStatus.Error;
-	}
+  if (templatePackageData instanceof Error) {
+    console.error(templatePackageData);
+    return CLIStatus.Error;
+  }
 
-	const { argv, values } = parseProcessArgv();
-	if (values.version) {
-		console.log(`${packageData.name}@${packageData.version}`);
-		console.log(`${templatePackageData.name}@${templatePackageData.version}`);
-		return CLIStatus.Success;
-	}
+  const { argv, values } = parseProcessArgv();
+  if (values.version) {
+    console.log(`${packageData.name}@${packageData.version}`);
+    console.log(`${templatePackageData.name}@${templatePackageData.version}`);
+    return CLIStatus.Success;
+  }
 
-	return await runInsideClackDisplay(templatePackageData, async (display) => {
-		if (template.about?.repository) {
-			prompts.log.info(
-				`Learn more on:\n  ${styleText("blue", `https://github.com/${template.about.repository.owner}/${template.about.repository.repository}`)}`,
-			);
-		}
+  return await runInsideClackDisplay(templatePackageData, async (display) => {
+    if (template.about?.repository) {
+      prompts.log.info(
+        `Learn more on:\n  ${styleText('blue', `https://github.com/${template.about.repository.owner}/${template.about.repository.repository}`)}`,
+      );
+    }
 
-		return await runCLI({
-			argv,
-			display,
-			from: templatePackageData.name,
-			template,
-			values,
-		});
-	});
+    return await runCLI({
+      argv,
+      display,
+      from: templatePackageData.name,
+      template,
+      values,
+    });
+  });
 }

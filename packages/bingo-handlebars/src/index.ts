@@ -1,2 +1,2 @@
-export * from "./handlebars.js";
-export * from "./loadHandlebars.js";
+export * from './handlebars.js';
+export * from './loadHandlebars.js';

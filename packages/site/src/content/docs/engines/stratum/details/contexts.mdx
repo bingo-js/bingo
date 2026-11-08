@@ -25,19 +25,19 @@ Any [Block Props](/engines/stratum/concepts/blocks#props) that have been provide
 For example, this Gitignore Block defines an `ignores` Prop that other Blocks can use to add to its created `.gitignore` file:
 
 ```ts
-import { base } from "./base";
+import { base } from './base';
 
 export const blockGitignore = base.createBlock({
-	props: {
-		ignores: z.array(z.string()).default([]),
-	},
-	produce({ props }) {
-		return {
-			files: {
-				".gitignore": ["/node_modules", ...props.ignores].join("\n"),
-			},
-		};
-	},
+  props: {
+    ignores: z.array(z.string()).default([]),
+  },
+  produce({ props }) {
+    return {
+      files: {
+        '.gitignore': ['/node_modules', ...props.ignores].join('\n'),
+      },
+    };
+  },
 });
 ```
 
@@ -51,22 +51,22 @@ Each Block created by a Base will run with the same set of options.
 For example, this Base defines a `repository` option, which the Block then prints as a `package.json` property:
 
 ```ts
-import { createBase } from "bingo-stratum";
+import { createBase } from 'bingo-stratum';
 
 export const base = createBase({
-	options: {
-		repository: z.string(),
-	},
+  options: {
+    repository: z.string(),
+  },
 });
 
 export const blockPackageJson = createBlock({
-	produce({ options }) {
-		return {
-			files: {
-				"package.json": JSON.stringify({ name: options.repository }),
-			},
-		};
-	},
+  produce({ options }) {
+    return {
+      files: {
+        'package.json': JSON.stringify({ name: options.repository }),
+      },
+    };
+  },
 });
 ```
 
@@ -83,25 +83,25 @@ Files in the directory are stored as [`[string, CreatedFileMetatdata?]` tuples](
 For example, this Block reads in existing npm ignore lines from an `.npmignore` file if it exists:
 
 ```ts
-import { z } from "zod";
+import { z } from 'zod';
 
-import { base } from "./base";
+import { base } from './base';
 
 export const blockNpmignore = base.createBlock({
-	props: {
-		ignores: z.array(z.string()).optional(),
-	},
-	intake({ files }) {
-		return {
-			ignores: files[".npmignore"]?.split("\n").filter(Boolean),
-		};
-	},
-	async produce({ props }) {
-		return {
-			files: {
-				".npmignore": [...props.ignores, ""].join("\n"),
-			},
-		};
-	},
+  props: {
+    ignores: z.array(z.string()).optional(),
+  },
+  intake({ files }) {
+    return {
+      ignores: files['.npmignore']?.split('\n').filter(Boolean),
+    };
+  },
+  async produce({ props }) {
+    return {
+      files: {
+        '.npmignore': [...props.ignores, ''].join('\n'),
+      },
+    };
+  },
 });
 ```

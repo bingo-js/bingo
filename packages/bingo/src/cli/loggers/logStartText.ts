@@ -1,17 +1,15 @@
-import * as prompts from "@clack/prompts";
-import { styleText } from "node:util";
+import { styleText } from 'node:util';
 
-import { ProductionMode } from "../../types/modes.js";
+import * as prompts from '@clack/prompts';
 
-export function logStartText(
-	mode: ProductionMode,
-	offline: boolean | undefined,
-) {
-	prompts.log.step(`Running with mode --${mode}`);
+import { ProductionMode } from '../../types/modes.js';
 
-	if (offline) {
-		prompts.log.message(
-			`${styleText("blue", "--offline")} enabled. You'll need to git push any changes manually.`,
-		);
-	}
+export function logStartText(mode: ProductionMode, offline: boolean | undefined) {
+  prompts.log.step(`Running with mode --${mode}`);
+
+  if (offline) {
+    prompts.log.message(
+      `${styleText('blue', '--offline')} enabled. You'll need to git push any changes manually.`,
+    );
+  }
 }

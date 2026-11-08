@@ -1,40 +1,40 @@
 {
-	"name": "bingo-systems",
-	"version": "0.8.0",
-	"description": "File, network, and shell wrapper APIs used by Bingo. 🧰",
-	"homepage": "https://www.create.bingo/build/packages/bingo-systems",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bingo-js/bingo",
-		"directory": "packages/bingo-systems"
-	},
-	"license": "MIT",
-	"author": {
-		"name": "Josh Goldberg ✨",
-		"email": "npm@joshuakgoldberg.com"
-	},
-	"sideEffects": false,
-	"type": "module",
-	"exports": {
-		".": "./lib/index.js",
-		"./package.json": "./package.json"
-	},
-	"files": [
-		"lib/"
-	],
-	"scripts": {
-		"build": "tsc"
-	},
-	"dependencies": {
-		"bingo-fs": "workspace:^",
-		"execa": "^9.6.1",
-		"get-github-auth-token": "^0.1.2",
-		"octokit": "^5.0.5"
-	},
-	"devDependencies": {
-		"@types/node": "24.10.1"
-	},
-	"engines": {
-		"node": "^22.15.0 || ^24.15.0 || >=26.0.0"
-	}
+  "name": "bingo-systems",
+  "version": "0.8.0",
+  "description": "File, network, and shell wrapper APIs used by Bingo. 🧰",
+  "homepage": "https://www.create.bingo/build/packages/bingo-systems",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingo-js/bingo",
+    "directory": "packages/bingo-systems"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Josh Goldberg ✨",
+    "email": "npm@joshuakgoldberg.com"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "bingo-fs": "workspace:^",
+    "execa": "^9.6.1",
+    "get-github-auth-token": "^0.1.2",
+    "octokit": "^5.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1"
+  },
+  "engines": {
+    "node": "^22.15.0 || ^24.15.0 || >=26.0.0"
+  }
 }

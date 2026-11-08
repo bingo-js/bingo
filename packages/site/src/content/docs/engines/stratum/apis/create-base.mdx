@@ -26,13 +26,13 @@ The [Zod](https://zod.dev) values for options that will be made available to the
 For example, this Base defines a required `name` string and optional `value` number:
 
 ```ts
-import { createBase } from "bingo-stratum";
+import { createBase } from 'bingo-stratum';
 
 export const base = createBase({
-	options: {
-		name: z.string(),
-		value: z.number().optional(),
-	},
+  options: {
+    name: z.string(),
+    value: z.number().optional(),
+  },
 });
 ```
 
@@ -51,20 +51,19 @@ Each property may either be a value or an asynchronous function to retrieve that
 For example, this Base allows defaulting a required `name` option to that property of its `package.json` using [`input-from-file-json`]
 
 ```ts
-import { createBase } from "bingo-stratum";
-import { inputFromFileJSON } from "input-from-file-json";
-import { z } from "zod";
+import { createBase } from 'bingo-stratum';
+import { inputFromFileJSON } from 'input-from-file-json';
+import { z } from 'zod';
 
 export const base = createBase({
-	options: {
-		name: z.string(),
-	},
-	prepare({ take }) {
-		return {
-			name: async () =>
-				(await take(inputFromFileJSON, { fileName: "package.json" })).name,
-		};
-	},
+  options: {
+    name: z.string(),
+  },
+  prepare({ take }) {
+    return {
+      name: async () => (await take(inputFromFileJSON, { fileName: 'package.json' })).name,
+    };
+  },
 });
 ```
 
@@ -94,16 +93,16 @@ This is an object containing any of:
 For example, this Block describes itself as setting up monorepo TypeScript building:
 
 ```ts
-import { base } from "./base";
+import { base } from './base';
 
 base.createBlock({
-	about: {
-		description: "TSConfigs and build tasks for a monorepo.",
-		name: "TypeScript Builds",
-	},
-	produce() {
-		// ...
-	},
+  about: {
+    description: 'TSConfigs and build tasks for a monorepo.',
+    name: 'TypeScript Builds',
+  },
+  produce() {
+    // ...
+  },
 });
 ```
 
@@ -115,26 +114,26 @@ Whenever a new instance of a Block with props is constructed, those values must 
 For example, this Prettier block optionally allows adding in any plugins with a `plugins` arg:
 
 ```ts
-import { z } from "zod";
+import { z } from 'zod';
 
-import { base } from "./base";
+import { base } from './base';
 
 export const blockPrettier = base.createBlock({
-	props: {
-		plugins: z.array(z.string()).optional(),
-	},
-	async produce({ props }) {
-		return {
-			files: {
-				".prettierrc.json":
-					props.plugins &&
-					JSON.stringify({
-						$schema: "http://json.schemastore.org/prettierrc",
-						plugins: props.plugins,
-					}),
-			},
-		};
-	},
+  props: {
+    plugins: z.array(z.string()).optional(),
+  },
+  async produce({ props }) {
+    return {
+      files: {
+        '.prettierrc.json':
+          props.plugins &&
+          JSON.stringify({
+            $schema: 'http://json.schemastore.org/prettierrc',
+            plugins: props.plugins,
+          }),
+      },
+    };
+  },
 });
 ```
 
@@ -150,24 +149,24 @@ It may return an object with any default values for the Block's Props.
 For example, this Block reads in existing Prettier plugins from a Prettier config file:
 
 ```ts
-import { z } from "zod";
+import { z } from 'zod';
 
-import { base } from "./base";
+import { base } from './base';
 
 export const blockPrettier = base.createBlock({
-	props: {
-		plugins: z.array(z.string()).optional(),
-	},
-	intake({ files }) {
-		const existingConfig = files[".prettierrc.json"]?.[0];
+  props: {
+    plugins: z.array(z.string()).optional(),
+  },
+  intake({ files }) {
+    const existingConfig = files['.prettierrc.json']?.[0];
 
-		return {
-			plugins: existingConfig && JSON.parse(existingConfig).plugins,
-		};
-	},
-	async produce({ props }) {
-		// ...
-	},
+    return {
+      plugins: existingConfig && JSON.parse(existingConfig).plugins,
+    };
+  },
+  async produce({ props }) {
+    // ...
+  },
 });
 ```
 
@@ -179,16 +178,16 @@ If defined, it will only be called in [setup mode](/execution#setup-mode).
 For example, this Block creates a starter `index.js` file when first run:
 
 ```ts
-import { base } from "./base";
+import { base } from './base';
 
 export const blockStarterFile = createBlock({
-	setup() {
-		return {
-			files: {
-				"index.js": `console.log("Hello, world!");`,
-			},
-		};
-	},
+  setup() {
+    return {
+      files: {
+        'index.js': `console.log("Hello, world!");`,
+      },
+    };
+  },
 });
 ```
 
@@ -200,14 +199,14 @@ If defined, it will only be called in [transition mode](/execution#transition-mo
 For example, this Block deletes any already-existing test config files when run on an existing repository:
 
 ```ts
-import { base } from "./base";
+import { base } from './base';
 
 export const blockConfigFiles = createBlock({
-	transition() {
-		return {
-			commands: ["rm .mocha* jest.config.* vitest.config.*"],
-		};
-	},
+  transition() {
+    return {
+      commands: ['rm .mocha* jest.config.* vitest.config.*'],
+    };
+  },
 });
 ```
 
@@ -221,18 +220,18 @@ Block Definitions may include a `produce()` function for their core logic.
 For example, this Block defines a [`files` Creation](/build/concepts/creations#files) for a `knip.json`:
 
 ```ts
-import { base } from "./base";
+import { base } from './base';
 
 export const blockKnip = base.createBlock({
-	produce() {
-		return {
-			files: {
-				"knip.json": JSON.stringify({
-					$schema: "https://unpkg.com/knip@latest/schema.json",
-				}),
-			},
-		};
-	},
+  produce() {
+    return {
+      files: {
+        'knip.json': JSON.stringify({
+          $schema: 'https://unpkg.com/knip@latest/schema.json',
+        }),
+      },
+    };
+  },
 });
 ```
 
@@ -258,16 +257,16 @@ This is an object containing any of:
 For example, this Preset describes itself as setting up a bare-bones TypeScript monorepo:
 
 ```ts
-import { base } from "./base";
+import { base } from './base';
 
 base.createPreset({
-	about: {
-		description: "The barest of bones tooling for a type-safe monorepo.",
-		name: "Minimal",
-	},
-	blocks: [
-		// ...
-	],
+  about: {
+    description: 'The barest of bones tooling for a type-safe monorepo.',
+    name: 'Minimal',
+  },
+  blocks: [
+    // ...
+  ],
 });
 ```
 
@@ -278,12 +277,12 @@ The [Blocks](/engines/stratum/concepts/blocks) that will be run to generate the 
 For example, this Preset includes blocks for building and testing:
 
 ```ts
-import { base } from "./base";
-import { blockBuilds } from "./blockBuilds";
-import { blockTests } from "./blockTests";
+import { base } from './base';
+import { blockBuilds } from './blockBuilds';
+import { blockTests } from './blockTests';
 
 base.createPreset({
-	blocks: [blockBuilds, blockTests],
+  blocks: [blockBuilds, blockTests],
 });
 ```
 
@@ -313,21 +312,20 @@ This is an object containing any of:
 For example, this Template describes itself as a solution for TypeScript repositories:
 
 ```ts
-import { base } from "./base";
+import { base } from './base';
 
 base.createTemplate({
-	about: {
-		description:
-			"One-stop shop for the latest and greatest TypeScript tooling.",
-		name: "Create TypeScript App",
-		repository: {
-			owner: "JoshuaKGoldberg",
-			repository: "create-typescript-app",
-		},
-	},
-	presets: [
-		// ...
-	],
+  about: {
+    description: 'One-stop shop for the latest and greatest TypeScript tooling.',
+    name: 'Create TypeScript App',
+    repository: {
+      owner: 'JoshuaKGoldberg',
+      repository: 'create-typescript-app',
+    },
+  },
+  presets: [
+    // ...
+  ],
 });
 ```
 
@@ -348,20 +346,20 @@ Those values will be used if the user doesn't provide explicit values during cre
 For example, this template defaults its `value` option to `"default"` if not provided:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	options: {
-		value: z.string().optional(),
-	},
-	prepare() {
-		return {
-			value: "default",
-		};
-	},
-	produce() {
-		// ...
-	},
+  options: {
+    value: z.string().optional(),
+  },
+  prepare() {
+    return {
+      value: 'default',
+    };
+  },
+  produce() {
+    // ...
+  },
 });
 ```
 
@@ -385,18 +383,18 @@ Each element in the array is an object containing:
 For example, this Template allows choosing between two Presets for TypeScript apps:
 
 ```ts
-import { base } from "./base";
-import { presetCommon } from "./presetCommon";
-import { presetEverything } from "./presetEverything";
+import { base } from './base';
+import { presetCommon } from './presetCommon';
+import { presetEverything } from './presetEverything';
 
 export const templateTypeScriptApp = base.createTemplate({
-	about: {
-		name: "TypeScript App",
-	},
-	presets: [
-		{ label: "Common", preset: presetCommon },
-		{ label: "Everything", preset: presetEverything },
-	],
+  about: {
+    name: 'TypeScript App',
+  },
+  presets: [
+    { label: 'Common', preset: presetCommon },
+    { label: 'Everything', preset: presetEverything },
+  ],
 });
 ```
 
@@ -409,15 +407,15 @@ This should be the same values as under [`presets`](#createtemplate-presets).
 For example, this Template defaults to the `"Common"` Preset:
 
 ```ts
-import { base } from "./base";
-import { presetCommon } from "./presetCommon";
-import { presetEverything } from "./presetEverything";
+import { base } from './base';
+import { presetCommon } from './presetCommon';
+import { presetEverything } from './presetEverything';
 
 export const templateTypeScriptApp = base.createTemplate({
-	presets: [
-		{ label: "Common", preset: presetCommon },
-		{ label: "Everything", preset: presetEverything },
-	],
-	suggested: presetCommon,
+  presets: [
+    { label: 'Common', preset: presetCommon },
+    { label: 'Everything', preset: presetEverything },
+  ],
+  suggested: presetCommon,
 });
 ```

@@ -21,6 +21,13 @@ jobs:
       - uses: $/.github/actions/setup
       - run: pnpm site:build
 
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: $/.github/actions/setup
+      - run: pnpm format --list-different
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -50,13 +57,6 @@ jobs:
     steps:
       - uses: $/.github/actions/setup
       - run: pnpm lint:spelling
-
-  prettier:
-    name: Prettier
-    runs-on: ubuntu-latest
-    steps:
-      - uses: $/.github/actions/setup
-      - run: pnpm format --list-different
 
   test:
     name: Test

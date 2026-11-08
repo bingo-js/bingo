@@ -1,5 +1,5 @@
-import { AnyShape, InferredObject } from "./shapes.js";
-import { Template } from "./templates.js";
+import { AnyShape, InferredObject } from './shapes.js';
+import { Template } from './templates.js';
 
 /**
  * Configuration object to be default-exported from a config file.
@@ -8,20 +8,20 @@ import { Template } from "./templates.js";
  * @see {@link https://www.create.bingo/configuration}
  */
 export interface TemplateConfig<OptionsShape extends AnyShape, Refinements> {
-	/**
-	 * Any overrides for options values as described by the template's options schema.
-	 */
-	options?: Partial<InferredObject<OptionsShape>>;
+  /**
+   * Any overrides for options values as described by the template's options schema.
+   */
+  options?: Partial<InferredObject<OptionsShape>>;
 
-	/**
-	 * Any optional customizations from a template-specific config file.
-	 */
-	refinements?: Refinements;
+  /**
+   * Any optional customizations from a template-specific config file.
+   */
+  refinements?: Refinements;
 
-	/**
-	 * The base template associated with this configuration.
-	 */
-	template: Template<OptionsShape, Refinements>;
+  /**
+   * The base template associated with this configuration.
+   */
+  template: Template<OptionsShape, Refinements>;
 }
 
 /**
@@ -30,12 +30,9 @@ export interface TemplateConfig<OptionsShape extends AnyShape, Refinements> {
  * @template Refinements Any optional customizations from a template-specific config file.
  * @see {@link https://www.create.bingo/configuration#createconfig}
  */
-export interface TemplateCreateConfigSettings<
-	Options extends object,
-	Refinements,
-> {
-	options?: Partial<Options>;
-	refinements?: Refinements;
+export interface TemplateCreateConfigSettings<Options extends object, Refinements> {
+  options?: Partial<Options>;
+  refinements?: Refinements;
 }
 
 /**
@@ -45,8 +42,5 @@ export interface TemplateCreateConfigSettings<
  * @see {@link https://www.create.bingo/configuration#createconfig}
  */
 export type CreateTemplateConfig<OptionsShape extends AnyShape, Refinements> = (
-	settings?: TemplateCreateConfigSettings<
-		InferredObject<OptionsShape>,
-		Refinements
-	>,
+  settings?: TemplateCreateConfigSettings<InferredObject<OptionsShape>, Refinements>,
 ) => TemplateConfig<OptionsShape, Refinements>;

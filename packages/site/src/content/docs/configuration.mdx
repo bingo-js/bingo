@@ -1,5 +1,5 @@
 ---
-description: "Configuring Bingo from a config file."
+description: 'Configuring Bingo from a config file.'
 title: Configuration
 ---
 
@@ -18,12 +18,12 @@ Bingo templates each:
 For example, this configuration keeps a repository up-to-date with [`create-example`](https://github.com/bingo-js/create-example):
 
 ```ts title="create-example.config.ts"
-import { createConfig } from "create-example";
+import { createConfig } from 'create-example';
 
 export default createConfig({
-	options: {
-		title: "Hello, world!",
-	},
+  options: {
+    title: 'Hello, world!',
+  },
 });
 ```
 
@@ -51,12 +51,12 @@ Any type-safe options the template has declared.
 For example, this configuration keeps a repository up-to-date with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app), which requires a `preset` option to be specified:
 
 ```ts title="create-typescript-app.config.ts"
-import { createConfig } from "create-typescript-app";
+import { createConfig } from 'create-typescript-app';
 
 export default createConfig({
-	options: {
-		preset: "everything",
-	},
+  options: {
+    preset: 'everything',
+  },
 });
 ```
 
@@ -73,14 +73,14 @@ Any custom customizations specified by the template.
 For example, this configuration customizes the preset list of blocks in [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app)'s _Everything_ `preset`:
 
 ```ts title="create-typescript-app.config.ts"
-import { blockCSpell, createConfig } from "create-typescript-app";
+import { blockCSpell, createConfig } from 'create-typescript-app';
 
 export default createConfig({
-	refinements: {
-		blocks: {
-			exclude: [blockCSpell],
-		},
-	},
+  refinements: {
+    blocks: {
+      exclude: [blockCSpell],
+    },
+  },
 });
 ```
 
