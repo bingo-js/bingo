@@ -6,6 +6,7 @@
     "CHANGELOG.md",
     "coverage",
     "node_modules",
+    "oxfmt.config.ts",
     "packages/*/dist",
     "packages/*/lib",
     "packages/*/tsconfig.tsbuildinfo",
