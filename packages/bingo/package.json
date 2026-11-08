@@ -44,7 +44,7 @@
     "get-github-auth-token": "^0.2.0",
     "git-url-parse": "^16.1.0",
     "hash-object": "^5.1.0",
-    "hosted-git-info": "^9.0.2",
+    "hosted-git-info": "^10.1.1",
     "new-github-repository": "^0.2.5",
     "read-package-up": "^12.0.0",
     "read-pkg": "^10.1.0",
