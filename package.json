@@ -29,11 +29,14 @@
     "lint": "eslint . --max-warnings 0",
     "lint:packages": "pnpm dedupe --check",
     "lint:spelling": "cspell \"**\" \".github/**/*\"",
-    "prepare": "husky",
+    "prepare": "simple-git-hooks",
     "site:build": "pnpm --filter=site build",
     "site:check": "pnpm --filter=site check",
     "site:dev": "pnpm --filter=site dev",
     "test": "vitest"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
   },
   "lint-staged": {
     "*": "oxfmt --no-error-on-unmatched-pattern"
@@ -56,11 +59,11 @@
     "eslint-plugin-perfectionist": "5.13.0",
     "eslint-plugin-regexp": "3.3.3",
     "eslint-plugin-yml": "3.9.0",
-    "husky": "9.1.7",
     "jiti": "2.7.0",
     "knip": "6.44.1",
     "lint-staged": "16.2.7",
     "oxfmt": "0.77.0",
+    "simple-git-hooks": "^2.14.0",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.1",
     "vitest": "5.1.0"
