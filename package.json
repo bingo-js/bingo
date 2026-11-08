@@ -8,10 +8,16 @@
     "url": "https://github.com/bingo-js/bingo"
   },
   "license": "MIT",
-  "author": {
-    "name": "Josh Goldberg ✨",
-    "email": "npm@joshuakgoldberg.com"
-  },
+  "contributors": [
+    {
+      "name": "Josh Goldberg ✨",
+      "email": "npm@joshuakgoldberg.com"
+    },
+    {
+      "name": "michael faith",
+      "url": "https://michael.faith"
+    }
+  ],
   "type": "module",
   "main": "./lib/index.js",
   "files": [

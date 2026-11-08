@@ -9,10 +9,16 @@
     "directory": "packages/bingo-fs"
   },
   "license": "MIT",
-  "author": {
-    "name": "Josh Goldberg ✨",
-    "email": "npm@joshuakgoldberg.com"
-  },
+  "contributors": [
+    {
+      "name": "Josh Goldberg ✨",
+      "email": "npm@joshuakgoldberg.com"
+    },
+    {
+      "name": "michael faith",
+      "url": "https://michael.faith"
+    }
+  ],
   "sideEffects": false,
   "type": "module",
   "exports": {
