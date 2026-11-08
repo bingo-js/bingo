@@ -27,7 +27,6 @@
     "build": "tsc -b",
     "format": "oxfmt",
     "lint": "eslint . --max-warnings 0",
-    "lint:packages": "pnpm dedupe --check",
     "lint:spelling": "cspell \"**\" \".github/**/*\"",
     "prepare": "simple-git-hooks",
     "site:build": "pnpm --filter=site build",

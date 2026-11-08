@@ -21,12 +21,26 @@ jobs:
       - uses: $/.github/actions/setup
       - run: pnpm site:build
 
+  dedupe-check:
+    name: Dedupe Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: $/.github/actions/setup
+      - run: pnpm dedupe --check
+
   format-check:
     name: Format Check
     runs-on: ubuntu-latest
     steps:
       - uses: $/.github/actions/setup
       - run: pnpm format --list-different
+
+  knip:
+    name: Knip
+    runs-on: ubuntu-latest
+    steps:
+      - uses: $/.github/actions/setup
+      - run: pnpm knip
 
   lint:
     name: Lint
@@ -36,20 +50,6 @@ jobs:
       - run: pnpm run -r prebuild
       - run: pnpm build
       - run: pnpm lint
-
-  lint_knip:
-    name: Lint Knip
-    runs-on: ubuntu-latest
-    steps:
-      - uses: $/.github/actions/setup
-      - run: pnpm knip
-
-  lint_packages:
-    name: Lint Packages
-    runs-on: ubuntu-latest
-    steps:
-      - uses: $/.github/actions/setup
-      - run: pnpm lint:packages
 
   lint_spelling:
     name: Lint Spelling
