@@ -32,10 +32,10 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@vitest/utils": "^4.0.15",
+    "@vitest/utils": "^5.1.0",
     "all-properties-lazy": "^0.1.0",
     "octokit": "^5.0.5",
-    "tinyrainbow": "^3.0.3",
+    "tinyrainbow": "^3.2.0",
     "without-undefined-properties": "^0.1.2"
   },
   "devDependencies": {
