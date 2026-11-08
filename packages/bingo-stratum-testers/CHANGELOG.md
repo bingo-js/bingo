@@ -1,5 +1,20 @@
 # bingo-stratum-testers
 
+## 0.8.0
+
+### Minor Changes
+
+- [#552](https://github.com/bingo-js/bingo/pull/552) [`8f50ea7`](https://github.com/bingo-js/bingo/commit/8f50ea7e8bdc4608213bfaba2108d2aebb1e8470) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Bumped Node support to `^22.22.2 || ^24.15.0 || >=26.0.0`. Namely, this just means a slightly higher minimum for v22.
+
+### Patch Changes
+
+- [#544](https://github.com/bingo-js/bingo/pull/544) [`94c14ee`](https://github.com/bingo-js/bingo/commit/94c14ee7d83e96a24efe67d21510578e4dd79e54) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Updated attribution for all packages to include both maintainers.
+- Updated dependencies [[`94c14ee`](https://github.com/bingo-js/bingo/commit/94c14ee7d83e96a24efe67d21510578e4dd79e54), [`41f0dbe`](https://github.com/bingo-js/bingo/commit/41f0dbe2d45509e82bf9569bd815df4d9174414d), [`f256818`](https://github.com/bingo-js/bingo/commit/f25681821ac79bccf85a71322cd644b995b9ea81), [`8f50ea7`](https://github.com/bingo-js/bingo/commit/8f50ea7e8bdc4608213bfaba2108d2aebb1e8470)]:
+  - bingo@0.16.0
+  - bingo-fs@0.8.0
+  - bingo-stratum@0.11.0
+  - bingo-systems@0.9.0
+
 ## 0.7.0
 
 ### Minor Changes

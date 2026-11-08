@@ -1,6 +1,6 @@
 {
   "name": "bingo-fs",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "The virtual file system used by Bingo. 🗄️",
   "homepage": "https://www.create.bingo/build/packages/bingo-fs",
   "repository": {
