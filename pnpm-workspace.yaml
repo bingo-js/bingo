@@ -4,4 +4,8 @@ overrides:
 packages:
   - 'packages/*'
 
+permissions:
+  simple-git-hooks:
+    build: false
+
 trustPolicy: no-downgrade
