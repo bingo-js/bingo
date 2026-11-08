@@ -1,15 +1,15 @@
 export function createBlockExtension<Block, Props extends object>(
-	block: Block,
-	props: Props,
-	name: string | undefined,
+  block: Block,
+  props: Props,
+  name: string | undefined,
 ) {
-	const created = { block, props };
+  const created = { block, props };
 
-	if (name) {
-		Object.defineProperty(created, "toJSON", {
-			value: () => ({ block: `[Block ${name}]`, props }),
-		});
-	}
+  if (name) {
+    Object.defineProperty(created, 'toJSON', {
+      value: () => ({ block: `[Block ${name}]`, props }),
+    });
+  }
 
-	return created;
+  return created;
 }

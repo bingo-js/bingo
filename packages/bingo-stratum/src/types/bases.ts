@@ -1,19 +1,14 @@
-import {
-	AnyOptionalShape,
-	AnyShape,
-	InferredObject,
-	TemplatePrepare,
-} from "bingo";
+import { AnyOptionalShape, AnyShape, InferredObject, TemplatePrepare } from 'bingo';
 
 import {
-	BlockDefinitionWithoutProps,
-	BlockDefinitionWithProps,
-	BlockWithoutProps,
-	BlockWithProps,
-} from "./blocks.js";
-import { Preset, PresetDefinition } from "./presets.js";
-import { StratumRefinements } from "./refinements.js";
-import { StratumTemplate, StratumTemplateDefinition } from "./templates.js";
+  BlockDefinitionWithoutProps,
+  BlockDefinitionWithProps,
+  BlockWithoutProps,
+  BlockWithProps,
+} from './blocks.js';
+import { Preset, PresetDefinition } from './presets.js';
+import { StratumRefinements } from './refinements.js';
+import { StratumTemplate, StratumTemplateDefinition } from './templates.js';
 
 /**
  * Shared options and creator APIs to create a Template from Blocks and Presets.
@@ -21,14 +16,14 @@ import { StratumTemplate, StratumTemplateDefinition } from "./templates.js";
  * @see {@link https://www.create.bingo/engines/stratum/concepts/bases}
  */
 export interface Base<OptionsShape extends AnyShape = AnyShape> {
-	createBlock: CreateBlock<InferredObject<OptionsShape>>;
-	createPreset: CreatePreset<OptionsShape>;
-	createStratumTemplate: CreateStratumTemplate<OptionsShape>;
-	options: OptionsShape;
-	prepare?: TemplatePrepare<
-		InferredObject<OptionsShape>,
-		StratumRefinements<InferredObject<OptionsShape>>
-	>;
+  createBlock: CreateBlock<InferredObject<OptionsShape>>;
+  createPreset: CreatePreset<OptionsShape>;
+  createStratumTemplate: CreateStratumTemplate<OptionsShape>;
+  options: OptionsShape;
+  prepare?: TemplatePrepare<
+    InferredObject<OptionsShape>,
+    StratumRefinements<InferredObject<OptionsShape>>
+  >;
 }
 
 /**
@@ -37,11 +32,11 @@ export interface Base<OptionsShape extends AnyShape = AnyShape> {
  * @see {@link https://www.create.bingo/engines/stratum/apis/create-base}
  */
 export interface BaseDefinition<OptionsShape extends AnyShape = AnyShape> {
-	options: OptionsShape;
-	prepare?: TemplatePrepare<
-		InferredObject<OptionsShape>,
-		StratumRefinements<InferredObject<OptionsShape>>
-	>;
+  options: OptionsShape;
+  prepare?: TemplatePrepare<
+    InferredObject<OptionsShape>,
+    StratumRefinements<InferredObject<OptionsShape>>
+  >;
 }
 
 /**
@@ -58,10 +53,10 @@ export interface BaseDefinition<OptionsShape extends AnyShape = AnyShape> {
  * ```
  */
 export type BaseOptionsFor<TypeOfBase> = TypeOfBase extends {
-	options: infer OptionsShape extends AnyShape;
+  options: infer OptionsShape extends AnyShape;
 }
-	? InferredObject<OptionsShape>
-	: never;
+  ? InferredObject<OptionsShape>
+  : never;
 
 /**
  * Factory function to create Blocks.
@@ -69,13 +64,11 @@ export type BaseOptionsFor<TypeOfBase> = TypeOfBase extends {
  * @see {@link https://www.create.bingo/engines/stratum/concepts/blocks}
  */
 export interface CreateBlock<Options extends object> {
-	<PropsShape extends AnyOptionalShape>(
-		blockDefinition: BlockDefinitionWithProps<PropsShape, Options>,
-	): BlockWithProps<InferredObject<PropsShape>, Options>;
+  <PropsShape extends AnyOptionalShape>(
+    blockDefinition: BlockDefinitionWithProps<PropsShape, Options>,
+  ): BlockWithProps<InferredObject<PropsShape>, Options>;
 
-	(
-		blockDefinition: BlockDefinitionWithoutProps<Options>,
-	): BlockWithoutProps<Options>;
+  (blockDefinition: BlockDefinitionWithoutProps<Options>): BlockWithoutProps<Options>;
 }
 
 /**
@@ -83,7 +76,7 @@ export interface CreateBlock<Options extends object> {
  * @template OptionsShape Schemas of options defined by the parent Base.
  */
 export type CreatePreset<OptionsShape extends AnyShape> = (
-	presetDefinition: PresetDefinition<InferredObject<OptionsShape>>,
+  presetDefinition: PresetDefinition<InferredObject<OptionsShape>>,
 ) => Preset<OptionsShape>;
 
 /**
@@ -91,5 +84,5 @@ export type CreatePreset<OptionsShape extends AnyShape> = (
  * @template OptionsShape Schemas of options defined by the parent Base.
  */
 export type CreateStratumTemplate<OptionsShape extends AnyShape> = (
-	templateDefinition: StratumTemplateDefinition<OptionsShape>,
+  templateDefinition: StratumTemplateDefinition<OptionsShape>,
 ) => StratumTemplate<OptionsShape>;

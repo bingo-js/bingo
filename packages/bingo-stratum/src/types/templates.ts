@@ -1,55 +1,47 @@
-import {
-	AnyShape,
-	InferredObject,
-	Template,
-	TemplateAbout,
-	TemplatePrepare,
-} from "bingo";
-import { z } from "zod";
+import { AnyShape, InferredObject, Template, TemplateAbout, TemplatePrepare } from 'bingo';
+import { z } from 'zod';
 
-import { Base } from "./bases.js";
-import { Block } from "./blocks.js";
-import { Preset } from "./presets.js";
-import { StratumRefinements } from "./refinements.js";
+import { Base } from './bases.js';
+import { Block } from './blocks.js';
+import { Preset } from './presets.js';
+import { StratumRefinements } from './refinements.js';
 
 /**
  * Stratum Template grouping together Presets of Blocks created from a Base.
  * @template OptionsShape Schemas of options the Base's Blocks takes in.
  * @see {@link https://www.create.bingo/engines/stratum/concepts/templates}
  */
-export interface StratumTemplate<
-	OptionsShape extends AnyShape,
-> extends Template<
-	StratumTemplateOptionsShapeFor<OptionsShape>,
-	StratumRefinements<InferredObject<OptionsShape>>
+export interface StratumTemplate<OptionsShape extends AnyShape> extends Template<
+  StratumTemplateOptionsShapeFor<OptionsShape>,
+  StratumRefinements<InferredObject<OptionsShape>>
 > {
-	/**
-	 * Base creating this Template, as well as its Blocks and Presets.
-	 * @see {@link https://www.create.bingo/engines/stratum/concepts/bases}
-	 */
-	base: Base<OptionsShape>;
+  /**
+   * Base creating this Template, as well as its Blocks and Presets.
+   * @see {@link https://www.create.bingo/engines/stratum/concepts/bases}
+   */
+  base: Base<OptionsShape>;
 
-	/**
-	 * All the Blocks available in any of the Template's Presets.
-	 */
-	blocks: Block<object | undefined, InferredObject<OptionsShape>>[];
+  /**
+   * All the Blocks available in any of the Template's Presets.
+   */
+  blocks: Block<object | undefined, InferredObject<OptionsShape>>[];
 
-	/**
-	 * Sets up lazily load default options values.
-	 * This is indicated as required here because all Stratum Templates infer
-	 * at least their --preset during transition mode.
-	 * @see {@link https://www.create.bingo/build/apis/create-template#prepare}
-	 */
-	prepare: TemplatePrepare<
-		InferredObject<StratumTemplateOptionsShapeFor<OptionsShape>>,
-		StratumRefinements<InferredObject<OptionsShape>>
-	>;
+  /**
+   * Sets up lazily load default options values.
+   * This is indicated as required here because all Stratum Templates infer
+   * at least their --preset during transition mode.
+   * @see {@link https://www.create.bingo/build/apis/create-template#prepare}
+   */
+  prepare: TemplatePrepare<
+    InferredObject<StratumTemplateOptionsShapeFor<OptionsShape>>,
+    StratumRefinements<InferredObject<OptionsShape>>
+  >;
 
-	/**
-	 * The Presets users can choose from with the Template, in order of how they should be listed.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createtemplate-presets}
-	 */
-	presets: Preset<OptionsShape>[];
+  /**
+   * The Presets users can choose from with the Template, in order of how they should be listed.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createtemplate-presets}
+   */
+  presets: Preset<OptionsShape>[];
 }
 
 /**
@@ -57,47 +49,47 @@ export interface StratumTemplate<
  * @template OptionsShape Schemas of options the Base's Blocks takes in.
  */
 export interface StratumTemplateDefinition<OptionsShape extends AnyShape> {
-	/**
-	 * About information for the template, including an optional repository locator.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createtemplate-about}
-	 */
-	about?: TemplateAbout;
+  /**
+   * About information for the template, including an optional repository locator.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createtemplate-about}
+   */
+  about?: TemplateAbout;
 
-	/**
-	 * Any additional Blocks to make available for Block refinements that add Blocks.
-	 */
-	blocks?: Block<object | undefined, InferredObject<OptionsShape>>[];
+  /**
+   * Any additional Blocks to make available for Block refinements that add Blocks.
+   */
+  blocks?: Block<object | undefined, InferredObject<OptionsShape>>[];
 
-	/**
-	 * Sets up lazily load default options values.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createtemplate-prepare}
-	 */
-	prepare?: TemplatePrepare<
-		InferredObject<OptionsShape>,
-		StratumRefinements<InferredObject<OptionsShape>>
-	>;
+  /**
+   * Sets up lazily load default options values.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createtemplate-prepare}
+   */
+  prepare?: TemplatePrepare<
+    InferredObject<OptionsShape>,
+    StratumRefinements<InferredObject<OptionsShape>>
+  >;
 
-	/**
-	 * Presets users can choose from with the Template, in order of how they should be listed.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createtemplate-presets}
-	 */
-	presets: Preset<OptionsShape>[];
+  /**
+   * Presets users can choose from with the Template, in order of how they should be listed.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createtemplate-presets}
+   */
+  presets: Preset<OptionsShape>[];
 
-	/**
-	 * Suggested Preset to select by default for users, if not the first in the array.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createtemplate-suggested}
-	 */
-	suggested?: Preset<OptionsShape>;
+  /**
+   * Suggested Preset to select by default for users, if not the first in the array.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createtemplate-suggested}
+   */
+  suggested?: Preset<OptionsShape>;
 }
 
 /**
  * The minimal options that are passed to all Stratum Blocks.
  */
 export interface StratumTemplateOptions {
-	/**
-	 * Which Preset is being run.
-	 */
-	preset: string;
+  /**
+   * Which Preset is being run.
+   */
+  preset: string;
 }
 
 /**
@@ -107,28 +99,25 @@ export interface StratumTemplateOptions {
 // with a Template's options shape stops it being assignable to z.ZodRawShape.
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type StratumTemplateOptionsShape = {
-	/**
-	 * Union of Preset names available to choose from.
-	 */
-	preset: z.ZodDefault<z.ZodUnion<ZodPresetNameLiterals>>;
+  /**
+   * Union of Preset names available to choose from.
+   */
+  preset: z.ZodDefault<z.ZodUnion<ZodPresetNameLiterals>>;
 };
 
 /**
  * Schemas of all options a Stratum Template takes in: its Base's, plus Stratum's own.
  * @template OptionsShape Schemas of options the Base's Blocks take in.
  */
-export type StratumTemplateOptionsShapeFor<OptionsShape extends AnyShape> =
-	OptionsShape & {
-		[
-			Key in keyof StratumTemplateOptionsShape
-		]: StratumTemplateOptionsShape[Key];
-	};
+export type StratumTemplateOptionsShapeFor<OptionsShape extends AnyShape> = OptionsShape & {
+  [Key in keyof StratumTemplateOptionsShape]: StratumTemplateOptionsShape[Key];
+};
 
 /**
  * Union of at least two literal Preset names available to choose from.
  */
 export type ZodPresetNameLiterals = [
-	z.ZodLiteral<string>,
-	z.ZodLiteral<string>,
-	...z.ZodLiteral<string>[],
+  z.ZodLiteral<string>,
+  z.ZodLiteral<string>,
+  ...z.ZodLiteral<string>[],
 ];

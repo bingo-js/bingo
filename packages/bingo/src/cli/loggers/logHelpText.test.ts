@@ -1,60 +1,58 @@
-import { describe, expect, it, test, vi } from "vitest";
-import { z } from "zod";
+import { describe, expect, it, test, vi } from 'vitest';
+import { z } from 'zod';
 
-import { createTemplate } from "../../creators/createTemplate.js";
-import { cliArgsOptions } from "../cliArgsOptions.js";
-import { logHelpText } from "./logHelpText.js";
+import { createTemplate } from '../../creators/createTemplate.js';
+import { cliArgsOptions } from '../cliArgsOptions.js';
+import { logHelpText } from './logHelpText.js';
 
 const mockLog = {
-	info: vi.fn(),
-	message: vi.fn<(message: string) => void>(),
+  info: vi.fn(),
+  message: vi.fn<(message: string) => void>(),
 };
 
-vi.mock("@clack/prompts", () => ({
-	get log() {
-		return mockLog;
-	},
+vi.mock('@clack/prompts', () => ({
+  get log() {
+    return mockLog;
+  },
 }));
 
-const narrowedTypes = new Map([["mode", '"setup" | "transition"']]);
+const narrowedTypes = new Map([['mode', '"setup" | "transition"']]);
 
-describe("logHelpText", () => {
-	it("prints every CLI flag with its parsed type", () => {
-		logHelpText(
-			"setup",
-			"./template.js",
-			createTemplate({
-				produce: vi.fn(),
-			}),
-		);
+describe('logHelpText', () => {
+  it('prints every CLI flag with its parsed type', () => {
+    logHelpText(
+      'setup',
+      './template.js',
+      createTemplate({
+        produce: vi.fn(),
+      }),
+    );
 
-		const [[message]] = mockLog.message.mock.calls;
-		const missing = Object.entries(cliArgsOptions)
-			.map(
-				([flag, { type }]) => `--${flag} (${narrowedTypes.get(flag) ?? type})`,
-			)
-			.filter((expected) => !message.includes(expected));
+    const [[message]] = mockLog.message.mock.calls;
+    const missing = Object.entries(cliArgsOptions)
+      .map(([flag, { type }]) => `--${flag} (${narrowedTypes.get(flag) ?? type})`)
+      .filter((expected) => !message.includes(expected));
 
-		expect(missing).toEqual([]);
-	});
+    expect(missing).toEqual([]);
+  });
 
-	test("anonymous template with no options", () => {
-		logHelpText(
-			"setup",
-			"./template.js",
-			createTemplate({
-				produce: vi.fn(),
-			}),
-		);
+  test('anonymous template with no options', () => {
+    logHelpText(
+      'setup',
+      './template.js',
+      createTemplate({
+        produce: vi.fn(),
+      }),
+    );
 
-		expect(mockLog.info.mock.calls).toMatchInlineSnapshot(`
+    expect(mockLog.info.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
 			    "Running --help for --mode setup.",
 			  ],
 			]
 		`);
-		expect(mockLog.message.mock.calls).toMatchInlineSnapshot(`
+    expect(mockLog.message.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
 			    "Bingo template options:
@@ -100,30 +98,30 @@ describe("logHelpText", () => {
 			  ],
 			]
 		`);
-	});
+  });
 
-	test("named template with options", () => {
-		logHelpText(
-			"setup",
-			"./template.js",
-			createTemplate({
-				about: { name: "My Template" },
-				options: {
-					first: z.number().describe("My first option"),
-					second: z.number().describe("My second option"),
-				},
-				produce: vi.fn(),
-			}),
-		);
+  test('named template with options', () => {
+    logHelpText(
+      'setup',
+      './template.js',
+      createTemplate({
+        about: { name: 'My Template' },
+        options: {
+          first: z.number().describe('My first option'),
+          second: z.number().describe('My second option'),
+        },
+        produce: vi.fn(),
+      }),
+    );
 
-		expect(mockLog.info.mock.calls).toMatchInlineSnapshot(`
+    expect(mockLog.info.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
 			    "Running --help for --mode setup.",
 			  ],
 			]
 		`);
-		expect(mockLog.message.mock.calls).toMatchInlineSnapshot(`
+    expect(mockLog.message.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
 			    "Bingo template options:
@@ -171,5 +169,5 @@ describe("logHelpText", () => {
 			  ],
 			]
 		`);
-	});
+  });
 });

@@ -1,52 +1,52 @@
 {
-	"name": "bingo-stratum",
-	"version": "0.10.0",
-	"description": "Highly composable, customizable templating engine for Bingo. 🏭",
-	"homepage": "https://www.create.bingo/engines/stratum/packages/bingo-stratum",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bingo-js/bingo",
-		"directory": "packages/bingo-stratum"
-	},
-	"license": "MIT",
-	"author": {
-		"name": "Josh Goldberg ✨",
-		"email": "npm@joshuakgoldberg.com"
-	},
-	"sideEffects": false,
-	"type": "module",
-	"exports": {
-		".": "./lib/index.js",
-		"./package.json": "./package.json"
-	},
-	"files": [
-		"lib/"
-	],
-	"scripts": {
-		"build": "tsc"
-	},
-	"dependencies": {
-		"all-properties-lazy": "^0.1.0",
-		"cached-factory": "^0.3.0",
-		"hash-object": "^5.0.1",
-		"octokit": "^5.0.5",
-		"slugify": "^1.6.9",
-		"without-undefined-properties": "^0.1.2"
-	},
-	"devDependencies": {
-		"@types/node": "24.10.1",
-		"bingo": "workspace:^",
-		"bingo-fs": "workspace:^",
-		"bingo-systems": "workspace:^",
-		"zod": "^4.4.3"
-	},
-	"peerDependencies": {
-		"bingo": "workspace:^",
-		"bingo-fs": "workspace:^",
-		"bingo-systems": "workspace:^",
-		"zod": "^4.4.3"
-	},
-	"engines": {
-		"node": "^22.15.0 || ^24.15.0 || >=26.0.0"
-	}
+  "name": "bingo-stratum",
+  "version": "0.10.0",
+  "description": "Highly composable, customizable templating engine for Bingo. 🏭",
+  "homepage": "https://www.create.bingo/engines/stratum/packages/bingo-stratum",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingo-js/bingo",
+    "directory": "packages/bingo-stratum"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Josh Goldberg ✨",
+    "email": "npm@joshuakgoldberg.com"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "all-properties-lazy": "^0.1.0",
+    "cached-factory": "^0.3.0",
+    "hash-object": "^5.0.1",
+    "octokit": "^5.0.5",
+    "slugify": "^1.6.9",
+    "without-undefined-properties": "^0.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "bingo": "workspace:^",
+    "bingo-fs": "workspace:^",
+    "bingo-systems": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "bingo": "workspace:^",
+    "bingo-fs": "workspace:^",
+    "bingo-systems": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "engines": {
+    "node": "^22.15.0 || ^24.15.0 || >=26.0.0"
+  }
 }

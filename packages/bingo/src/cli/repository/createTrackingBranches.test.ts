@@ -1,17 +1,14 @@
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, test, vi } from 'vitest';
 
-import { createTrackingBranches } from "./createTrackingBranches.js";
+import { createTrackingBranches } from './createTrackingBranches.js';
 
-describe("createTrackingBranches", () => {
-	test("commands", async () => {
-		const runner = vi.fn();
+describe('createTrackingBranches', () => {
+  test('commands', async () => {
+    const runner = vi.fn();
 
-		await createTrackingBranches(
-			{ owner: "TestOwner", repository: "test-repository" },
-			runner,
-		);
+    await createTrackingBranches({ owner: 'TestOwner', repository: 'test-repository' }, runner);
 
-		expect(runner.mock.calls).toMatchInlineSnapshot(`
+    expect(runner.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
 			    "git init",
@@ -21,5 +18,5 @@ describe("createTrackingBranches", () => {
 			  ],
 			]
 		`);
-	});
+  });
 });

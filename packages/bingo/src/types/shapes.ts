@@ -1,13 +1,10 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * Any object containing Zod schemas that are optional.
  * In other words, allows providing an empty object {} value.
  */
-export type AnyOptionalShape = Record<
-	string,
-	z.ZodDefault<z.ZodType> | z.ZodOptional<z.ZodType>
->;
+export type AnyOptionalShape = Record<string, z.ZodDefault<z.ZodType> | z.ZodOptional<z.ZodType>>;
 
 /**
  * Any object containing Zod schemas as values.
@@ -26,8 +23,8 @@ export type AnyShape = Record<string, z.ZodType>;
  * ```
  */
 export type InferredObject<OptionsShape extends AnyShape | undefined> =
-	OptionsShape extends AnyShape
-		? keyof OptionsShape extends never
-			? object
-			: z.infer<z.ZodObject<OptionsShape>>
-		: undefined;
+  OptionsShape extends AnyShape
+    ? keyof OptionsShape extends never
+      ? object
+      : z.infer<z.ZodObject<OptionsShape>>
+    : undefined;

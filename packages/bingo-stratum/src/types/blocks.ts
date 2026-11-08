@@ -1,8 +1,8 @@
-import { AboutBase, AnyOptionalShape, InferredObject } from "bingo";
-import { IntakeDirectory } from "bingo-fs";
+import { AboutBase, AnyOptionalShape, InferredObject } from 'bingo';
+import { IntakeDirectory } from 'bingo-fs';
 
-import { BlockCreation, CreatedBlockExtension } from "./creations.js";
-import { StratumTemplateOptions } from "./templates.js";
+import { BlockCreation, CreatedBlockExtension } from './creations.js';
+import { StratumTemplateOptions } from './templates.js';
 
 /**
  * Logic to create one portion of a repository.
@@ -10,11 +10,9 @@ import { StratumTemplateOptions } from "./templates.js";
  * @template Options Options values as described by the Base's options schema.
  */
 export type Block<
-	Props extends object | undefined = object | undefined,
-	Options extends object = object,
-> = Props extends object
-	? BlockWithProps<Props, Options>
-	: BlockWithoutProps<Options>;
+  Props extends object | undefined = object | undefined,
+  Options extends object = object,
+> = Props extends object ? BlockWithProps<Props, Options> : BlockWithoutProps<Options>;
 
 /**
  * Augments additional creations into a production from a Block with Props.
@@ -22,11 +20,8 @@ export type Block<
  * @template Props Block-specific extensions, as defined by the Block's schema.
  * @template Options Options values as described by the Base's options schema.
  */
-export type BlockAugmentWithProps<
-	Props extends object,
-	Options extends object,
-> = (
-	context: BlockContextWithProps<Props, Options>,
+export type BlockAugmentWithProps<Props extends object, Options extends object> = (
+  context: BlockContextWithProps<Props, Options>,
 ) => Partial<BlockCreation<Options>>;
 
 /**
@@ -35,15 +30,15 @@ export type BlockAugmentWithProps<
  * @template Options Options values as described by the Base's options schema.
  */
 export type BlockAugmentWithoutProps<Options extends object> = (
-	context: BlockContextWithoutProps<Options>,
+  context: BlockContextWithoutProps<Options>,
 ) => Partial<BlockCreation<Options>>;
 
 export interface BlockBase {
-	/**
-	 * Metadata about the Block that can be used by tooling to describe it.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-about}
-	 */
-	about?: AboutBase;
+  /**
+   * Metadata about the Block that can be used by tooling to describe it.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-about}
+   */
+  about?: AboutBase;
 }
 
 /**
@@ -52,25 +47,25 @@ export interface BlockBase {
  * @template Options Options values as described by the Base's options schema.
  */
 export interface BlockContextWithProps<
-	Props extends object,
-	Options extends object,
+  Props extends object,
+  Options extends object,
 > extends BlockContextWithoutProps<Options> {
-	props: Props;
+  props: Props;
 }
 
 /**
  * Shared helper functions and information passed to Block intake()s.
  */
 export interface BlockIntakeContext<Options extends object> {
-	/**
-	 * Any existing files on disk.
-	 */
-	files: IntakeDirectory;
+  /**
+   * Any existing files on disk.
+   */
+  files: IntakeDirectory;
 
-	/**
-	 * Options values as described by the Base's options schema.
-	 */
-	options: Options;
+  /**
+   * Options values as described by the Base's options schema.
+   */
+  options: Options;
 }
 
 /**
@@ -79,10 +74,10 @@ export interface BlockIntakeContext<Options extends object> {
  * @template Options Options values as described by the Base's options schema.
  */
 export interface BlockContextWithOptionalProps<
-	Props extends object,
-	Options extends object,
+  Props extends object,
+  Options extends object,
 > extends BlockContextWithoutProps<Options> {
-	props?: Props;
+  props?: Props;
 }
 
 /**
@@ -90,8 +85,8 @@ export interface BlockContextWithOptionalProps<
  * @template Options Options values as described by the Base's options schema.
  */
 export interface BlockContextWithoutProps<Options extends object> {
-	offline?: boolean;
-	options: Options & StratumTemplateOptions;
+  offline?: boolean;
+  options: Options & StratumTemplateOptions;
 }
 
 /**
@@ -100,22 +95,19 @@ export interface BlockContextWithoutProps<Options extends object> {
  * @template Options Options values as described by the Base's options schema.
  */
 export type BlockDefinition<
-	PropsShape extends AnyOptionalShape | undefined,
-	Options extends object,
+  PropsShape extends AnyOptionalShape | undefined,
+  Options extends object,
 > = PropsShape extends object
-	? BlockDefinitionWithProps<PropsShape, Options>
-	: BlockDefinitionWithoutProps<Options>;
+  ? BlockDefinitionWithProps<PropsShape, Options>
+  : BlockDefinitionWithoutProps<Options>;
 
 /**
  * Generates the creations describing a portion of a repository from a Block with props.
  * @template Props Block-specific extensions, as defined by the Block's schema.
  * @template Options Options values as described by the Base's options schema.
  */
-export type BlockDefinitionProducerWithProps<
-	Props extends object,
-	Options extends object,
-> = (
-	context: BlockContextWithProps<Props, Options>,
+export type BlockDefinitionProducerWithProps<Props extends object, Options extends object> = (
+  context: BlockContextWithProps<Props, Options>,
 ) => Partial<BlockCreation<Options>>;
 
 /**
@@ -123,7 +115,7 @@ export type BlockDefinitionProducerWithProps<
  * @template Options Options values as described by the Base's options schema.
  */
 export type BlockDefinitionProducerWithoutProps<Options extends object> = (
-	context: BlockContextWithoutProps<Options>,
+  context: BlockContextWithoutProps<Options>,
 ) => Partial<BlockCreation<Options>>;
 
 /**
@@ -132,70 +124,65 @@ export type BlockDefinitionProducerWithoutProps<Options extends object> = (
  * @template Options Options values as described by the Base's options schema.
  */
 export interface BlockDefinitionWithProps<
-	PropsShape extends AnyOptionalShape,
-	Options extends object,
+  PropsShape extends AnyOptionalShape,
+  Options extends object,
 > extends BlockBase {
-	/**
-	 * Schema of Props the Block takes in.
-	 */
-	props: PropsShape;
+  /**
+   * Schema of Props the Block takes in.
+   */
+  props: PropsShape;
 
-	/**
-	 * Infers Props from existing files in the repository.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-intake}
-	 */
-	intake?: BlockIntake<InferredObject<PropsShape>, Options>;
+  /**
+   * Infers Props from existing files in the repository.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-intake}
+   */
+  intake?: BlockIntake<InferredObject<PropsShape>, Options>;
 
-	/**
-	 * Generates the creations describing a portion of a repository.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
-	 */
-	produce?: BlockDefinitionProducerWithProps<
-		InferredObject<PropsShape>,
-		Options
-	>;
+  /**
+   * Generates the creations describing a portion of a repository.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
+   */
+  produce?: BlockDefinitionProducerWithProps<InferredObject<PropsShape>, Options>;
 
-	/**
-	 * Augments a Block creation with additional creations for setup mode.
-	 * @template Options Options values as described by the Base's options schema.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-setup}
-	 */
-	setup?: BlockAugmentWithProps<InferredObject<PropsShape>, Options>;
+  /**
+   * Augments a Block creation with additional creations for setup mode.
+   * @template Options Options values as described by the Base's options schema.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-setup}
+   */
+  setup?: BlockAugmentWithProps<InferredObject<PropsShape>, Options>;
 
-	/**
-	 * Augments a Block creation with additional creations for transition mode.
-	 * @template Options Options values as described by the Base's options schema.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-transition}
-	 */
-	transition?: BlockAugmentWithProps<InferredObject<PropsShape>, Options>;
+  /**
+   * Augments a Block creation with additional creations for transition mode.
+   * @template Options Options values as described by the Base's options schema.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-transition}
+   */
+  transition?: BlockAugmentWithProps<InferredObject<PropsShape>, Options>;
 }
 
 /**
  * Definition for creating a new Block without Props.
  * @template Options Options values as described by the Base's options schema.
  */
-export interface BlockDefinitionWithoutProps<
-	Options extends object,
-> extends BlockBase {
-	/**
-	 * Generates the creations describing a portion of a repository.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
-	 */
-	produce?: BlockDefinitionProducerWithoutProps<Options>;
+export interface BlockDefinitionWithoutProps<Options extends object> extends BlockBase {
+  /**
+   * Generates the creations describing a portion of a repository.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
+   */
+  produce?: BlockDefinitionProducerWithoutProps<Options>;
 
-	/**
-	 * Augments a Block creation with additional creations for setup mode.
-	 * @template Options Options values as described by the Base's options schema.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-setup}
-	 */
-	setup?: BlockAugmentWithoutProps<Options>;
+  /**
+   * Augments a Block creation with additional creations for setup mode.
+   * @template Options Options values as described by the Base's options schema.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-setup}
+   */
+  setup?: BlockAugmentWithoutProps<Options>;
 
-	/**
-	 * Augments a Block creation with additional creations for transition mode.
-	 * @template Options Options values as described by the Base's options schema.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-transition}
-	 */
-	transition?: BlockAugmentWithoutProps<Options>;
+  /**
+   * Augments a Block creation with additional creations for transition mode.
+   * @template Options Options values as described by the Base's options schema.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-transition}
+   */
+  transition?: BlockAugmentWithoutProps<Options>;
 }
 
 /**
@@ -205,7 +192,7 @@ export interface BlockDefinitionWithoutProps<
  * @template Options Options values as described by the Base's options schema.
  */
 export type BlockIntake<Props extends object, Options extends object> = (
-	context: BlockIntakeContext<Options>,
+  context: BlockIntakeContext<Options>,
 ) => Partial<Props> | undefined;
 
 /**
@@ -215,11 +202,8 @@ export type BlockIntake<Props extends object, Options extends object> = (
  * @template Options Options values as described by the template's options schema.
  * @see {@link https://www.create.bingo/engines/stratum/concepts/blocks#production}
  */
-export type BlockProducerWithProps<
-	Props extends object,
-	Options extends object,
-> = (
-	context: BlockContextWithOptionalProps<Props, Options>,
+export type BlockProducerWithProps<Props extends object, Options extends object> = (
+  context: BlockContextWithOptionalProps<Props, Options>,
 ) => Partial<BlockCreation<Options>>;
 
 /**
@@ -229,7 +213,7 @@ export type BlockProducerWithProps<
  * @see {@link https://www.create.bingo/engines/stratum/concepts/blocks#production}
  */
 export type BlockProducerWithoutProps<Options extends object> = (
-	context: BlockContextWithoutProps<Options>,
+  context: BlockContextWithoutProps<Options>,
 ) => Partial<BlockCreation<Options>>;
 
 /**
@@ -237,46 +221,37 @@ export type BlockProducerWithoutProps<Options extends object> = (
  * @template Props Block-specific extensions, as defined by the Block's schema.
  * @template Options Options values as described by the Base's options schema.
  */
-export interface BlockWithProps<
-	Props extends object,
-	Options extends object,
-> extends BlockBase {
-	/**
-	 * Infers Props from existing files in the repository.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-intake}
-	 */
-	intake?: BlockIntake<Props, Options>;
+export interface BlockWithProps<Props extends object, Options extends object> extends BlockBase {
+  /**
+   * Infers Props from existing files in the repository.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-intake}
+   */
+  intake?: BlockIntake<Props, Options>;
 
-	/**
-	 * Generates the creations describing a portion of a repository.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
-	 */
-	produce(
-		context: BlockContextWithOptionalProps<Props, Options>,
-	): Partial<BlockCreation<Options>>;
+  /**
+   * Generates the creations describing a portion of a repository.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
+   */
+  produce(context: BlockContextWithOptionalProps<Props, Options>): Partial<BlockCreation<Options>>;
 
-	/**
-	 * Augments a Block creation with additional creations for setup mode.
-	 * @template Options Options values as described by the Base's options schema.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-setup}
-	 */
-	setup?(
-		context: BlockContextWithProps<Props, Options>,
-	): Partial<BlockCreation<Options>>;
+  /**
+   * Augments a Block creation with additional creations for setup mode.
+   * @template Options Options values as described by the Base's options schema.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-setup}
+   */
+  setup?(context: BlockContextWithProps<Props, Options>): Partial<BlockCreation<Options>>;
 
-	/**
-	 * Augments a Block creation with additional creations for transition mode.
-	 * @template Options Options values as described by the Base's options schema.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-transition}
-	 */
-	transition?(
-		context: BlockContextWithProps<Props, Options>,
-	): Partial<BlockCreation<Options>>;
+  /**
+   * Augments a Block creation with additional creations for transition mode.
+   * @template Options Options values as described by the Base's options schema.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-transition}
+   */
+  transition?(context: BlockContextWithProps<Props, Options>): Partial<BlockCreation<Options>>;
 
-	/**
-	 * Creates a description of Props to provide for the Block.
-	 */
-	(props: Partial<Props>): CreatedBlockExtension<Props, Options>;
+  /**
+   * Creates a description of Props to provide for the Block.
+   */
+  (props: Partial<Props>): CreatedBlockExtension<Props, Options>;
 }
 
 /**
@@ -284,28 +259,28 @@ export interface BlockWithProps<
  * @template Options Options values as described by the Base's options schema.
  */
 export interface BlockWithoutProps<Options extends object> extends BlockBase {
-	/**
-	 * Generates the creations describing a portion of a repository.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
-	 */
-	produce: BlockProducerWithoutProps<Options>;
+  /**
+   * Generates the creations describing a portion of a repository.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-produce}
+   */
+  produce: BlockProducerWithoutProps<Options>;
 
-	/**
-	 * Augments a Block creation with additional creations for setup mode.
-	 * @template Options Options values as described by the Base's options schema.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-setup}
-	 */
-	setup?: BlockAugmentWithoutProps<Options>;
+  /**
+   * Augments a Block creation with additional creations for setup mode.
+   * @template Options Options values as described by the Base's options schema.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-setup}
+   */
+  setup?: BlockAugmentWithoutProps<Options>;
 
-	/**
-	 * Augments a Block creation with additional creations for transition mode.
-	 * @template Options Options values as described by the Base's options schema.
-	 * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-transition}
-	 */
-	transition?: BlockAugmentWithoutProps<Options>;
+  /**
+   * Augments a Block creation with additional creations for transition mode.
+   * @template Options Options values as described by the Base's options schema.
+   * @see {@link https://www.create.bingo/engines/stratum/apis/create-base#createblock-transition}
+   */
+  transition?: BlockAugmentWithoutProps<Options>;
 
-	/**
-	 * Just returns this Block instance, to allow it to be treated as a function, similar to Blocks with Props.
-	 */
-	(): BlockWithoutProps<Options>;
+  /**
+   * Just returns this Block instance, to allow it to be treated as a function, similar to Blocks with Props.
+   */
+  (): BlockWithoutProps<Options>;
 }

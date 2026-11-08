@@ -28,17 +28,17 @@ Start small and learn Bingo on its own before moving up to a more rich templatin
 > Or: why not allow non-object types for options schemas, such as the following `z.union()`?
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	about: { name: "My Template" },
-	options: z.union([
-		z.object({ a: z.string(), b: z.number() }),
-		z.object({ c: z.number(), d: z.string() }),
-	]),
-	produce({ options }) {
-		// ...
-	},
+  about: { name: 'My Template' },
+  options: z.union([
+    z.object({ a: z.string(), b: z.number() }),
+    z.object({ c: z.number(), d: z.string() }),
+  ]),
+  produce({ options }) {
+    // ...
+  },
 });
 ```
 
@@ -52,19 +52,19 @@ Having to understand union types or other concepts to know which flags are avail
 Instead of describing a schema as a complex type itself, consider moving the complex type to a property of the options object:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	about: { name: "My Template" },
-	options: {
-		letters: z.union([
-			z.object({ a: z.string(), b: z.number() }),
-			z.object({ c: z.number(), d: z.string() }),
-		]),
-	},
-	produce({ options }) {
-		// ...
-	},
+  about: { name: 'My Template' },
+  options: {
+    letters: z.union([
+      z.object({ a: z.string(), b: z.number() }),
+      z.object({ c: z.number(), d: z.string() }),
+    ]),
+  },
+  produce({ options }) {
+    // ...
+  },
 });
 ```
 
@@ -126,14 +126,14 @@ Refinements are instead generally retrieved with an `import` from a template pac
 For example, [Stratum](/engines/stratum/about) templates allow customizing [Blocks](/engines/stratum/concepts/blocks) via refinements:
 
 ```ts title="create-typescript-app.config.ts"
-import { blockAreTheTypesWrong, createConfig } from "create-typescript-app";
+import { blockAreTheTypesWrong, createConfig } from 'create-typescript-app';
 
 export default createConfig({
-	refinements: {
-		blocks: {
-			add: [blockAreTheTypesWrong],
-		},
-	},
+  refinements: {
+    blocks: {
+      add: [blockAreTheTypesWrong],
+    },
+  },
 });
 ```
 
@@ -164,28 +164,28 @@ If you want your files to be formatted consistently, chances are your users will
 This template sets up Prettier and includes a script creation to run it after creating files:
 
 ```ts
-import { format } from "@prettier/sync";
-import { createTemplate } from "bingo";
+import { format } from '@prettier/sync';
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	about: { name: "My Template" },
-	produce() {
-		return {
-			files: {
-				"README.md": `# Hello, world!`,
-				"index.js": `console.log("Hello, world!");`,
-				"package.json": JSON.stringify({
-					devDependencies: {
-						prettier: "3",
-					},
-					scripts: {
-						format: "prettier .",
-					},
-				}),
-			},
-			scripts: ["npm run format -- --write"],
-		};
-	},
+  about: { name: 'My Template' },
+  produce() {
+    return {
+      files: {
+        'README.md': `# Hello, world!`,
+        'index.js': `console.log("Hello, world!");`,
+        'package.json': JSON.stringify({
+          devDependencies: {
+            prettier: '3',
+          },
+          scripts: {
+            format: 'prettier .',
+          },
+        }),
+      },
+      scripts: ['npm run format -- --write'],
+    };
+  },
 });
 ```
 
@@ -193,24 +193,24 @@ If you don't want to configure a formatter for users, you can instead use a sync
 This template uses [`@prettier/sync`](https://npmjs.com/package/@prettier/sync) to format a few files:
 
 ```ts
-import { format } from "@prettier/sync";
-import { createTemplate } from "bingo";
+import { format } from '@prettier/sync';
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	about: { name: "My Template" },
-	produce() {
-		return {
-			files: {
-				"README.md": format(`# Hello, world!`, { parser: "md" }),
-				"index.js": format(`console.log("Hello, world!");`, { parser: "js" }),
-				"package.json": format(
-					JSON.stringify({
-						// ...
-					}),
-					{ parser: "json" },
-				),
-			},
-		};
-	},
+  about: { name: 'My Template' },
+  produce() {
+    return {
+      files: {
+        'README.md': format(`# Hello, world!`, { parser: 'md' }),
+        'index.js': format(`console.log("Hello, world!");`, { parser: 'js' }),
+        'package.json': format(
+          JSON.stringify({
+            // ...
+          }),
+          { parser: 'json' },
+        ),
+      },
+    };
+  },
 });
 ```

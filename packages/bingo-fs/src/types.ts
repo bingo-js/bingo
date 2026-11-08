@@ -2,7 +2,7 @@
  * Representation of a directory.
  */
 export interface CreatedDirectory {
-	[i: string]: CreatedEntry | undefined;
+  [i: string]: CreatedEntry | undefined;
 }
 
 /**
@@ -24,16 +24,16 @@ export type CreatedFileEntry = [string] | CreatedFileEntryWithMetadata | string;
  * Metadata attached to a {@link CreatedFileEntryWithMetadata}
  */
 export interface CreatedFileMetadata {
-	/**
-	 * Whether to set executable permissions (e.g. 0x755) instead of non-executable (e.g. 0x644).
-	 */
-	executable?: boolean;
+  /**
+   * Whether to set executable permissions (e.g. 0x755) instead of non-executable (e.g. 0x644).
+   */
+  executable?: boolean;
 
-	/**
-	 * Paths, relative to the file's directory, that earlier versions of the file were created at.
-	 * Transition mode treats files at those paths as this file, and removes them after writing it.
-	 */
-	previously?: string[];
+  /**
+   * Paths, relative to the file's directory, that earlier versions of the file were created at.
+   * Transition mode treats files at those paths as this file, and removes them after writing it.
+   */
+  previously?: string[];
 }
 
 /**
@@ -41,7 +41,7 @@ export interface CreatedFileMetadata {
  * This is the same as {@link `CreatedDirectory`} but with {@link IntakeEntry} as children instead of {@link CreatedEntry}.
  */
 export interface IntakeDirectory {
-	[i: string]: IntakeEntry | undefined;
+  [i: string]: IntakeEntry | undefined;
 }
 
 /**

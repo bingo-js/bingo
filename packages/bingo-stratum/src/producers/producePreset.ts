@@ -1,12 +1,12 @@
-import { AnyShape, InferredObject, ProduceTemplateSettings } from "bingo";
-import { IntakeDirectory } from "bingo-fs";
+import { AnyShape, InferredObject, ProduceTemplateSettings } from 'bingo';
+import { IntakeDirectory } from 'bingo-fs';
 
-import { BlockCreation } from "../types/creations.js";
-import { Preset } from "../types/presets.js";
-import { StratumRefinements } from "../types/refinements.js";
-import { StratumTemplate } from "../types/templates.js";
-import { applyBlockRefinements } from "./applyBlockRefinements.js";
-import { produceBlocks } from "./produceBlocks.js";
+import { BlockCreation } from '../types/creations.js';
+import { Preset } from '../types/presets.js';
+import { StratumRefinements } from '../types/refinements.js';
+import { StratumTemplate } from '../types/templates.js';
+import { applyBlockRefinements } from './applyBlockRefinements.js';
+import { produceBlocks } from './produceBlocks.js';
 
 /**
  * Settings to run a Preset with {@link producePreset}.
@@ -14,26 +14,23 @@ import { produceBlocks } from "./produceBlocks.js";
  * @see {@link https://www.create.bingo/engines/stratum/apis/producers#producetemplate}
  */
 export interface ProducePresetSettings<
-	OptionsShape extends AnyShape,
-> extends ProduceTemplateSettings<
-	OptionsShape,
-	StratumRefinements<InferredObject<OptionsShape>>
-> {
-	/**
-	 * Existing file creations to be used for Blocks that can intake Props.
-	 */
-	files?: IntakeDirectory;
+  OptionsShape extends AnyShape,
+> extends ProduceTemplateSettings<OptionsShape, StratumRefinements<InferredObject<OptionsShape>>> {
+  /**
+   * Existing file creations to be used for Blocks that can intake Props.
+   */
+  files?: IntakeDirectory;
 
-	/**
-	 * Any optional Stratum customizations.
-	 * @see {@link https://create.bingo/engines/stratum/details/configurations#refinements}
-	 */
-	refinements?: StratumRefinements<InferredObject<OptionsShape>>;
+  /**
+   * Any optional Stratum customizations.
+   * @see {@link https://create.bingo/engines/stratum/details/configurations#refinements}
+   */
+  refinements?: StratumRefinements<InferredObject<OptionsShape>>;
 
-	/**
-	 * Parent Template, if more Blocks may be needed.
-	 */
-	template?: StratumTemplate<OptionsShape>;
+  /**
+   * Parent Template, if more Blocks may be needed.
+   */
+  template?: StratumTemplate<OptionsShape>;
 }
 
 /**
@@ -42,37 +39,37 @@ export interface ProducePresetSettings<
  * @see {@link https://www.create.bingo/engines/stratum/apis/producers#producetemplate}
  */
 export function producePreset<OptionsShape extends AnyShape>(
-	preset: Preset<OptionsShape>,
-	{
-		files,
-		mode,
-		offline,
-		options,
-		refinements = {},
-		template,
-	}: ProducePresetSettings<OptionsShape>,
+  preset: Preset<OptionsShape>,
+  {
+    files,
+    mode,
+    offline,
+    options,
+    refinements = {},
+    template,
+  }: ProducePresetSettings<OptionsShape>,
 ): BlockCreation<InferredObject<OptionsShape>> {
-	const blocks = applyBlockRefinements(
-		template?.blocks ?? preset.blocks,
-		preset.blocks,
-		options,
-		refinements.blocks,
-	);
+  const blocks = applyBlockRefinements(
+    template?.blocks ?? preset.blocks,
+    preset.blocks,
+    options,
+    refinements.blocks,
+  );
 
-	const creation = produceBlocks(blocks, {
-		blockExtensions: refinements.extensions,
-		files,
-		mode,
-		offline,
-		options,
-	});
+  const creation = produceBlocks(blocks, {
+    blockExtensions: refinements.extensions,
+    files,
+    mode,
+    offline,
+    options,
+  });
 
-	return {
-		extensions: [],
-		files: {},
-		requests: [],
-		scripts: [],
-		suggestions: [],
-		...creation,
-	};
+  return {
+    extensions: [],
+    files: {},
+    requests: [],
+    scripts: [],
+    suggestions: [],
+    ...creation,
+  };
 }

@@ -1,11 +1,11 @@
 export function applyMerger<T>(
-	first: T | undefined,
-	second: T | undefined,
-	merger: (first: T, second: T) => T,
+  first: T | undefined,
+  second: T | undefined,
+  merger: (first: T, second: T) => T,
 ) {
-	if (first == null || second == null) {
-		return second ?? first ?? undefined;
-	}
+  if (first == null || second == null) {
+    return second ?? first ?? undefined;
+  }
 
-	return merger(first, second);
+  return merger(first, second);
 }

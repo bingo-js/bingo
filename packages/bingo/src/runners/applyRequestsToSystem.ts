@@ -1,32 +1,29 @@
-import { CreatedRequest } from "bingo-requests";
+import { CreatedRequest } from 'bingo-requests';
 
-import { SystemContext } from "../types/system.js";
-import { getRequestSender } from "./getRequestSender.js";
+import { SystemContext } from '../types/system.js';
+import { getRequestSender } from './getRequestSender.js';
 
-export async function applyRequestsToSystem(
-	requests: CreatedRequest[],
-	system: SystemContext,
-) {
-	await Promise.all(
-		requests.map(async (request) => {
-			const sender = getRequestSender(system.fetchers, request);
-			if (!sender) {
-				return;
-			}
+export async function applyRequestsToSystem(requests: CreatedRequest[], system: SystemContext) {
+  await Promise.all(
+    requests.map(async (request) => {
+      const sender = getRequestSender(system.fetchers, request);
+      if (!sender) {
+        return;
+      }
 
-			const { id, send } = sender;
+      const { id, send } = sender;
 
-			system.display.item("request", id, { start: Date.now() });
+      system.display.item('request', id, { start: Date.now() });
 
-			try {
-				await send();
-			} catch (error) {
-				if (!request.silent) {
-					system.display.item("request", id, { error });
-				}
-			}
+      try {
+        await send();
+      } catch (error) {
+        if (!request.silent) {
+          system.display.item('request', id, { error });
+        }
+      }
 
-			system.display.item("request", id, { end: Date.now() });
-		}),
-	);
+      system.display.item('request', id, { end: Date.now() });
+    }),
+  );
 }

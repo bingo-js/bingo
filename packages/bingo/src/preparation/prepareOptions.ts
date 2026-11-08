@@ -1,11 +1,11 @@
-import { allPropertiesLazy } from "all-properties-lazy";
-import { CreatedDirectory, intake } from "bingo-fs";
-import { BingoSystem } from "bingo-systems";
+import { allPropertiesLazy } from 'all-properties-lazy';
+import { CreatedDirectory, intake } from 'bingo-fs';
+import { BingoSystem } from 'bingo-systems';
 
-import { Display } from "../contexts/createDisplay.js";
-import { createSystemContextWithAuth } from "../contexts/createSystemContextWithAuth.js";
-import { LazyOptionalOptions, OptionsContext } from "../types/options.js";
-import { AnyShape, InferredObject } from "../types/shapes.js";
+import { Display } from '../contexts/createDisplay.js';
+import { createSystemContextWithAuth } from '../contexts/createSystemContextWithAuth.js';
+import { LazyOptionalOptions, OptionsContext } from '../types/options.js';
+import { AnyShape, InferredObject } from '../types/shapes.js';
 
 /**
  * Any object that has options, and optionally a prepare function.
@@ -14,20 +14,20 @@ import { AnyShape, InferredObject } from "../types/shapes.js";
  * @see {@link http://create.bingo/build/apis/prepare-options}
  */
 export interface HasOptionsAndMaybePrepare<OptionsShape extends AnyShape> {
-	options: OptionsShape;
-	prepare?: (
-		context: OptionsContext<InferredObject<OptionsShape>>,
-	) => LazyOptionalOptions<Partial<InferredObject<OptionsShape>>>;
+  options: OptionsShape;
+  prepare?: (
+    context: OptionsContext<InferredObject<OptionsShape>>,
+  ) => LazyOptionalOptions<Partial<InferredObject<OptionsShape>>>;
 }
 
 export interface PrepareOptionsSettings<
-	OptionsShape extends AnyShape,
+  OptionsShape extends AnyShape,
 > extends Partial<BingoSystem> {
-	directory?: string;
-	display?: Display;
-	existing?: Partial<InferredObject<OptionsShape>>;
-	files?: CreatedDirectory;
-	offline?: boolean;
+  directory?: string;
+  display?: Display;
+  existing?: Partial<InferredObject<OptionsShape>>;
+  files?: CreatedDirectory;
+  offline?: boolean;
 }
 
 /**
@@ -36,33 +36,33 @@ export interface PrepareOptionsSettings<
  * @see {@link http://create.bingo/build/apis/prepare-options}
  */
 export async function prepareOptions<OptionsShape extends AnyShape>(
-	base: HasOptionsAndMaybePrepare<OptionsShape>,
-	settings: PrepareOptionsSettings<OptionsShape> = {},
+  base: HasOptionsAndMaybePrepare<OptionsShape>,
+  settings: PrepareOptionsSettings<OptionsShape> = {},
 ): Promise<Partial<InferredObject<OptionsShape>>> {
-	const { existing = {} } = settings;
-	if (!base.prepare) {
-		return existing;
-	}
+  const { existing = {} } = settings;
+  if (!base.prepare) {
+    return existing;
+  }
 
-	const directory = settings.directory ?? ".";
-	const system = await createSystemContextWithAuth({
-		directory,
-		...settings,
-	});
+  const directory = settings.directory ?? '.';
+  const system = await createSystemContextWithAuth({
+    directory,
+    ...settings,
+  });
 
-	const files =
-		settings.files ??
-		((await intake(directory, {
-			exclude: /node_modules|^\.git$/,
-		})) as CreatedDirectory);
+  const files =
+    settings.files ??
+    ((await intake(directory, {
+      exclude: /node_modules|^\.git$/,
+    })) as CreatedDirectory);
 
-	return (await allPropertiesLazy({
-		...base.prepare({
-			files,
-			log: system.display.log,
-			options: existing,
-			...system,
-		}),
-		...existing,
-	})) as Partial<InferredObject<OptionsShape>>;
+  return (await allPropertiesLazy({
+    ...base.prepare({
+      files,
+      log: system.display.log,
+      options: existing,
+      ...system,
+    }),
+    ...existing,
+  })) as Partial<InferredObject<OptionsShape>>;
 }

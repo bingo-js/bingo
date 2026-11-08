@@ -1,89 +1,87 @@
-import { describe, expect, test } from "vitest";
-import { z } from "zod";
+import { describe, expect, test } from 'vitest';
+import { z } from 'zod';
 
-import { parseZodArgs } from "./parseZodArgs.js";
+import { parseZodArgs } from './parseZodArgs.js';
 
-describe("parseZodArgs", () => {
-	test("boolean parsing success", () => {
-		const args = ["--value"];
-		const options = { value: z.boolean() };
+describe('parseZodArgs', () => {
+  test('boolean parsing success', () => {
+    const args = ['--value'];
+    const options = { value: z.boolean() };
 
-		const actual = parseZodArgs(args, options);
+    const actual = parseZodArgs(args, options);
 
-		expect(actual).toEqual({ value: true });
-	});
+    expect(actual).toEqual({ value: true });
+  });
 
-	test("union of booleans literal parsing success", () => {
-		const args = ["--value"];
-		const options = { value: z.union([z.literal(false), z.literal(true)]) };
+  test('union of booleans literal parsing success', () => {
+    const args = ['--value'];
+    const options = { value: z.union([z.literal(false), z.literal(true)]) };
 
-		const actual = parseZodArgs(args, options);
+    const actual = parseZodArgs(args, options);
 
-		expect(actual).toEqual({ value: true });
-	});
+    expect(actual).toEqual({ value: true });
+  });
 
-	test("optional string parsing success", () => {
-		const args = ["--value", "abc"];
-		const options = { value: z.string().optional() };
+  test('optional string parsing success', () => {
+    const args = ['--value', 'abc'];
+    const options = { value: z.string().optional() };
 
-		const actual = parseZodArgs(args, options);
+    const actual = parseZodArgs(args, options);
 
-		expect(actual).toEqual({ value: "abc" });
-	});
+    expect(actual).toEqual({ value: 'abc' });
+  });
 
-	test("default string parsing success", () => {
-		const args = ["--value", "def"];
-		const options = { value: z.string().default("abc") };
+  test('default string parsing success', () => {
+    const args = ['--value', 'def'];
+    const options = { value: z.string().default('abc') };
 
-		const actual = parseZodArgs(args, options);
+    const actual = parseZodArgs(args, options);
 
-		expect(actual).toEqual({ value: "def" });
-	});
+    expect(actual).toEqual({ value: 'def' });
+  });
 
-	test("string parsing success", () => {
-		const args = ["--value", "abc"];
-		const options = { value: z.string() };
+  test('string parsing success', () => {
+    const args = ['--value', 'abc'];
+    const options = { value: z.string() };
 
-		const actual = parseZodArgs(args, options);
+    const actual = parseZodArgs(args, options);
 
-		expect(actual).toEqual({ value: "abc" });
-	});
+    expect(actual).toEqual({ value: 'abc' });
+  });
 
-	test("string literal parsing success", () => {
-		const args = ["--value", "abc"];
-		const options = { value: z.literal("abc") };
+  test('string literal parsing success', () => {
+    const args = ['--value', 'abc'];
+    const options = { value: z.literal('abc') };
 
-		const actual = parseZodArgs(args, options);
+    const actual = parseZodArgs(args, options);
 
-		expect(actual).toEqual({ value: "abc" });
-	});
+    expect(actual).toEqual({ value: 'abc' });
+  });
 
-	test("other literal parsing failure", () => {
-		const args = ["--value", "abc"];
-		const options = { value: z.literal(null) };
+  test('other literal parsing failure', () => {
+    const args = ['--value', 'abc'];
+    const options = { value: z.literal(null) };
 
-		const act = () => parseZodArgs(args, options);
+    const act = () => parseZodArgs(args, options);
 
-		expect(act).toThrow(
-			`create does not know how to parse this Zod literal on the CLI: null`,
-		);
-	});
+    expect(act).toThrow(`create does not know how to parse this Zod literal on the CLI: null`);
+  });
 
-	test("symbol literal parsing failure", () => {
-		const args = ["--value", "abc"];
-		const options = { value: z.literal(Symbol.for("abc") as never) };
+  test('symbol literal parsing failure', () => {
+    const args = ['--value', 'abc'];
+    const options = { value: z.literal(Symbol.for('abc') as never) };
 
-		const act = () => parseZodArgs(args, options);
+    const act = () => parseZodArgs(args, options);
 
-		expect(act).toThrow(
-			`create does not know how to parse this Zod literal on the CLI: Symbol(abc)`,
-		);
-	});
+    expect(act).toThrow(
+      `create does not know how to parse this Zod literal on the CLI: Symbol(abc)`,
+    );
+  });
 
-	test("object parsing failure", () => {
-		const args = ["--value"];
-		const options = { value: z.object({}) };
+  test('object parsing failure', () => {
+    const args = ['--value'];
+    const options = { value: z.object({}) };
 
-		expect(parseZodArgs(args, options)).toEqual({ value: true });
-	});
+    expect(parseZodArgs(args, options)).toEqual({ value: true });
+  });
 });

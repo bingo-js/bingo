@@ -14,28 +14,25 @@ It takes up to two parameters:
 For example, this template uses two `../template/*.hbs` files relative to the template's source file:
 
 ```ts
-import { createTemplate } from "bingo";
-import { loadHandlebars } from "bingo-handlebars";
+import { createTemplate } from 'bingo';
+import { loadHandlebars } from 'bingo-handlebars';
 
 export default createTemplate({
-	about: { name: "My Handlebars Template" },
-	options: {
-		owner: z.string(),
-		repository: z.string(),
-	},
-	async produce({ options }) {
-		const handlebars = await loadHandlebars(
-			path.join(import.meta.dirname, "../template"),
-			options,
-		);
+  about: { name: 'My Handlebars Template' },
+  options: {
+    owner: z.string(),
+    repository: z.string(),
+  },
+  async produce({ options }) {
+    const handlebars = await loadHandlebars(path.join(import.meta.dirname, '../template'), options);
 
-		return {
-			files: {
-				"package.json": handlebars("package.json.hbs"),
-				"README.md": handlebars("README.md.hbs"),
-			},
-		};
-	},
+    return {
+      files: {
+        'package.json': handlebars('package.json.hbs'),
+        'README.md': handlebars('README.md.hbs'),
+      },
+    };
+  },
 });
 ```
 
@@ -49,29 +46,26 @@ Default options will be overridden by any options provided by the generated `han
 For example, this template renders its `package.json` with default options, but overrides its `repository` value to be `"other-repository"`:
 
 ```ts
-import { createTemplate } from "bingo";
-import { loadHandlebars } from "bingo-handlebars";
+import { createTemplate } from 'bingo';
+import { loadHandlebars } from 'bingo-handlebars';
 
 export default createTemplate({
-	about: { name: "My Handlebars Template" },
-	options: {
-		owner: z.string(),
-		repository: z.string(),
-	},
-	async produce({ options }) {
-		const handlebars = await loadHandlebars(
-			path.join(import.meta.dirname, "../template"),
-			options,
-		);
+  about: { name: 'My Handlebars Template' },
+  options: {
+    owner: z.string(),
+    repository: z.string(),
+  },
+  async produce({ options }) {
+    const handlebars = await loadHandlebars(path.join(import.meta.dirname, '../template'), options);
 
-		return {
-			files: {
-				"package.json": handlebars("package.json.hbs"),
-				"README.md": handlebars("README.md.hbs", {
-					repository: "other-repository",
-				}),
-			},
-		};
-	},
+    return {
+      files: {
+        'package.json': handlebars('package.json.hbs'),
+        'README.md': handlebars('README.md.hbs', {
+          repository: 'other-repository',
+        }),
+      },
+    };
+  },
 });
 ```

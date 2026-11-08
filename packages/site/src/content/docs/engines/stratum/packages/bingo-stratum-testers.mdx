@@ -3,7 +3,7 @@ description: Test utilities for Stratum Blocks and Presets. 🧑‍🔧
 title: bingo-stratum-testers
 ---
 
-import { PackageManagers } from "starlight-package-managers";
+import { PackageManagers } from 'starlight-package-managers';
 
 Test utilities for Stratum Blocks and Presets.
 🧑‍🔧
@@ -39,19 +39,19 @@ It takes in similar arguments:
 For example, this test asserts that an nvmrc Block creates an `.nvmrc` file with content `"20.12.2"`:
 
 ```ts
-import { testBlock } from "create-testers";
-import { describe, expect, it } from "vitest";
+import { testBlock } from 'create-testers';
+import { describe, expect, it } from 'vitest';
 
-import { blockNvmrc } from "./blockNvmrc";
+import { blockNvmrc } from './blockNvmrc';
 
-describe("blockNvmrc", () => {
-	it("returns an .nvmrc", () => {
-		const actual = testBlock(blockNvmrc);
+describe('blockNvmrc', () => {
+  it('returns an .nvmrc', () => {
+    const actual = testBlock(blockNvmrc);
 
-		expect(actual).toEqual({
-			files: { ".nvmrc": "20.12.2" },
-		});
-	});
+    expect(actual).toEqual({
+      files: { '.nvmrc': '20.12.2' },
+    });
+  });
 });
 ```
 
@@ -70,47 +70,47 @@ However, some properties will cause `testBlock` to throw an error if they're not
 For example, this test asserts that a Prettier block adds a `useTabs` arg to its output `".prettierrc.json"`:
 
 ```ts
-import { testBlock } from "create-testers";
-import { describe, expect, expect, it } from "vitest";
-import { z } from "zod";
+import { testBlock } from 'create-testers';
+import { describe, expect, expect, it } from 'vitest';
+import { z } from 'zod';
 
-import { base } from "./base";
+import { base } from './base';
 
 const blockPrettier = base.createBlock({
-	props: {
-		useTabs: z.boolean(),
-	},
-	produce({ props }) {
-		return {
-			files: {
-				".prettierrc.json": JSON.stringify({
-					$schema: "http://json.schemastore.org/prettierrc",
-					useTabs: props.useTabs,
-				}),
-			},
-		};
-	},
+  props: {
+    useTabs: z.boolean(),
+  },
+  produce({ props }) {
+    return {
+      files: {
+        '.prettierrc.json': JSON.stringify({
+          $schema: 'http://json.schemastore.org/prettierrc',
+          useTabs: props.useTabs,
+        }),
+      },
+    };
+  },
 });
 
-describe("blockPrettier", () => {
-	it("creates a .prettierrc.json when provided options", () => {
-		const actual = testBlock(blockPrettier, {
-			props: {
-				config: {
-					useTabs: true,
-				},
-			},
-		});
+describe('blockPrettier', () => {
+  it('creates a .prettierrc.json when provided options', () => {
+    const actual = testBlock(blockPrettier, {
+      props: {
+        config: {
+          useTabs: true,
+        },
+      },
+    });
 
-		expect(actual).toEqual({
-			files: {
-				".prettierrc.json": JSON.stringify({
-					$schema: "http://json.schemastore.org/prettierrc",
-					useTabs: true,
-				}),
-			},
-		});
-	});
+    expect(actual).toEqual({
+      files: {
+        '.prettierrc.json': JSON.stringify({
+          $schema: 'http://json.schemastore.org/prettierrc',
+          useTabs: true,
+        }),
+      },
+    });
+  });
 });
 ```
 
@@ -121,36 +121,36 @@ describe("blockPrettier", () => {
 For example, this test asserts that a README.md uses the `title` defined under `options`:
 
 ```ts
-import { testBlock } from "create-testers";
-import { describe, expect, it } from "vitest";
+import { testBlock } from 'create-testers';
+import { describe, expect, it } from 'vitest';
 
-import { base } from "./base";
+import { base } from './base';
 
 const blockReadme = base.createBlock({
-	produce({ options }) {
-		return {
-			files: {
-				"README.md": `# ${options.title} (${options.preset})`,
-			},
-		};
-	},
+  produce({ options }) {
+    return {
+      files: {
+        'README.md': `# ${options.title} (${options.preset})`,
+      },
+    };
+  },
 });
 
-describe("blockDocs", () => {
-	it("uses options.name for the README.md title", () => {
-		const actual = testBlock(blockReadme, {
-			options: {
-				preset: "test",
-				title: "My Project",
-			},
-		});
+describe('blockDocs', () => {
+  it('uses options.name for the README.md title', () => {
+    const actual = testBlock(blockReadme, {
+      options: {
+        preset: 'test',
+        title: 'My Project',
+      },
+    });
 
-		expect(actual).toEqual({
-			files: {
-				"README.md": `# My Project (test)`,
-			},
-		});
-	});
+    expect(actual).toEqual({
+      files: {
+        'README.md': `# My Project (test)`,
+      },
+    });
+  });
 });
 ```
 
@@ -170,22 +170,22 @@ Files in the directory must be stored as [`[string, CreatedFileMetatdata?]` tupl
 For example, this test asserts that an nvmrc Block intakes a `version` Prop from an existing `.nvmrc` file on disk:
 
 ```ts
-import { testIntake } from "create-testers";
-import { describe, expect, it } from "vitest";
+import { testIntake } from 'create-testers';
+import { describe, expect, it } from 'vitest';
 
-import { blockNvmrc } from "./blockNvmrc";
+import { blockNvmrc } from './blockNvmrc';
 
-describe("intake", () => {
-	it("returns an .nvmrc", () => {
-		const version = "20.12.2";
+describe('intake', () => {
+  it('returns an .nvmrc', () => {
+    const version = '20.12.2';
 
-		const actual = testIntake(blockNvmrc, {
-			files: {
-				".nvmrc": [`${version}\n`],
-			},
-		});
+    const actual = testIntake(blockNvmrc, {
+      files: {
+        '.nvmrc': [`${version}\n`],
+      },
+    });
 
-		expect(actual).toEqual({ version });
-	});
+    expect(actual).toEqual({ version });
+  });
 });
 ```

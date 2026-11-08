@@ -1,27 +1,25 @@
 import {
-	AnyShape,
-	createSystemContextWithAuth,
-	InferredObject,
-	runCreation,
-	RunTemplateSettings,
-} from "bingo";
-import { IntakeDirectory } from "bingo-fs";
+  AnyShape,
+  createSystemContextWithAuth,
+  InferredObject,
+  runCreation,
+  RunTemplateSettings,
+} from 'bingo';
+import { IntakeDirectory } from 'bingo-fs';
 
-import { producePreset } from "../producers/producePreset.js";
-import { BlockCreation } from "../types/creations.js";
-import { Preset } from "../types/presets.js";
-import { StratumRefinements } from "../types/refinements.js";
+import { producePreset } from '../producers/producePreset.js';
+import { BlockCreation } from '../types/creations.js';
+import { Preset } from '../types/presets.js';
+import { StratumRefinements } from '../types/refinements.js';
 
-export interface RunPresetSettings<
-	OptionsShape extends AnyShape,
-> extends RunTemplateSettings<
-	OptionsShape,
-	StratumRefinements<InferredObject<OptionsShape>>
+export interface RunPresetSettings<OptionsShape extends AnyShape> extends RunTemplateSettings<
+  OptionsShape,
+  StratumRefinements<InferredObject<OptionsShape>>
 > {
-	/**
-	 * Existing file creations to be used for Blocks that can intake Props.
-	 */
-	files?: IntakeDirectory;
+  /**
+   * Existing file creations to be used for Blocks that can intake Props.
+   */
+  files?: IntakeDirectory;
 }
 
 /**
@@ -30,15 +28,15 @@ export interface RunPresetSettings<
  * @see {@link https://www.create.bingo/engines/stratum/apis/runners#runTemplate}
  */
 export async function runPreset<OptionsShape extends AnyShape>(
-	preset: Preset<OptionsShape>,
-	settings: RunPresetSettings<OptionsShape>,
+  preset: Preset<OptionsShape>,
+  settings: RunPresetSettings<OptionsShape>,
 ): Promise<BlockCreation<InferredObject<OptionsShape>>> {
-	const { directory = ".", offline } = settings;
-	const system = await createSystemContextWithAuth({ directory, ...settings });
+  const { directory = '.', offline } = settings;
+  const system = await createSystemContextWithAuth({ directory, ...settings });
 
-	const creation = producePreset(preset, settings);
+  const creation = producePreset(preset, settings);
 
-	await runCreation(creation, { offline, system });
+  await runCreation(creation, { offline, system });
 
-	return creation;
+  return creation;
 }

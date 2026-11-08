@@ -11,9 +11,9 @@ A typical bin file will look something like:
 
 ```js title="index.js"
 #!/usr/bin/env node
-import { runTemplateCLI } from "bingo";
+import { runTemplateCLI } from 'bingo';
 
-import template from "./template.js";
+import template from './template.js';
 
 process.exitCode = await runTemplateCLI(template);
 ```
@@ -39,12 +39,12 @@ For example, hardcoding the name and version:
 
 ```js title="index.js"
 #!/usr/bin/env node
-import { runTemplateCLI } from "bingo";
+import { runTemplateCLI } from 'bingo';
 
-import template from "./template.js";
+import template from './template.js';
 
 process.exitCode = await runTemplateCLI(template, {
-	name: "my-example",
-	version: "1.2.3",
+  name: 'my-example',
+  version: '1.2.3',
 });
 ```

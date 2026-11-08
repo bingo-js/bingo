@@ -1,23 +1,16 @@
 {
-	"dictionaries": ["npm", "node", "typescript"],
-	"ignorePaths": [
-		".github",
-		"*.tsbuildinfo",
-		"CHANGELOG.md",
-		"coverage",
-		"node_modules",
-		"packages/*/dist",
-		"packages/*/lib",
-		"packages/*/tsconfig.tsbuildinfo",
-		"packages/site/src/content",
-		"pnpm-lock.yaml"
-	],
-	"words": [
-		"bunx",
-		"joshuakgoldberg",
-		"Rajlich",
-		"rumpl",
-		"tinyrainbow",
-		"unstub"
-	]
+  "dictionaries": ["npm", "node", "typescript"],
+  "ignorePaths": [
+    ".github",
+    "*.tsbuildinfo",
+    "CHANGELOG.md",
+    "coverage",
+    "node_modules",
+    "packages/*/dist",
+    "packages/*/lib",
+    "packages/*/tsconfig.tsbuildinfo",
+    "packages/site/src/content",
+    "pnpm-lock.yaml"
+  ],
+  "words": ["bunx", "joshuakgoldberg", "Rajlich", "rumpl", "tinyrainbow", "unstub"]
 }

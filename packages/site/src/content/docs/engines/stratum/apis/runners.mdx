@@ -35,22 +35,22 @@ Given a [Block](/engines/stratum/concepts/blocks), creates a [Creation](/build/c
 For example, given this Block that produces the start of a README.md file, `runBlock` can run its `produce()` with any provided options:
 
 ```ts
-import { Base, createBlock } from "bingo-stratum";
+import { Base, createBlock } from 'bingo-stratum';
 
 declare const base: Base<{ title: string }>;
 
 const blockReadme = base.createBlock({
-	produce({ options }) {
-		return {
-			files: {
-				"README.md": `# ${options.title}`,
-			},
-		};
-	},
+  produce({ options }) {
+    return {
+      files: {
+        'README.md': `# ${options.title}`,
+      },
+    };
+  },
 });
 
 // { files: { "README.md": `# My App` }}
-runBlock(blockReadme, { options: { title: "My App" } });
+runBlock(blockReadme, { options: { title: 'My App' } });
 ```
 
 ### `props` {#runblock-props}
@@ -60,31 +60,31 @@ Any number of [Props](/engines/stratum/apis/create-base#createblock-props) defin
 For example, given this Block with a `prefix` Prop and a `name` Option, both can be specified in `runBlock`:
 
 ```ts
-import { Base, createBlock } from "bingo-stratum";
+import { Base, createBlock } from 'bingo-stratum';
 
 declare const base: Base<{ name: string }>;
 
 const blockPrefixedReadme = base.createBlock({
-	props: {
-		prefix: z.string().default("My"),
-	},
-	produce({ props, options }) {
-		return {
-			files: {
-				"README.md": `# ${props.prefix} ${options.title}`,
-			},
-		};
-	},
+  props: {
+    prefix: z.string().default('My'),
+  },
+  produce({ props, options }) {
+    return {
+      files: {
+        'README.md': `# ${props.prefix} ${options.title}`,
+      },
+    };
+  },
 });
 
 // { files: { "README.md": `# The App` }}
 runBlock(blockPrefixedReadme, {
-	props: {
-		prefix: "The",
-	},
-	options: {
-		name: "App",
-	},
+  props: {
+    prefix: 'The',
+  },
+  options: {
+    name: 'App',
+  },
 });
 ```
 
@@ -98,16 +98,16 @@ If provided, [Input Context fetchers](/build/details/contexts#input-fetchers) wi
 For example, this Base is told to run offline:
 
 ```ts
-import { runBlock } from "bingo";
+import { runBlock } from 'bingo';
 
-import { base } from "./base";
+import { base } from './base';
 
 const blockInstallDependencies = base.createBlock({
-	produce({ offline }) {
-		return {
-			scripts: [offline ? "pnpm install --offline" : "pnpm install"],
-		};
-	},
+  produce({ offline }) {
+    return {
+      scripts: [offline ? 'pnpm install --offline' : 'pnpm install'],
+    };
+  },
 });
 
 // { scripts: ["pnpm install"] }
@@ -124,30 +124,30 @@ Any number of options defined by the Block's [Base](/engines/stratum/concepts/ba
 For example, this Block is run with one `repository` option:
 
 ```ts
-import { createBase } from "bingo-stratum";
-import { z } from "zod";
+import { createBase } from 'bingo-stratum';
+import { z } from 'zod';
 
 const base = createBase({
-	options: {
-		repository: z.string(),
-	},
+  options: {
+    repository: z.string(),
+  },
 });
 
 const blockPackageJson = createBlock({
-	produce() {
-		return {
-			files: {
-				"package.json": JSON.stringify({ name: options.repository }),
-			},
-		};
-	},
+  produce() {
+    return {
+      files: {
+        'package.json': JSON.stringify({ name: options.repository }),
+      },
+    };
+  },
 });
 
 // { files: { "package.json": `{repository":"my-app"}` } }
 runBlock(block, {
-	options: {
-		repository: "my-app",
-	},
+  options: {
+    repository: 'my-app',
+  },
 });
 ```
 
@@ -165,19 +165,19 @@ Given a [Preset](/engines/stratum/concepts/presets), runs a [Creation](/build/co
 For example, given this Preset that includes the `blockReadme` from [`runBlock`](#runblock), `runPreset` can run its `produce()` with any provided options:
 
 ```ts
-import { runPreset } from "bingo";
+import { runPreset } from 'bingo';
 
-import { base } from "./base";
-import { blockReadme } from "./blockReadme";
+import { base } from './base';
+import { blockReadme } from './blockReadme';
 
 const preset = base.createPreset({
-	name: "Example",
-	blocks: [blockReadme],
+  name: 'Example',
+  blocks: [blockReadme],
 });
 
 // { files: { "README.md": `# My App` } }
 await runPreset(preset, {
-	options: { title: "My App" },
+  options: { title: 'My App' },
 });
 ```
 
@@ -188,23 +188,23 @@ Any Blocks to `add` and/or `remove`.
 For example, this production swaps in a Jest Block instead of a Vitest Block:
 
 ```ts
-import { Preset, runPreset } from "bingo";
-import { z } from "zod";
+import { Preset, runPreset } from 'bingo';
+import { z } from 'zod';
 
-import { blockJest } from "./blockJest";
-import { blockVitest } from "./blockVitest";
+import { blockJest } from './blockJest';
+import { blockVitest } from './blockVitest';
 
 declare const preset: Preset;
 
 await runPreset(preset, {
-	blocks: {
-		add: [blockJest],
-		exclude: [blockVitest],
-	},
-	options: {
-		name: "My Production",
-		preset: "example",
-	},
+  blocks: {
+    add: [blockJest],
+    exclude: [blockVitest],
+  },
+  options: {
+    name: 'My Production',
+    preset: 'example',
+  },
 });
 ```
 
@@ -220,16 +220,16 @@ If provided, [Input Context fetchers](/build/details/contexts#input-fetchers) wi
 For example, this Preset is told to run offline:
 
 ```ts
-import { Preset, runPreset } from "bingo";
-import { z } from "zod";
+import { Preset, runPreset } from 'bingo';
+import { z } from 'zod';
 
 declare const preset: Preset;
 
 await runPreset(preset, {
-	offline: true,
-	options: {
-		preset: "example",
-	},
+  offline: true,
+  options: {
+    preset: 'example',
+  },
 });
 ```
 
@@ -248,16 +248,16 @@ It may also include any other optional Options.
 For example, this Preset is run with a `name` option:
 
 ```ts
-import { Preset, runPreset } from "bingo";
-import { z } from "zod";
+import { Preset, runPreset } from 'bingo';
+import { z } from 'zod';
 
 declare const preset: Preset<{ name: z.ZodString }>;
 
 await runPreset(preset, {
-	options: {
-		name: "My Production",
-		preset: "example",
-	},
+  options: {
+    name: 'My Production',
+    preset: 'example',
+  },
 });
 ```
 
@@ -269,8 +269,8 @@ If you want to include the inferred options from a Preset's Base you'll have to 
 For example, this directly passes produced Options from a Base to a Preset:
 
 ```ts
-import { base } from "./base";
-import { preset } from "./preset";
+import { base } from './base';
+import { preset } from './preset';
 
 const options = await prepareBase(base);
 
@@ -289,23 +289,23 @@ Extensions allow you to add additional [Props](/engines/stratum/apis/create-base
 For example, this production extends the preset by adding a `"generated"` Prop to its Prettier Block:
 
 ```ts
-import { Preset, runPreset } from "bingo";
-import { z } from "zod";
+import { Preset, runPreset } from 'bingo';
+import { z } from 'zod';
 
-import { blockPrettier } from "./blockPrettier";
+import { blockPrettier } from './blockPrettier';
 
 declare const preset: Preset;
 
 await runPreset(preset, {
-	extensions: [
-		blockPrettier({
-			ignores: ["generated"],
-		}),
-	],
-	options: {
-		name: "My Production",
-		preset: "example",
-	},
+  extensions: [
+    blockPrettier({
+      ignores: ['generated'],
+    }),
+  ],
+  options: {
+    name: 'My Production',
+    preset: 'example',
+  },
 });
 ```
 
@@ -316,23 +316,23 @@ Any Blocks to `add` and/or `remove`.
 For example, this production swaps in a Jest Block instead of a Vitest Block:
 
 ```ts
-import { Preset, runPreset } from "bingo";
-import { z } from "zod";
+import { Preset, runPreset } from 'bingo';
+import { z } from 'zod';
 
-import { blockJest } from "./blockJest";
-import { blockVitest } from "./blockVitest";
+import { blockJest } from './blockJest';
+import { blockVitest } from './blockVitest';
 
 declare const preset: Preset;
 
 await runPreset(preset, {
-	blocks: {
-		add: [blockJest],
-		exclude: [blockVitest],
-	},
-	options: {
-		name: "My Production",
-		preset: "example",
-	},
+  blocks: {
+    add: [blockJest],
+    exclude: [blockVitest],
+  },
+  options: {
+    name: 'My Production',
+    preset: 'example',
+  },
 });
 ```
 
@@ -346,17 +346,17 @@ This is used to resolve any [Block Refinements](/engines/stratum/concepts/templa
 For example, this production runs a Preset that includes an "Extra Fun" Block from its parent Template:
 
 ```ts
-import { Preset, producePreset } from "bingo";
-import { z } from "zod";
+import { Preset, producePreset } from 'bingo';
+import { z } from 'zod';
 
 declare const preset: Preset;
 declare const template: Template;
 
 producePreset(preset, {
-	options: {
-		"add-extra-fun": true,
-		name: "My Production",
-	},
-	preset: "example",
+  options: {
+    'add-extra-fun': true,
+    name: 'My Production',
+  },
+  preset: 'example',
 });
 ```

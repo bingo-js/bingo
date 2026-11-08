@@ -19,13 +19,13 @@ It is a union of the lowercased labels for the Template's available [Presets](/e
 For example, given a Template whose Base includes a boolean `bin` string, this configuration explicitly sets that option to `"index.js"`:
 
 ```ts title="create-typescript-app.config.ts"
-import { blockCSpell, createConfig } from "create-typescript-app";
+import { blockCSpell, createConfig } from 'create-typescript-app';
 
 export default createConfig({
-	options: {
-		base: "index.js",
-		preset: "everything",
-	},
+  options: {
+    base: 'index.js',
+    preset: 'everything',
+  },
 });
 ```
 
@@ -41,16 +41,16 @@ These will be [merged](/build/details/merging) in with Props provided by other B
 For example, this configuration file adds the word `"arethetypeswrong"` to a CSpell Block's Props:
 
 ```ts title="create-typescript-app.config.ts"
-import { blockCSpell, createConfig } from "create-typescript-app";
+import { blockCSpell, createConfig } from 'create-typescript-app';
 
 export default createConfig({
-	refinements: {
-		extensions: [
-			blockCSpell({
-				words: ["arethetypeswrong"],
-			}),
-		],
-	},
+  refinements: {
+    extensions: [
+      blockCSpell({
+        words: ['arethetypeswrong'],
+      }),
+    ],
+  },
 });
 ```
 
@@ -67,14 +67,14 @@ Any Blocks to add to what the Preset provides.
 For example, this configuration file adds in an "arethetypeswrong" Block alongside existing Blocks provided by `create-typescript-app`:
 
 ```ts title="create-typescript-app.config.ts"
-import { blockAreTheTypesWrong, createConfig } from "create-typescript-app";
+import { blockAreTheTypesWrong, createConfig } from 'create-typescript-app';
 
 export default createConfig({
-	refinements: {
-		blocks: {
-			add: [blockAreTheTypesWrong],
-		},
-	},
+  refinements: {
+    blocks: {
+      add: [blockAreTheTypesWrong],
+    },
+  },
 });
 ```
 
@@ -87,14 +87,14 @@ Any Blocks to exclude from what the Preset provides.
 For example, this configuration file omits the default _"This package was templated with..."_ notice that comes with `create-typescript-app`:
 
 ```ts title="create-typescript-app.config.ts"
-import { blockTemplatedBy, createConfig } from "create-typescript-app";
+import { blockTemplatedBy, createConfig } from 'create-typescript-app';
 
 export default createConfig({
-	refinements: {
-		blocks: {
-			exclude: [blockTemplatedBy],
-		},
-	},
+  refinements: {
+    blocks: {
+      exclude: [blockTemplatedBy],
+    },
+  },
 });
 ```
 
@@ -111,37 +111,37 @@ For example, this custom Block adds a [Wallaby configuration file](https://walla
 
 ```ts
 // blockWallabyConfig.js
-import { base, blockPackageJson } from "create-typescript-app";
+import { base, blockPackageJson } from 'create-typescript-app';
 
 export const blockWallabyConfig = base.createBlock({
-	about: {
-		name: "Wallaby Config",
-	},
-	produce() {
-		return {
-			files: {
-				"wallaby.js": `module.exports = function () {
+  about: {
+    name: 'Wallaby Config',
+  },
+  produce() {
+    return {
+      files: {
+        'wallaby.js': `module.exports = function () {
 	return {
 		reportConsoleErrorAsError: true,
 	};
 };`,
-			},
-		};
-	},
+      },
+    };
+  },
 });
 ```
 
 ```ts title="create-typescript-app.config.ts"
-import { createConfig } from "create-typescript-app";
+import { createConfig } from 'create-typescript-app';
 
-import { blockWallabyConfig } from "./blockWallabyConfig.js";
+import { blockWallabyConfig } from './blockWallabyConfig.js';
 
 export default createConfig({
-	refinements: {
-		blocks: {
-			add: [blockWallabyConfig],
-		},
-	},
+  refinements: {
+    blocks: {
+      add: [blockWallabyConfig],
+    },
+  },
 });
 ```
 
@@ -154,41 +154,41 @@ For example, to add an [`@arethetypeswrong/cli`](https://www.npmjs.com/package/@
 
 ```ts
 // blockLintAreTheTypesWrong.js
-import { base, blockPackageJson } from "create-typescript-app";
+import { base, blockPackageJson } from 'create-typescript-app';
 
 export const blockLintAreTheTypesWrong = base.createBlock({
-	about: {
-		name: "Lint Are The Types Wrong",
-	},
-	produce() {
-		return {
-			extensions: [
-				blockPackageJson({
-					properties: {
-						devDependencies: {
-							"@arethetypeswrong/cli": "0.17.3",
-						},
-						scripts: {
-							"lint:arethetypeswrong": "attw --pack .",
-						},
-					},
-				}),
-			],
-		};
-	},
+  about: {
+    name: 'Lint Are The Types Wrong',
+  },
+  produce() {
+    return {
+      extensions: [
+        blockPackageJson({
+          properties: {
+            devDependencies: {
+              '@arethetypeswrong/cli': '0.17.3',
+            },
+            scripts: {
+              'lint:arethetypeswrong': 'attw --pack .',
+            },
+          },
+        }),
+      ],
+    };
+  },
 });
 ```
 
 ```ts title="create-typescript-app.config.ts"
-import { createConfig } from "create-typescript-app";
+import { createConfig } from 'create-typescript-app';
 
-import { blockLintAreTheTypesWrong } from "./blockLintAreTheTypesWrong.js";
+import { blockLintAreTheTypesWrong } from './blockLintAreTheTypesWrong.js';
 
 export default createConfig({
-	refinements: {
-		blocks: {
-			add: [blockLintAreTheTypesWrong],
-		},
-	},
+  refinements: {
+    blocks: {
+      add: [blockLintAreTheTypesWrong],
+    },
+  },
 });
 ```

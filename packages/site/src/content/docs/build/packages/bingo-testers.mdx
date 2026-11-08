@@ -3,7 +3,7 @@ description: Test utilities for composable, testable, type-safe templates. ⚗�
 title: bingo-testers
 ---
 
-import { PackageManagers } from "starlight-package-managers";
+import { PackageManagers } from 'starlight-package-managers';
 
 Test utilities for composable, testable, type-safe templates.
 ⚗️
@@ -32,18 +32,18 @@ Parameters:
 For example, this test snippet runs an integration test for a template repository, making sure its files on disk match its own `everything` Preset:
 
 ```ts
-import { produceTemplate } from "bingo";
-import { intake } from "bingo-fs";
-import { diffCreatedDirectory } from "bingo-testers";
+import { produceTemplate } from 'bingo';
+import { intake } from 'bingo-fs';
+import { diffCreatedDirectory } from 'bingo-testers';
 
-import { exampleTemplate } from "./exampleTemplate.js";
+import { exampleTemplate } from './exampleTemplate.js';
 
-const actual = await intake(".", {
-	exclude: /node_modules|^\.git$/,
+const actual = await intake('.', {
+  exclude: /node_modules|^\.git$/,
 });
 
 const created = await produceTemplate(exampleTemplate, {
-	preset: "everything",
+  preset: 'everything',
 });
 
 expect(diffCreatedDirectory(actual, created)).toBeUndefined();
@@ -87,17 +87,17 @@ It takes in similar arguments:
 For example, this test asserts that an `inputNow` returns a numeric timestamp:
 
 ```ts
-import { testInput } from "bingo-testers";
-import { describe, expect, it } from "vitest";
+import { testInput } from 'bingo-testers';
+import { describe, expect, it } from 'vitest';
 
-import { inputNow } from "./inputNow";
+import { inputNow } from './inputNow';
 
-describe("inputNow", () => {
-	it("returns a numeric timestamp", async () => {
-		const actual = await testInput(inputNow);
+describe('inputNow', () => {
+  it('returns a numeric timestamp', async () => {
+    const actual = await testInput(inputNow);
 
-		expect(actual).toBeTypeOf("number");
-	});
+    expect(actual).toBeTypeOf('number');
+  });
 });
 ```
 
@@ -119,26 +119,26 @@ However, some properties will cause `testInput` to throw an error if they're not
 This test passes a `filePath` arg to an `inputFromFile` input, along with [`fs`](#testinput-fs):
 
 ```ts
-import { testInput } from "bingo-testers";
-import { describe, expect, it } from "vitest";
+import { testInput } from 'bingo-testers';
+import { describe, expect, it } from 'vitest';
 
-import { inputFromFile } from "./inputFromFile.js";
+import { inputFromFile } from './inputFromFile.js';
 
-describe("inputFromFile", () => {
-	it("returns the file's text when it exists", async () => {
-		const text = "abc123";
+describe('inputFromFile', () => {
+  it("returns the file's text when it exists", async () => {
+    const text = 'abc123';
 
-		const actual = await testInput(inputFromFile, {
-			args: {
-				filePath: "file.txt",
-			},
-			fs: {
-				readFile: () => Promise.resolve(text),
-			},
-		});
+    const actual = await testInput(inputFromFile, {
+      args: {
+        filePath: 'file.txt',
+      },
+      fs: {
+        readFile: () => Promise.resolve(text),
+      },
+    });
 
-		expect(actual).toBe(text);
-	});
+    expect(actual).toBe(text);
+  });
 });
 ```
 
@@ -150,28 +150,27 @@ This is typically created by passing a function to [`createSystemFetchers`](/bui
 For example, this test asserts that an `inputCatFact` Input returns the `fact` property of a response:
 
 ```ts
-import { createSystemFetchers } from "bingo-systems";
-import { testInput } from "bingo-testers";
-import { Octokit } from "octokit";
-import { describe, expect, it, vi } from "vitest";
+import { createSystemFetchers } from 'bingo-systems';
+import { testInput } from 'bingo-testers';
+import { Octokit } from 'octokit';
+import { describe, expect, it, vi } from 'vitest';
 
-import { inputCatFact } from "./inputCatFact";
+import { inputCatFact } from './inputCatFact';
 
-describe("inputCatFact", () => {
-	it("returns the cat fact from the API", async () => {
-		const fact =
-			"Owning a cat is actually proven to be beneficial for your health.";
+describe('inputCatFact', () => {
+  it('returns the cat fact from the API', async () => {
+    const fact = 'Owning a cat is actually proven to be beneficial for your health.';
 
-		const fetch = vi.fn().mockResolvedValueOnce({
-			json: () => Promise.resolve({ fact }),
-		});
-		const fetchers = createSystemFetchers(fetch);
+    const fetch = vi.fn().mockResolvedValueOnce({
+      json: () => Promise.resolve({ fact }),
+    });
+    const fetchers = createSystemFetchers(fetch);
 
-		const actual = await testInput(inputCatFact, { fetchers });
+    const actual = await testInput(inputCatFact, { fetchers });
 
-		expect(actual).toEqual(fact);
-		expect(fetch).toHaveBeenCalledWith("https://catfact.ninja/fact");
-	});
+    expect(actual).toEqual(fact);
+    expect(fetch).toHaveBeenCalledWith('https://catfact.ninja/fact');
+  });
 });
 ```
 
@@ -185,24 +184,24 @@ This can be any of the properties from a [`ReadingFileSystem`](/build/packages/b
 For example, this test asserts that an `inputFromFile` input returns the text of a file from disk:
 
 ```ts
-import { testInput } from "bingo-testers";
-import { describe, expect, it, vi } from "vitest";
+import { testInput } from 'bingo-testers';
+import { describe, expect, it, vi } from 'vitest';
 
-import { inputFromFile } from "./inputCatFact";
+import { inputFromFile } from './inputCatFact';
 
-describe("inputFromFile", () => {
-	it("returns the contents of a file", async () => {
-		const contents = "abc123";
-		const readFile = vi.fn().mockResolvedValue(contents);
+describe('inputFromFile', () => {
+  it('returns the contents of a file', async () => {
+    const contents = 'abc123';
+    const readFile = vi.fn().mockResolvedValue(contents);
 
-		const actual = await testInput(inputFromFile, {
-			args: { fileName: "text.txt" },
-			fs: { readFile },
-		});
+    const actual = await testInput(inputFromFile, {
+      args: { fileName: 'text.txt' },
+      fs: { readFile },
+    });
 
-		expect(actual).toEqual(contents);
-		expect(readFile).toHaveBeenCalledWith("text.txt");
-	});
+    expect(actual).toEqual(contents);
+    expect(readFile).toHaveBeenCalledWith('text.txt');
+  });
 });
 ```
 
@@ -215,24 +214,24 @@ A mock function to act as a [`SystemRunner`](/build/packages/bingo-systems#runne
 For example, this test asserts that an `inputGitUserEmail` Input returns the text from running `git config user.email`:
 
 ```ts
-import { testInput } from "bingo-testers";
-import { describe, expect, it, vi } from "vitest";
+import { testInput } from 'bingo-testers';
+import { describe, expect, it, vi } from 'vitest';
 
-import { inputGitUserEmail } from "./inputGitUserEmail";
+import { inputGitUserEmail } from './inputGitUserEmail';
 
-describe("inputGitUserEmail", () => {
-	it("returns text from git config user.email", async () => {
-		const email = "rick.astley@create.bingo";
+describe('inputGitUserEmail', () => {
+  it('returns text from git config user.email', async () => {
+    const email = 'rick.astley@create.bingo';
 
-		const runner = vi.fn().mockResolvedValueOnce({
-			stdout: email,
-		});
+    const runner = vi.fn().mockResolvedValueOnce({
+      stdout: email,
+    });
 
-		const actual = await testInput(inputGitUserEmail, { runner });
+    const actual = await testInput(inputGitUserEmail, { runner });
 
-		expect(actual).toEqual(email);
-		expect(runner).toHaveBeenCalledWith("git config user.email");
-	});
+    expect(actual).toEqual(email);
+    expect(runner).toHaveBeenCalledWith('git config user.email');
+  });
 });
 ```
 
@@ -245,25 +244,25 @@ This is how to simulate the results of calling to other [Inputs](/build/details/
 For example, this test asserts that an `inputNpmUsername` Input uses the result of an `inputNpmWhoami` Input:
 
 ```ts
-import { testInput } from "bingo-testers";
-import { describe, expect, it, vi } from "vitest";
+import { testInput } from 'bingo-testers';
+import { describe, expect, it, vi } from 'vitest';
 
-import { inputNpmUsername } from "./inputNpmUsername";
-import { inputNpmWhoami } from "./inputNpmWhoami";
+import { inputNpmUsername } from './inputNpmUsername';
+import { inputNpmWhoami } from './inputNpmWhoami';
 
-describe("inputNpmUsername", () => {
-	it("uses the result of npm whoami when available", async () => {
-		const username = "joshuakgoldberg";
+describe('inputNpmUsername', () => {
+  it('uses the result of npm whoami when available', async () => {
+    const username = 'joshuakgoldberg';
 
-		const take = vi.fn().mockResolvedValue({
-			stdout: username,
-		});
+    const take = vi.fn().mockResolvedValue({
+      stdout: username,
+    });
 
-		const actual = await testInput(inputNpmUsername);
+    const actual = await testInput(inputNpmUsername);
 
-		expect(actual).toBe(username);
-		expect(take).toHaveBeenCalledWith(inputNpmWhoami);
-	});
+    expect(actual).toBe(username);
+    expect(take).toHaveBeenCalledWith(inputNpmWhoami);
+  });
 });
 ```
 
@@ -278,21 +277,21 @@ It takes in similar arguments:
 For example, this test asserts that a template defaults its `value` option to `"default"` when not provided:
 
 ```ts
-import { testOptions } from "bingo-testers";
-import { describe, expect, it } from "vitest";
+import { testOptions } from 'bingo-testers';
+import { describe, expect, it } from 'vitest';
 
-import { exampleTemplate } from "./exampleTemplate.js";
+import { exampleTemplate } from './exampleTemplate.js';
 
-describe("exampleTemplate", () => {
-	describe("value", () => {
-		it("defaults to 'default' when not provided", async () => {
-			const actual = await testOptions(exampleTemplate);
+describe('exampleTemplate', () => {
+  describe('value', () => {
+    it("defaults to 'default' when not provided", async () => {
+      const actual = await testOptions(exampleTemplate);
 
-			expect(actual).toEqual({
-				value: "default",
-			});
-		});
-	});
+      expect(actual).toEqual({
+        value: 'default',
+      });
+    });
+  });
 });
 ```
 
@@ -313,23 +312,23 @@ This can be used to test whether templates log options information to the user a
 For example, this test asserts that a template logs a message when it defaults its `name` option:
 
 ```ts
-import { testOptions } from "bingo-testers";
-import { describe, expect, it, vi } from "vitest";
-import { z } from "zod";
+import { testOptions } from 'bingo-testers';
+import { describe, expect, it, vi } from 'vitest';
+import { z } from 'zod';
 
-import { exampleTemplate } from "./exampleTemplate.js";
+import { exampleTemplate } from './exampleTemplate.js';
 
-describe("exampleTemplate", () => {
-	describe("name", () => {
-		it("logs when name is not provided", async () => {
-			const log = vi.fn();
+describe('exampleTemplate', () => {
+  describe('name', () => {
+    it('logs when name is not provided', async () => {
+      const log = vi.fn();
 
-			const actual = await testOptions(exampleTemplate, { log });
+      const actual = await testOptions(exampleTemplate, { log });
 
-			expect(actual).toEqual({ name: "(anonymous)" });
-			expect(log).toHaveBeenCalledWith(`Defaulting to --name "(anonymous)".`);
-		});
-	});
+      expect(actual).toEqual({ name: '(anonymous)' });
+      expect(log).toHaveBeenCalledWith(`Defaulting to --name "(anonymous)".`);
+    });
+  });
 });
 ```
 
@@ -340,27 +339,27 @@ Simulated user-provided [template options](/build/apis/create-template#options) 
 For example, this test asserts that a template defaults its `title` to a title-case version of its `title`:
 
 ```ts
-import { testOptions } from "bingo-testers";
-import { describe, expect, it } from "vitest";
-import { z } from "zod";
+import { testOptions } from 'bingo-testers';
+import { describe, expect, it } from 'vitest';
+import { z } from 'zod';
 
-import { exampleTemplate } from "./exampleTemplate.js";
+import { exampleTemplate } from './exampleTemplate.js';
 
-describe("exampleTemplate", () => {
-	describe("title", () => {
-		it("defaults to a lowercase title if not provided", async () => {
-			const actual = await testOptions(exampleTemplate, {
-				options: {
-					name: "my-app",
-				},
-			});
+describe('exampleTemplate', () => {
+  describe('title', () => {
+    it('defaults to a lowercase title if not provided', async () => {
+      const actual = await testOptions(exampleTemplate, {
+        options: {
+          name: 'my-app',
+        },
+      });
 
-			expect(actual).toEqual({
-				name: "my-app",
-				title: "My App",
-			});
-		});
-	});
+      expect(actual).toEqual({
+        name: 'my-app',
+        title: 'My App',
+      });
+    });
+  });
 });
 ```
 
@@ -373,25 +372,25 @@ This is how to simulate the results of [Inputs](/build/details/inputs).
 For example, this test asserts that a template defaults its `name` to the property in `package.json`:
 
 ```ts
-import { testOptions } from "bingo-testers";
-import { inputFromFileJSON } from "input-from-file-json";
-import { describe, expect, it, vi } from "vitest";
+import { testOptions } from 'bingo-testers';
+import { inputFromFileJSON } from 'input-from-file-json';
+import { describe, expect, it, vi } from 'vitest';
 
-import { exampleTemplate } from "./exampleTemplate.js";
+import { exampleTemplate } from './exampleTemplate.js';
 
-describe("exampleTemplate", () => {
-	describe("name", () => {
-		it("uses the package.json name if it exists", async () => {
-			const take = vi.fn().mockResolvedValue({ name: "create-example" });
+describe('exampleTemplate', () => {
+  describe('name', () => {
+    it('uses the package.json name if it exists', async () => {
+      const take = vi.fn().mockResolvedValue({ name: 'create-example' });
 
-			const actual = await testOptions(exampleTemplate, { take });
+      const actual = await testOptions(exampleTemplate, { take });
 
-			expect(actual).toEqual({ name: "create-example" });
-			expect(take).toHaveBeenCalledWith(inputFromFileJSON, {
-				filePath: "package.json",
-			});
-		});
-	});
+      expect(actual).toEqual({ name: 'create-example' });
+      expect(take).toHaveBeenCalledWith(inputFromFileJSON, {
+        filePath: 'package.json',
+      });
+    });
+  });
 });
 ```
 
@@ -405,31 +404,31 @@ describe("exampleTemplate", () => {
 For example, the [Stratum engine's Bases](/engines/stratum/concepts/bases) can be tested with `testOptions`:
 
 ```ts
-import { testOptions } from "bingo-testers";
-import { createBase } from "bingo-stratum";
-import { z } from "zod";
+import { testOptions } from 'bingo-testers';
+import { createBase } from 'bingo-stratum';
+import { z } from 'zod';
 
 const base = createBase({
-	options: {
-		value: z.string().optional(),
-	},
-	prepare(options) {
-		return {
-			value: "default",
-		};
-	},
+  options: {
+    value: z.string().optional(),
+  },
+  prepare(options) {
+    return {
+      value: 'default',
+    };
+  },
 });
 
-describe("base", () => {
-	describe("value", () => {
-		it("defaults to 'default' when not provided", async () => {
-			const actual = await testOptions(base);
+describe('base', () => {
+  describe('value', () => {
+    it("defaults to 'default' when not provided", async () => {
+      const actual = await testOptions(base);
 
-			expect(actual).toEqual({
-				value: "default",
-			});
-		});
-	});
+      expect(actual).toEqual({
+        value: 'default',
+      });
+    });
+  });
 });
 ```
 
@@ -444,19 +443,19 @@ It takes in similar arguments:
 For example, this test asserts that a template creates an `.nvmrc` file:
 
 ```ts
-import { testTemplate } from "bingo-testers";
-import { describe, expect, it } from "vitest";
+import { testTemplate } from 'bingo-testers';
+import { describe, expect, it } from 'vitest';
 
-import { exampleTemplate } from "./exampleTemplate.js";
+import { exampleTemplate } from './exampleTemplate.js';
 
-describe("exampleTemplate", () => {
-	it("creates an .nvmrc file", async () => {
-		const actual = await testTemplate(exampleTemplate);
+describe('exampleTemplate', () => {
+  it('creates an .nvmrc file', async () => {
+    const actual = await testTemplate(exampleTemplate);
 
-		expect(actual).toEqual({
-			files: { ".nvmrc": "20.12.2" },
-		});
-	});
+    expect(actual).toEqual({
+      files: { '.nvmrc': '20.12.2' },
+    });
+  });
 });
 ```
 
@@ -475,20 +474,20 @@ Simulated user-provided [template options](/build/apis/create-template#options) 
 For example, this test asserts that a template creates an `.nvmrc` file with content equal to its `version` option:
 
 ```ts
-import { testTemplate } from "bingo-testers";
-import { describe, expect, it } from "vitest";
+import { testTemplate } from 'bingo-testers';
+import { describe, expect, it } from 'vitest';
 
-import { exampleTemplate } from "./exampleTemplate.js";
+import { exampleTemplate } from './exampleTemplate.js';
 
-describe("exampleTemplate", () => {
-	it("returns an .nvmrc", async () => {
-		const actual = await testTemplate(exampleTemplate, {
-			options: { version: "20.12.2" },
-		});
+describe('exampleTemplate', () => {
+  it('returns an .nvmrc', async () => {
+    const actual = await testTemplate(exampleTemplate, {
+      options: { version: '20.12.2' },
+    });
 
-		expect(actual).toEqual({
-			files: { ".nvmrc": "20.12.2" },
-		});
-	});
+    expect(actual).toEqual({
+      files: { '.nvmrc': '20.12.2' },
+    });
+  });
 });
 ```

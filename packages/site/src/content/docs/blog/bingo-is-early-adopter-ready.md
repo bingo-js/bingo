@@ -62,23 +62,23 @@ Files are represented as in-memory strings.
 This template defines `owner` and `repository` options that are turned into `package.json` and `README.md` files:
 
 ```ts title
-import { createTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate } from 'bingo';
+import { z } from 'zod';
 
 export default createTemplate({
-	options: {
-		owner: z.string(),
-		repository: z.string(),
-	},
-	produce({ options }) {
-		return {
-			"package.json": JSON.stringify({
-				name: options.name,
-				repository: `github:${options.owner}/${options.repository}`,
-			}),
-			"README.md": `# ${options.repository}\n\nHello, world!`,
-		};
-	},
+  options: {
+    owner: z.string(),
+    repository: z.string(),
+  },
+  produce({ options }) {
+    return {
+      'package.json': JSON.stringify({
+        name: options.name,
+        repository: `github:${options.owner}/${options.repository}`,
+      }),
+      'README.md': `# ${options.repository}\n\nHello, world!`,
+    };
+  },
 });
 ```
 

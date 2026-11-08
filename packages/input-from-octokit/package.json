@@ -1,50 +1,50 @@
 {
-	"name": "input-from-octokit",
-	"version": "0.3.0",
-	"description": "Bingo input that sends a GitHub API request with Octokit.",
-	"homepage": "https://www.create.bingo",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bingo-js/bingo",
-		"directory": "packages/input-from-octokit"
-	},
-	"license": "MIT",
-	"author": {
-		"name": "Josh Goldberg ✨",
-		"email": "npm@joshuakgoldberg.com"
-	},
-	"sideEffects": false,
-	"type": "module",
-	"exports": {
-		".": "./lib/index.js",
-		"./package.json": "./package.json"
-	},
-	"files": [
-		"lib/"
-	],
-	"scripts": {
-		"build": "tsc"
-	},
-	"dependencies": {
-		"@octokit/types": "^16.0.0",
-		"bingo-requests": "workspace:^",
-		"zod": "^4.4.3"
-	},
-	"devDependencies": {
-		"bingo": "workspace:^",
-		"bingo-testers": "workspace:^",
-		"octokit": "5.0.5"
-	},
-	"peerDependencies": {
-		"bingo": "workspace:^",
-		"zod": "^4.4.3"
-	},
-	"peerDependenciesMeta": {
-		"zod": {
-			"optional": true
-		}
-	},
-	"engines": {
-		"node": "^22.15.0 || ^24.15.0 || >=26.0.0"
-	}
+  "name": "input-from-octokit",
+  "version": "0.3.0",
+  "description": "Bingo input that sends a GitHub API request with Octokit.",
+  "homepage": "https://www.create.bingo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingo-js/bingo",
+    "directory": "packages/input-from-octokit"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Josh Goldberg ✨",
+    "email": "npm@joshuakgoldberg.com"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@octokit/types": "^16.0.0",
+    "bingo-requests": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "bingo": "workspace:^",
+    "bingo-testers": "workspace:^",
+    "octokit": "5.0.5"
+  },
+  "peerDependencies": {
+    "bingo": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": "^22.15.0 || ^24.15.0 || >=26.0.0"
+  }
 }

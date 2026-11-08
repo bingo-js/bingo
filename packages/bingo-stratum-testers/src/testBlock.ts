@@ -1,39 +1,39 @@
-import { ProductionMode } from "bingo";
+import { ProductionMode } from 'bingo';
 import {
-	type BlockCreation,
-	BlockWithoutProps,
-	BlockWithProps,
-	produceBlock,
-	ProduceBlockSettingsWithProps,
-	type StratumTemplateOptions,
-} from "bingo-stratum";
+  type BlockCreation,
+  BlockWithoutProps,
+  BlockWithProps,
+  produceBlock,
+  ProduceBlockSettingsWithProps,
+  type StratumTemplateOptions,
+} from 'bingo-stratum';
 
-import { createFailingObject } from "./utils.js";
+import { createFailingObject } from './utils.js';
 
 export interface BlockContextSettingsWithOptionalProps<
-	Props extends object,
-	Options extends object,
+  Props extends object,
+  Options extends object,
 > extends BlockContextSettingsWithoutProps<Options> {
-	props?: Partial<Props>;
+  props?: Partial<Props>;
 }
 
 export interface BlockContextSettingsWithoutProps<Options extends object> {
-	/**
-	 * Which repository mode Bingo to simulate being run in.
-	 * @see {@link https://create.bingo/build/concepts/modes}
-	 */
-	mode?: ProductionMode;
+  /**
+   * Which repository mode Bingo to simulate being run in.
+   * @see {@link https://create.bingo/build/concepts/modes}
+   */
+  mode?: ProductionMode;
 
-	/**
-	 * Whether to simulate being run in an "offline" mode.
-	 * @see {@link http://create.bingo/build/details/contexts#options-offline}
-	 */
-	offline?: boolean;
+  /**
+   * Whether to simulate being run in an "offline" mode.
+   * @see {@link http://create.bingo/build/details/contexts#options-offline}
+   */
+  offline?: boolean;
 
-	/**
-	 * Any options values as described by the Block's Base's options schema, as well as preset.
-	 */
-	options?: Options & StratumTemplateOptions;
+  /**
+   * Any options values as described by the Block's Base's options schema, as well as preset.
+   */
+  options?: Options & StratumTemplateOptions;
 }
 
 /**
@@ -41,25 +41,23 @@ export interface BlockContextSettingsWithoutProps<Options extends object> {
  * @see {@link https://www.create.bingo/engines/stratum/packages/bingo-stratum-testers/#testblock}
  */
 export function testBlock<Props extends object, Options extends object>(
-	block: BlockWithProps<Props, Options>,
-	settings: BlockContextSettingsWithOptionalProps<Props, Options>,
+  block: BlockWithProps<Props, Options>,
+  settings: BlockContextSettingsWithOptionalProps<Props, Options>,
 ): Partial<BlockCreation<Options>>;
 export function testBlock<Options extends object>(
-	block: BlockWithoutProps<Options>,
-	settings?: BlockContextSettingsWithoutProps<Options>,
+  block: BlockWithoutProps<Options>,
+  settings?: BlockContextSettingsWithoutProps<Options>,
 ): Partial<BlockCreation<Options>>;
 export function testBlock<Props extends object, Options extends object>(
-	block: BlockWithoutProps<Options> | BlockWithProps<Props, Options>,
-	settings: BlockContextSettingsWithOptionalProps<Props, Options> = {},
+  block: BlockWithoutProps<Options> | BlockWithProps<Props, Options>,
+  settings: BlockContextSettingsWithOptionalProps<Props, Options> = {},
 ): Partial<BlockCreation<Options>> {
-	return produceBlock(
-		block as BlockWithProps<Props, Options>,
-		{
-			...settings,
-			options:
-				settings.options ??
-				(createFailingObject("options", "the Block") as Options),
-			props: settings.props ?? {},
-		} as ProduceBlockSettingsWithProps<Props, Options>,
-	);
+  return produceBlock(
+    block as BlockWithProps<Props, Options>,
+    {
+      ...settings,
+      options: settings.options ?? (createFailingObject('options', 'the Block') as Options),
+      props: settings.props ?? {},
+    } as ProduceBlockSettingsWithProps<Props, Options>,
+  );
 }

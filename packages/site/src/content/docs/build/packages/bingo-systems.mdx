@@ -3,7 +3,7 @@ description: File, network, and shell wrapper APIs used by Bingo. 🧰
 title: bingo-systems
 ---
 
-import { PackageManagers } from "starlight-package-managers";
+import { PackageManagers } from 'starlight-package-managers';
 
 File, network, and shell wrapper APIs used by Bingo.
 🧰
@@ -18,12 +18,12 @@ These wrappers are made available to templates via [Input Contexts](/build/detai
 The `BingoSystem` interface describes the shared object used by many Bingo APIs.
 
 ```ts
-import { SystemFetchers, WritingFileSystem, SystemRunner } from "bingo-systems";
+import { SystemFetchers, WritingFileSystem, SystemRunner } from 'bingo-systems';
 
 export interface BingoSystem {
-	fetchers: SystemFetchers;
-	fs: WritingFileSystem;
-	runner: SystemRunner;
+  fetchers: SystemFetchers;
+  fs: WritingFileSystem;
+  runner: SystemRunner;
 }
 ```
 
@@ -38,11 +38,11 @@ The properties of `BingoSystem` describe three areas of native APIs:
 Wrappers around sending network requests with [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
 
 ```ts
-import { Octokit } from "octokit";
+import { Octokit } from 'octokit';
 
 export interface SystemFetchers {
-	fetch: typeof fetch;
-	octokit: Octokit | undefined;
+  fetch: typeof fetch;
+  octokit: Octokit | undefined;
 }
 ```
 
@@ -54,11 +54,11 @@ This is typically used to populate repository settings via GitHub's API.
 Creates a new `SystemFetchers` instance.
 
 ```ts
-import { createSystemFetchers } from "bingo-systems";
+import { createSystemFetchers } from 'bingo-systems';
 
 const fetchers = createSystemFetchers();
 
-await fetchers.fetch("...");
+await fetchers.fetch('...');
 ```
 
 Takes in an optional object parameter with up to two properties:
@@ -76,13 +76,13 @@ If not provided, the `octokit` will run as an anonymous user without authenticat
 For example, this authenticates with the running user's auth token if possible via [`get-github-auth-token`](https://www.npmjs.com/package/get-github-auth-token):
 
 ```ts
-import { createSystemFetchers } from "bingo-systems";
-import { getGitHubAuthToken } from "get-github-auth-token";
+import { createSystemFetchers } from 'bingo-systems';
+import { getGitHubAuthToken } from 'get-github-auth-token';
 
 const auth = await getGitHubAuthToken();
 
 createSystemFetchers({
-	auth: auth.succeeded ? auth.token : undefined,
+  auth: auth.succeeded ? auth.token : undefined,
 });
 ```
 
@@ -99,14 +99,14 @@ This can be useful if you'd like network requests to be instrumented and/or run 
 For example, this adds logging to all network requests, including those in the `octokit`:
 
 ```ts
-import { createSystemFetchers } from "bingo-systems";
+import { createSystemFetchers } from 'bingo-systems';
 
 createSystemFetchers({
-	fetch: (...args) => {
-		const request = new Request(...args);
-		request.headers.set("Authorization", "Bearer ...");
-		return await fetch(request);
-	},
+  fetch: (...args) => {
+    const request = new Request(...args);
+    request.headers.set('Authorization', 'Bearer ...');
+    return await fetch(request);
+  },
 });
 ```
 
@@ -116,12 +116,12 @@ A version of [`createSystemFetchers`] that throws errors inside network requests
 It takes no parameters.
 
 ```ts
-import { createSystemFetchersOffline } from "bingo-systems";
+import { createSystemFetchersOffline } from 'bingo-systems';
 
 const fetchers = createSystemFetchersOffline();
 
 // Error: Offline specified. This request should be caught by its Input.
-await fetchers.fetch("...");
+await fetchers.fetch('...');
 ```
 
 Bingo uses this function when the [`--offline` flag](/cli#--offline) is enabled.
@@ -131,11 +131,11 @@ Bingo uses this function when the [`--offline` flag](/cli#--offline) is enabled.
 An asynchronous version of [`createSystemFetchers`](#createsystemfetchers) that retrieves the running user's GitHub auth token, if possible.
 
 ```ts
-import { createSystemFetchersWithAuth } from "bingo-systems";
+import { createSystemFetchersWithAuth } from 'bingo-systems';
 
 const fetchers = createSystemFetchersWithAuth();
 
-await fetchers.fetch("...");
+await fetchers.fetch('...');
 ```
 
 `createSystemFetchersWithAuth` takes in the same optional parameter properties as [`createSystemFetchers`](#createsystemfetchers), except for `auth`.
@@ -162,9 +162,9 @@ export type ReadDirectory = (filePath: string) => Promise<string[]>;
 export type ReadFile = (filePath: string) => Promise<string>;
 
 export interface ReadingFileSystem {
-	glob: Glob;
-	readDirectory: ReadDirectory;
-	readFile: ReadFile;
+  glob: Glob;
+  readDirectory: ReadDirectory;
+  readFile: ReadFile;
 }
 ```
 
@@ -177,13 +177,13 @@ Creates a new `ReadingFileSystem` instance.
 Internally, it calls to [`node:fs`](https://nodejs.org/api/fs.html) to match globs and read directories and files.
 
 ```ts
-import { createReadingFileSystem } from "bingo-systems";
+import { createReadingFileSystem } from 'bingo-systems';
 
 const files = createReadingFileSystem();
 
-await files.glob(".github/**/*.yml");
-await files.readDirectory("src");
-await files.readFile("src/index.js");
+await files.glob('.github/**/*.yml');
+await files.readDirectory('src');
+await files.readFile('src/index.js');
 ```
 
 ### `WritingFileSystem`
@@ -193,9 +193,9 @@ These expose a superset of the _reading_ APIs by adding in methods to write to t
 
 ```ts
 export interface WritingFileSystem extends ReadingFileSystem {
-	removeFile: RemoveFile;
-	writeDirectory: WriteDirectory;
-	writeFile: WriteFile;
+  removeFile: RemoveFile;
+  writeDirectory: WriteDirectory;
+  writeFile: WriteFile;
 }
 ```
 
@@ -205,12 +205,12 @@ Creates a new `WritingFileSystem` instance.
 Internally, it calls to [`node:fs`](https://nodejs.org/api/fs.html) to match globs and read and write directories and files.
 
 ```ts
-import { createWritingFileSystem } from "bingo-systems";
+import { createWritingFileSystem } from 'bingo-systems';
 
 const files = createWritingFileSystem();
 
-await files.writeDirectory("src");
-await files.readFile("src/index.js", `console.log("Hello, world!");`);
+await files.writeDirectory('src');
+await files.readFile('src/index.js', `console.log("Hello, world!");`);
 ```
 
 ## Runner
@@ -218,7 +218,7 @@ await files.readFile("src/index.js", `console.log("Hello, world!");`);
 Wrapper around executing shell commands with [`execa`](https://github.com/sindresorhus/execa).
 
 ```ts
-import { ExecaError, Result } from "execa";
+import { ExecaError, Result } from 'execa';
 
 export type SystemRunner = (command: string) => Promise<ExecaError | Result>;
 ```
@@ -229,11 +229,11 @@ Creates a new `SystemRunner` function.
 Internally it calls to `execa` with [`reject: false`](https://github.com/sindresorhus/execa/blob/main/docs/errors.md#preventing-exceptions) to return an error instead of rejecting.
 
 ```ts
-import { createSystemRunner } from "bingo-systems";
+import { createSystemRunner } from 'bingo-systems';
 
 const runner = createSystemRunner();
 
-await runner("git branch -D master");
+await runner('git branch -D master');
 ```
 
 `createSystemRunner` takes a single parameter:
@@ -246,15 +246,15 @@ await runner("git branch -D master");
 - [`Result`](https://github.com/sindresorhus/execa/blob/main/docs/api.md#result): if the command succeeded
 
 ```ts
-import { createSystemRunner } from "bingo-systems";
+import { createSystemRunner } from 'bingo-systems';
 
 const runner = createSystemRunner();
 
-const result = await runner("git tag -l");
+const result = await runner('git tag -l');
 
 if (result.failed) {
-	console.error(result.stderr);
+  console.error(result.stderr);
 } else {
-	console.log(result.stdout);
+  console.log(result.stdout);
 }
 ```

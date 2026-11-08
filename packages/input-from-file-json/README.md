@@ -14,9 +14,9 @@ npm i input-from-file-json
 ```
 
 ```ts
-import { inputFromFileJSON } from "input-from-file-json";
+import { inputFromFileJSON } from 'input-from-file-json';
 
-await take(inputFromFileJSON, { filePath: "data.json" });
+await take(inputFromFileJSON, { filePath: 'data.json' });
 ```
 
 ## Options

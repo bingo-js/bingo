@@ -1,9 +1,9 @@
 ---
-description: "Running Bingo on your command line."
+description: 'Running Bingo on your command line.'
 title: CLI
 ---
 
-import { PackageManagers } from "starlight-package-managers";
+import { PackageManagers } from 'starlight-package-managers';
 
 Bingo templates each provide a CLI to set up a new repository or transition an existing one.
 That CLI will interactively prompt you for any required options that can't be inferred from disk.
@@ -37,11 +37,7 @@ If not provided:
 
 For example, creating a new repository in a subdirectory:
 
-<PackageManagers
-	args="--directory my-fancy-project"
-	pkg="create-typescript-app"
-	type="dlx"
-/>
+<PackageManagers args="--directory my-fancy-project" pkg="create-typescript-app" type="dlx" />
 
 ### `--help`
 
@@ -93,11 +89,7 @@ If not provided, Bingo will infer it from the GitHub CLI's configured user, then
 
 For example, creating a new repository under a `my-organization` organization:
 
-<PackageManagers
-	args="--owner my-organization --remote"
-	pkg="create-typescript-app"
-	type="dlx"
-/>
+<PackageManagers args="--owner my-organization --remote" pkg="create-typescript-app" type="dlx" />
 
 ### `--remote`
 
@@ -126,9 +118,9 @@ Providing `--repository` without [`--directory`](#--directory) will also use it 
 For example, creating a new repository whose name differs from its local directory:
 
 <PackageManagers
-	args="--directory my-local-directory --repository my-fancy-project"
-	pkg="create-typescript-app"
-	type="dlx"
+  args="--directory my-local-directory --repository my-fancy-project"
+  pkg="create-typescript-app"
+  type="dlx"
 />
 
 ### `--skip-files`
@@ -151,11 +143,7 @@ Whether to skip sending network requests as specified by templates.
 
 For example, creating a repository using [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app) without populating network requests, but with network installation of packages (`pnpm install` instead of `pnpm install --offline`):
 
-<PackageManagers
-	type="dlx"
-	pkg="create-typescript-app"
-	args="--skip-requests"
-/>
+<PackageManagers type="dlx" pkg="create-typescript-app" args="--skip-requests" />
 
 `--skip-requests` effectively defaults to true if [`--offline`](#--offline) is provided.
 However, it does not prevent network requests from being sent by other parts of templates.
@@ -191,11 +179,7 @@ Templates generally add in a CLI flag for each of the options they support.
 
 For example, if a template defines a `title` option, `--title` will be type `string`:
 
-<PackageManagers
-	args="--title 'My New App'"
-	pkg="create-typescript-app"
-	type="dlx"
-/>
+<PackageManagers args="--title 'My New App'" pkg="create-typescript-app" type="dlx" />
 
 Any required options that are not provided will be prompted for by the template's CLI.
 

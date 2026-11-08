@@ -25,17 +25,17 @@ It applies those creations, then returns a Promise for an object with:
 For example, given this template that creates a `README.md` file, `runTemplate` would write that file to disk:
 
 ```ts
-import { createTemplate, runTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate, runTemplate } from 'bingo';
+import { z } from 'zod';
 
 const template = createTemplate({
-	produce({ options }) {
-		return {
-			files: {
-				"README.md": `# Hello, World!`,
-			},
-		};
-	},
+  produce({ options }) {
+    return {
+      files: {
+        'README.md': `# Hello, World!`,
+      },
+    };
+  },
 });
 
 // { creation: { files: { "README.md": "# Hello, World!" } } }
@@ -57,19 +57,19 @@ Defaults to `"."`, or the process cwd.
 For example, this produces a template in a child `scratch` directory:
 
 ```ts
-import { createTemplate, runTemplate } from "bingo";
+import { createTemplate, runTemplate } from 'bingo';
 
 const template = createTemplate({
-	produce({ options }) {
-		return {
-			files: {
-				"README.md": `# My App`,
-			},
-		};
-	},
+  produce({ options }) {
+    return {
+      files: {
+        'README.md': `# My App`,
+      },
+    };
+  },
 });
 
-await runTemplate(template, { directory: "scratch " });
+await runTemplate(template, { directory: 'scratch ' });
 ```
 
 ```md title="scratch/README.md"
@@ -128,27 +128,27 @@ It may also include any other optional options.
 For example, this Template is run with a `title` option:
 
 ```ts
-import { createTemplate, runTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate, runTemplate } from 'bingo';
+import { z } from 'zod';
 
 const template = createTemplate({
-	options: {
-		title: z.string(),
-	},
-	produce({ options }) {
-		return {
-			files: {
-				"README.md": `# ${options.title}`,
-			},
-		};
-	},
+  options: {
+    title: z.string(),
+  },
+  produce({ options }) {
+    return {
+      files: {
+        'README.md': `# ${options.title}`,
+      },
+    };
+  },
 });
 
 // {
 //   creation: { files: { "README.md": "# My App" } },
 //   options: { title: "My App" },
 // }
-await runTemplate(template, { options: { title: "My App" } });
+await runTemplate(template, { options: { title: 'My App' } });
 ```
 
 ### `mode`
@@ -201,15 +201,15 @@ This is equivalent to the [`--offline` CLI flag](/cli#--offline).
 For example, this template adds an `--offline` flag to its installation script if `offline` is true:
 
 ```ts
-import { createTemplate, runTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate, runTemplate } from 'bingo';
+import { z } from 'zod';
 
 const template = createTemplate({
-	produce({ offline }) {
-		return {
-			scripts: [offline ? "pnpm install --offline" : "pnpm install"],
-		};
-	},
+  produce({ offline }) {
+    return {
+      scripts: [offline ? 'pnpm install --offline' : 'pnpm install'],
+    };
+  },
 });
 
 // { scripts: ["pnpm install"] }
@@ -226,15 +226,15 @@ Any optional customizations from a template-specific config file.
 For example, [Stratum](/engines/stratum/about) templates allow customizing [Blocks](/engines/stratum/concepts/blocks) via refinements:
 
 ```ts title="create-typescript-app.config.ts"
-import { blockAreTheTypesWrong, template } from "create-typescript-app";
-import { runTemplate } from "bingo";
+import { blockAreTheTypesWrong, template } from 'create-typescript-app';
+import { runTemplate } from 'bingo';
 
 await runTemplate(template, {
-	refinements: {
-		blocks: {
-			add: [blockAreTheTypesWrong],
-		},
-	},
+  refinements: {
+    blocks: {
+      add: [blockAreTheTypesWrong],
+    },
+  },
 });
 ```
 

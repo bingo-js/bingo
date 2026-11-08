@@ -1,5 +1,5 @@
 ---
-description: "How the engine merges creations from multiple producer functions."
+description: 'How the engine merges creations from multiple producer functions.'
 title: Merging
 ---
 
@@ -141,20 +141,20 @@ For example, given the following two `scripts` Creations to be merged:
 
 ```ts
 [
-	{
-		commands: ["pnpm install", "pnpm dedupe"],
-		phase: 0,
-	},
+  {
+    commands: ['pnpm install', 'pnpm dedupe'],
+    phase: 0,
+  },
 ];
 ```
 
 ```ts
 [
-	`npx set-github-repository-labels --labels "$(cat labels.json)"`,
-	{
-		commands: ["pnpm install"],
-		phase: 0,
-	},
+  `npx set-github-repository-labels --labels "$(cat labels.json)"`,
+  {
+    commands: ['pnpm install'],
+    phase: 0,
+  },
 ];
 ```
 
@@ -162,11 +162,11 @@ The merged result would be:
 
 ```ts
 [
-	{
-		commands: ["pnpm install", "pnpm dedupe"],
-		phase: 0,
-	},
-	`npx set-github-repository-labels --labels "$(cat labels.json)"`,
+  {
+    commands: ['pnpm install', 'pnpm dedupe'],
+    phase: 0,
+  },
+  `npx set-github-repository-labels --labels "$(cat labels.json)"`,
 ];
 ```
 
@@ -178,15 +178,15 @@ For example, given the following two `suggestions` Creations to be merged:
 
 ```ts
 [
-	"- set a CODECOV secret to an codecov repository token",
-	"- set a NPM_TOKEN secret to an npm automation token",
+  '- set a CODECOV secret to an codecov repository token',
+  '- set a NPM_TOKEN secret to an npm automation token',
 ];
 ```
 
 ```ts
 [
-	"- set an ACCESS_TOKEN secret to a GitHub PAT with repo and workflow permissions",
-	"- set a NPM_TOKEN secret to an npm access token with automation permissions",
+  '- set an ACCESS_TOKEN secret to a GitHub PAT with repo and workflow permissions',
+  '- set a NPM_TOKEN secret to an npm access token with automation permissions',
 ];
 ```
 
@@ -194,8 +194,8 @@ The merged result would be:
 
 ```ts
 [
-	"- set a CODECOV secret to an codecov repository token",
-	"- set a NPM_TOKEN secret to an npm access token with automation permissions",
-	"- set an ACCESS_TOKEN secret to a GitHub PAT with repo and workflow permissions",
+  '- set a CODECOV secret to an codecov repository token',
+  '- set a NPM_TOKEN secret to an npm access token with automation permissions',
+  '- set an ACCESS_TOKEN secret to a GitHub PAT with repo and workflow permissions',
 ];
 ```

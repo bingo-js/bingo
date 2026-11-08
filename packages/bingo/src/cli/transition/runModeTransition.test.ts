@@ -1,565 +1,541 @@
-import { describe, expect, it, vi } from "vitest";
-import { z } from "zod";
+import { describe, expect, it, vi } from 'vitest';
+import { z } from 'zod';
 
-import { createTemplate } from "../../creators/createTemplate.js";
-import { ClackDisplay } from "../display/createClackDisplay.js";
-import { CLIMessage } from "../messages.js";
-import { CLIStatus } from "../status.js";
-import { runModeTransition } from "./runModeTransition.js";
+import { createTemplate } from '../../creators/createTemplate.js';
+import { ClackDisplay } from '../display/createClackDisplay.js';
+import { CLIMessage } from '../messages.js';
+import { CLIStatus } from '../status.js';
+import { runModeTransition } from './runModeTransition.js';
 
 const mockLog = {
-	error: vi.fn(),
-	message: vi.fn(),
+  error: vi.fn(),
+  message: vi.fn(),
 };
 
-const mockCancel = Symbol("cancel");
+const mockCancel = Symbol('cancel');
 
-vi.mock("@clack/prompts", () => ({
-	isCancel: (value: unknown) => value === mockCancel,
-	get log() {
-		return mockLog;
-	},
-	spinner: vi.fn(),
+vi.mock('@clack/prompts', () => ({
+  isCancel: (value: unknown) => value === mockCancel,
+  get log() {
+    return mockLog;
+  },
+  spinner: vi.fn(),
 }));
 
-vi.mock("bingo-fs");
+vi.mock('bingo-fs');
 
 const mockPrepareOptions = vi.fn();
 
-vi.mock("../../preparation/prepareOptions.js", () => ({
-	get prepareOptions() {
-		return mockPrepareOptions;
-	},
+vi.mock('../../preparation/prepareOptions.js', () => ({
+  get prepareOptions() {
+    return mockPrepareOptions;
+  },
 }));
 
 const mockResolveLocalRepository = vi.fn();
 
-vi.mock("../repository/resolveLocalRepository.js", () => ({
-	get resolveLocalRepository() {
-		return mockResolveLocalRepository;
-	},
+vi.mock('../repository/resolveLocalRepository.js', () => ({
+  get resolveLocalRepository() {
+    return mockResolveLocalRepository;
+  },
 }));
 
 const mockRunTemplate = vi.fn().mockResolvedValue({});
 
-vi.mock("../../runners/runTemplate.js", () => ({
-	get runTemplate() {
-		return mockRunTemplate;
-	},
+vi.mock('../../runners/runTemplate.js', () => ({
+  get runTemplate() {
+    return mockRunTemplate;
+  },
 }));
 
 const mockSystem = {
-	runner: vi.fn(),
+  runner: vi.fn(),
 };
 
-vi.mock("../../contexts/createSystemContextWithAuth.js", () => ({
-	get createSystemContextWithAuth() {
-		return vi.fn().mockResolvedValue(mockSystem);
-	},
+vi.mock('../../contexts/createSystemContextWithAuth.js', () => ({
+  get createSystemContextWithAuth() {
+    return vi.fn().mockResolvedValue(mockSystem);
+  },
 }));
 
 const mockPromptForOptionSchemas = vi.fn();
 
-vi.mock("../prompts/promptForOptionSchemas.js", () => ({
-	get promptForOptionSchemas() {
-		return mockPromptForOptionSchemas;
-	},
+vi.mock('../prompts/promptForOptionSchemas.js', () => ({
+  get promptForOptionSchemas() {
+    return mockPromptForOptionSchemas;
+  },
 }));
 
 const mockLogRerunSuggestion = vi.fn();
 
-vi.mock("../loggers/logRerunSuggestion.js", () => ({
-	get logRerunSuggestion() {
-		return mockLogRerunSuggestion;
-	},
+vi.mock('../loggers/logRerunSuggestion.js', () => ({
+  get logRerunSuggestion() {
+    return mockLogRerunSuggestion;
+  },
 }));
 
 const mockLogStartText = vi.fn();
 
-vi.mock("../loggers/logStartText", () => ({
-	get logStartText() {
-		return mockLogStartText;
-	},
+vi.mock('../loggers/logStartText', () => ({
+  get logStartText() {
+    return mockLogStartText;
+  },
 }));
 
 const mockClearLocalGitTags = vi.fn();
 
-vi.mock("../repository/clearLocalGitTags.js", () => ({
-	get clearLocalGitTags() {
-		return mockClearLocalGitTags;
-	},
+vi.mock('../repository/clearLocalGitTags.js', () => ({
+  get clearLocalGitTags() {
+    return mockClearLocalGitTags;
+  },
 }));
 
 const mockCreateInitialCommit = vi.fn();
 
-vi.mock("../repository/createInitialCommit.js", () => ({
-	get createInitialCommit() {
-		return mockCreateInitialCommit;
-	},
+vi.mock('../repository/createInitialCommit.js', () => ({
+  get createInitialCommit() {
+    return mockCreateInitialCommit;
+  },
 }));
 
 const mockCheckUncommittedChanges = vi.fn();
 
-vi.mock("../repository/checkUncommittedChanges.js", () => ({
-	get checkUncommittedChanges() {
-		return mockCheckUncommittedChanges;
-	},
+vi.mock('../repository/checkUncommittedChanges.js', () => ({
+  get checkUncommittedChanges() {
+    return mockCheckUncommittedChanges;
+  },
 }));
 
 const mockClearTemplateFiles = vi.fn();
 
-vi.mock("./clearTemplateFiles.js", () => ({
-	get clearTemplateFiles() {
-		return mockClearTemplateFiles;
-	},
+vi.mock('./clearTemplateFiles.js', () => ({
+  get clearTemplateFiles() {
+    return mockClearTemplateFiles;
+  },
 }));
 
 const mockGetForkedRepositoryLocator = vi.fn();
 
-vi.mock("./getForkedRepositoryLocator.js", () => ({
-	get getForkedRepositoryLocator() {
-		return mockGetForkedRepositoryLocator;
-	},
+vi.mock('./getForkedRepositoryLocator.js', () => ({
+  get getForkedRepositoryLocator() {
+    return mockGetForkedRepositoryLocator;
+  },
 }));
 
 const mockReadConfigSettings = vi.fn();
 
-vi.mock("./readConfigSettings.js", () => ({
-	get readConfigSettings() {
-		return mockReadConfigSettings;
-	},
+vi.mock('./readConfigSettings.js', () => ({
+  get readConfigSettings() {
+    return mockReadConfigSettings;
+  },
 }));
 
 const display: ClackDisplay = {
-	dumpItems: vi.fn(),
-	item: vi.fn(),
-	log: vi.fn(),
-	spinner: {
-		message: vi.fn(),
-		start: vi.fn(),
-		stop: vi.fn(),
-	},
+  dumpItems: vi.fn(),
+  item: vi.fn(),
+  log: vi.fn(),
+  spinner: {
+    message: vi.fn(),
+    start: vi.fn(),
+    stop: vi.fn(),
+  },
 };
 
 const template = createTemplate({
-	about: { name: "Test Template" },
-	options: {
-		value: z.string().optional(),
-	},
-	produce: vi.fn(),
+  about: { name: 'Test Template' },
+  options: {
+    value: z.string().optional(),
+  },
+  produce: vi.fn(),
 });
 
 const templateWithRepository = createTemplate({
-	about: { name: "Test Template", repository: { owner: "a", repository: "b" } },
-	options: {
-		value: z.string().optional(),
-	},
-	produce: vi.fn(),
+  about: { name: 'Test Template', repository: { owner: 'a', repository: 'b' } },
+  options: {
+    value: z.string().optional(),
+  },
+  produce: vi.fn(),
 });
 
-const argv = ["npx", "bingo-my-app"];
+const argv = ['npx', 'bingo-my-app'];
 
-const from = "create-example";
+const from = 'create-example';
 
-const rerunCommand = "npx create-example";
+const rerunCommand = 'npx create-example';
 
 const promptedOptions = {
-	abc: "def",
+  abc: 'def',
 };
 
-describe("runModeTransition", () => {
-	it("returns the error when readConfigSettings resolves an error", async () => {
-		const error = new Error("Oh no!");
-		mockReadConfigSettings.mockResolvedValueOnce(error);
+describe('runModeTransition', () => {
+  it('returns the error when readConfigSettings resolves an error', async () => {
+    const error = new Error('Oh no!');
+    mockReadConfigSettings.mockResolvedValueOnce(error);
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: "example.config.ts",
-			display,
-			from,
-			rerunCommand,
-			template,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: 'example.config.ts',
+      display,
+      from,
+      rerunCommand,
+      template,
+    });
 
-		expect(actual).toEqual({
-			error,
-			status: CLIStatus.Error,
-		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
-	});
+    expect(actual).toEqual({
+      error,
+      status: CLIStatus.Error,
+    });
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+  });
 
-	it("returns the error when prepareOptions throws an error", async () => {
-		const error = new Error("Oh no!");
-		mockPrepareOptions.mockRejectedValueOnce(error);
+  it('returns the error when prepareOptions throws an error', async () => {
+    const error = new Error('Oh no!');
+    mockPrepareOptions.mockRejectedValueOnce(error);
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			rerunCommand,
-			template,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      rerunCommand,
+      template,
+    });
 
-		expect(actual).toEqual({ status: CLIStatus.Error });
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
-	});
+    expect(actual).toEqual({ status: CLIStatus.Error });
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+  });
 
-	it("returns the cancellation when promptForOptions is cancelled", async () => {
-		mockPromptForOptionSchemas.mockResolvedValueOnce({
-			cancelled: true,
-			prompted: promptedOptions,
-		});
+  it('returns the cancellation when promptForOptions is cancelled', async () => {
+    mockPromptForOptionSchemas.mockResolvedValueOnce({
+      cancelled: true,
+      prompted: promptedOptions,
+    });
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			rerunCommand,
-			template,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      rerunCommand,
+      template,
+    });
 
-		expect(actual).toEqual({
-			status: CLIStatus.Cancelled,
-		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
-			rerunCommand,
-			promptedOptions,
-		);
-	});
+    expect(actual).toEqual({
+      status: CLIStatus.Cancelled,
+    });
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+  });
 
-	it("returns the error when resolveLocalRepository resolves with an error", async () => {
-		const remote = new Error("Remote error.");
+  it('returns the error when resolveLocalRepository resolves with an error', async () => {
+    const remote = new Error('Remote error.');
 
-		mockPromptForOptionSchemas.mockResolvedValueOnce({
-			prompted: promptedOptions,
-		});
-		mockResolveLocalRepository.mockResolvedValueOnce({ remote });
+    mockPromptForOptionSchemas.mockResolvedValueOnce({
+      prompted: promptedOptions,
+    });
+    mockResolveLocalRepository.mockResolvedValueOnce({ remote });
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			rerunCommand,
-			template,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      rerunCommand,
+      template,
+    });
 
-		expect(actual).toEqual({
-			error: remote,
-			status: CLIStatus.Error,
-		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
-			rerunCommand,
-			promptedOptions,
-		);
-	});
+    expect(actual).toEqual({
+      error: remote,
+      status: CLIStatus.Error,
+    });
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+  });
 
-	it("returns the error when runTemplate resolves with an error", async () => {
-		const error = new Error("Oh no!");
+  it('returns the error when runTemplate resolves with an error', async () => {
+    const error = new Error('Oh no!');
 
-		mockPromptForOptionSchemas.mockResolvedValueOnce({
-			prompted: promptedOptions,
-		});
-		mockRunTemplate.mockRejectedValueOnce(error);
-		mockResolveLocalRepository.mockResolvedValueOnce({});
+    mockPromptForOptionSchemas.mockResolvedValueOnce({
+      prompted: promptedOptions,
+    });
+    mockRunTemplate.mockRejectedValueOnce(error);
+    mockResolveLocalRepository.mockResolvedValueOnce({});
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			rerunCommand,
-			template,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      rerunCommand,
+      template,
+    });
 
-		expect(actual).toEqual({
-			outro: CLIMessage.Leaving,
-			status: CLIStatus.Error,
-		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
-			rerunCommand,
-			promptedOptions,
-		);
-	});
+    expect(actual).toEqual({
+      outro: CLIMessage.Leaving,
+      status: CLIStatus.Error,
+    });
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+  });
 
-	it("doesn't clear the existing repository when readConfigSettings resolves an error and a forked repository locator is available", async () => {
-		const error = new Error("Oh no!");
-		mockGetForkedRepositoryLocator.mockResolvedValueOnce("a/b");
-		mockReadConfigSettings.mockResolvedValueOnce(error);
+  it("doesn't clear the existing repository when readConfigSettings resolves an error and a forked repository locator is available", async () => {
+    const error = new Error('Oh no!');
+    mockGetForkedRepositoryLocator.mockResolvedValueOnce('a/b');
+    mockReadConfigSettings.mockResolvedValueOnce(error);
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: "example.config.ts",
-			display,
-			from,
-			rerunCommand,
-			template: templateWithRepository,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: 'example.config.ts',
+      display,
+      from,
+      rerunCommand,
+      template: templateWithRepository,
+    });
 
-		expect(actual).toEqual({
-			error,
-			status: CLIStatus.Error,
-		});
-		expect(mockCheckUncommittedChanges).not.toHaveBeenCalled();
-		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
-		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
-	});
+    expect(actual).toEqual({
+      error,
+      status: CLIStatus.Error,
+    });
+    expect(mockCheckUncommittedChanges).not.toHaveBeenCalled();
+    expect(mockClearTemplateFiles).not.toHaveBeenCalled();
+    expect(mockClearLocalGitTags).not.toHaveBeenCalled();
+  });
 
-	it("returns an error without clearing the existing repository when it has uncommitted changes and a forked repository locator is available", async () => {
-		mockGetForkedRepositoryLocator.mockResolvedValueOnce("a/b");
-		mockCheckUncommittedChanges.mockResolvedValueOnce("changes");
+  it('returns an error without clearing the existing repository when it has uncommitted changes and a forked repository locator is available', async () => {
+    mockGetForkedRepositoryLocator.mockResolvedValueOnce('a/b');
+    mockCheckUncommittedChanges.mockResolvedValueOnce('changes');
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			rerunCommand,
-			template: templateWithRepository,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      rerunCommand,
+      template: templateWithRepository,
+    });
 
-		expect(actual).toEqual({
-			error: new Error(
-				"Transitioning a repository cloned from a/b clears all of its files, but this one has uncommitted changes. Commit or stash them, then re-run.",
-			),
-			status: CLIStatus.Error,
-		});
-		expect(mockCheckUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
-		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
-		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
-		expect(mockPrepareOptions).not.toHaveBeenCalled();
-		expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
-	});
+    expect(actual).toEqual({
+      error: new Error(
+        'Transitioning a repository cloned from a/b clears all of its files, but this one has uncommitted changes. Commit or stash them, then re-run.',
+      ),
+      status: CLIStatus.Error,
+    });
+    expect(mockCheckUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
+    expect(mockClearTemplateFiles).not.toHaveBeenCalled();
+    expect(mockClearLocalGitTags).not.toHaveBeenCalled();
+    expect(mockPrepareOptions).not.toHaveBeenCalled();
+    expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+  });
 
-	it("returns an error without clearing the existing repository when uncommitted changes can't be determined and a forked repository locator is available", async () => {
-		mockGetForkedRepositoryLocator.mockResolvedValueOnce("a/b");
-		mockCheckUncommittedChanges.mockResolvedValueOnce("unknown");
+  it("returns an error without clearing the existing repository when uncommitted changes can't be determined and a forked repository locator is available", async () => {
+    mockGetForkedRepositoryLocator.mockResolvedValueOnce('a/b');
+    mockCheckUncommittedChanges.mockResolvedValueOnce('unknown');
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			rerunCommand,
-			template: templateWithRepository,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      rerunCommand,
+      template: templateWithRepository,
+    });
 
-		expect(actual).toEqual({
-			error: new Error(
-				"Transitioning a repository cloned from a/b clears all of its files, but it couldn't be determined whether this one has uncommitted changes. Make sure git is installed and this is a git repository, then re-run.",
-			),
-			status: CLIStatus.Error,
-		});
-		expect(mockCheckUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
-		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
-		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
-		expect(mockPrepareOptions).not.toHaveBeenCalled();
-		expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
-	});
+    expect(actual).toEqual({
+      error: new Error(
+        "Transitioning a repository cloned from a/b clears all of its files, but it couldn't be determined whether this one has uncommitted changes. Make sure git is installed and this is a git repository, then re-run.",
+      ),
+      status: CLIStatus.Error,
+    });
+    expect(mockCheckUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
+    expect(mockClearTemplateFiles).not.toHaveBeenCalled();
+    expect(mockClearLocalGitTags).not.toHaveBeenCalled();
+    expect(mockPrepareOptions).not.toHaveBeenCalled();
+    expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+  });
 
-	it("doesn't clear the existing repository when the template does not have a repository locator", async () => {
-		mockPromptForOptionSchemas.mockResolvedValueOnce({
-			prompted: promptedOptions,
-		});
-		mockResolveLocalRepository.mockResolvedValueOnce({});
+  it("doesn't clear the existing repository when the template does not have a repository locator", async () => {
+    mockPromptForOptionSchemas.mockResolvedValueOnce({
+      prompted: promptedOptions,
+    });
+    mockResolveLocalRepository.mockResolvedValueOnce({});
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			rerunCommand,
-			template,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      rerunCommand,
+      template,
+    });
 
-		expect(actual).toEqual({
-			outro: CLIMessage.Done,
-			status: CLIStatus.Success,
-		});
-		expect(mockCheckUncommittedChanges).not.toHaveBeenCalled();
-		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
-		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
-			rerunCommand,
-			promptedOptions,
-		);
-	});
+    expect(actual).toEqual({
+      outro: CLIMessage.Done,
+      status: CLIStatus.Success,
+    });
+    expect(mockCheckUncommittedChanges).not.toHaveBeenCalled();
+    expect(mockClearTemplateFiles).not.toHaveBeenCalled();
+    expect(mockClearLocalGitTags).not.toHaveBeenCalled();
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+  });
 
-	it("returns suggestions from the creation when everything succeeds", async () => {
-		const suggestions = ["Suggestion."];
+  it('returns suggestions from the creation when everything succeeds', async () => {
+    const suggestions = ['Suggestion.'];
 
-		mockPromptForOptionSchemas.mockResolvedValueOnce({
-			prompted: promptedOptions,
-		});
-		mockResolveLocalRepository.mockResolvedValueOnce({});
-		mockRunTemplate.mockResolvedValueOnce({ creation: {}, suggestions });
+    mockPromptForOptionSchemas.mockResolvedValueOnce({
+      prompted: promptedOptions,
+    });
+    mockResolveLocalRepository.mockResolvedValueOnce({});
+    mockRunTemplate.mockResolvedValueOnce({ creation: {}, suggestions });
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			rerunCommand,
-			template,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      rerunCommand,
+      template,
+    });
 
-		expect(actual).toEqual({
-			outro: CLIMessage.Done,
-			status: CLIStatus.Success,
-			suggestions,
-		});
-	});
+    expect(actual).toEqual({
+      outro: CLIMessage.Done,
+      status: CLIStatus.Success,
+      suggestions,
+    });
+  });
 
-	it("clears the existing repository online when a forked repository locator is available and offline is falsy", async () => {
-		mockCheckUncommittedChanges.mockResolvedValueOnce("clean");
-		mockPromptForOptionSchemas.mockResolvedValueOnce({
-			prompted: promptedOptions,
-		});
-		mockGetForkedRepositoryLocator.mockResolvedValueOnce({
-			owner: "",
-			repository: "",
-		});
-		mockResolveLocalRepository.mockResolvedValueOnce({});
+  it('clears the existing repository online when a forked repository locator is available and offline is falsy', async () => {
+    mockCheckUncommittedChanges.mockResolvedValueOnce('clean');
+    mockPromptForOptionSchemas.mockResolvedValueOnce({
+      prompted: promptedOptions,
+    });
+    mockGetForkedRepositoryLocator.mockResolvedValueOnce({
+      owner: '',
+      repository: '',
+    });
+    mockResolveLocalRepository.mockResolvedValueOnce({});
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			rerunCommand,
-			template: templateWithRepository,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      rerunCommand,
+      template: templateWithRepository,
+    });
 
-		expect(actual).toEqual({
-			outro: CLIMessage.New,
-			status: CLIStatus.Success,
-		});
-		expect(mockLogStartText).toHaveBeenCalledWith("transition", false);
-		expect(mockClearTemplateFiles).toHaveBeenCalled();
-		expect(mockClearLocalGitTags).toHaveBeenCalled();
-		expect(mockCreateInitialCommit).toHaveBeenCalledWith(mockSystem.runner, {
-			amend: true,
-			push: true,
-		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
-			rerunCommand,
-			promptedOptions,
-		);
-	});
+    expect(actual).toEqual({
+      outro: CLIMessage.New,
+      status: CLIStatus.Success,
+    });
+    expect(mockLogStartText).toHaveBeenCalledWith('transition', false);
+    expect(mockClearTemplateFiles).toHaveBeenCalled();
+    expect(mockClearLocalGitTags).toHaveBeenCalled();
+    expect(mockCreateInitialCommit).toHaveBeenCalledWith(mockSystem.runner, {
+      amend: true,
+      push: true,
+    });
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+  });
 
-	it("clears the existing repository online when a remote is true, a locator exists, and offline is falsy", async () => {
-		mockCheckUncommittedChanges.mockResolvedValueOnce("clean");
-		mockPromptForOptionSchemas.mockResolvedValueOnce({
-			prompted: promptedOptions,
-		});
-		mockGetForkedRepositoryLocator.mockResolvedValueOnce({
-			owner: "",
-			repository: "",
-		});
-		mockResolveLocalRepository.mockResolvedValueOnce({});
+  it('clears the existing repository online when a remote is true, a locator exists, and offline is falsy', async () => {
+    mockCheckUncommittedChanges.mockResolvedValueOnce('clean');
+    mockPromptForOptionSchemas.mockResolvedValueOnce({
+      prompted: promptedOptions,
+    });
+    mockGetForkedRepositoryLocator.mockResolvedValueOnce({
+      owner: '',
+      repository: '',
+    });
+    mockResolveLocalRepository.mockResolvedValueOnce({});
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			remote: true,
-			rerunCommand,
-			template: templateWithRepository,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      remote: true,
+      rerunCommand,
+      template: templateWithRepository,
+    });
 
-		expect(actual).toEqual({
-			outro: CLIMessage.New,
-			status: CLIStatus.Success,
-		});
-		expect(mockLogStartText).toHaveBeenCalledWith("transition", false);
-		expect(mockClearTemplateFiles).toHaveBeenCalled();
-		expect(mockClearLocalGitTags).toHaveBeenCalled();
-		expect(mockCreateInitialCommit).toHaveBeenCalledWith(mockSystem.runner, {
-			amend: true,
-			push: true,
-		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
-			rerunCommand,
-			promptedOptions,
-		);
-	});
+    expect(actual).toEqual({
+      outro: CLIMessage.New,
+      status: CLIStatus.Success,
+    });
+    expect(mockLogStartText).toHaveBeenCalledWith('transition', false);
+    expect(mockClearTemplateFiles).toHaveBeenCalled();
+    expect(mockClearLocalGitTags).toHaveBeenCalled();
+    expect(mockCreateInitialCommit).toHaveBeenCalledWith(mockSystem.runner, {
+      amend: true,
+      push: true,
+    });
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+  });
 
-	it("clears the existing repository online when a remote is true, a locator does not exist, and offline is falsy", async () => {
-		mockPromptForOptionSchemas.mockResolvedValueOnce({
-			prompted: promptedOptions,
-		});
-		mockGetForkedRepositoryLocator.mockResolvedValueOnce(undefined);
-		mockResolveLocalRepository.mockResolvedValueOnce({});
+  it('clears the existing repository online when a remote is true, a locator does not exist, and offline is falsy', async () => {
+    mockPromptForOptionSchemas.mockResolvedValueOnce({
+      prompted: promptedOptions,
+    });
+    mockGetForkedRepositoryLocator.mockResolvedValueOnce(undefined);
+    mockResolveLocalRepository.mockResolvedValueOnce({});
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			remote: true,
-			rerunCommand,
-			template: templateWithRepository,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      remote: true,
+      rerunCommand,
+      template: templateWithRepository,
+    });
 
-		expect(actual).toEqual({
-			outro: CLIMessage.Done,
-			status: CLIStatus.Success,
-		});
-		expect(mockLogStartText).toHaveBeenCalledWith("transition", false);
-		expect(mockClearTemplateFiles).not.toHaveBeenCalled();
-		expect(mockClearLocalGitTags).not.toHaveBeenCalled();
-		expect(mockCreateInitialCommit).toHaveBeenCalledWith(mockSystem.runner, {
-			amend: true,
-			push: true,
-		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
-			rerunCommand,
-			promptedOptions,
-		);
-	});
+    expect(actual).toEqual({
+      outro: CLIMessage.Done,
+      status: CLIStatus.Success,
+    });
+    expect(mockLogStartText).toHaveBeenCalledWith('transition', false);
+    expect(mockClearTemplateFiles).not.toHaveBeenCalled();
+    expect(mockClearLocalGitTags).not.toHaveBeenCalled();
+    expect(mockCreateInitialCommit).toHaveBeenCalledWith(mockSystem.runner, {
+      amend: true,
+      push: true,
+    });
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+  });
 
-	it("clears the existing repository offline when a forked repository locator is available and offline is true", async () => {
-		mockCheckUncommittedChanges.mockResolvedValueOnce("clean");
-		mockPromptForOptionSchemas.mockResolvedValueOnce({
-			prompted: promptedOptions,
-		});
-		mockGetForkedRepositoryLocator.mockResolvedValueOnce({
-			owner: "",
-			repository: "",
-		});
-		mockResolveLocalRepository.mockResolvedValueOnce({
-			remote: { owner: "user", repository: "repo" },
-		});
+  it('clears the existing repository offline when a forked repository locator is available and offline is true', async () => {
+    mockCheckUncommittedChanges.mockResolvedValueOnce('clean');
+    mockPromptForOptionSchemas.mockResolvedValueOnce({
+      prompted: promptedOptions,
+    });
+    mockGetForkedRepositoryLocator.mockResolvedValueOnce({
+      owner: '',
+      repository: '',
+    });
+    mockResolveLocalRepository.mockResolvedValueOnce({
+      remote: { owner: 'user', repository: 'repo' },
+    });
 
-		const actual = await runModeTransition({
-			argv,
-			configFile: undefined,
-			display,
-			from,
-			offline: true,
-			rerunCommand,
-			template: templateWithRepository,
-		});
+    const actual = await runModeTransition({
+      argv,
+      configFile: undefined,
+      display,
+      from,
+      offline: true,
+      rerunCommand,
+      template: templateWithRepository,
+    });
 
-		expect(actual).toEqual({
-			outro: CLIMessage.New,
-			status: CLIStatus.Success,
-		});
-		expect(mockLogStartText).toHaveBeenCalledWith("transition", true);
-		expect(mockClearTemplateFiles).toHaveBeenCalled();
-		expect(mockClearLocalGitTags).toHaveBeenCalled();
-		expect(mockCreateInitialCommit).toHaveBeenCalledWith(mockSystem.runner, {
-			amend: true,
-			push: false,
-		});
-		expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
-			rerunCommand,
-			promptedOptions,
-		);
-	});
+    expect(actual).toEqual({
+      outro: CLIMessage.New,
+      status: CLIStatus.Success,
+    });
+    expect(mockLogStartText).toHaveBeenCalledWith('transition', true);
+    expect(mockClearTemplateFiles).toHaveBeenCalled();
+    expect(mockClearLocalGitTags).toHaveBeenCalled();
+    expect(mockCreateInitialCommit).toHaveBeenCalledWith(mockSystem.runner, {
+      amend: true,
+      push: false,
+    });
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+  });
 });

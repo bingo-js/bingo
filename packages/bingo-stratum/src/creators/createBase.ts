@@ -1,10 +1,10 @@
-import { AnyShape } from "bingo";
+import { AnyShape } from 'bingo';
 
-import { Base, BaseDefinition } from "../types/bases.js";
-import { assertNoPresetOption } from "./assertNoPresetOption.js";
-import { createBlock } from "./createBlock.js";
-import { createPreset } from "./createPreset.js";
-import { createStratumTemplate } from "./createStratumTemplate.js";
+import { Base, BaseDefinition } from '../types/bases.js';
+import { assertNoPresetOption } from './assertNoPresetOption.js';
+import { createBlock } from './createBlock.js';
+import { createPreset } from './createPreset.js';
+import { createStratumTemplate } from './createStratumTemplate.js';
 
 /**
  * Creates a Stratum {@link Base}.
@@ -12,17 +12,16 @@ import { createStratumTemplate } from "./createStratumTemplate.js";
  * @see {@link https://www.create.bingo/engines/stratum/apis/create-base}
  */
 export function createBase<OptionsShape extends AnyShape>(
-	baseDefinition: BaseDefinition<OptionsShape>,
+  baseDefinition: BaseDefinition<OptionsShape>,
 ): Base<OptionsShape> {
-	assertNoPresetOption(baseDefinition);
+  assertNoPresetOption(baseDefinition);
 
-	const base: Base<OptionsShape> = {
-		...baseDefinition,
-		createBlock,
-		createPreset: (presetDefinition) => createPreset(base, presetDefinition),
-		createStratumTemplate: (templateDefinition) =>
-			createStratumTemplate(base, templateDefinition),
-	};
+  const base: Base<OptionsShape> = {
+    ...baseDefinition,
+    createBlock,
+    createPreset: (presetDefinition) => createPreset(base, presetDefinition),
+    createStratumTemplate: (templateDefinition) => createStratumTemplate(base, templateDefinition),
+  };
 
-	return base;
+  return base;
 }

@@ -1,47 +1,47 @@
 {
-	"name": "input-from-fetch",
-	"version": "0.8.0",
-	"description": "Bingo input that runs a network request.",
-	"homepage": "https://www.create.bingo",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bingo-js/bingo",
-		"directory": "packages/input-from-fetch"
-	},
-	"license": "MIT",
-	"author": {
-		"name": "Josh Goldberg ✨",
-		"email": "npm@joshuakgoldberg.com"
-	},
-	"sideEffects": false,
-	"type": "module",
-	"exports": {
-		".": "./lib/index.js",
-		"./package.json": "./package.json"
-	},
-	"files": [
-		"lib/"
-	],
-	"scripts": {
-		"build": "tsc"
-	},
-	"dependencies": {
-		"zod": "^4.4.3"
-	},
-	"devDependencies": {
-		"bingo": "workspace:^",
-		"bingo-testers": "workspace:^"
-	},
-	"peerDependencies": {
-		"bingo": "workspace:^",
-		"zod": "^4.4.3"
-	},
-	"peerDependenciesMeta": {
-		"zod": {
-			"optional": true
-		}
-	},
-	"engines": {
-		"node": "^22.15.0 || ^24.15.0 || >=26.0.0"
-	}
+  "name": "input-from-fetch",
+  "version": "0.8.0",
+  "description": "Bingo input that runs a network request.",
+  "homepage": "https://www.create.bingo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingo-js/bingo",
+    "directory": "packages/input-from-fetch"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Josh Goldberg ✨",
+    "email": "npm@joshuakgoldberg.com"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "bingo": "workspace:^",
+    "bingo-testers": "workspace:^"
+  },
+  "peerDependencies": {
+    "bingo": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": "^22.15.0 || ^24.15.0 || >=26.0.0"
+  }
 }

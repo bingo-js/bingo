@@ -14,9 +14,9 @@ npm i input-from-file
 ```
 
 ```ts
-import { inputFromFile } from "input-from-file";
+import { inputFromFile } from 'input-from-file';
 
-await take(inputFromFile, { filePath: "data.txt" });
+await take(inputFromFile, { filePath: 'data.txt' });
 ```
 
 ## Options

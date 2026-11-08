@@ -1,59 +1,59 @@
-import { Octokit } from "octokit";
-import { describe, expect, test, vi } from "vitest";
-import { z } from "zod";
+import { Octokit } from 'octokit';
+import { describe, expect, test, vi } from 'vitest';
+import { z } from 'zod';
 
-import { createTemplate } from "../creators/createTemplate.js";
-import { runTemplate } from "./runTemplate.js";
+import { createTemplate } from '../creators/createTemplate.js';
+import { runTemplate } from './runTemplate.js';
 
 function createSystem() {
-	return {
-		fetchers: {
-			fetch: noop("fetch"),
-			octokit: {} as Octokit,
-		},
-		fs: {
-			glob: noop("glob"),
-			readDirectory: noop("readDirectory"),
-			readFile: noop("readFile"),
-			removeFile: vi.fn(),
-			writeDirectory: vi.fn(),
-			writeFile: vi.fn(),
-		},
-		runner: noop("runner"),
-	};
+  return {
+    fetchers: {
+      fetch: noop('fetch'),
+      octokit: {} as Octokit,
+    },
+    fs: {
+      glob: noop('glob'),
+      readDirectory: noop('readDirectory'),
+      readFile: noop('readFile'),
+      removeFile: vi.fn(),
+      writeDirectory: vi.fn(),
+      writeFile: vi.fn(),
+    },
+    runner: noop('runner'),
+  };
 }
 
 function noop(label: string) {
-	return vi.fn().mockReturnValue(`Not implemented: ${label}`);
+  return vi.fn().mockReturnValue(`Not implemented: ${label}`);
 }
 
-describe("runTemplate", () => {
-	test("production", async () => {
-		const template = createTemplate({
-			about: { name: "Test Template" },
-			options: {
-				title: z.string(),
-			},
-			produce({ options }) {
-				return {
-					files: {
-						"README.md": `# ${options.title}`,
-					},
-				};
-			},
-		});
+describe('runTemplate', () => {
+  test('production', async () => {
+    const template = createTemplate({
+      about: { name: 'Test Template' },
+      options: {
+        title: z.string(),
+      },
+      produce({ options }) {
+        return {
+          files: {
+            'README.md': `# ${options.title}`,
+          },
+        };
+      },
+    });
 
-		const system = createSystem();
+    const system = createSystem();
 
-		await runTemplate(template, {
-			options: { title: "abc" },
-			...system,
-		});
+    await runTemplate(template, {
+      options: { title: 'abc' },
+      ...system,
+    });
 
-		expect({
-			writeDirectory: system.fs.writeDirectory.mock.calls,
-			writeFile: system.fs.writeFile.mock.calls,
-		}).toMatchInlineSnapshot(`
+    expect({
+      writeDirectory: system.fs.writeDirectory.mock.calls,
+      writeFile: system.fs.writeFile.mock.calls,
+    }).toMatchInlineSnapshot(`
 			{
 			  "writeDirectory": [
 			    [
@@ -68,5 +68,5 @@ describe("runTemplate", () => {
 			  ],
 			}
 		`);
-	});
+  });
 });

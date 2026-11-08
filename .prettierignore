@@ -1,7 +1,0 @@
-.all-contributorsrc
-.husky/
-coverage/
-packages/*/dist
-packages/*/lib
-pnpm-lock.yaml
-**/CHANGELOG.md

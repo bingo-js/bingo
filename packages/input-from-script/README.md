@@ -14,9 +14,9 @@ npm i input-from-script
 ```
 
 ```ts
-import { inputFromFetch } from "input-from-script";
+import { inputFromFetch } from 'input-from-script';
 
-await take(inputFromFetch, { resource: "npm whoami" });
+await take(inputFromFetch, { resource: 'npm whoami' });
 ```
 
 ## Options

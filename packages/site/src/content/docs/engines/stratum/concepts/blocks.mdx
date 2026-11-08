@@ -24,30 +24,30 @@ When `create` scaffolds a repository from a Preset, it merges together the produ
 For example, this Block describes creating a `.nvmrc` file:
 
 ```ts
-import { base } from "./base";
+import { base } from './base';
 
 export const blockNvmrc = base.createBlock({
-	produce() {
-		return {
-			files: {
-				".nvmrc": "20.12.2",
-			},
-		};
-	},
+  produce() {
+    return {
+      files: {
+        '.nvmrc': '20.12.2',
+      },
+    };
+  },
 });
 ```
 
 That `blockNvmrc` can then be listed in a [Preset](/engines/stratum/concepts/presets)'s `blocks` array:
 
 ```ts
-import { base } from "./base";
-import { blockNvmrc } from "./blockNvmrc";
+import { base } from './base';
+import { blockNvmrc } from './blockNvmrc';
 
 export const presetVersioned = base.createPreset({
-	blocks: [
-		blockNvmrc,
-		// ...
-	],
+  blocks: [
+    blockNvmrc,
+    // ...
+  ],
 });
 ```
 
@@ -64,16 +64,16 @@ Each Block runs with the options defined by its parent [Base](/engines/stratum/c
 For example, a Base with a `name` option could create a Block that generates part of a `README.md` file:
 
 ```ts
-import { base } from "./base";
+import { base } from './base';
 
 export const blockREADME = base.createBlock({
-	produce({ options }) {
-		return {
-			files: {
-				"README.md": `# ${options.name}`,
-			},
-		};
-	},
+  produce({ options }) {
+    return {
+      files: {
+        'README.md': `# ${options.name}`,
+      },
+    };
+  },
 });
 ```
 
@@ -91,21 +91,21 @@ Blocks define Props as the properties for a [Zod](https://zod.dev) object schema
 For example, this Block takes in a string array under a `names` Prop, to be printed in a `names.txt` file:
 
 ```ts
-import { z } from "zod";
+import { z } from 'zod';
 
-import { base } from "./base";
+import { base } from './base';
 
 export const blockNames = base.createBlock({
-	props: {
-		names: z.array(z.string()).default([]),
-	},
-	async produce({ props }) {
-		return {
-			files: {
-				"names.txt": props.names.join("\n"),
-			},
-		};
-	},
+  props: {
+    names: z.array(z.string()).default([]),
+  },
+  async produce({ props }) {
+    return {
+      files: {
+        'names.txt': props.names.join('\n'),
+      },
+    };
+  },
 });
 ```
 
@@ -117,33 +117,33 @@ The Props provided by these Extensions will be merged together when a Preset con
 For example, the following `Names` Block receives composed Props from the `FruitNames` Block:
 
 ```ts
-import { z } from "zod";
+import { z } from 'zod';
 
-import { base } from "./base";
+import { base } from './base';
 
 export const blockNames = base.createBlock({
-	props: {
-		names: z.array(z.string()).default([]),
-	},
-	async produce({ props }) {
-		return {
-			files: {
-				"names.txt": props.names.join("\n"),
-			},
-		};
-	},
+  props: {
+    names: z.array(z.string()).default([]),
+  },
+  async produce({ props }) {
+    return {
+      files: {
+        'names.txt': props.names.join('\n'),
+      },
+    };
+  },
 });
 
 export const blockFruitNames = base.createBlock({
-	async produce() {
-		return {
-			extensions: [
-				blockNames({
-					names: ["apple", "banana", "cherry"],
-				}),
-			],
-		};
-	},
+  async produce() {
+    return {
+      extensions: [
+        blockNames({
+          names: ['apple', 'banana', 'cherry'],
+        }),
+      ],
+    };
+  },
 });
 ```
 
@@ -169,8 +169,8 @@ For example, given the following two set of Props to be merged:
 
 ```ts
 [
-	{ name: "First", steps: ["a", "b"] },
-	{ name: "Second", steps: ["c", "d"] },
+  { name: 'First', steps: ['a', 'b'] },
+  { name: 'Second', steps: ['c', 'd'] },
 ];
 ```
 
@@ -185,9 +185,9 @@ The merged result would be:
 
 ```ts
 [
-	{ name: "First", steps: ["a", "b"] },
-	{ name: "Second", steps: ["c", "d"] },
-	{ name: "Third", steps: ["e", "f"] },
+  { name: 'First', steps: ['a', 'b'] },
+  { name: 'Second', steps: ['c', 'd'] },
+  { name: 'Third', steps: ['e', 'f'] },
 ];
 ```
 

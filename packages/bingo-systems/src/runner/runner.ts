@@ -1,4 +1,4 @@
-import { ExecaError, Result } from "execa";
+import { ExecaError, Result } from 'execa';
 
 /**
  * Executes a command in the system shell.

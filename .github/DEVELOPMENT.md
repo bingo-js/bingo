@@ -42,13 +42,13 @@ You should be able to see suggestions from TypeScript in your editor for all ope
 
 ## Formatting
 
-[Prettier](https://prettier.io) is used to format code.
+[Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) is used to format code.
 It should be applied automatically when you save files in VS Code or make a Git commit.
 
 To manually reformat all files, you can run:
 
 ```shell
-pnpm format --write
+pnpm format
 ```
 
 ## Linting

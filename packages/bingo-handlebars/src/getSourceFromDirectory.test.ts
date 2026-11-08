@@ -1,62 +1,60 @@
-import { IntakeDirectory } from "bingo-fs";
-import { describe, expect, it } from "vitest";
+import { IntakeDirectory } from 'bingo-fs';
+import { describe, expect, it } from 'vitest';
 
-import { getSourceFromDirectory } from "./getSourceFromDirectory.js";
+import { getSourceFromDirectory } from './getSourceFromDirectory.js';
 
-const fileContents = "...";
+const fileContents = '...';
 
-describe("getSourceFromPath", () => {
-	it("throws an error when the requested path does not match any root directory", () => {
-		const act = () =>
-			getSourceFromDirectory(
-				"/template",
-				{
-					"file.txt.hbs": [fileContents],
-				},
-				"incorrect",
-			);
+describe('getSourceFromPath', () => {
+  it('throws an error when the requested path does not match any root directory', () => {
+    const act = () =>
+      getSourceFromDirectory(
+        '/template',
+        {
+          'file.txt.hbs': [fileContents],
+        },
+        'incorrect',
+      );
 
-		expect(act).toThrow(`Source 'incorrect' does not exist under '/template'.`);
-	});
+    expect(act).toThrow(`Source 'incorrect' does not exist under '/template'.`);
+  });
 
-	it("throws an error when the requested path does not match any child directory", () => {
-		const act = () =>
-			getSourceFromDirectory(
-				"/template",
-				{
-					inner: {
-						"file.txt.hbs": [fileContents],
-					},
-				},
-				"inner/incorrect",
-			);
+  it('throws an error when the requested path does not match any child directory', () => {
+    const act = () =>
+      getSourceFromDirectory(
+        '/template',
+        {
+          inner: {
+            'file.txt.hbs': [fileContents],
+          },
+        },
+        'inner/incorrect',
+      );
 
-		expect(act).toThrow(
-			`Source 'inner/incorrect' does not exist under '/template'.`,
-		);
-	});
+    expect(act).toThrow(`Source 'inner/incorrect' does not exist under '/template'.`);
+  });
 
-	it("returns the file when the requested path is a file", () => {
-		const actual = getSourceFromDirectory(
-			"/template",
-			{
-				"file.txt.hbs": [fileContents],
-			},
-			"file.txt.hbs",
-		);
+  it('returns the file when the requested path is a file', () => {
+    const actual = getSourceFromDirectory(
+      '/template',
+      {
+        'file.txt.hbs': [fileContents],
+      },
+      'file.txt.hbs',
+    );
 
-		expect(actual).toEqual([fileContents]);
-	});
+    expect(actual).toEqual([fileContents]);
+  });
 
-	it("returns the directory when the requested path is a directory", () => {
-		const directory: IntakeDirectory = {
-			inner: {
-				"file.txt.hbs": [fileContents],
-			},
-		};
+  it('returns the directory when the requested path is a directory', () => {
+    const directory: IntakeDirectory = {
+      inner: {
+        'file.txt.hbs': [fileContents],
+      },
+    };
 
-		const actual = getSourceFromDirectory("/template", directory, "inner");
+    const actual = getSourceFromDirectory('/template', directory, 'inner');
 
-		expect(actual).toEqual(directory.inner);
-	});
+    expect(actual).toEqual(directory.inner);
+  });
 });
