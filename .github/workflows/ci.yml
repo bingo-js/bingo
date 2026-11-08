@@ -21,14 +21,33 @@ jobs:
       - uses: $/.github/actions/setup
       - run: pnpm site:build
 
-  dedupe-check:
+  dedupe_check:
     name: Dedupe Check
     runs-on: ubuntu-latest
     steps:
       - uses: $/.github/actions/setup
       - run: pnpm dedupe --check
 
-  format-check:
+  engines_check:
+    name: Engines Check (Node.js ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - 22
+          - 24.15.0
+          - 24
+          - 26.0.0
+          - 26
+    steps:
+      - uses: $/.github/actions/setup
+        with:
+          cache: false
+          install-flags: --prod --engine-strict --ignore-scripts
+          node-version: ${{ matrix.node-version }}
+
+  format_check:
     name: Format Check
     runs-on: ubuntu-latest
     steps:
