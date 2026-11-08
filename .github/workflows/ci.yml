@@ -66,10 +66,10 @@ jobs:
       - run: pnpm run -r prebuild
       - run: pnpm run build
       - run: pnpm run test --coverage
-      - env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        if: always()
-        uses: codecov/codecov-action@v3.1.6
+      - uses: codecov/codecov-action@v7.1.1
+        with:
+          fail_ci_if_error: true
+          use_oidc: true
 
   type_check:
     name: Type Check
