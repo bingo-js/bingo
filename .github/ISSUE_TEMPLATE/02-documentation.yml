@@ -1,25 +1,30 @@
+name: 📝 Documentation
+
+description: Report a typo or missing area of documentation
+
+title: '📝 Documentation: <short description of the request>'
+
+labels:
+  - 'area: documentation'
+  - 'status: in discussion'
+
 body:
-  - attributes:
+  - type: checkboxes
+    attributes:
       description: If any of these required steps are not taken, we may not be able to review your issue. Help us to help you!
-      label: Bug Report Checklist
+      label: Documentation Report Checklist
       options:
-        - label: I have pulled the latest `main` branch of the repository.
+        - label: I have checked the latest `main` branch of the repository.
           required: true
         - label: I have [searched for related issues](https://github.com/bingo-js/bingo/issues?q=is%3Aissue) and found none that matched my issue.
           required: true
-    type: checkboxes
-  - attributes:
+  - type: textarea
+    attributes:
       description: What would you like to report?
       label: Overview
-    type: textarea
     validations:
       required: true
-  - attributes:
+  - type: textarea
+    attributes:
       description: Any additional info you'd like to provide.
       label: Additional Info
-    type: textarea
-description: Report a typo or missing area of documentation
-labels:
-  - 'area: documentation'
-name: 📝 Documentation
-title: '📝 Documentation: <short description of the request>'

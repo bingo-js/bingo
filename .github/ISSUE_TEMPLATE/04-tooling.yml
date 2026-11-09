@@ -1,7 +1,18 @@
+name: 🛠 Tooling
+
+description: Report a bug or request an enhancement in repository tooling
+
+title: '🛠 Tooling: <short description of the change>'
+
+labels:
+  - 'area: tooling'
+  - 'status: in discussion'
+
 body:
-  - attributes:
+  - type: checkboxes
+    attributes:
       description: If any of these required steps are not taken, we may not be able to review your issue. Help us to help you!
-      label: Bug Report Checklist
+      label: Tooling Report Checklist
       options:
         - label: I have tried restarting my IDE and the issue persists.
           required: true
@@ -9,19 +20,13 @@ body:
           required: true
         - label: I have [searched for related issues](https://github.com/bingo-js/bingo/issues?q=is%3Aissue) and found none that matched my issue.
           required: true
-    type: checkboxes
-  - attributes:
-      description: What did you expect to be able to do?
+  - type: textarea
+    attributes:
+      description: What tooling changes would you like to make?
       label: Overview
-    type: textarea
     validations:
       required: true
-  - attributes:
+  - type: textarea
+    attributes:
       description: Any additional info you'd like to provide.
       label: Additional Info
-    type: textarea
-description: Report a bug or request an enhancement in repository tooling
-labels:
-  - 'area: tooling'
-name: 🛠 Tooling
-title: '🛠 Tooling: <short description of the change>'

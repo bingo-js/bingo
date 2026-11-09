@@ -1,25 +1,28 @@
+name: 🚀 Feature
+
+description: Request that a new feature be added or an existing feature improved
+
+title: '🚀 Feature: <short description of the feature>'
+
+labels:
+  - 'status: in discussion'
+  - 'type: feature'
+
 body:
-  - attributes:
+  - type: checkboxes
+    attributes:
       description: If any of these required steps are not taken, we may not be able to review your issue. Help us to help you!
       label: Feature Request Checklist
       options:
-        - label: I have pulled the latest `main` branch of the repository.
-          required: true
         - label: I have [searched for related issues](https://github.com/bingo-js/bingo/issues?q=is%3Aissue) and found none that matched my issue.
           required: true
-    type: checkboxes
-  - attributes:
-      description: What did you expect to be able to do?
+  - type: textarea
+    attributes:
+      description: What would you like to be able to do?
       label: Overview
-    type: textarea
     validations:
       required: true
-  - attributes:
+  - type: textarea
+    attributes:
       description: Any additional info you'd like to provide.
       label: Additional Info
-    type: textarea
-description: Request that a new feature be added or an existing feature improved
-labels:
-  - 'type: feature'
-name: 🚀 Feature
-title: '🚀 Feature: <short description of the feature>'
