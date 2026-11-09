@@ -32,7 +32,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@octokit/types": "^16.0.0",
+    "@octokit/types": "^18.0.0",
     "bingo-requests": "workspace:^",
     "zod": "^4.4.3"
   },
