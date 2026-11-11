@@ -1,5 +1,13 @@
 # input-from-octokit
 
+## 0.4.1
+
+### Patch Changes
+
+- [#561](https://github.com/bingo-js/bingo/pull/561) [`75f9c35`](https://github.com/bingo-js/bingo/commit/75f9c35c86100d100121254a1ad25152144bbe57) Thanks [@michaelfaith](https://github.com/michaelfaith)! - **Deps:** Update `@octokit/types` to v18.
+- Updated dependencies [[`75f9c35`](https://github.com/bingo-js/bingo/commit/75f9c35c86100d100121254a1ad25152144bbe57)]:
+  - bingo-requests@0.7.1
+
 ## 0.4.0
 
 ### Minor Changes
