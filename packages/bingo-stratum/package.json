@@ -44,7 +44,7 @@
     "bingo": "workspace:^",
     "bingo-fs": "workspace:^",
     "bingo-systems": "workspace:^",
-    "zod": "^4.4.3"
+    "zod": "4.4.3"
   },
   "peerDependencies": {
     "bingo": "workspace:^",
