@@ -233,7 +233,7 @@ importers:
         specifier: 0.77.0
         version: 0.77.0(@astrojs/compiler-rs@0.5.2)
       simple-git-hooks:
-        specifier: ^2.14.0
+        specifier: 2.14.0
         version: 2.14.0
       typescript:
         specifier: 6.0.3
@@ -365,7 +365,7 @@ importers:
         specifier: workspace:^
         version: link:../bingo-systems
       zod:
-        specifier: ^4.4.3
+        specifier: 4.4.3
         version: 4.4.3
 
   packages/bingo-stratum-testers:
