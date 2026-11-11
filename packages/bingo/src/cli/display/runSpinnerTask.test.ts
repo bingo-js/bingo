@@ -9,6 +9,11 @@ const mockLog = {
   error: vi.fn(),
 };
 const mockSpinner = {
+  cancel: vi.fn(),
+  clear: vi.fn(),
+  error: vi.fn(),
+  isCancelled: false,
+  message: vi.fn(),
   start: vi.fn(),
   stop: vi.fn(),
 };
@@ -20,7 +25,7 @@ vi.mock('@clack/prompts', () => ({
   spinner: () => mockSpinner,
 }));
 
-describe('runSpinnerTask', () => {
+describe(runSpinnerTask, () => {
   it('displays the error when the task throws an error', async () => {
     const error = new Error('Oh no!');
 
@@ -33,11 +38,10 @@ describe('runSpinnerTask', () => {
 
     expect(actual).toBe(error);
     expect(mockLog.error).toHaveBeenCalledWith(styleText('red', error.stack ?? error.message));
-    expect(mockSpinner.stop.mock.calls).toMatchInlineSnapshot(`
+    expect(mockSpinner.cancel.mock.calls).toMatchInlineSnapshot(`
 			[
 			  [
 			    "Error running task:",
-			    1,
 			  ],
 			]
 		`);

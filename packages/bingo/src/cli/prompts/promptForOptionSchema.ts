@@ -1,3 +1,4 @@
+import type { Validate } from '@clack/core';
 import * as prompts from '@clack/prompts';
 import * as z from 'zod';
 
@@ -57,7 +58,7 @@ export async function promptForOptionSchema(
           await prompts.text({
             message,
             placeholder: defaultValue as string,
-            validate: validateNumber,
+            validate: validateNumber as Validate<string>,
           }),
         );
         break;
@@ -83,7 +84,7 @@ export async function promptForOptionSchema(
         const text = await prompts.text({
           message,
           placeholder: defaultValue as string,
-          validate: validatorFromSchema(schema),
+          validate: validatorFromSchema(schema) as Validate<string>,
         });
 
         return cancelOrParse(schema, text);

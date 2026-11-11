@@ -47,6 +47,10 @@ const stubDisplay: ClackDisplay = {
   item: vi.fn(),
   log: vi.fn(),
   spinner: {
+    cancel: vi.fn(),
+    clear: vi.fn(),
+    error: vi.fn(),
+    isCancelled: false,
     message: vi.fn(),
     start: vi.fn(),
     stop: vi.fn(),

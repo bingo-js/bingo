@@ -108,6 +108,10 @@ const display: ClackDisplay = {
   item: vi.fn(),
   log: vi.fn(),
   spinner: {
+    cancel: vi.fn(),
+    clear: vi.fn(),
+    error: vi.fn(),
+    isCancelled: false,
     message: vi.fn(),
     start: vi.fn(),
     stop: vi.fn(),
@@ -122,7 +126,7 @@ const template = createTemplate({
   produce: vi.fn(),
 });
 
-describe('runModeSetup', () => {
+describe(runModeSetup, () => {
   it('returns a cancellation status when the directory prompt is cancelled', async () => {
     mockPromptForDirectory.mockResolvedValueOnce(mockCancel);
 

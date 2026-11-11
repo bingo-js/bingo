@@ -16,7 +16,7 @@ export async function runSpinnerTask<T>(
   const result = await tryCatchError(task());
 
   if (result instanceof Error) {
-    display.spinner.stop(`Error ${start[0].toLowerCase()}${start.slice(1)}:`, 1);
+    display.spinner.cancel(`Error ${start[0].toLowerCase()}${start.slice(1)}:`);
     prompts.log.error(styleText('red', result.stack ?? result.message));
   } else {
     display.spinner.stop(stop);
