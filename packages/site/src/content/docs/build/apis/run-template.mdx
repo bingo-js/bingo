@@ -225,8 +225,8 @@ Any optional customizations from a template-specific config file.
 
 For example, [Stratum](/engines/stratum/about) templates allow customizing [Blocks](/engines/stratum/concepts/blocks) via refinements:
 
-```ts title="create-typescript-app.config.ts"
-import { blockAreTheTypesWrong, template } from 'create-typescript-app';
+```ts title="mfaith-create.config.ts"
+import { blockAreTheTypesWrong, template } from '@mfaith/create';
 import { runTemplate } from 'bingo';
 
 await runTemplate(template, {

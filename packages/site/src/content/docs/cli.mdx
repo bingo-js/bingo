@@ -8,14 +8,14 @@ import { PackageManagers } from 'starlight-package-managers';
 Bingo templates each provide a CLI to set up a new repository or transition an existing one.
 That CLI will interactively prompt you for any required options that can't be inferred from disk.
 
-For example, to run [create-typescript-app](https://github.com/JoshuaKGoldberg/create-typescript-app):
+For example, to run [@mfaith/create](https://github.com/michaelfaith/mfaith-create):
 
-<PackageManagers type="dlx" pkg="create-typescript-app" />
+<PackageManagers type="dlx" pkg="@mfaith/create" />
 
 ```plaintext
-┌  ✨ create-typescript-app@2.0.0 ✨
+┌  ✨ @mfaith/create@2.0.0 ✨
 │
-│  Learn more on: https://github.com/JoshuaKGoldberg/create-typescript-app
+│  Learn more on: https://github.com/michaelfaith/mfaith-create
 │
 │  Running with mode --setup for a new repository.
 ```
@@ -37,7 +37,7 @@ If not provided:
 
 For example, creating a new repository in a subdirectory:
 
-<PackageManagers args="--directory my-fancy-project" pkg="create-typescript-app" type="dlx" />
+<PackageManagers args="--directory my-fancy-project" pkg="@mfaith/create" type="dlx" />
 
 ### `--help`
 
@@ -45,7 +45,7 @@ For example, creating a new repository in a subdirectory:
 
 Prints help text.
 
-<PackageManagers type="dlx" pkg="create-typescript-app" args="--help" />
+<PackageManagers type="dlx" pkg="@mfaith/create" args="--help" />
 
 ### `--mode`
 
@@ -55,9 +55,9 @@ Which [Execution Mode](/execution) to run in.
 
 If not provided, it will be inferred based on whether Bingo is being run in an existing repository.
 
-For example, specifying creating a new repository with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app):
+For example, specifying creating a new repository with [`@mfaith/create`](https://github.com/michaelfaith/mfaith-create):
 
-<PackageManagers args="--mode setup" pkg="create-typescript-app" type="dlx" />
+<PackageManagers args="--mode setup" pkg="@mfaith/create" type="dlx" />
 
 ### `--offline`
 
@@ -69,9 +69,9 @@ If provided, templates will be hinted to not make any network requests.
 That often means they will install from offline caches, skip creating a repository on GitHub, and skip sending GitHub API requests.
 The repository will roughly be a local-only creation.
 
-For example, specifying creating a new repository offline with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app):
+For example, specifying creating a new repository offline with [`@mfaith/create`](https://github.com/michaelfaith/mfaith-create):
 
-<PackageManagers type="dlx" pkg="create-typescript-app" args="--offline" />
+<PackageManagers type="dlx" pkg="@mfaith/create" args="--offline" />
 
 :::caution
 `--offline` doesn't prevent templates from accidentally running scripts that make network requests.
@@ -89,7 +89,7 @@ If not provided, Bingo will infer it from the GitHub CLI's configured user, then
 
 For example, creating a new repository under a `my-organization` organization:
 
-<PackageManagers args="--owner my-organization --remote" pkg="create-typescript-app" type="dlx" />
+<PackageManagers args="--owner my-organization --remote" pkg="@mfaith/create" type="dlx" />
 
 ### `--remote`
 
@@ -119,7 +119,7 @@ For example, creating a new repository whose name differs from its local directo
 
 <PackageManagers
   args="--directory my-local-directory --repository my-fancy-project"
-  pkg="create-typescript-app"
+  pkg="@mfaith/create"
   type="dlx"
 />
 
@@ -131,9 +131,9 @@ Whether to skip creating files on disk.
 
 This can be useful if you'd like to only run scripts such as linter auto-fixing and update repository settings for a previously created repository.
 
-For example, specifying updating all of repository except its files with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app):
+For example, specifying updating all of repository except its files with [`@mfaith/create`](https://github.com/michaelfaith/mfaith-create):
 
-<PackageManagers type="dlx" pkg="create-typescript-app" args="--skip-files" />
+<PackageManagers type="dlx" pkg="@mfaith/create" args="--skip-files" />
 
 ### `--skip-requests`
 
@@ -141,9 +141,9 @@ For example, specifying updating all of repository except its files with [`creat
 
 Whether to skip sending network requests as specified by templates.
 
-For example, creating a repository using [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app) without populating network requests, but with network installation of packages (`pnpm install` instead of `pnpm install --offline`):
+For example, creating a repository using [`@mfaith/create`](https://github.com/michaelfaith/mfaith-create) without populating network requests, but with network installation of packages (`pnpm install` instead of `pnpm install --offline`):
 
-<PackageManagers type="dlx" pkg="create-typescript-app" args="--skip-requests" />
+<PackageManagers type="dlx" pkg="@mfaith/create" args="--skip-requests" />
 
 `--skip-requests` effectively defaults to true if [`--offline`](#--offline) is provided.
 However, it does not prevent network requests from being sent by other parts of templates.
@@ -160,9 +160,9 @@ If your repository is local-only, `--skip-requests` defaults to `true` and has n
 
 Whether to skip running local scripts as specified by templates.
 
-For example, creating a repository using [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app) without running scripts such as `pnpm format --write`:
+For example, creating a repository using [`@mfaith/create`](https://github.com/michaelfaith/mfaith-create) without running scripts such as `pnpm format --write`:
 
-<PackageManagers type="dlx" pkg="create-typescript-app" args="--skip-scripts" />
+<PackageManagers type="dlx" pkg="@mfaith/create" args="--skip-scripts" />
 
 ### `--version`
 
@@ -170,7 +170,7 @@ For example, creating a repository using [`create-typescript-app`](https://githu
 
 Prints the Bingo and template package versions.
 
-<PackageManagers type="dlx" pkg="create-typescript-app" args="--version" />
+<PackageManagers type="dlx" pkg="@mfaith/create" args="--version" />
 
 ## Template Flags
 
@@ -179,7 +179,7 @@ Templates generally add in a CLI flag for each of the options they support.
 
 For example, if a template defines a `title` option, `--title` will be type `string`:
 
-<PackageManagers args="--title 'My New App'" pkg="create-typescript-app" type="dlx" />
+<PackageManagers args="--title 'My New App'" pkg="@mfaith/create" type="dlx" />
 
 Any required options that are not provided will be prompted for by the template's CLI.
 

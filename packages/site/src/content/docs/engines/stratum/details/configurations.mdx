@@ -18,8 +18,8 @@ It is a union of the lowercased labels for the Template's available [Presets](/e
 
 For example, given a Template whose Base includes a boolean `bin` string, this configuration explicitly sets that option to `"index.js"`:
 
-```ts title="create-typescript-app.config.ts"
-import { blockCSpell, createConfig } from 'create-typescript-app';
+```ts title="mfaith-create.config.ts"
+import { blockCSpell, createConfig } from '@mfaith/create';
 
 export default createConfig({
   options: {
@@ -40,8 +40,8 @@ These will be [merged](/build/details/merging) in with Props provided by other B
 
 For example, this configuration file adds the word `"arethetypeswrong"` to a CSpell Block's Props:
 
-```ts title="create-typescript-app.config.ts"
-import { blockCSpell, createConfig } from 'create-typescript-app';
+```ts title="mfaith-create.config.ts"
+import { blockCSpell, createConfig } from '@mfaith/create';
 
 export default createConfig({
   refinements: {
@@ -54,7 +54,7 @@ export default createConfig({
 });
 ```
 
-Running `npx create-typescript-app` in a repository with that configuration file would merge in that `words` with any other Props provided to its CSpell Block.
+Running `npx @mfaith/create` in a repository with that configuration file would merge in that `words` with any other Props provided to its CSpell Block.
 
 ### `blocks`
 
@@ -64,10 +64,10 @@ Any customizations to the [Blocks](/engines/stratum/concepts/blocks) provided by
 
 Any Blocks to add to what the Preset provides.
 
-For example, this configuration file adds in an "arethetypeswrong" Block alongside existing Blocks provided by `create-typescript-app`:
+For example, this configuration file adds in an "arethetypeswrong" Block alongside existing Blocks provided by `@mfaith/create`:
 
-```ts title="create-typescript-app.config.ts"
-import { blockAreTheTypesWrong, createConfig } from 'create-typescript-app';
+```ts title="mfaith-create.config.ts"
+import { blockAreTheTypesWrong, createConfig } from '@mfaith/create';
 
 export default createConfig({
   refinements: {
@@ -78,16 +78,16 @@ export default createConfig({
 });
 ```
 
-Running `npx create-typescript-app` in a repository with that configuration file would add in the created outputs from `blockAreTheTypesWrong`.
+Running `npx @mfaith/create` in a repository with that configuration file would add in the created outputs from `blockAreTheTypesWrong`.
 
 #### `exclude`
 
 Any Blocks to exclude from what the Preset provides.
 
-For example, this configuration file omits the default _"This package was templated with..."_ notice that comes with `create-typescript-app`:
+For example, this configuration file omits the default _"This package was templated with..."_ notice that comes with `@mfaith/create`:
 
-```ts title="create-typescript-app.config.ts"
-import { blockTemplatedBy, createConfig } from 'create-typescript-app';
+```ts title="mfaith-create.config.ts"
+import { blockTemplatedBy, createConfig } from '@mfaith/create';
 
 export default createConfig({
   refinements: {
@@ -98,7 +98,7 @@ export default createConfig({
 });
 ```
 
-Running `npx create-typescript-app` in a repository with that configuration file would not include that Block, and so its generated README.md would not include the notice.
+Running `npx @mfaith/create` in a repository with that configuration file would not include that Block, and so its generated README.md would not include the notice.
 
 ### Custom Blocks
 
@@ -111,7 +111,7 @@ For example, this custom Block adds a [Wallaby configuration file](https://walla
 
 ```ts
 // blockWallabyConfig.js
-import { base, blockPackageJson } from 'create-typescript-app';
+import { base, blockPackageJson } from '@mfaith/create';
 
 export const blockWallabyConfig = base.createBlock({
   about: {
@@ -131,8 +131,8 @@ export const blockWallabyConfig = base.createBlock({
 });
 ```
 
-```ts title="create-typescript-app.config.ts"
-import { createConfig } from 'create-typescript-app';
+```ts title="mfaith-create.config.ts"
+import { createConfig } from '@mfaith/create';
 
 import { blockWallabyConfig } from './blockWallabyConfig.js';
 
@@ -150,11 +150,11 @@ export default createConfig({
 Custom Blocks can provide Props to any other Blocks, including those provided by the package, by producing Extensions that include those prop assignments.
 This allows your repositories to blend in seamlessly with the features provided by your Template.
 
-For example, to add an [`@arethetypeswrong/cli`](https://www.npmjs.com/package/@arethetypeswrong/cli) lint task to the `package.json` file, a repository using the `create-typescript-app` Template could create and use a custom Block:
+For example, to add an [`@arethetypeswrong/cli`](https://www.npmjs.com/package/@arethetypeswrong/cli) lint task to the `package.json` file, a repository using the `@mfaith/create` Template could create and use a custom Block:
 
 ```ts
 // blockLintAreTheTypesWrong.js
-import { base, blockPackageJson } from 'create-typescript-app';
+import { base, blockPackageJson } from '@mfaith/create';
 
 export const blockLintAreTheTypesWrong = base.createBlock({
   about: {
@@ -179,8 +179,8 @@ export const blockLintAreTheTypesWrong = base.createBlock({
 });
 ```
 
-```ts title="create-typescript-app.config.ts"
-import { createConfig } from 'create-typescript-app';
+```ts title="mfaith-create.config.ts"
+import { createConfig } from '@mfaith/create';
 
 import { blockLintAreTheTypesWrong } from './blockLintAreTheTypesWrong.js';
 

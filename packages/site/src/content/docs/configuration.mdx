@@ -48,10 +48,10 @@ See the documentation for your specific template for additional `options` and `r
 
 Any type-safe options the template has declared.
 
-For example, this configuration keeps a repository up-to-date with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app), which requires a `preset` option to be specified:
+For example, this configuration keeps a repository up-to-date with [`@mfaith/create`](https://github.com/michaelfaith/mfaith-create), which requires a `preset` option to be specified:
 
-```ts title="create-typescript-app.config.ts"
-import { createConfig } from 'create-typescript-app';
+```ts title="mfaith-create.config.ts"
+import { createConfig } from '@mfaith/create';
 
 export default createConfig({
   options: {
@@ -60,7 +60,7 @@ export default createConfig({
 });
 ```
 
-Running `npx create-typescript-app` in a repository with that configuration file would be the equivalent of running `npx create-typescript-app --preset everything`.
+Running `npx @mfaith/create` in a repository with that configuration file would be the equivalent of running `npx @mfaith/create --preset everything`.
 
 :::note
 See the documentation of your template for what `options` are available.
@@ -70,10 +70,10 @@ See the documentation of your template for what `options` are available.
 
 Any custom customizations specified by the template.
 
-For example, this configuration customizes the preset list of blocks in [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app)'s _Everything_ `preset`:
+For example, this configuration customizes the preset list of blocks in [`@mfaith/create`](https://github.com/michaelfaith/mfaith-create)'s _Everything_ `preset`:
 
-```ts title="create-typescript-app.config.ts"
-import { blockCSpell, createConfig } from 'create-typescript-app';
+```ts title="mfaith-create.config.ts"
+import { blockCSpell, createConfig } from '@mfaith/create';
 
 export default createConfig({
   refinements: {
@@ -84,7 +84,7 @@ export default createConfig({
 });
 ```
 
-Running `npx create-typescript-app` in a repository with that configuration file would be the equivalent of running `npx create-typescript-app --preset everything`, except it would not apply any CSpell-related files or scripts.
+Running `npx @mfaith/create` in a repository with that configuration file would be the equivalent of running `npx @mfaith/create --preset everything`, except it would not apply any CSpell-related files or scripts.
 
 :::note
 See the documentation of your template for what `refinements` are available.
