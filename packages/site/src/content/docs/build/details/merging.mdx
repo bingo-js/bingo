@@ -69,8 +69,8 @@ For example, the following two `requests` Creations would not be merged, because
 		endpoint: "POST /repos/{owner}/{repo}/autolinks",
 		parameters: {
 			key_prefix: "TICKET-",
-			owner: "JoshuaKGoldberg",
-			repo: "create-typescript-app",
+			owner: "michaelfaith",
+			repo: "mfaith-create",
 			url_template: "https://example.com/TICKET?query=<num>",
 		}
 		type: "octokit",
@@ -79,8 +79,8 @@ For example, the following two `requests` Creations would not be merged, because
 		endpoint: "POST /repos/{owner}/{repo}/issues",
 		parameters: {
 			name: "good first issue",
-			owner: "JoshuaKGoldberg",
-			repo: "create-typescript-app",
+			owner: "michaelfaith",
+			repo: "mfaith-create",
 		}
 		type: "octokit",
 	}
@@ -96,8 +96,8 @@ However, the following two `requests` Creations would be merged into one with th
 		parameters: {
 			color: "#ffcc00",
 			name: "good first issue (pending color)",
-			owner: "JoshuaKGoldberg",
-			repo: "create-typescript-app",
+			owner: "michaelfaith",
+			repo: "mfaith-create",
 		}
 		type: "octokit",
 	},
@@ -105,8 +105,8 @@ However, the following two `requests` Creations would be merged into one with th
 		endpoint: "POST /repos/{owner}/{repo}/issues",
 		parameters: {
 			name: "good first issue",
-			owner: "JoshuaKGoldberg",
-			repo: "create-typescript-app",
+			owner: "michaelfaith",
+			repo: "mfaith-create",
 		}
 		type: "octokit",
 	}
@@ -122,8 +122,8 @@ The merged result would be:
 		parameters: {
 			color: "#ffcc00",
 			name: "good first issue",
-			owner: "JoshuaKGoldberg",
-			repo: "create-typescript-app",
+			owner: "michaelfaith",
+			repo: "mfaith-create",
 		}
 		type: "octokit",
 	}

@@ -10,7 +10,6 @@ export default defineConfig({
   integrations: [
     starlight({
       components: {
-        Footer: './src/components/Footer.astro',
         Head: './src/components/Head.astro',
       },
       customCss: ['./src/styles.css'],
@@ -237,14 +236,9 @@ export default defineConfig({
       ],
       social: [
         {
-          href: 'https://discord.gg/SFsnbpWqpU',
-          icon: 'discord',
-          label: 'Discord',
-        },
-        {
           href: 'https://github.com/bingo-js/bingo',
           icon: 'github',
-          label: 'Github',
+          label: 'GitHub',
         },
       ],
       tableOfContents: {
@@ -257,6 +251,9 @@ export default defineConfig({
     processor: unified({
       remarkPlugins: [remarkHeadingId],
     }),
+  },
+  server: {
+    port: 3003,
   },
   site: 'https://create.bingo',
 });

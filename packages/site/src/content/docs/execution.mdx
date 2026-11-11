@@ -26,21 +26,21 @@ When running a Bingo template in setup mode, it will:
 4. Apply the template's creations to the repository
 5. Force-push a single commit with the new repository contents to that origin
 
-For example, to generate a new repository using [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app):
+For example, to generate a new repository using [`@mfaith/create`](https://github.com/michaelfaith/mfaith-create):
 
-<PackageManagers type="dlx" pkg="create-typescript-app" />
+<PackageManagers type="dlx" pkg="@mfaith/create" />
 
 ```plaintext
-┌  ✨ create-typescript-app@2.0.0 ✨
+┌  ✨ @mfaith/create@2.0.0 ✨
 │
-│  Learn more on: https://github.com/JoshuaKGoldberg/create-typescript-app
+│  Learn more on: https://github.com/michaelfaith/mfaith-create
 │
 │  Running with mode --setup for a new repository.
 ```
 
 You can force running in setup mode in a non-empty directory with `--mode setup`:
 
-<PackageManagers args="--mode setup" pkg="create-typescript-app" type="dlx" />
+<PackageManagers args="--mode setup" pkg="@mfaith/create" type="dlx" />
 
 ## Transition Mode
 
@@ -55,21 +55,21 @@ When running a Bingo template in transition mode, it will:
    - If this was a fresh template repository clone, create and push an initial commit
 3. Apply the template's creations to the repository
 
-For example, to update an existing repository to the latest [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app):
+For example, to update an existing repository to the latest [`@mfaith/create`](https://github.com/michaelfaith/mfaith-create):
 
-<PackageManagers type="dlx" pkg="create-typescript-app" />
+<PackageManagers type="dlx" pkg="@mfaith/create" />
 
 ```plaintext
-┌  ✨ create-typescript-app@2.0.0 ✨
+┌  ✨ @mfaith/create@2.0.0 ✨
 │
-│  Learn more on: https://github.com/JoshuaKGoldberg/create-typescript-app
+│  Learn more on: https://github.com/michaelfaith/mfaith-create
 │
 │  Running with mode --transition for an existing repository.
 ```
 
 You can force running in transition mode in a non-Git directory with `--mode transition`:
 
-<PackageManagers args="--mode transition" pkg="create-typescript-app" type="dlx" />
+<PackageManagers args="--mode transition" pkg="@mfaith/create" type="dlx" />
 
 Transition mode can be used even if the repository wasn't built with the template being transitioned to.
 Templates can include specific logic to migrate existing repositories onto their tooling.

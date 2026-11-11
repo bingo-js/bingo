@@ -54,5 +54,3 @@ See **[create.bingo](https://create.bingo)** for documentation on getting starte
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 <!-- spellchecker: enable -->
-
-> 💙 This package was templated with [`create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app).

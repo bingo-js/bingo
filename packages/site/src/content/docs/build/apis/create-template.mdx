@@ -145,7 +145,7 @@ This is an object containing any of:
 - `name`: what to refer to the template as
 - `repository`: the `owner` and `repository` of a [GitHub Template Repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository)
 
-For example, this template describes itself as a solution for TypeScript repositories generated from [`JoshuaKGoldberg/create-typescript-app`](https://github.com/JoshuaKGoldberg/create-typescript-app):
+For example, this template describes itself as a solution for TypeScript repositories generated from [`michaelfaith/mfaith-create`](https://github.com/michaelfaith/mfaith-create):
 
 ```ts
 import { createTemplate } from 'bingo';
@@ -155,8 +155,8 @@ export default createTemplate({
     description: 'One-stop shop for the latest and greatest TypeScript tooling.',
     name: 'Create TypeScript App',
     repository: {
-      owner: 'JoshuaKGoldberg',
-      repository: 'create-typescript-app',
+      owner: 'michaelfaith',
+      repository: 'mfaith-create',
     },
   },
   produce() {
@@ -165,7 +165,7 @@ export default createTemplate({
 });
 ```
 
-Repositories generated from that template would indicate _generated from [JoshuaKGoldberg/create-typescript-app](https://github.com/JoshuaKGoldberg/create-typescript-app)_ under their name on the GitHub website.
+Repositories generated from that template would indicate _generated from [michaelfaith/mfaith-create](https://github.com/michaelfaith/mfaith-create)_ under their name on the GitHub website.
 
 ### `blocks`
 
