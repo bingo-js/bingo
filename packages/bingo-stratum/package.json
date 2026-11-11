@@ -40,7 +40,7 @@
     "without-undefined-properties": "^0.1.2"
   },
   "devDependencies": {
-    "@types/node": "24.10.1",
+    "@types/node": "24.19.2",
     "bingo": "workspace:^",
     "bingo-fs": "workspace:^",
     "bingo-systems": "workspace:^",
