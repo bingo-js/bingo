@@ -61,7 +61,7 @@
     "jiti": "2.7.0",
     "knip": "6.44.2",
     "lint-staged": "17.6.0",
-    "oxfmt": "0.77.0",
+    "oxfmt": "0.78.0",
     "simple-git-hooks": "2.14.0",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.1",
