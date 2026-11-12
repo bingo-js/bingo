@@ -439,8 +439,8 @@ importers:
   packages/create:
     dependencies:
       chalk:
-        specifier: ^5.6.2
-        version: 5.6.2
+        specifier: ^6.0.0
+        version: 6.0.1
 
   packages/input-from-fetch:
     dependencies:
