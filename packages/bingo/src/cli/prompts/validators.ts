@@ -3,7 +3,7 @@ import * as fs from 'node:fs';
 import { z } from 'zod';
 
 export const validateNewDirectory = (value?: string) => {
-  if (value !== undefined && fs.existsSync(value)) {
+  if (value && fs.existsSync(value)) {
     return `That directory already exists. Please choose another one.`;
   }
 
