@@ -1,6 +1,6 @@
 import * as fs from 'node:fs/promises';
 
-import { Validate } from '@clack/core';
+import type { Validate } from '@clack/core';
 import * as prompts from '@clack/prompts';
 import slugify from 'slugify';
 
