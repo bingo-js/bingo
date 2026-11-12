@@ -12,7 +12,7 @@ export async function tryImport(from: string): Promise<Error | object> {
   const imported = await tryCatchError(import(path.join(process.cwd(), from)) as Promise<object>);
 
   if (imported instanceof Error) {
-    spinner.stop(`Could not import ${styleText('blue', from)}. Does it exist?`, 1);
+    spinner.cancel(`Could not import ${styleText('blue', from)}. Does it exist?`);
   } else {
     spinner.stop(`Imported ${styleText('blue', from)}.`);
   }

@@ -17,8 +17,8 @@ vi.mock('@clack/prompts', () => ({
     return mockLog;
   },
   spinner: () => ({
+    cancel: vi.fn(),
     start: vi.fn(),
-    stop: vi.fn(),
   }),
 }));
 
@@ -59,7 +59,7 @@ const mockConsole = {
   log: vi.fn(),
 };
 
-describe('runTemplateCLI', () => {
+describe(runTemplateCLI, () => {
   beforeEach(() => {
     Object.assign(console, mockConsole);
   });

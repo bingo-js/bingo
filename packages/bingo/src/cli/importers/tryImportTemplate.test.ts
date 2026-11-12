@@ -10,7 +10,7 @@ vi.mock('../tryImportWithPredicate.js', () => ({
   },
 }));
 
-describe('tryImportTemplate', () => {
+describe(tryImportTemplate, () => {
   it('returns the error when tryImportWithPredicate resolves with an error', async () => {
     const error = new Error('Oh no!');
 

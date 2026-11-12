@@ -135,6 +135,10 @@ const display: ClackDisplay = {
   item: vi.fn(),
   log: vi.fn(),
   spinner: {
+    cancel: vi.fn(),
+    clear: vi.fn(),
+    error: vi.fn(),
+    isCancelled: false,
     message: vi.fn(),
     start: vi.fn(),
     stop: vi.fn(),
@@ -167,7 +171,7 @@ const promptedOptions = {
   abc: 'def',
 };
 
-describe('runModeTransition', () => {
+describe(runModeTransition, () => {
   it('returns the error when readConfigSettings resolves an error', async () => {
     const error = new Error('Oh no!');
     mockReadConfigSettings.mockResolvedValueOnce(error);
