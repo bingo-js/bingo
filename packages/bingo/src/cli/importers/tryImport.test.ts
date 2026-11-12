@@ -4,7 +4,13 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { tryImport } from './tryImport.js';
 
-const mockImportModule = vi.fn<(specifier: string) => Promise<object>>();
+const mockTryCatchError = vi.fn();
+
+vi.mock('../../utils/tryCatch.js', () => ({
+  get tryCatchError() {
+    return mockTryCatchError;
+  },
+}));
 
 const mockLog = {
   error: vi.fn(),
@@ -26,26 +32,34 @@ vi.mock('@clack/prompts', () => ({
 }));
 
 describe(tryImport, () => {
-  it('returns the error when import rejects', async () => {
+  it('returns the error when tryCatchError resolves with an error', async () => {
     const error = new Error('Oh no!');
 
-    mockImportModule.mockRejectedValueOnce(error);
+    mockTryCatchError.mockResolvedValueOnce(error);
 
-    const actual = await tryImport('bingo-my-app', mockImportModule);
+    const from = path.relative(
+      process.cwd(),
+      path.resolve(import.meta.dirname, '../../utils/tryCatch.js'),
+    );
+    const actual = await tryImport(from);
 
     expect(actual).toEqual(error);
-    expect(mockImportModule).toHaveBeenCalledWith(path.join(process.cwd(), 'bingo-my-app'));
+    expect(mockTryCatchError).toHaveBeenCalledTimes(1);
     expect(mockSpinner.start).toHaveBeenCalledTimes(1);
     expect(mockSpinner.cancel).toHaveBeenCalledTimes(1);
     expect(mockSpinner.stop).not.toHaveBeenCalled();
   });
 
-  it('returns the object when import resolves', async () => {
+  it('returns the object when tryCatchError resolves with an object', async () => {
     const importedObject = { isTemplate: true };
 
-    mockImportModule.mockResolvedValueOnce(importedObject);
+    mockTryCatchError.mockResolvedValueOnce(importedObject);
 
-    const actual = await tryImport('bingo-my-app', mockImportModule);
+    const from = path.relative(
+      process.cwd(),
+      path.resolve(import.meta.dirname, '../../utils/tryCatch.js'),
+    );
+    const actual = await tryImport(from);
 
     expect(actual).toEqual(importedObject);
     expect(mockSpinner.start).toHaveBeenCalledTimes(1);
