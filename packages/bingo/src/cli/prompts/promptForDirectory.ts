@@ -1,6 +1,5 @@
 import * as fs from 'node:fs/promises';
 
-import type { Validate } from '@clack/core';
 import * as prompts from '@clack/prompts';
 import slugify from 'slugify';
 
@@ -31,7 +30,7 @@ export async function promptForDirectory<OptionsShape extends AnyShape, Refineme
   const directory = await prompts.text({
     initialValue: template.about?.name && createDefaultDirectory(template.about.name),
     message: 'What will the directory and name of the repository be? (--directory)',
-    validate: validateNewDirectory as Validate<string>,
+    validate: validateNewDirectory,
   });
 
   if (!prompts.isCancel(directory)) {
