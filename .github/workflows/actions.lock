@@ -14,7 +14,7 @@ workflows:
         - 'joshuakgoldberg/all-contributors-auto-action@v0.7.0'
         - 'pnpm/setup@v3.1.2'
     '.github/workflows/octoguide.yml':
-        - 'octoguide/bot@0.33.0'
+        - 'octoguide/bot@0.33.1'
     '.github/workflows/post-release.yml':
         - 'apexskier/github-release-commenter@v1.4.1'
     '.github/workflows/pr-review-requested.yml':
@@ -78,9 +78,9 @@ dependencies:
         commit: 'sha1-97096fbe9cde74fcae784df963274998e0090a7c'
         owner_id: 24919330
         repo_id: 1370403157
-    'octoguide/bot@0.33.0':
-        ref: '0.33.0'
-        commit: 'sha1-95af986081bee9208897c7ad8e056b19fadf2dc9'
+    'octoguide/bot@0.33.1':
+        ref: '0.33.1'
+        commit: 'sha1-8d29abce6793b35c6bfab51d4db6bfa62634b871'
         owner_id: 231299902
         repo_id: 964218711
     'pnpm/setup@v3.1.2':
