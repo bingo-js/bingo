@@ -4,16 +4,20 @@ import * as prompts from '@clack/prompts';
 import { BingoSystem } from 'bingo-systems';
 import { newGitHubRepository, RepositoryLocator } from 'new-github-repository';
 
+import { AnyShape } from '../../types/shapes.js';
 import { Template } from '../../types/templates.js';
 import { ClackDisplay } from '../display/createClackDisplay.js';
 import { runSpinnerTask } from '../display/runSpinnerTask.js';
 import { prepareGitRepository } from '../repository/prepareGitRepository.js';
 
-export async function createRemoteRepository(
+export async function createRemoteRepository<
+  OptionsShape extends AnyShape = AnyShape,
+  Refinements = unknown,
+>(
   display: ClackDisplay,
   locator: RepositoryLocator,
   system: BingoSystem,
-  template: Template,
+  template: Template<OptionsShape, Refinements>,
 ): Promise<Error | undefined> {
   const remoteDescriptor = `${locator.owner}/${locator.repository}`;
   const creationResult = await runSpinnerTask(

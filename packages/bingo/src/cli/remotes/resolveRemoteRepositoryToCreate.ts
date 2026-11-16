@@ -4,16 +4,20 @@ import * as prompts from '@clack/prompts';
 import { BingoSystem, SystemRunner } from 'bingo-systems';
 import { Octokit } from 'octokit';
 
+import { AnyShape } from '../../types/shapes.js';
 import { RepositoryLocator, Template } from '../../types/templates.js';
 import { promptForOptionSchema } from '../prompts/promptForOptionSchema.js';
 import { isStringLikeSchema } from '../schemas/isStringLikeSchema.js';
 import { hasAccessToOwner } from './hasAccessToOwner.js';
 import { PartialRepositoryLocator } from './types.js';
 
-export async function resolveRemoteRepositoryToCreate(
+export async function resolveRemoteRepositoryToCreate<
+  OptionsShape extends AnyShape = AnyShape,
+  Refinements = unknown,
+>(
   locator: PartialRepositoryLocator,
   system: BingoSystem,
-  template: Template,
+  template: Template<OptionsShape, Refinements>,
 ): Promise<Error | RepositoryLocator> {
   if (locator.owner) {
     return (await ownerIsAccessible(system.fetchers.octokit, locator.owner))

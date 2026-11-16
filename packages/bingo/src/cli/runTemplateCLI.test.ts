@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { z } from 'zod';
 
 import { createTemplate } from '../creators/createTemplate.js';
 import { runTemplateCLI } from './runTemplateCLI.js';
@@ -94,6 +95,26 @@ describe(runTemplateCLI, () => {
       name: 'create-example',
       version: '0.1.2',
     });
+
+    expect(mockConsole.log.mock.calls).toEqual([['bingo@1.2.3'], ['create-example@0.1.2']]);
+    expect(actual).toBe(CLIStatus.Success);
+  });
+
+  it('accepts a template with options', async () => {
+    mockParseProcessArgv.mockReturnValueOnce({ values: { version: true } });
+    mockGetTemplatePackageData.mockResolvedValueOnce({
+      name: 'create-example',
+      version: '0.1.2',
+    });
+
+    const actual = await runTemplateCLI(
+      createTemplate({
+        options: {
+          text: z.string(),
+        },
+        produce: vi.fn(),
+      }),
+    );
 
     expect(mockConsole.log.mock.calls).toEqual([['bingo@1.2.3'], ['create-example@0.1.2']]);
     expect(actual).toBe(CLIStatus.Success);

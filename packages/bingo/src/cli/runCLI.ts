@@ -2,6 +2,7 @@ import { styleText } from 'node:util';
 
 import { z } from 'zod';
 
+import { AnyShape } from '../types/shapes.js';
 import { Template } from '../types/templates.js';
 import { ClackDisplay } from './display/createClackDisplay.js';
 import { getRerunCommand } from './loggers/getRerunCommand.js';
@@ -28,23 +29,23 @@ const valuesSchema = z.object({
   'skip-scripts': z.boolean().optional(),
 });
 
-export interface RunCLISettings {
+export interface RunCLISettings<OptionsShape extends AnyShape = AnyShape, Refinements = unknown> {
   argv: string[];
   display: ClackDisplay;
   from: string;
   rerunFrom?: string;
-  template: Template;
+  template: Template<OptionsShape, Refinements>;
   values: RunCLIRawValues;
 }
 
-export async function runCLI({
+export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinements = unknown>({
   argv,
   display,
   from,
   rerunFrom = from,
   template,
   values,
-}: RunCLISettings) {
+}: RunCLISettings<OptionsShape, Refinements>) {
   const unknownFlags = getUnknownFlags(values, template.options);
   if (unknownFlags.length) {
     logUnknownFlags(unknownFlags);
