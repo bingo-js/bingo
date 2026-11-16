@@ -44,9 +44,7 @@ export default defineConfig(
     files: ['**/*.js', '**/*.ts'],
     languageOptions: {
       parserOptions: {
-        projectService: {
-          allowDefaultProject: ['*.config.{js,ts}'],
-        },
+        projectService: true,
       },
     },
     rules: {

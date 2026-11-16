@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
+    "allowUnreachableCode": false,
     "composite": true,
     "declaration": true,
+    "emitDeclarationOnly": true,
     "esModuleInterop": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "noErrorTruncation": true,
+    "noImplicitOverride": true,
     "resolveJsonModule": true,
     "rewriteRelativeImportExtensions": true,
     "skipLibCheck": true,

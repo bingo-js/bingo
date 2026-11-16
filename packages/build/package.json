@@ -1,0 +1,23 @@
+{
+  "name": "@bingo/build",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bingo build scripts and configs",
+  "homepage": "https://create.bingo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bingo-js/bingo.git",
+    "directory": "packages/build"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    "./tsconfig.base.json": "./tsconfig.base.json",
+    "./tsdown": "./src/tsdown/index.ts"
+  },
+  "dependencies": {
+    "tsdown": "^0.23.7",
+    "typescript": "~6.0.3"
+  }
+}

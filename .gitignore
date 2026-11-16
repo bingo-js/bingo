@@ -1,6 +1,7 @@
 *.tsbuildinfo
 *.tsbuildinfo
 coverage/
+dist/
 lib/
 node_modules/
 packages/*/src/**/*.d.ts

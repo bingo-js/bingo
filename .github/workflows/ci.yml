@@ -125,4 +125,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: $/.github/actions/setup
-      - run: pnpm tsc
+      - run: pnpm tsc -b

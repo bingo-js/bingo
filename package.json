@@ -24,7 +24,7 @@
     "lib/"
   ],
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsdown",
     "format": "oxfmt",
     "lint": "eslint . --max-warnings 0",
     "lint:spelling": "cspell \"**\" \".github/**/*\"",
@@ -41,6 +41,7 @@
     "*": "oxfmt --no-error-on-unmatched-pattern"
   },
   "devDependencies": {
+    "@bingo/build": "workspace:^",
     "@changesets/changelog-github": "1.0.1",
     "@changesets/cli": "3.0.3",
     "@eslint-community/eslint-plugin-eslint-comments": "4.8.1",
@@ -63,6 +64,7 @@
     "lint-staged": "17.6.0",
     "oxfmt": "0.78.0",
     "simple-git-hooks": "2.14.0",
+    "tsdown": "^0.23.7",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.2",
     "vitest": "5.1.0"

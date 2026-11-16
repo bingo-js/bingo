@@ -22,15 +22,12 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": "./lib/index.js",
+    ".": "./src/index.ts",
     "./package.json": "./package.json"
   },
   "files": [
-    "lib/"
+    "dist/"
   ],
-  "scripts": {
-    "build": "tsc"
-  },
   "dependencies": {
     "@vitest/utils": "^5.1.0",
     "all-properties-lazy": "^0.1.0",
@@ -39,6 +36,7 @@
     "without-undefined-properties": "^0.1.2"
   },
   "devDependencies": {
+    "@bingo/build": "workspace:^",
     "bingo": "workspace:^",
     "bingo-fs": "workspace:^",
     "bingo-systems": "workspace:^",
@@ -51,5 +49,11 @@
   },
   "engines": {
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": "./dist/index.mjs",
+      "./package.json": "./package.json"
+    }
   }
 }
