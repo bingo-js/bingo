@@ -81,11 +81,11 @@ describe('intake', () => {
       .mockResolvedValueOnce({ isDirectory: () => true })
       .mockResolvedValueOnce({
         isDirectory: () => false,
-        mode: 0x644,
+        mode: 0o644,
       })
       .mockResolvedValueOnce({
         isDirectory: () => false,
-        mode: 0x755,
+        mode: 0o755,
       });
 
     const actual = await intake('from');
@@ -111,11 +111,11 @@ describe('intake', () => {
       .mockResolvedValueOnce({ isDirectory: () => true })
       .mockResolvedValueOnce({
         isDirectory: () => false,
-        mode: 0x644,
+        mode: 0o644,
       })
       .mockResolvedValueOnce({
         isDirectory: () => false,
-        mode: 0x755,
+        mode: 0o755,
       });
 
     const actual = await intake('from', {
@@ -144,7 +144,7 @@ describe('intake', () => {
       .mockResolvedValueOnce({ isDirectory: () => true })
       .mockResolvedValueOnce({
         isDirectory: () => false,
-        mode: 0x644,
+        mode: 0o644,
       });
 
     const actual = await intake('from', {
@@ -179,7 +179,7 @@ describe('intake', () => {
       mockReadFile.mockResolvedValueOnce(contents);
       mockStat.mockResolvedValueOnce({
         isDirectory: () => false,
-        mode: 0x755,
+        mode: 0o755,
       });
 
       const actual = await intake('from');
@@ -196,11 +196,11 @@ describe('intake', () => {
         .mockResolvedValueOnce({ isDirectory: () => true })
         .mockResolvedValueOnce({
           isDirectory: () => false,
-          mode: 0x644,
+          mode: 0o644,
         })
         .mockResolvedValueOnce({
           isDirectory: () => false,
-          mode: 0x755,
+          mode: 0o755,
         });
 
       const actual = await intake('from');
