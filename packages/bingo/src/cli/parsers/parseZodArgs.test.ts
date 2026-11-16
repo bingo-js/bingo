@@ -84,4 +84,22 @@ describe('parseZodArgs', () => {
 
     expect(parseZodArgs(args, options)).toEqual({ value: true });
   });
+
+  test('array of strings parsing success', () => {
+    const args = ['--value', 'abc', '--value', 'def'];
+    const options = { value: z.array(z.string()) };
+
+    const actual = parseZodArgs(args, options);
+
+    expect(actual).toEqual({ value: ['abc', 'def'] });
+  });
+
+  test('optional array of strings parsing success', () => {
+    const args = ['--value', 'abc', '--value', 'def'];
+    const options = { value: z.array(z.string()).optional() };
+
+    const actual = parseZodArgs(args, options);
+
+    expect(actual).toEqual({ value: ['abc', 'def'] });
+  });
 });
