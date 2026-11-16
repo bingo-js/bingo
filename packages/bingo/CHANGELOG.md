@@ -1,5 +1,14 @@
 # bingo
 
+## 0.16.1
+
+### Patch Changes
+
+- [#576](https://github.com/bingo-js/bingo/pull/576) [`e04a0d2`](https://github.com/bingo-js/bingo/commit/e04a0d2db0eb5851dd59eb2ac9d19a26508744bd) Thanks [@michaelfaith](https://github.com/michaelfaith)! - **Deps:** Updated `@clack/prompts` to `1.9.0`.
+- Updated dependencies [[`75f9c35`](https://github.com/bingo-js/bingo/commit/75f9c35c86100d100121254a1ad25152144bbe57), [`67e369d`](https://github.com/bingo-js/bingo/commit/67e369d1eeb1b04a4b5052e08631b401ba41c8b1)]:
+  - bingo-requests@0.7.1
+  - bingo-systems@0.9.1
+
 ## 0.16.0
 
 ### Minor Changes

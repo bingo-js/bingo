@@ -1,5 +1,11 @@
 # bingo-systems
 
+## 0.9.1
+
+### Patch Changes
+
+- [#594](https://github.com/bingo-js/bingo/pull/594) [`67e369d`](https://github.com/bingo-js/bingo/commit/67e369d1eeb1b04a4b5052e08631b401ba41c8b1) Thanks [@klnmurthi12345](https://github.com/klnmurthi12345)! - Use octal `0o755` file mode for executable files instead of hex `0x755`.
+
 ## 0.9.0
 
 ### Minor Changes
