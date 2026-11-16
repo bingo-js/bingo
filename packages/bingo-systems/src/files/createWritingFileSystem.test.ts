@@ -71,13 +71,13 @@ describe('createWritingFileSystem', () => {
       expect(mockWriteFile).toHaveBeenCalledWith(filePath, contents, undefined);
     });
 
-    it('writes with mode 0x755 when options.executable is true', async () => {
+    it('writes with mode 0o755 when options.executable is true', async () => {
       const system = createWritingFileSystem();
 
       await system.writeFile(filePath, contents, { executable: true });
 
       expect(mockWriteFile).toHaveBeenCalledWith(filePath, contents, {
-        mode: 0x755,
+        mode: 0o755,
       });
     });
   });

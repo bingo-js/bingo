@@ -29,7 +29,7 @@ export function createWritingFileSystem() {
         // write permissions, so the subsequent writeFile will fail.
       }
 
-      await fs.writeFile(filePath, contents, options?.executable ? { mode: 0x755 } : undefined);
+      await fs.writeFile(filePath, contents, options?.executable ? { mode: 0o755 } : undefined);
     },
   };
 }
