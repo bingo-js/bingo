@@ -4,13 +4,11 @@ import * as prompts from '@clack/prompts';
 import { BingoSystem } from 'bingo-systems';
 import { newGitHubRepository, RepositoryLocator } from 'new-github-repository';
 
-
 import { AnyShape } from '../../types/shapes.ts';
 import { Template } from '../../types/templates.ts';
 import { ClackDisplay } from '../display/createClackDisplay.ts';
 import { runSpinnerTask } from '../display/runSpinnerTask.ts';
 import { prepareGitRepository } from '../repository/prepareGitRepository.ts';
-
 
 export async function createRemoteRepository<
   OptionsShape extends AnyShape = AnyShape,
