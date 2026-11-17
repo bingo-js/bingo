@@ -179,7 +179,7 @@ importers:
   .:
     devDependencies:
       '@arethetypeswrong/core':
-        specifier: ^0.18.5
+        specifier: 0.18.5
         version: 0.18.5
       '@bingo/build':
         specifier: workspace:^
@@ -251,7 +251,7 @@ importers:
         specifier: 2.14.0
         version: 2.14.0
       tsdown:
-        specifier: ^0.23.7
+        specifier: 0.23.7
         version: 0.23.7(@arethetypeswrong/core@0.18.5)(@volar/typescript@2.4.31(typescript@6.0.3))(oxc-resolver@11.24.2)(typescript@6.0.3)
       typescript:
         specifier: 6.0.3
