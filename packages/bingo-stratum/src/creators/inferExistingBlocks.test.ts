@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { createBase } from './createBase.js';
-import { inferExistingBlocks } from './inferExistingBlocks.js';
+import { createBase } from './createBase.ts';
+import { inferExistingBlocks } from './inferExistingBlocks.ts';
 
 const base = createBase({
   options: { name: z.string() },

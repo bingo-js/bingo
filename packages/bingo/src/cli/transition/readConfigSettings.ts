@@ -1,10 +1,10 @@
 import path from 'node:path';
 
-import { tryImportConfig } from '../../config/tryImportConfig.js';
-import { TemplateConfig } from '../../types/configs.js';
-import { AnyShape } from '../../types/shapes.js';
-import { Template } from '../../types/templates.js';
-import { templateMismatchError } from './templateMismatchError.js';
+import { tryImportConfig } from '../../config/tryImportConfig.ts';
+import { TemplateConfig } from '../../types/configs.ts';
+import { AnyShape } from '../../types/shapes.ts';
+import { Template } from '../../types/templates.ts';
+import { templateMismatchError } from './templateMismatchError.ts';
 
 export async function readConfigSettings<OptionsShape extends AnyShape, Refinements>(
   configFile: string | undefined,

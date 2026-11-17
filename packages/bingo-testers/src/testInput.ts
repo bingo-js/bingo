@@ -9,8 +9,8 @@ import {
   TakeInput,
 } from 'bingo';
 
-import { createMockSystems } from './createMockSystems.js';
-import { MockSystemOptions } from './types.js';
+import { createMockSystems } from './createMockSystems.ts';
+import { MockSystemOptions } from './types.ts';
 
 export interface InputContextSettingsWithArgs<
   Args extends object,

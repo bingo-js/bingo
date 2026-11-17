@@ -2,7 +2,7 @@ import { createSystemFetchers } from 'bingo-systems';
 import { describe, expect, test, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createInput } from './createInput.js';
+import { createInput } from './createInput.ts';
 
 describe('createInput', () => {
   test('production without args', () => {

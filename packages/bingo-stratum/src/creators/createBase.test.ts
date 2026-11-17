@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { createBase } from './createBase.js';
+import { createBase } from './createBase.ts';
 
 const base = createBase({
   options: { name: z.string() },

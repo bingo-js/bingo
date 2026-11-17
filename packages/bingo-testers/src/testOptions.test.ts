@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
-import { testOptions } from './testOptions.js';
+import { testOptions } from './testOptions.ts';
 
 describe('testOptions', () => {
   it('returns context.options directly when base.prepare is undefined', async () => {

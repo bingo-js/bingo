@@ -1,12 +1,12 @@
 import * as prompts from '@clack/prompts';
 import { z } from 'zod';
 
-import { AnyShape, InferredObject } from '../../types/shapes.js';
-import { SystemContext } from '../../types/system.js';
-import { Template } from '../../types/templates.js';
-import { getSchemaDefaultValue } from '../../utils/getSchemaDefaultValue.js';
-import { getSchemaDescription } from '../../utils/getSchemaDescription.js';
-import { promptForOptionSchema } from './promptForOptionSchema.js';
+import { AnyShape, InferredObject } from '../../types/shapes.ts';
+import { SystemContext } from '../../types/system.ts';
+import { Template } from '../../types/templates.ts';
+import { getSchemaDefaultValue } from '../../utils/getSchemaDefaultValue.ts';
+import { getSchemaDescription } from '../../utils/getSchemaDescription.ts';
+import { promptForOptionSchema } from './promptForOptionSchema.ts';
 
 export type PromptedOptions<Options extends object> =
   | PromptedOptionsCancelled<Options>

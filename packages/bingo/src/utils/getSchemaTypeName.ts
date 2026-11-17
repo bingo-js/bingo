@@ -2,7 +2,7 @@
 // https://github.com/bingo-js/bingo/issues/285
 import { z } from 'zod';
 
-import { getSchemaInner } from './getSchemaInner.js';
+import { getSchemaInner } from './getSchemaInner.ts';
 
 export function getSchemaTypeName(schema: z.ZodType): string {
   const schemaInner = getSchemaInner(schema);

@@ -1,7 +1,7 @@
 import { CreatedFetchRequest } from 'bingo-requests';
 import { describe, expect, it } from 'vitest';
 
-import { mergeFetchRequests } from './mergeFetchRequests.js';
+import { mergeFetchRequests } from './mergeFetchRequests.ts';
 
 describe('mergeFetchRequests', () => {
   it('returns the second request when there are no existing requests', () => {

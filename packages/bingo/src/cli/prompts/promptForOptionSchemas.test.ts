@@ -2,9 +2,9 @@ import { Octokit } from 'octokit';
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createTemplate } from '../../creators/createTemplate.js';
-import { SystemContext } from '../../types/system.js';
-import { promptForOptionSchemas } from './promptForOptionSchemas.js';
+import { createTemplate } from '../../creators/createTemplate.ts';
+import { SystemContext } from '../../types/system.ts';
+import { promptForOptionSchemas } from './promptForOptionSchemas.ts';
 
 const mockCancel = Symbol('cancel');
 

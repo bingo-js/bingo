@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { executeTemplatesRecursive } from './executeTemplatesRecursive.js';
+import { executeTemplatesRecursive } from './executeTemplatesRecursive.ts';
 
 const options = {
   abc: 123,

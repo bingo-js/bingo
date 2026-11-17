@@ -1,7 +1,7 @@
 import { CreatedFetchRequest, CreatedOctokitRequest } from 'bingo-requests';
 import { describe, expect, it } from 'vitest';
 
-import { mergeRequests } from './mergeRequests.js';
+import { mergeRequests } from './mergeRequests.ts';
 
 const owner = 'test-owner';
 const repo = 'test-repo';

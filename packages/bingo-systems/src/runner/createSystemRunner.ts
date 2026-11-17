@@ -1,7 +1,7 @@
 import { execa, parseCommandString } from 'execa';
 
-import { getColorsEnv } from './getColorsEnv.js';
-import { SystemRunner } from './runner.js';
+import { getColorsEnv } from './getColorsEnv.ts';
+import { SystemRunner } from './runner.ts';
 
 export function createSystemRunner(directory = '.'): SystemRunner {
   const executor = execa({

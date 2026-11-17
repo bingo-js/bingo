@@ -1,27 +1,27 @@
 import * as prompts from '@clack/prompts';
 import { intakeDirectory } from 'bingo-fs';
 
-import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.js';
-import { prepareOptions } from '../../preparation/prepareOptions.js';
-import { runTemplate } from '../../runners/runTemplate.js';
-import { RequestedSkips } from '../../types/skips.js';
-import { Template } from '../../types/templates.js';
-import { ClackDisplay } from '../display/createClackDisplay.js';
-import { runSpinnerTask } from '../display/runSpinnerTask.js';
-import { logRerunSuggestion } from '../loggers/logRerunSuggestion.js';
-import { logStartText } from '../loggers/logStartText.js';
-import { CLIMessage } from '../messages.js';
-import { parseZodArgs } from '../parsers/parseZodArgs.js';
-import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.js';
-import { checkUncommittedChanges } from '../repository/checkUncommittedChanges.js';
-import { clearLocalGitTags } from '../repository/clearLocalGitTags.js';
-import { createInitialCommit } from '../repository/createInitialCommit.js';
-import { resolveLocalRepository } from '../repository/resolveLocalRepository.js';
-import { CLIStatus } from '../status.js';
-import { ModeResults } from '../types.js';
-import { clearTemplateFiles } from './clearTemplateFiles.js';
-import { getForkedRepositoryLocator } from './getForkedRepositoryLocator.js';
-import { readConfigSettings } from './readConfigSettings.js';
+import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.ts';
+import { prepareOptions } from '../../preparation/prepareOptions.ts';
+import { runTemplate } from '../../runners/runTemplate.ts';
+import { RequestedSkips } from '../../types/skips.ts';
+import { Template } from '../../types/templates.ts';
+import { ClackDisplay } from '../display/createClackDisplay.ts';
+import { runSpinnerTask } from '../display/runSpinnerTask.ts';
+import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
+import { logStartText } from '../loggers/logStartText.ts';
+import { CLIMessage } from '../messages.ts';
+import { parseZodArgs } from '../parsers/parseZodArgs.ts';
+import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
+import { checkUncommittedChanges } from '../repository/checkUncommittedChanges.ts';
+import { clearLocalGitTags } from '../repository/clearLocalGitTags.ts';
+import { createInitialCommit } from '../repository/createInitialCommit.ts';
+import { resolveLocalRepository } from '../repository/resolveLocalRepository.ts';
+import { CLIStatus } from '../status.ts';
+import { ModeResults } from '../types.ts';
+import { clearTemplateFiles } from './clearTemplateFiles.ts';
+import { getForkedRepositoryLocator } from './getForkedRepositoryLocator.ts';
+import { readConfigSettings } from './readConfigSettings.ts';
 
 export interface RunModeTransitionSettings {
   argv: string[];

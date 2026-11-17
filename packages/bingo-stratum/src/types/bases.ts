@@ -5,10 +5,10 @@ import {
   BlockDefinitionWithProps,
   BlockWithoutProps,
   BlockWithProps,
-} from './blocks.js';
-import { Preset, PresetDefinition } from './presets.js';
-import { StratumRefinements } from './refinements.js';
-import { StratumTemplate, StratumTemplateDefinition } from './templates.js';
+} from './blocks.ts';
+import { Preset, PresetDefinition } from './presets.ts';
+import { StratumRefinements } from './refinements.ts';
+import { StratumTemplate, StratumTemplateDefinition } from './templates.ts';
 
 /**
  * Shared options and creator APIs to create a Template from Blocks and Presets.

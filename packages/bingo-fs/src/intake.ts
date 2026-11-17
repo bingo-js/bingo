@@ -2,8 +2,8 @@ import { Stats } from 'node:fs';
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
 
-import { isModeExecutable } from './isModeExecutable.js';
-import { IntakeDirectory, IntakeEntry } from './types.js';
+import { isModeExecutable } from './isModeExecutable.ts';
+import { IntakeDirectory, IntakeEntry } from './types.ts';
 
 /**
  * Optional settings to read in directories and files to a bingo-fs representation.

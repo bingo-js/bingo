@@ -3,9 +3,9 @@ import { styleText } from 'node:util';
 import { BingoSystem } from 'bingo-systems';
 import { describe, expect, it, vi } from 'vitest';
 
-import { Template } from '../../types/templates.js';
-import { ClackDisplay } from '../display/createClackDisplay.js';
-import { createRemoteRepository } from './createRemoteRepository.js';
+import { Template } from '../../types/templates.ts';
+import { ClackDisplay } from '../display/createClackDisplay.ts';
+import { createRemoteRepository } from './createRemoteRepository.ts';
 
 const mockLog = {
   error: vi.fn(),

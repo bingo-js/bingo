@@ -2,7 +2,7 @@ import { CreatedFetchRequest, CreatedOctokitRequest } from 'bingo-requests';
 import { SystemFetchers } from 'bingo-systems';
 import { describe, expect, it, vi } from 'vitest';
 
-import { getRequestSender } from './getRequestSender.js';
+import { getRequestSender } from './getRequestSender.ts';
 
 function createMockSystemFetchers() {
   return {

@@ -9,7 +9,7 @@ import {
 
 import { z } from 'zod';
 
-import { AnyShape, InferredObject } from '../../types/shapes.js';
+import { AnyShape, InferredObject } from '../../types/shapes.ts';
 
 export function parseZodArgs<OptionsShape extends AnyShape>(
   args: string[],

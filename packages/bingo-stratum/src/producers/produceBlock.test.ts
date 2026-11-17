@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { createBase } from '../creators/createBase.js';
-import { produceBlock } from './produceBlock.js';
+import { createBase } from '../creators/createBase.ts';
+import { produceBlock } from './produceBlock.ts';
 
 const base = createBase({
   options: {

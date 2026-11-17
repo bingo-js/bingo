@@ -2,13 +2,13 @@ import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
 
-import { AnyShape } from '../../types/shapes.js';
-import { Template } from '../../types/templates.js';
-import { CLIMessage } from '../messages.js';
-import { CLIStatus } from '../status.js';
-import { ModeResults } from '../types.js';
-import { logHelpOptions } from './logHelpOptions.js';
-import { logSchemasHelpOptions } from './logSchemasHelpOptions.js';
+import { AnyShape } from '../../types/shapes.ts';
+import { Template } from '../../types/templates.ts';
+import { CLIMessage } from '../messages.ts';
+import { CLIStatus } from '../status.ts';
+import { ModeResults } from '../types.ts';
+import { logHelpOptions } from './logHelpOptions.ts';
+import { logSchemasHelpOptions } from './logSchemasHelpOptions.ts';
 
 export function logHelpText<OptionsShape extends AnyShape, Refinements>(
   mode: string,

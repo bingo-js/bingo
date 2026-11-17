@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { getGitRepositoryType, GitRepositoryType } from './getGitRepositoryType.js';
+import { getGitRepositoryType, GitRepositoryType } from './getGitRepositoryType.ts';
 
 describe(getGitRepositoryType, () => {
   it('returns GitRepositoryType.None when git rev-parse --git-dir has no output', async () => {

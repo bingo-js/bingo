@@ -1,7 +1,7 @@
 import { describe, expect, it, test, vi } from 'vitest';
 import { z } from 'zod';
 
-import { validateNewDirectory, validateNumber, validatorFromSchema } from './validators.js';
+import { validateNewDirectory, validateNumber, validatorFromSchema } from './validators.ts';
 
 const mockExistsSync = vi.fn();
 

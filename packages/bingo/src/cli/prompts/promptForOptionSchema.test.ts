@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
-import { promptForOptionSchema } from './promptForOptionSchema.js';
+import { promptForOptionSchema } from './promptForOptionSchema.ts';
 
 const mockCancel = Symbol('cancel');
 const mockConfirm = vi.fn();

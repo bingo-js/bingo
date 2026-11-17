@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { executeTemplate } from './executeTemplate.js';
+import { executeTemplate } from './executeTemplate.ts';
 
 describe('executeTemplate', () => {
   it('passes options to the template', () => {

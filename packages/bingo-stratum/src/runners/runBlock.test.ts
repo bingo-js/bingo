@@ -2,8 +2,8 @@ import { Octokit } from 'octokit';
 import { describe, expect, test, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createBase } from '../creators/createBase.js';
-import { runBlock } from './runBlock.js';
+import { createBase } from '../creators/createBase.ts';
+import { runBlock } from './runBlock.ts';
 
 const base = createBase({
   options: {

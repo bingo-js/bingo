@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createTemplate } from '../../creators/createTemplate.js';
-import { ClackDisplay } from '../display/createClackDisplay.js';
-import { CLIMessage } from '../messages.js';
-import { CLIStatus } from '../status.js';
-import { runModeTransition } from './runModeTransition.js';
+import { createTemplate } from '../../creators/createTemplate.ts';
+import { ClackDisplay } from '../display/createClackDisplay.ts';
+import { CLIMessage } from '../messages.ts';
+import { CLIStatus } from '../status.ts';
+import { runModeTransition } from './runModeTransition.ts';
 
 const mockLog = {
   error: vi.fn(),

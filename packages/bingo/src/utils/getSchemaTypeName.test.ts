@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { z } from 'zod';
 
-import { getSchemaTypeName } from './getSchemaTypeName.js';
+import { getSchemaTypeName } from './getSchemaTypeName.ts';
 
 describe('getSchemaTypeName', () => {
   test.each([

@@ -2,8 +2,8 @@ import { styleText } from 'node:util';
 
 import { describe, expect, it, vi } from 'vitest';
 
-import { createClackDisplay } from './createClackDisplay.js';
-import { runSpinnerTask } from './runSpinnerTask.js';
+import { createClackDisplay } from './createClackDisplay.ts';
+import { runSpinnerTask } from './runSpinnerTask.ts';
 
 const mockLog = {
   error: vi.fn(),

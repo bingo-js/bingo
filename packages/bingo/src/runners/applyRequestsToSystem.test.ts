@@ -2,7 +2,7 @@ import { WritingFileSystem } from 'bingo-systems';
 import { Octokit } from 'octokit';
 import { describe, expect, it, vi } from 'vitest';
 
-import { applyRequestsToSystem } from './applyRequestsToSystem.js';
+import { applyRequestsToSystem } from './applyRequestsToSystem.ts';
 
 const mockGetRequestSender = vi.fn();
 

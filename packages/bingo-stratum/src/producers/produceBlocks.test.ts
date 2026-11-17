@@ -2,8 +2,8 @@ import { IntakeFileEntry } from 'bingo-fs';
 import { describe, expect, it, test, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createBase } from '../creators/createBase.js';
-import { produceBlocks } from './produceBlocks.js';
+import { createBase } from '../creators/createBase.ts';
+import { produceBlocks } from './produceBlocks.ts';
 
 const base = createBase({
   options: {

@@ -1,3 +1,3 @@
-export * from './intake.js';
-export * from './isFile.js';
-export type * from './types.js';
+export * from './intake.ts';
+export * from './isFile.ts';
+export type * from './types.ts';

@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import { describe, expect, it, vi } from 'vitest';
 
-import { tryImport } from './tryImport.js';
+import { tryImport } from './tryImport.ts';
 
 const mockTryCatchError = vi.fn();
 

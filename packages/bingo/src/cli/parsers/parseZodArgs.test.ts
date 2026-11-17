@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { z } from 'zod';
 
-import { parseZodArgs } from './parseZodArgs.js';
+import { parseZodArgs } from './parseZodArgs.ts';
 
 describe('parseZodArgs', () => {
   test('boolean parsing success', () => {

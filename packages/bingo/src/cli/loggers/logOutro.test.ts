@@ -2,7 +2,7 @@ import { styleText } from 'node:util';
 
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { logOutro } from './logOutro.js';
+import { logOutro } from './logOutro.ts';
 
 const mockOutro = vi.fn();
 const mockConsoleLog = vi.fn();

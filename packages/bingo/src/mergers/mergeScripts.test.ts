@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { mergeScripts } from './mergeScripts.js';
+import { mergeScripts } from './mergeScripts.ts';
 
 describe('mergeScripts', () => {
   test.each([

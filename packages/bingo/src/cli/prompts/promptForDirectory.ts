@@ -3,9 +3,9 @@ import * as fs from 'node:fs/promises';
 import * as prompts from '@clack/prompts';
 import slugify from 'slugify';
 
-import { AnyShape } from '../../types/shapes.js';
-import { Template } from '../../types/templates.js';
-import { validateNewDirectory } from './validators.js';
+import { AnyShape } from '../../types/shapes.ts';
+import { Template } from '../../types/templates.ts';
+import { validateNewDirectory } from './validators.ts';
 
 export interface PromptForDirectorySettings<OptionsShape extends AnyShape, Refinements> {
   requestedDirectory?: string;

@@ -1,6 +1,6 @@
 import { Creation } from 'bingo';
 
-import { BlockWithProps } from './blocks.js';
+import { BlockWithProps } from './blocks.ts';
 
 export interface BlockCreation<Options extends object> extends Creation {
   extensions: CreatedBlockExtension<object, Options>[];

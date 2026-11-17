@@ -1,7 +1,7 @@
 import { CreatedDirectory } from 'bingo-fs';
 import { describe, expect, test } from 'vitest';
 
-import { mergeCreatedDirectories } from './mergeCreatedDirectories.js';
+import { mergeCreatedDirectories } from './mergeCreatedDirectories.ts';
 
 describe('mergeFileCreations', () => {
   test.each([

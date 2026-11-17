@@ -1,7 +1,7 @@
 import { testInput } from 'bingo-testers';
 import { describe, expect, it } from 'vitest';
 
-import { inputFromFileJSON } from './index.js';
+import { inputFromFileJSON } from './index.ts';
 
 describe('inputFromFileJSON', () => {
   it("returns the file's data when inputFromFile resolves with a data string", async () => {

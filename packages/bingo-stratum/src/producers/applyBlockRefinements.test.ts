@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createBase } from '../creators/createBase.js';
-import { applyBlockRefinements } from './applyBlockRefinements.js';
+import { createBase } from '../creators/createBase.ts';
+import { applyBlockRefinements } from './applyBlockRefinements.ts';
 
 const base = createBase({
   options: {

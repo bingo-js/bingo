@@ -1,7 +1,7 @@
 import { Octokit } from 'octokit';
 import { describe, expect, it, vi } from 'vitest';
 
-import { createSystemFetchers } from './createSystemFetchers.js';
+import { createSystemFetchers } from './createSystemFetchers.ts';
 
 describe('createSystemFetchers', () => {
   it('returns an object with only fetch when no auth is provided', () => {

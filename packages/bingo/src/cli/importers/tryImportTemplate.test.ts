@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { tryImportTemplate } from './tryImportTemplate.js';
+import { tryImportTemplate } from './tryImportTemplate.ts';
 
 const mockTryImportWithPredicate = vi.fn();
 

@@ -1,6 +1,6 @@
 import { CreatedDirectory, CreatedEntry, CreatedFileEntry, CreatedFileMetadata } from 'bingo-fs';
 
-import { executeTemplate } from './executeTemplate.js';
+import { executeTemplate } from './executeTemplate.ts';
 
 export function executeTemplatesRecursive(
   source: CreatedFileEntry | undefined,

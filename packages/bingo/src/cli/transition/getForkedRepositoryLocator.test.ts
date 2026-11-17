@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { getForkedRepositoryLocator } from './getForkedRepositoryLocator.js';
+import { getForkedRepositoryLocator } from './getForkedRepositoryLocator.ts';
 
 const mockFromUrl = vi.fn();
 

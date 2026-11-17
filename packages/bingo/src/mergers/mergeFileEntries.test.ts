@@ -1,7 +1,7 @@
 import { CreatedFileEntry } from 'bingo-fs';
 import { describe, expect, test } from 'vitest';
 
-import { mergeFileEntries } from './mergeFileEntries.js';
+import { mergeFileEntries } from './mergeFileEntries.ts';
 
 const path = ['test', 'path'];
 

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { getSchemaDefaultValue } from './getSchemaDefaultValue.js';
+import { getSchemaDefaultValue } from './getSchemaDefaultValue.ts';
 
 describe(getSchemaDefaultValue, () => {
   it('returns undefined when the schema has no default', () => {

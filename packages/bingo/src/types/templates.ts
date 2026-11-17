@@ -1,11 +1,11 @@
 import { CreatedDirectory } from 'bingo-fs';
 
-import { AboutBase } from './about.js';
-import { CreateTemplateConfig } from './configs.js';
-import { Creation } from './creations.js';
-import { TakeInput } from './inputs.js';
-import { LazyOptionalOptions } from './options.js';
-import { AnyShape, InferredObject } from './shapes.js';
+import { AboutBase } from './about.ts';
+import { CreateTemplateConfig } from './configs.ts';
+import { Creation } from './creations.ts';
+import { TakeInput } from './inputs.ts';
+import { LazyOptionalOptions } from './options.ts';
+import { AnyShape, InferredObject } from './shapes.ts';
 
 /**
  * Logs a message to the running user.

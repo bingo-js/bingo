@@ -6,9 +6,9 @@ import {
   BlockDefinitionWithProps,
   BlockWithoutProps,
   BlockWithProps,
-} from '../types/blocks.js';
-import { createBlockExtension } from '../utils/createBlockExtension.js';
-import { applyZodDefaults, isDefinitionWithProps } from './utils.js';
+} from '../types/blocks.ts';
+import { createBlockExtension } from '../utils/createBlockExtension.ts';
+import { applyZodDefaults, isDefinitionWithProps } from './utils.ts';
 
 export function createBlock<PropsShape extends AnyOptionalShape, Options extends object>(
   blockDefinition: BlockDefinitionWithProps<PropsShape, Options>,

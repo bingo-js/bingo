@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { checkUncommittedChanges } from './checkUncommittedChanges.js';
+import { checkUncommittedChanges } from './checkUncommittedChanges.ts';
 
 describe('checkUncommittedChanges', () => {
   it('returns clean when git status has no stdout', async () => {
