@@ -22,7 +22,6 @@ export default defineConfig(
       'packages/*/lib',
       // Remove after https://github.com/bingo-js/bingo/issues/527
       'packages/*/bin/*.js',
-      'packages/*/tsconfig.tsbuildinfo',
       'packages/site/src/content',
       'packages/site/src/env.d.ts',
       'pnpm-lock.yaml',
@@ -44,9 +43,7 @@ export default defineConfig(
     files: ['**/*.js', '**/*.ts'],
     languageOptions: {
       parserOptions: {
-        projectService: {
-          allowDefaultProject: ['*.config.{js,ts}'],
-        },
+        projectService: true,
       },
     },
     rules: {

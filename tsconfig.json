@@ -1,6 +1,10 @@
 {
-  "extends": "./tsconfig.base.json",
-  "files": [],
+  "extends": "@bingo/build/tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "tsBuildInfoFile": "node_modules/.cache/tsbuild/info.json"
+  },
+  "include": ["./*.config.ts", "./packages/*/tsdown.config.ts"],
   "references": [
     { "path": "./packages/bingo-fs" },
     { "path": "./packages/bingo-requests" },
@@ -10,6 +14,7 @@
     { "path": "./packages/bingo-handlebars" },
     { "path": "./packages/bingo-stratum" },
     { "path": "./packages/bingo-stratum-testers" },
+    { "path": "./packages/build" },
     { "path": "./packages/input-from-fetch" },
     { "path": "./packages/input-from-file" },
     { "path": "./packages/input-from-file-json" },

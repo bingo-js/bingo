@@ -22,21 +22,19 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": "./lib/index.js",
+    ".": "./src/index.ts",
     "./package.json": "./package.json"
   },
   "files": [
-    "lib/"
+    "dist/"
   ],
-  "scripts": {
-    "build": "tsc"
-  },
   "dependencies": {
     "@octokit/types": "^18.0.0",
     "bingo-requests": "workspace:^",
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@bingo/build": "workspace:^",
     "bingo": "workspace:^",
     "bingo-testers": "workspace:^",
     "octokit": "5.0.5"
@@ -52,5 +50,11 @@
   },
   "engines": {
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": "./dist/index.mjs",
+      "./package.json": "./package.json"
+    }
   }
 }

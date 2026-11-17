@@ -1,8 +1,9 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@bingo/build/tsconfig.base.json",
   "compilerOptions": {
+    "rootDir": "src",
     "outDir": "lib",
-    "rootDir": "src"
+    "tsBuildInfoFile": "node_modules/.cache/tsbuild/info.src.json"
   },
   "include": ["src"],
   "references": [{ "path": "../bingo-fs" }]

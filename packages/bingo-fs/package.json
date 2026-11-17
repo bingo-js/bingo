@@ -22,19 +22,23 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": "./lib/index.js",
+    ".": "./src/index.ts",
     "./package.json": "./package.json"
   },
   "files": [
-    "lib/"
+    "dist/"
   ],
-  "scripts": {
-    "build": "tsc"
-  },
   "devDependencies": {
+    "@bingo/build": "workspace:^",
     "@types/node": "26.6.6"
   },
   "engines": {
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": "./dist/index.mjs",
+      "./package.json": "./package.json"
+    }
   }
 }

@@ -22,17 +22,14 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": "./lib/index.js",
+    ".": "./src/index.ts",
     "./package.json": "./package.json"
   },
   "bin": "./bin/index.js",
   "files": [
     "bin/",
-    "lib/"
+    "dist/"
   ],
-  "scripts": {
-    "build": "tsc"
-  },
   "dependencies": {
     "@clack/prompts": "^1.9.0",
     "all-properties-lazy": "^0.1.0",
@@ -53,6 +50,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@bingo/build": "workspace:^",
     "@types/hosted-git-info": "3.0.5",
     "@types/node": "26.6.6",
     "octokit": "5.0.5"
@@ -67,5 +65,14 @@
   },
   "engines": {
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": "./dist/index.mjs",
+      "./package.json": "./package.json"
+    }
+  },
+  "inlinedDependencies": {
+    "@octokit/request-error": "7.1.2"
   }
 }
