@@ -102,4 +102,11 @@ describe('parseZodArgs', () => {
 
     expect(actual).toEqual({ value: ['abc', 'def'] });
   });
+
+  test('array of unsupported objects parsing failure', () => {
+    const args = ['--value'];
+    const options = { value: z.array(z.object({})) };
+
+    expect(parseZodArgs(args, options)).toEqual({ value: true });
+  });
 });
