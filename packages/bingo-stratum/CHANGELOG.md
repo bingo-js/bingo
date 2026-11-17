@@ -1,5 +1,13 @@
 # bingo-stratum
 
+## 0.11.1
+
+### Patch Changes
+
+- [#604](https://github.com/bingo-js/bingo/pull/604) [`9ac6220`](https://github.com/bingo-js/bingo/commit/9ac622063d92adbcd59d89713e57868092189301) Thanks [@klnmurthi12345](https://github.com/klnmurthi12345)! - Properly handle `add-*` and `remove-*` CLI flags for blocks with `.` in the name. They're now replaced with `-`.
+- Updated dependencies [[`b0c451f`](https://github.com/bingo-js/bingo/commit/b0c451fd98566b8ba0e5826046f8a505aff97bf2), [`830b05a`](https://github.com/bingo-js/bingo/commit/830b05ace27c96ccfa04b64b02803af7c01acca3)]:
+  - bingo@0.16.2
+
 ## 0.11.0
 
 ### Minor Changes

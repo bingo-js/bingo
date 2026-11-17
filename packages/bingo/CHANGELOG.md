@@ -1,5 +1,13 @@
 # bingo
 
+## 0.16.2
+
+### Patch Changes
+
+- [#600](https://github.com/bingo-js/bingo/pull/600) [`b0c451f`](https://github.com/bingo-js/bingo/commit/b0c451fd98566b8ba0e5826046f8a505aff97bf2) Thanks [@Gowthamsuryagolla](https://github.com/Gowthamsuryagolla)! - Allow generic `Template` types in `runTemplateCLI` and CLI runners.
+
+- [#602](https://github.com/bingo-js/bingo/pull/602) [`830b05a`](https://github.com/bingo-js/bingo/commit/830b05ace27c96ccfa04b64b02803af7c01acca3) Thanks [@klnmurthi12345](https://github.com/klnmurthi12345)! - Parse z.array options with multiple flag in parseZodArgs.
+
 ## 0.16.1
 
 ### Patch Changes
