@@ -13,7 +13,7 @@ import type { ClackDisplay } from '../display/createClackDisplay.ts';
 import { runSpinnerTask } from '../display/runSpinnerTask.ts';
 import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
 import { logStartText } from '../loggers/logStartText.ts';
-import { CLIMessage } from '../messages.ts';
+import { cliMessages } from '../messages.ts';
 import { parseZodArgs } from '../parsers/parseZodArgs.ts';
 import { promptForDirectory } from '../prompts/promptForDirectory.ts';
 import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
@@ -152,7 +152,7 @@ export async function runModeSetup<
   if (creation instanceof Error) {
     logRerunSuggestion(rerunCommand, baseOptions.prompted);
     return {
-      outro: CLIMessage.Leaving,
+      outro: cliMessages.leaving,
       status: CLIStatus.Error,
     };
   }
@@ -181,7 +181,7 @@ export async function runModeSetup<
 
   if (preparationError) {
     return {
-      outro: CLIMessage.Leaving,
+      outro: cliMessages.leaving,
       status: CLIStatus.Error,
     };
   }
