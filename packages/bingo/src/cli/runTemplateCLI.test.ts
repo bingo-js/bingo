@@ -20,6 +20,7 @@ vi.mock('@clack/prompts', () => ({
     cancel: vi.fn(),
     start: vi.fn(),
   }),
+  text: vi.fn(),
 }));
 
 vi.mock('bingo-fs');
