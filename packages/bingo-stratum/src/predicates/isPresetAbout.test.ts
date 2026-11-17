@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { isPresetAbout } from './isPresetAbout.js';
+import { isPresetAbout } from './isPresetAbout.ts';
 
 describe('isPresetAbout', () => {
   test.each([

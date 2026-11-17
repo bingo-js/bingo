@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { getTemplatePackageData } from './getTemplatePackageData.js';
+import { getTemplatePackageData } from './getTemplatePackageData.ts';
 
 const mockGetCallId = vi.fn();
 

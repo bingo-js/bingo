@@ -1,7 +1,7 @@
 import { IntakeDirectory } from 'bingo-fs';
 import { BlockWithProps, type StratumTemplateOptions } from 'bingo-stratum';
 
-import { createFailingObject } from './utils.js';
+import { createFailingObject } from './utils.ts';
 
 export interface TestIntakeSettings<Options extends object> {
   /**

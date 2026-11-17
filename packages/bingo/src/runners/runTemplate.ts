@@ -3,14 +3,14 @@ import fs from 'node:fs/promises';
 import { IntakeDirectory } from 'bingo-fs';
 import { BingoSystem } from 'bingo-systems';
 
-import { createSystemContextWithAuth } from '../contexts/createSystemContextWithAuth.js';
-import { produceTemplate } from '../producers/produceTemplate.js';
-import { Creation } from '../types/creations.js';
-import { ProductionMode } from '../types/modes.js';
-import { AnyShape, InferredObject } from '../types/shapes.js';
-import { RequestedSkips } from '../types/skips.js';
-import { Template } from '../types/templates.js';
-import { runCreation } from './runCreation.js';
+import { createSystemContextWithAuth } from '../contexts/createSystemContextWithAuth.ts';
+import { produceTemplate } from '../producers/produceTemplate.ts';
+import { Creation } from '../types/creations.ts';
+import { ProductionMode } from '../types/modes.ts';
+import { AnyShape, InferredObject } from '../types/shapes.ts';
+import { RequestedSkips } from '../types/skips.ts';
+import { Template } from '../types/templates.ts';
+import { runCreation } from './runCreation.ts';
 
 /**
  * Settings to run a template with {@link runTemplate}.

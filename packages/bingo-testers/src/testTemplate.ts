@@ -1,7 +1,7 @@
 import { AnyShape, InferredObject, produceTemplate, Template } from 'bingo';
 import { BingoSystem } from 'bingo-systems';
 
-import { createMockSystems } from './createMockSystems.js';
+import { createMockSystems } from './createMockSystems.ts';
 
 export interface TestProductionSettingsBase {
   system?: Omit<Partial<BingoSystem>, 'take'>;

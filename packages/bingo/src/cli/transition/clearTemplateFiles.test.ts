@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { clearTemplateFiles } from './clearTemplateFiles.js';
+import { clearTemplateFiles } from './clearTemplateFiles.ts';
 
 const mockReaddir = vi.fn();
 const mockRm = vi.fn();

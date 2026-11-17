@@ -2,7 +2,7 @@ import { createInput } from 'bingo';
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { testInput } from './testInput.js';
+import { testInput } from './testInput.ts';
 
 const inputDoubler = createInput({
   args: {

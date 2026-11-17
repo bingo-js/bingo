@@ -2,7 +2,7 @@ import * as fs from 'node:fs/promises';
 
 import { CreatedFileMetadata } from 'bingo-fs';
 
-import { createReadingFileSystem } from './createReadingFileSystem.js';
+import { createReadingFileSystem } from './createReadingFileSystem.ts';
 
 export function createWritingFileSystem() {
   return {

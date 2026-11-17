@@ -1,7 +1,7 @@
 import { intake } from 'bingo-fs';
 
-import { executeTemplatesRecursive } from './executeTemplatesRecursive.js';
-import { getSourceFromDirectory } from './getSourceFromDirectory.js';
+import { executeTemplatesRecursive } from './executeTemplatesRecursive.ts';
+import { getSourceFromDirectory } from './getSourceFromDirectory.ts';
 
 export async function loadHandlebars(directoryPath: string, optionsDefaults?: object) {
   const sources = await intake(directoryPath);

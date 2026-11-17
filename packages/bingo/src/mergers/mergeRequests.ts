@@ -1,8 +1,8 @@
 import { CreatedFetchRequest, CreatedOctokitRequest, CreatedRequest } from 'bingo-requests';
 
-import { groupBy } from '../utils/groupBy.js';
-import { mergeFetchRequests } from './mergeFetchRequests.js';
-import { mergeOctokitRequests } from './mergeOctokitRequests.js';
+import { groupBy } from '../utils/groupBy.ts';
+import { mergeFetchRequests } from './mergeFetchRequests.ts';
+import { mergeOctokitRequests } from './mergeOctokitRequests.ts';
 
 export function mergeRequests(firsts: CreatedRequest[], seconds: CreatedRequest[]) {
   const byType = groupBy(firsts, (request) => request.type);

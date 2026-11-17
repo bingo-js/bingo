@@ -3,8 +3,8 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { createInput } from '../creators/createInput.js';
-import { runInput } from './runInput.js';
+import { createInput } from '../creators/createInput.ts';
+import { runInput } from './runInput.ts';
 
 const input = createInput({
   args: {

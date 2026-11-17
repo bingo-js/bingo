@@ -1,12 +1,12 @@
 import { IntakeDirectory } from 'bingo-fs';
 import { BingoSystem } from 'bingo-systems';
 
-import { createSystemContext } from '../contexts/createSystemContext.js';
-import { mergeCreations } from '../mergers/mergeCreations.js';
-import { Creation } from '../types/creations.js';
-import { ProductionMode } from '../types/modes.js';
-import { AnyShape, InferredObject } from '../types/shapes.js';
-import { Template } from '../types/templates.js';
+import { createSystemContext } from '../contexts/createSystemContext.ts';
+import { mergeCreations } from '../mergers/mergeCreations.ts';
+import { Creation } from '../types/creations.ts';
+import { ProductionMode } from '../types/modes.ts';
+import { AnyShape, InferredObject } from '../types/shapes.ts';
+import { Template } from '../types/templates.ts';
 
 /**
  * Settings to run a template with {@link produceTemplate}.

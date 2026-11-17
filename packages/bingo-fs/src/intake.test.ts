@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { intake } from './intake.js';
+import { intake } from './intake.ts';
 
 const mockReaddir = vi.fn();
 const mockReadFile = vi.fn();

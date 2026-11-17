@@ -1,7 +1,7 @@
 import { Octokit, RequestError } from 'octokit';
 import { describe, expect, it, vi } from 'vitest';
 
-import { hasAccessToOwner } from './hasAccessToOwner.js';
+import { hasAccessToOwner } from './hasAccessToOwner.ts';
 
 function createOctokit(request: (route: string) => unknown) {
   return { request: vi.fn(request) } as unknown as Octokit;

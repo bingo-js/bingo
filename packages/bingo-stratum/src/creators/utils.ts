@@ -1,7 +1,7 @@
 import { AnyOptionalShape, InferredObject } from 'bingo';
 import { z } from 'zod';
 
-import { Block } from '../types/blocks.js';
+import { Block } from '../types/blocks.ts';
 
 export function applyZodDefaults<Shape extends AnyOptionalShape>(
   shape: Shape,

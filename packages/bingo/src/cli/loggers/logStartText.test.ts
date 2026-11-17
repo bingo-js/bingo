@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { logStartText } from './logStartText.js';
+import { logStartText } from './logStartText.ts';
 
 const mockError = vi.fn();
 const mockInfo = vi.fn();

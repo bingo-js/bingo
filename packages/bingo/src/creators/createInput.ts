@@ -6,9 +6,9 @@ import {
   InputContextWithoutArgs,
   InputProducerWithArgs,
   InputProducerWithoutArgs,
-} from '../types/inputs.js';
-import { AnyShape, InferredObject } from '../types/shapes.js';
-import { isDefinitionWithArgs } from './utils.js';
+} from '../types/inputs.ts';
+import { AnyShape, InferredObject } from '../types/shapes.ts';
+import { isDefinitionWithArgs } from './utils.ts';
 
 /**
  * Definition for creating a new Input that might have args defined.

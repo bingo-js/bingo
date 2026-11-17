@@ -1,9 +1,9 @@
 import { SystemRunner } from 'bingo-systems';
 import { RepositoryLocator } from 'new-github-repository';
 
-import { clearLocalGitTags } from './clearLocalGitTags.js';
-import { createInitialCommit } from './createInitialCommit.js';
-import { createTrackingBranches } from './createTrackingBranches.js';
+import { clearLocalGitTags } from './clearLocalGitTags.ts';
+import { createInitialCommit } from './createInitialCommit.ts';
+import { createTrackingBranches } from './createTrackingBranches.ts';
 
 export async function prepareGitRepository(
   locator: RepositoryLocator | undefined,

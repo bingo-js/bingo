@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { mergeCreations } from './mergeCreations.js';
+import { mergeCreations } from './mergeCreations.ts';
 
 const emptyCreation = {
   files: {},

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { z } from 'zod';
 
-import { isZodDefaultDef } from './isZodDefaultDef.js';
+import { isZodDefaultDef } from './isZodDefaultDef.ts';
 
 enum Value {
   A,

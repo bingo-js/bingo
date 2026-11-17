@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from 'vitest';
 
-import { createTemplate } from '../creators/createTemplate.js';
-import { isTemplateConfig } from './isTemplateConfig.js';
+import { createTemplate } from '../creators/createTemplate.ts';
+import { isTemplateConfig } from './isTemplateConfig.ts';
 
 const template = createTemplate({
   about: { name: 'Test Template' },

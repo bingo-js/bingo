@@ -1,12 +1,12 @@
 import { AnyShape, InferredObject, ProduceTemplateSettings } from 'bingo';
 import { IntakeDirectory } from 'bingo-fs';
 
-import { BlockCreation } from '../types/creations.js';
-import { Preset } from '../types/presets.js';
-import { StratumRefinements } from '../types/refinements.js';
-import { StratumTemplate } from '../types/templates.js';
-import { applyBlockRefinements } from './applyBlockRefinements.js';
-import { produceBlocks } from './produceBlocks.js';
+import { BlockCreation } from '../types/creations.ts';
+import { Preset } from '../types/presets.ts';
+import { StratumRefinements } from '../types/refinements.ts';
+import { StratumTemplate } from '../types/templates.ts';
+import { applyBlockRefinements } from './applyBlockRefinements.ts';
+import { produceBlocks } from './produceBlocks.ts';
 
 /**
  * Settings to run a Preset with {@link producePreset}.

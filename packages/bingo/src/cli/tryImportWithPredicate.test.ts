@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { tryImportWithPredicate } from './tryImportWithPredicate.js';
+import { tryImportWithPredicate } from './tryImportWithPredicate.ts';
 
 function isString(value: unknown) {
   return typeof value === 'string';

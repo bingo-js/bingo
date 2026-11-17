@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { Creation } from '../types/creations.js';
-import { SystemContext } from '../types/system.js';
-import { runCreation } from './runCreation.js';
+import { Creation } from '../types/creations.ts';
+import { SystemContext } from '../types/system.ts';
+import { runCreation } from './runCreation.ts';
 
 const mockApplyFilesToSystem = vi.fn();
 

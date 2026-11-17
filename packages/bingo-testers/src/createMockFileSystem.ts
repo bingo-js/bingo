@@ -1,6 +1,6 @@
 import { WritingFileSystem } from 'bingo-systems';
 
-import { createFailingFunction } from './utils.js';
+import { createFailingFunction } from './utils.ts';
 
 export function createMockFileSystem(fs?: Partial<WritingFileSystem>): WritingFileSystem {
   return {

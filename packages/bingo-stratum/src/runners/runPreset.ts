@@ -7,10 +7,10 @@ import {
 } from 'bingo';
 import { IntakeDirectory } from 'bingo-fs';
 
-import { producePreset } from '../producers/producePreset.js';
-import { BlockCreation } from '../types/creations.js';
-import { Preset } from '../types/presets.js';
-import { StratumRefinements } from '../types/refinements.js';
+import { producePreset } from '../producers/producePreset.ts';
+import { BlockCreation } from '../types/creations.ts';
+import { Preset } from '../types/presets.ts';
+import { StratumRefinements } from '../types/refinements.ts';
 
 export interface RunPresetSettings<OptionsShape extends AnyShape> extends RunTemplateSettings<
   OptionsShape,

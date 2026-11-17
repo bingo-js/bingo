@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { getColorsEnv } from './getColorsEnv.js';
+import { getColorsEnv } from './getColorsEnv.ts';
 
 function createStdout(isTTY: boolean, maxColors = 0) {
   return {

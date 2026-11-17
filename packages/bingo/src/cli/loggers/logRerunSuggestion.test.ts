@@ -1,6 +1,6 @@
 import { describe, expect, it, test, vi } from 'vitest';
 
-import { logRerunSuggestion } from './logRerunSuggestion.js';
+import { logRerunSuggestion } from './logRerunSuggestion.ts';
 
 const mockLog = {
   info: vi.fn(),

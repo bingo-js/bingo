@@ -3,7 +3,7 @@ import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
 
-import { tryCatchError } from '../../utils/tryCatch.js';
+import { tryCatchError } from '../../utils/tryCatch.ts';
 
 export async function tryImport(from: string): Promise<Error | object> {
   const spinner = prompts.spinner();

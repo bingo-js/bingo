@@ -1,7 +1,7 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-import { AnyShape } from '../types/shapes.js';
-import { Template, TemplateDefinition } from '../types/templates.js';
+import { AnyShape } from '../types/shapes.ts';
+import { Template, TemplateDefinition } from '../types/templates.ts';
 
 /**
  * Definition for creating a new Template.

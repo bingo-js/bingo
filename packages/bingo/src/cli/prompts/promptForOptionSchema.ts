@@ -1,10 +1,10 @@
 import * as prompts from '@clack/prompts';
 import * as z from 'zod';
 
-import { getSchemaDescription } from '../../utils/getSchemaDescription.js';
-import { isZodDefaultDef } from '../schemas/isZodDefaultDef.js';
-import { PromptFriendlyZodDef, ZodDefType } from '../schemas/types.js';
-import { validateNumber, validatorFromSchema } from './validators.js';
+import { getSchemaDescription } from '../../utils/getSchemaDescription.ts';
+import { isZodDefaultDef } from '../schemas/isZodDefaultDef.ts';
+import { PromptFriendlyZodDef, ZodDefType } from '../schemas/types.ts';
+import { validateNumber, validatorFromSchema } from './validators.ts';
 
 export async function promptForOptionSchema(
   key: string,

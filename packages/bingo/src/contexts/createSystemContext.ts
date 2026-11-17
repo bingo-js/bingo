@@ -6,9 +6,9 @@ import {
   createWritingFileSystem,
 } from 'bingo-systems';
 
-import { InputWithArgs, TakeInput } from '../types/inputs.js';
-import { AnyShape, InferredObject } from '../types/shapes.js';
-import { createDisplay, Display } from './createDisplay.js';
+import { InputWithArgs, TakeInput } from '../types/inputs.ts';
+import { AnyShape, InferredObject } from '../types/shapes.ts';
+import { createDisplay, Display } from './createDisplay.ts';
 
 export interface SystemContextSettings extends Partial<BingoSystem> {
   auth?: string;

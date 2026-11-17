@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from 'vitest';
 
-import { createTemplate } from '../creators/createTemplate.js';
-import { isTemplate } from './isTemplate.js';
+import { createTemplate } from '../creators/createTemplate.ts';
+import { isTemplate } from './isTemplate.ts';
 
 describe('isTemplate', () => {
   test.each([

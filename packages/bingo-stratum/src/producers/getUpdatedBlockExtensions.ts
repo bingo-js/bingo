@@ -1,9 +1,9 @@
 import { Creation } from 'bingo';
 
-import { mergePropsIfUpdated } from '../mergers/mergePropsIfUpdated.js';
-import { Block, BlockWithProps } from '../types/blocks.js';
-import { CreatedBlockExtension } from '../types/creations.js';
-import { getName } from '../utils/getName.js';
+import { mergePropsIfUpdated } from '../mergers/mergePropsIfUpdated.ts';
+import { Block, BlockWithProps } from '../types/blocks.ts';
+import { CreatedBlockExtension } from '../types/creations.ts';
+import { getName } from '../utils/getName.ts';
 
 export interface BlockProduction<Props extends object | undefined> {
   creation?: Partial<Creation>;

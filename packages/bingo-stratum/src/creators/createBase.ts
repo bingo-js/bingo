@@ -1,10 +1,10 @@
 import { AnyShape } from 'bingo';
 
-import { Base, BaseDefinition } from '../types/bases.js';
-import { assertNoPresetOption } from './assertNoPresetOption.js';
-import { createBlock } from './createBlock.js';
-import { createPreset } from './createPreset.js';
-import { createStratumTemplate } from './createStratumTemplate.js';
+import { Base, BaseDefinition } from '../types/bases.ts';
+import { assertNoPresetOption } from './assertNoPresetOption.ts';
+import { createBlock } from './createBlock.ts';
+import { createPreset } from './createPreset.ts';
+import { createStratumTemplate } from './createStratumTemplate.ts';
 
 /**
  * Creates a Stratum {@link Base}.

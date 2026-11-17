@@ -1,7 +1,7 @@
 import { IntakeDirectory } from 'bingo-fs';
 import { describe, expect, it } from 'vitest';
 
-import { getSourceFromDirectory } from './getSourceFromDirectory.js';
+import { getSourceFromDirectory } from './getSourceFromDirectory.ts';
 
 const fileContents = '...';
 

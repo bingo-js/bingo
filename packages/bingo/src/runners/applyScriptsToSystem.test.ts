@@ -1,6 +1,6 @@
 import { describe, expect, it, test, vi } from 'vitest';
 
-import { applyScriptsToSystem } from './applyScriptsToSystem.js';
+import { applyScriptsToSystem } from './applyScriptsToSystem.ts';
 
 function createStubSystem() {
   return {

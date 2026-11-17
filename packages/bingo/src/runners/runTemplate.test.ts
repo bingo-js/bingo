@@ -2,8 +2,8 @@ import { Octokit } from 'octokit';
 import { describe, expect, test, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createTemplate } from '../creators/createTemplate.js';
-import { runTemplate } from './runTemplate.js';
+import { createTemplate } from '../creators/createTemplate.ts';
+import { runTemplate } from './runTemplate.ts';
 
 function createSystem() {
   return {

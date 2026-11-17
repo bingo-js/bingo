@@ -1,7 +1,7 @@
 import { getGitHubAuthToken } from 'get-github-auth-token';
 
-import { createSystemFetchers, SystemFetchersSettings } from './createSystemFetchers.js';
-import { SystemFetchers } from './types.js';
+import { createSystemFetchers, SystemFetchersSettings } from './createSystemFetchers.ts';
+import { SystemFetchers } from './types.ts';
 
 export async function createSystemFetchersWithAuth(
   settings?: Omit<SystemFetchersSettings, 'auth'>,

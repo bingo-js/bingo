@@ -1,7 +1,7 @@
 import { allPropertiesLazy } from 'all-properties-lazy';
 import { AnyShape, HasOptionsAndMaybePrepare, InferredObject, OptionsContext } from 'bingo';
 
-import { createFailingFunction } from './utils.js';
+import { createFailingFunction } from './utils.ts';
 
 export async function testOptions<OptionsShape extends AnyShape>(
   base: HasOptionsAndMaybePrepare<OptionsShape>,

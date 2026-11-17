@@ -1,7 +1,7 @@
 import { testInput } from 'bingo-testers';
 import { describe, expect, it } from 'vitest';
 
-import { inputFromFile } from './index.js';
+import { inputFromFile } from './index.ts';
 
 describe('inputFromFile', () => {
   it("returns the file's text when it exists", async () => {

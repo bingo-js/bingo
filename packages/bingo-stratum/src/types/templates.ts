@@ -1,10 +1,10 @@
 import { AnyShape, InferredObject, Template, TemplateAbout, TemplatePrepare } from 'bingo';
 import { z } from 'zod';
 
-import { Base } from './bases.js';
-import { Block } from './blocks.js';
-import { Preset } from './presets.js';
-import { StratumRefinements } from './refinements.js';
+import { Base } from './bases.ts';
+import { Block } from './blocks.ts';
+import { Preset } from './presets.ts';
+import { StratumRefinements } from './refinements.ts';
 
 /**
  * Stratum Template grouping together Presets of Blocks created from a Base.

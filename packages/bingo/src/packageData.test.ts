@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { packageData } from './packageData.js';
+import { packageData } from './packageData.ts';
 
 describe('packageData', () => {
   it('equals the root package.json', () => {

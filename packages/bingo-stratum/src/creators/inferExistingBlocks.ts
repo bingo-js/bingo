@@ -4,11 +4,11 @@ import { AnyShape, InferredObject, mergeCreations, TemplatePrepareContext } from
 import { CreatedDirectory, CreatedEntry } from 'bingo-fs';
 import { Options } from 'hash-object';
 
-import { produceBlock, ProduceBlockSettings } from '../producers/produceBlock.js';
-import { Block } from '../types/blocks.js';
-import { Preset } from '../types/presets.js';
-import { StratumTemplate } from '../types/templates.js';
-import { slugifyName } from '../utils/slugifyName.js';
+import { produceBlock, ProduceBlockSettings } from '../producers/produceBlock.ts';
+import { Block } from '../types/blocks.ts';
+import { Preset } from '../types/presets.ts';
+import { StratumTemplate } from '../types/templates.ts';
+import { slugifyName } from '../utils/slugifyName.ts';
 
 export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
   context: Pick<

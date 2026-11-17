@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { resolveRemoteRepositoryFromOrigin } from './resolveRemoteRepositoryFromOrigin.js';
+import { resolveRemoteRepositoryFromOrigin } from './resolveRemoteRepositoryFromOrigin.ts';
 
 describe(resolveRemoteRepositoryFromOrigin, () => {
   it('returns undefined when there is no origin remote', async () => {

@@ -1,6 +1,6 @@
 import { getGitHubAuthToken } from 'get-github-auth-token';
 
-import { createSystemContext, SystemContextSettings } from './createSystemContext.js';
+import { createSystemContext, SystemContextSettings } from './createSystemContext.ts';
 
 export async function createSystemContextWithAuth(
   settings: Pick<SystemContextSettings, 'auth' | 'directory' | 'display' | 'fetchers' | 'offline'>,

@@ -1,7 +1,7 @@
 import { CreatedDirectory } from 'bingo-fs';
 
-import { TakeInput } from './inputs.js';
-import { ContextLog } from './templates.js';
+import { TakeInput } from './inputs.ts';
+import { ContextLog } from './templates.ts';
 
 /**
  * Either a value, an async function, or a sync function to generate the value or undefined.

@@ -1,7 +1,7 @@
-export { createMockFetchers } from './createMockFetchers.js';
-export { createMockFileSystem } from './createMockFileSystem.js';
-export { createMockSystems } from './createMockSystems.js';
-export { diffCreatedDirectory } from './diffCreatedDirectory.js';
-export { testInput } from './testInput.js';
-export { testOptions } from './testOptions.js';
-export { testTemplate } from './testTemplate.js';
+export { createMockFetchers } from './createMockFetchers.ts';
+export { createMockFileSystem } from './createMockFileSystem.ts';
+export { createMockSystems } from './createMockSystems.ts';
+export { diffCreatedDirectory } from './diffCreatedDirectory.ts';
+export { testInput } from './testInput.ts';
+export { testOptions } from './testOptions.ts';
+export { testTemplate } from './testTemplate.ts';
