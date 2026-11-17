@@ -3,6 +3,7 @@ import { styleText } from 'node:util';
 import * as prompts from '@clack/prompts';
 
 import { packageData } from '../packageData.ts';
+import { AnyShape } from '../types/shapes.ts';
 import { Template } from '../types/templates.ts';
 import { DisplayPackageData, runInsideClackDisplay } from './display/runInsideClackDisplay.ts';
 import { getTemplatePackageData } from './getTemplatePackageData.ts';
@@ -14,10 +15,10 @@ import { CLIStatus } from './status.ts';
  * Runs an interactive CLI to generate and apply a template's output.
  * @see {@link https://create.bingo/build/apis/run-template-cli}
  */
-export async function runTemplateCLI(
-  template: Template,
-  providedTemplatePackageData?: DisplayPackageData,
-) {
+export async function runTemplateCLI<
+  OptionsShape extends AnyShape = AnyShape,
+  Refinements = unknown,
+>(template: Template<OptionsShape, Refinements>, providedTemplatePackageData?: DisplayPackageData) {
   const templatePackageData = providedTemplatePackageData ?? (await getTemplatePackageData());
 
   if (templatePackageData instanceof Error) {

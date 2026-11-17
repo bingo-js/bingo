@@ -4,6 +4,7 @@ import { intakeDirectory } from 'bingo-fs';
 import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.ts';
 import { prepareOptions } from '../../preparation/prepareOptions.ts';
 import { runTemplate } from '../../runners/runTemplate.ts';
+import { AnyShape } from '../../types/shapes.ts';
 import { RequestedSkips } from '../../types/skips.ts';
 import { Template } from '../../types/templates.ts';
 import { ClackDisplay } from '../display/createClackDisplay.ts';
@@ -23,7 +24,10 @@ import { clearTemplateFiles } from './clearTemplateFiles.ts';
 import { getForkedRepositoryLocator } from './getForkedRepositoryLocator.ts';
 import { readConfigSettings } from './readConfigSettings.ts';
 
-export interface RunModeTransitionSettings {
+export interface RunModeTransitionSettings<
+  OptionsShape extends AnyShape = AnyShape,
+  Refinements = unknown,
+> {
   argv: string[];
   configFile: string | undefined;
   directory?: string;
@@ -33,10 +37,13 @@ export interface RunModeTransitionSettings {
   remote?: boolean;
   rerunCommand: string;
   skips?: RequestedSkips;
-  template: Template;
+  template: Template<OptionsShape, Refinements>;
 }
 
-export async function runModeTransition({
+export async function runModeTransition<
+  OptionsShape extends AnyShape = AnyShape,
+  Refinements = unknown,
+>({
   argv,
   configFile,
   directory = '.',
@@ -47,7 +54,7 @@ export async function runModeTransition({
   rerunCommand,
   skips = {},
   template,
-}: RunModeTransitionSettings): Promise<ModeResults> {
+}: RunModeTransitionSettings<OptionsShape, Refinements>): Promise<ModeResults> {
   logStartText('transition', offline);
 
   const system = await createSystemContextWithAuth({

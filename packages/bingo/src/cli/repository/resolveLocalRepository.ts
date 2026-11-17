@@ -1,6 +1,7 @@
 import { BingoSystem } from 'bingo-systems';
 import { RepositoryLocator } from 'new-github-repository';
 
+import { AnyShape } from '../../types/shapes.ts';
 import { Template } from '../../types/templates.ts';
 import { ClackDisplay } from '../display/createClackDisplay.ts';
 import { getGitRepositoryType, GitRepositoryType } from '../getGitRepositoryType.ts';
@@ -25,12 +26,15 @@ export interface ResolvedRepository {
   repositoryType: GitRepositoryType;
 }
 
-export async function resolveLocalRepository(
+export async function resolveLocalRepository<
+  OptionsShape extends AnyShape = AnyShape,
+  Refinements = unknown,
+>(
   display: ClackDisplay,
   locator: PartialRepositoryLocator,
   request: RemoteRepositoryRequest,
   system: BingoSystem,
-  template: Template,
+  template: Template<OptionsShape, Refinements>,
 ): Promise<ResolvedRepository> {
   const repositoryType = await getGitRepositoryType(system.runner);
 

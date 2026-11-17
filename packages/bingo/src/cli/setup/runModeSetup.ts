@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.ts';
 import { prepareOptions } from '../../preparation/prepareOptions.ts';
 import { runTemplate } from '../../runners/runTemplate.ts';
+import { AnyShape } from '../../types/shapes.ts';
 import { RequestedSkips } from '../../types/skips.ts';
 import { Template } from '../../types/templates.ts';
 import { ClackDisplay } from '../display/createClackDisplay.ts';
@@ -23,7 +24,10 @@ import { CLIStatus } from '../status.ts';
 import { ModeResults } from '../types.ts';
 import { makeRelative } from '../utils.ts';
 
-export interface RunModeSetupSettings {
+export interface RunModeSetupSettings<
+  OptionsShape extends AnyShape = AnyShape,
+  Refinements = unknown,
+> {
   argv: string[];
   directory?: string;
   display: ClackDisplay;
@@ -33,10 +37,13 @@ export interface RunModeSetupSettings {
   repository?: string;
   rerunCommand: string;
   skips?: RequestedSkips;
-  template: Template;
+  template: Template<OptionsShape, Refinements>;
 }
 
-export async function runModeSetup({
+export async function runModeSetup<
+  OptionsShape extends AnyShape = AnyShape,
+  Refinements = unknown,
+>({
   argv,
   repository: requestedRepository,
   directory: requestedDirectory = requestedRepository,
@@ -47,7 +54,7 @@ export async function runModeSetup({
   rerunCommand,
   skips = {},
   template,
-}: RunModeSetupSettings): Promise<ModeResults> {
+}: RunModeSetupSettings<OptionsShape, Refinements>): Promise<ModeResults> {
   logStartText('setup', offline);
 
   const directory = await promptForDirectory({
@@ -65,12 +72,15 @@ export async function runModeSetup({
     offline,
   });
 
-  const providedOptions = parseZodArgs(argv, {
-    directory: z.string().optional(),
-    owner: z.string().optional(),
-    repository: z.string().optional(),
-    ...template.options,
-  });
+  const providedTemplateOptions = parseZodArgs(argv, template.options);
+  const providedOptions = {
+    ...parseZodArgs(argv, {
+      directory: z.string().optional(),
+      owner: z.string().optional(),
+      repository: z.string().optional(),
+    }),
+    ...providedTemplateOptions,
+  };
 
   const preparedOptions = await runSpinnerTask(
     display,
@@ -79,7 +89,7 @@ export async function runModeSetup({
     async () => {
       return await prepareOptions(template, {
         ...system,
-        existing: { ...providedOptions, directory },
+        existing: { ...providedTemplateOptions, directory },
         offline,
       });
     },
