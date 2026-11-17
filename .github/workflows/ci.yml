@@ -13,7 +13,6 @@ jobs:
     steps:
       - uses: $/.github/actions/setup
       - run: pnpm build
-      - run: node packages/bingo/bin/index.js
 
   build_site:
     name: Build Site
