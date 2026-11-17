@@ -5,8 +5,8 @@ import { z } from 'zod';
 
 import { createTemplate } from '../../creators/createTemplate.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
-import { CLIMessage } from '../messages.ts';
-import { CLIStatus } from '../status.ts';
+import { cliMessages } from '../messages.ts';
+import { cliStatuses } from '../status.ts';
 import { runModeSetup } from './runModeSetup.ts';
 
 const mockCancel = Symbol('cancel');
@@ -138,7 +138,7 @@ describe(runModeSetup, () => {
     });
 
     expect(actual).toEqual({
-      status: CLIStatus.Cancelled,
+      status: cliStatuses.cancelled,
     });
   });
 
@@ -155,7 +155,7 @@ describe(runModeSetup, () => {
     });
 
     expect(actual).toEqual({
-      status: CLIStatus.Error,
+      status: cliStatuses.error,
     });
   });
 
@@ -175,7 +175,7 @@ describe(runModeSetup, () => {
     });
 
     expect(actual).toEqual({
-      status: CLIStatus.Cancelled,
+      status: cliStatuses.cancelled,
     });
   });
 
@@ -199,7 +199,7 @@ describe(runModeSetup, () => {
 
     expect(actual).toEqual({
       error: remote,
-      status: CLIStatus.Error,
+      status: cliStatuses.error,
     });
   });
 
@@ -230,8 +230,8 @@ describe(runModeSetup, () => {
 
     expect(mockLog.message).toHaveBeenCalledWith(remoteText);
     expect(actual).toEqual({
-      outro: CLIMessage.Leaving,
-      status: CLIStatus.Error,
+      outro: cliMessages.leaving,
+      status: cliStatuses.error,
     });
   });
 
@@ -384,8 +384,8 @@ describe(runModeSetup, () => {
     });
 
     expect(actual).toEqual({
-      outro: CLIMessage.Leaving,
-      status: CLIStatus.Error,
+      outro: cliMessages.leaving,
+      status: cliStatuses.error,
     });
   });
 
@@ -410,7 +410,7 @@ describe(runModeSetup, () => {
 
     expect(actual).toEqual({
       outro: `Thanks for using ${styleText(['bgGreenBright', 'black'], from)}! 💝`,
-      status: CLIStatus.Success,
+      status: cliStatuses.success,
       suggestions,
     });
   });

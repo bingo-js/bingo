@@ -11,14 +11,14 @@ import type { ClackDisplay } from '../display/createClackDisplay.ts';
 import { runSpinnerTask } from '../display/runSpinnerTask.ts';
 import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
 import { logStartText } from '../loggers/logStartText.ts';
-import { CLIMessage } from '../messages.ts';
+import { cliMessages } from '../messages.ts';
 import { parseZodArgs } from '../parsers/parseZodArgs.ts';
 import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
 import { checkUncommittedChanges } from '../repository/checkUncommittedChanges.ts';
 import { clearLocalGitTags } from '../repository/clearLocalGitTags.ts';
 import { createInitialCommit } from '../repository/createInitialCommit.ts';
 import { resolveLocalRepository } from '../repository/resolveLocalRepository.ts';
-import { CLIStatus } from '../status.ts';
+import { cliStatuses } from '../status.ts';
 import type { ModeResults } from '../types.ts';
 import { clearTemplateFiles } from './clearTemplateFiles.ts';
 import { getForkedRepositoryLocator } from './getForkedRepositoryLocator.ts';
@@ -72,7 +72,7 @@ export async function runModeTransition<
   const loadedConfig = await readConfigSettings(configFile, directory, template);
   if (loadedConfig instanceof Error) {
     logRerunSuggestion(rerunCommand, providedOptions);
-    return { error: loadedConfig, status: CLIStatus.Error };
+    return { error: loadedConfig, status: cliStatuses.error };
   }
 
   // Templates infer options from files on disk, so clearing must happen before
@@ -87,7 +87,7 @@ export async function runModeTransition<
             ? `Transitioning a repository cloned from ${repositoryLocator} clears all of its files, but this one has uncommitted changes. Commit or stash them, then re-run.`
             : `Transitioning a repository cloned from ${repositoryLocator} clears all of its files, but it couldn't be determined whether this one has uncommitted changes. Make sure git is installed and this is a git repository, then re-run.`,
         ),
-        status: CLIStatus.Error,
+        status: cliStatuses.error,
       };
     }
 
@@ -122,7 +122,7 @@ export async function runModeTransition<
     ));
   if (preparedOptions instanceof Error) {
     logRerunSuggestion(rerunCommand, providedOptions);
-    return { status: CLIStatus.Error };
+    return { status: cliStatuses.error };
   }
 
   const baseOptions = await promptForOptionSchemas(template, {
@@ -131,7 +131,7 @@ export async function runModeTransition<
   });
   if (baseOptions.cancelled) {
     logRerunSuggestion(rerunCommand, baseOptions.prompted);
-    return { status: CLIStatus.Cancelled };
+    return { status: cliStatuses.cancelled };
   }
 
   const { message, remote } = await resolveLocalRepository(
@@ -144,7 +144,7 @@ export async function runModeTransition<
 
   if (remote instanceof Error) {
     logRerunSuggestion(rerunCommand, baseOptions.prompted);
-    return { error: remote, status: CLIStatus.Error };
+    return { error: remote, status: cliStatuses.error };
   }
 
   if (message) {
@@ -177,8 +177,8 @@ export async function runModeTransition<
   if (creation instanceof Error) {
     logRerunSuggestion(rerunCommand, baseOptions.prompted);
     return {
-      outro: CLIMessage.Leaving,
-      status: CLIStatus.Error,
+      outro: cliMessages.leaving,
+      status: cliStatuses.error,
     };
   }
 
@@ -201,12 +201,12 @@ export async function runModeTransition<
 
   return commit instanceof Error
     ? {
-        outro: CLIMessage.Leaving,
-        status: CLIStatus.Error,
+        outro: cliMessages.leaving,
+        status: cliStatuses.error,
       }
     : {
-        outro: repositoryLocator ? CLIMessage.New : CLIMessage.Done,
-        status: CLIStatus.Success,
+        outro: repositoryLocator ? cliMessages.new : cliMessages.done,
+        status: cliStatuses.success,
         suggestions: creation.suggestions,
       };
 }

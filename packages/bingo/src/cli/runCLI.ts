@@ -13,7 +13,7 @@ import type { RunCLIRawValues } from './parseProcessArgv.ts';
 import { getUnknownFlags } from './parsers/getUnknownFlags.ts';
 import { readProductionSettings } from './readProductionSettings.ts';
 import { runModeSetup } from './setup/runModeSetup.ts';
-import { CLIStatus } from './status.ts';
+import { cliStatuses } from './status.ts';
 import { runModeTransition } from './transition/runModeTransition.ts';
 
 const valuesSchema = z.object({
@@ -49,7 +49,7 @@ export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinemen
   const unknownFlags = getUnknownFlags(values, template.options);
   if (unknownFlags.length) {
     logUnknownFlags(unknownFlags);
-    return { status: CLIStatus.Error };
+    return { status: cliStatuses.error };
   }
 
   const validatedValues = valuesSchema.parse(values);
@@ -59,7 +59,7 @@ export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinemen
   });
   if (productionSettings instanceof Error) {
     logOutro(styleText('red', productionSettings.message));
-    return CLIStatus.Error;
+    return cliStatuses.error;
   }
   if (validatedValues.help) {
     return logHelpText(productionSettings.mode, from, template);

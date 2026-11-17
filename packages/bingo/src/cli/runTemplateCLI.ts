@@ -9,7 +9,7 @@ import { type DisplayPackageData, runInsideClackDisplay } from './display/runIns
 import { getTemplatePackageData } from './getTemplatePackageData.ts';
 import { parseProcessArgv } from './parseProcessArgv.ts';
 import { runCLI } from './runCLI.ts';
-import { CLIStatus } from './status.ts';
+import { cliStatuses } from './status.ts';
 
 /**
  * Runs an interactive CLI to generate and apply a template's output.
@@ -23,14 +23,14 @@ export async function runTemplateCLI<
 
   if (templatePackageData instanceof Error) {
     console.error(templatePackageData);
-    return CLIStatus.Error;
+    return cliStatuses.error;
   }
 
   const { argv, values } = parseProcessArgv();
   if (values.version) {
     console.log(`${packageData.name}@${packageData.version}`);
     console.log(`${templatePackageData.name}@${templatePackageData.version}`);
-    return CLIStatus.Success;
+    return cliStatuses.success;
   }
 
   return await runInsideClackDisplay(templatePackageData, async (display) => {

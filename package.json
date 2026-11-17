@@ -32,7 +32,8 @@
     "site:build": "pnpm --filter=site build",
     "site:check": "pnpm --filter=site check",
     "site:dev": "pnpm --filter=site dev",
-    "test": "vitest"
+    "test": "vitest",
+    "typecheck": "pnpm tsc -b"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

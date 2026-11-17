@@ -19,7 +19,7 @@ import { promptForDirectory } from '../prompts/promptForDirectory.ts';
 import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
 import { prepareGitRepository } from '../repository/prepareGitRepository.ts';
 import { resolveLocalRepository } from '../repository/resolveLocalRepository.ts';
-import { CLIStatus } from '../status.ts';
+import { cliStatuses } from '../status.ts';
 import type { ModeResults } from '../types.ts';
 import { makeRelative } from '../utils.ts';
 
@@ -62,7 +62,7 @@ export async function runModeSetup<
     template,
   });
   if (prompts.isCancel(directory)) {
-    return { status: CLIStatus.Cancelled };
+    return { status: cliStatuses.cancelled };
   }
 
   const system = await createSystemContextWithAuth({
@@ -95,7 +95,7 @@ export async function runModeSetup<
   );
   if (preparedOptions instanceof Error) {
     logRerunSuggestion(rerunCommand, providedOptions);
-    return { status: CLIStatus.Error };
+    return { status: cliStatuses.error };
   }
 
   const repository = requestedRepository ?? directory;
@@ -110,7 +110,7 @@ export async function runModeSetup<
   });
   if (baseOptions.cancelled) {
     logRerunSuggestion(rerunCommand, baseOptions.prompted);
-    return { status: CLIStatus.Cancelled };
+    return { status: cliStatuses.cancelled };
   }
 
   const { message, remote, repositoryType } = await resolveLocalRepository(
@@ -123,7 +123,7 @@ export async function runModeSetup<
 
   if (remote instanceof Error) {
     logRerunSuggestion(rerunCommand, baseOptions.prompted);
-    return { error: remote, status: CLIStatus.Error };
+    return { error: remote, status: cliStatuses.error };
   }
 
   if (message) {
@@ -153,7 +153,7 @@ export async function runModeSetup<
     logRerunSuggestion(rerunCommand, baseOptions.prompted);
     return {
       outro: cliMessages.leaving,
-      status: CLIStatus.Error,
+      status: cliStatuses.error,
     };
   }
 
@@ -182,13 +182,13 @@ export async function runModeSetup<
   if (preparationError) {
     return {
       outro: cliMessages.leaving,
-      status: CLIStatus.Error,
+      status: cliStatuses.error,
     };
   }
 
   return {
     outro: `Thanks for using ${styleText(['bgGreenBright', 'black'], from)}! 💝`,
-    status: CLIStatus.Success,
+    status: cliStatuses.success,
     suggestions: creation.suggestions,
   };
 }
