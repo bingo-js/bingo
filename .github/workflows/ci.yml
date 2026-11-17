@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: $/.github/actions/setup
       - run: pnpm build
+      - run: node
 
   build_site:
     name: Build Site
