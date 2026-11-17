@@ -1,4 +1,4 @@
-import { CreatedFileEntry } from 'bingo-fs';
+import type { CreatedFileEntry } from 'bingo-fs';
 import { describe, expect, test } from 'vitest';
 
 import { mergeFileEntries } from './mergeFileEntries.ts';

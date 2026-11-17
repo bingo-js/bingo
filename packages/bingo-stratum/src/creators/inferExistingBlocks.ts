@@ -1,13 +1,18 @@
 import * as path from 'node:path';
 
-import { AnyShape, InferredObject, mergeCreations, TemplatePrepareContext } from 'bingo';
-import { CreatedDirectory, CreatedEntry } from 'bingo-fs';
-import { Options } from 'hash-object';
+import {
+  type AnyShape,
+  type InferredObject,
+  mergeCreations,
+  type TemplatePrepareContext,
+} from 'bingo';
+import type { CreatedDirectory, CreatedEntry } from 'bingo-fs';
+import type { Options } from 'hash-object';
 
-import { produceBlock, ProduceBlockSettings } from '../producers/produceBlock.ts';
-import { Block } from '../types/blocks.ts';
-import { Preset } from '../types/presets.ts';
-import { StratumTemplate } from '../types/templates.ts';
+import { produceBlock, type ProduceBlockSettings } from '../producers/produceBlock.ts';
+import type { Block } from '../types/blocks.ts';
+import type { Preset } from '../types/presets.ts';
+import type { StratumTemplate } from '../types/templates.ts';
 import { slugifyName } from '../utils/slugifyName.ts';
 
 export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(

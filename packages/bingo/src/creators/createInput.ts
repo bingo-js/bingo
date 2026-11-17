@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-import {
+import type {
   Input,
   InputContextWithArgs,
   InputContextWithoutArgs,
   InputProducerWithArgs,
   InputProducerWithoutArgs,
 } from '../types/inputs.ts';
-import { AnyShape, InferredObject } from '../types/shapes.ts';
+import type { AnyShape, InferredObject } from '../types/shapes.ts';
 import { isDefinitionWithArgs } from './utils.ts';
 
 /**

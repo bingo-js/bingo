@@ -1,8 +1,8 @@
-import { BingoSystem } from 'bingo-systems';
+import type { BingoSystem } from 'bingo-systems';
 import { describe, expect, it, vi } from 'vitest';
 
-import { Template } from '../../types/templates.ts';
-import { ClackDisplay } from '../display/createClackDisplay.ts';
+import type { Template } from '../../types/templates.ts';
+import type { ClackDisplay } from '../display/createClackDisplay.ts';
 import { GitRepositoryType } from '../getGitRepositoryType.ts';
 import { resolveLocalRepository } from './resolveLocalRepository.ts';
 

@@ -1,3 +1,7 @@
+import type * as NodePathPosix from 'node:path/posix';
+import type * as NodePathWin32 from 'node:path/win32';
+import type * as NodeUrl from 'node:url';
+
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { getTemplatePackageData } from './getTemplatePackageData.ts';
@@ -21,7 +25,7 @@ vi.mock('read-package-up', () => ({
 let isWindowsPaths = false;
 
 vi.mock('node:url', async () => {
-  const nodeUrl = await vi.importActual<typeof import('node:url')>('node:url');
+  const nodeUrl = await vi.importActual<typeof NodeUrl>('node:url');
   return {
     ...nodeUrl,
     fileURLToPath: (url: string | URL) => nodeUrl.fileURLToPath(url, { windows: isWindowsPaths }),
@@ -29,9 +33,8 @@ vi.mock('node:url', async () => {
 });
 
 vi.mock('node:path', async () => {
-  const nodePathWindows =
-    await vi.importActual<typeof import('node:path/win32')>('node:path/win32');
-  const nodePathPosix = await vi.importActual<typeof import('node:path/posix')>('node:path/posix');
+  const nodePathWindows = await vi.importActual<typeof NodePathWin32>('node:path/win32');
+  const nodePathPosix = await vi.importActual<typeof NodePathPosix>('node:path/posix');
   return {
     default: {
       ...(await vi.importActual('node:path')),

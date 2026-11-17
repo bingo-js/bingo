@@ -1,5 +1,5 @@
-import { TakeInput } from 'bingo';
-import { SystemFetchers, SystemRunner, WritingFileSystem } from 'bingo-systems';
+import type { TakeInput } from 'bingo';
+import type { SystemFetchers, SystemRunner, WritingFileSystem } from 'bingo-systems';
 
 export type Fetch = typeof fetch;
 

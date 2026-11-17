@@ -1,6 +1,6 @@
-import { CreatedRequest } from 'bingo-requests';
+import type { CreatedRequest } from 'bingo-requests';
 
-import { SystemContext } from '../types/system.ts';
+import type { SystemContext } from '../types/system.ts';
 import { getRequestSender } from './getRequestSender.ts';
 
 export async function applyRequestsToSystem(requests: CreatedRequest[], system: SystemContext) {

@@ -1,10 +1,10 @@
 import { stripVTControlCharacters } from 'node:util';
 
-import { CreatedDirectory } from 'bingo-fs';
+import type { CreatedDirectory } from 'bingo-fs';
 import c from 'tinyrainbow';
 import { describe, expect, test } from 'vitest';
 
-import { diffCreatedDirectory, DiffedCreatedDirectory } from './diffCreatedDirectory.ts';
+import { diffCreatedDirectory, type DiffedCreatedDirectory } from './diffCreatedDirectory.ts';
 
 function withoutColors(value: unknown): unknown {
   if (typeof value === 'string') {

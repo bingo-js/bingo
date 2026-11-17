@@ -1,4 +1,4 @@
-import { IntakeFileEntry } from 'bingo-fs';
+import type { IntakeFileEntry } from 'bingo-fs';
 import { describe, expect, it, test, vi } from 'vitest';
 import { z } from 'zod';
 

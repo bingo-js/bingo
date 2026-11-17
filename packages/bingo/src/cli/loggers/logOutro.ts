@@ -2,7 +2,7 @@ import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
 
-import { SystemItemsDump } from '../display/createClackDisplay.ts';
+import type { SystemItemsDump } from '../display/createClackDisplay.ts';
 
 export interface OutroErrata {
   items?: SystemItemsDump;

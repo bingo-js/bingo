@@ -1,6 +1,6 @@
-import { AnyShape } from 'bingo';
+import type { AnyShape } from 'bingo';
 
-import { Base, BaseDefinition } from '../types/bases.ts';
+import type { Base, BaseDefinition } from '../types/bases.ts';
 import { assertNoPresetOption } from './assertNoPresetOption.ts';
 import { createBlock } from './createBlock.ts';
 import { createPreset } from './createPreset.ts';

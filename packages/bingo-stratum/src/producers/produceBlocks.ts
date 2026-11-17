@@ -1,10 +1,10 @@
-import { ProductionMode } from 'bingo';
-import { IntakeDirectory } from 'bingo-fs';
+import type { ProductionMode } from 'bingo';
+import type { IntakeDirectory } from 'bingo-fs';
 
 import { mergeBlockCreations } from '../mergers/mergeBlockCreations.ts';
-import { Block, BlockWithProps } from '../types/blocks.ts';
-import { CreatedBlockExtension } from '../types/creations.ts';
-import { BlockProduction, getUpdatedBlockExtensions } from './getUpdatedBlockExtensions.ts';
+import type { Block, BlockWithProps } from '../types/blocks.ts';
+import type { CreatedBlockExtension } from '../types/creations.ts';
+import { type BlockProduction, getUpdatedBlockExtensions } from './getUpdatedBlockExtensions.ts';
 import { produceBlock } from './produceBlock.ts';
 
 export interface ProduceBlocksSettings<Options extends object> {

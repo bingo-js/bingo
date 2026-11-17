@@ -1,10 +1,10 @@
-import { ProductionMode } from 'bingo';
+import type { ProductionMode } from 'bingo';
 import {
   type BlockCreation,
-  BlockWithoutProps,
-  BlockWithProps,
+  type BlockWithoutProps,
+  type BlockWithProps,
   produceBlock,
-  ProduceBlockSettingsWithProps,
+  type ProduceBlockSettingsWithProps,
   type StratumTemplateOptions,
 } from 'bingo-stratum';
 

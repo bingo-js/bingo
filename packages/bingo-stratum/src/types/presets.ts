@@ -1,7 +1,7 @@
-import { AboutBase, AnyShape, InferredObject } from 'bingo';
+import type { AboutBase, AnyShape, InferredObject } from 'bingo';
 
-import { Base } from './bases.ts';
-import { Block, BlockWithoutProps, BlockWithProps } from './blocks.ts';
+import type { Base } from './bases.ts';
+import type { Block, BlockWithoutProps, BlockWithProps } from './blocks.ts';
 
 export interface Preset<OptionsShape extends AnyShape = AnyShape> {
   about: PresetAbout;

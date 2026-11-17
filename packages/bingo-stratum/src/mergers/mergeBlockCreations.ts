@@ -1,7 +1,7 @@
 import { mergeCreations } from 'bingo';
 import { withoutUndefinedProperties } from 'without-undefined-properties';
 
-import { BlockCreation } from '../types/creations.ts';
+import type { BlockCreation } from '../types/creations.ts';
 import { mergeExtensions } from './mergeProps.ts';
 
 export function mergeBlockCreations<Options extends object>(

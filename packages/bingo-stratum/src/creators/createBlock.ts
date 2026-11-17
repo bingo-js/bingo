@@ -1,6 +1,6 @@
-import { AnyOptionalShape, InferredObject } from 'bingo';
+import type { AnyOptionalShape, InferredObject } from 'bingo';
 
-import {
+import type {
   BlockContextWithProps,
   BlockDefinitionWithoutProps,
   BlockDefinitionWithProps,

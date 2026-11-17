@@ -1,12 +1,12 @@
-import { IntakeDirectory } from 'bingo-fs';
-import { BingoSystem } from 'bingo-systems';
+import type { IntakeDirectory } from 'bingo-fs';
+import type { BingoSystem } from 'bingo-systems';
 
 import { createSystemContext } from '../contexts/createSystemContext.ts';
 import { mergeCreations } from '../mergers/mergeCreations.ts';
-import { Creation } from '../types/creations.ts';
-import { ProductionMode } from '../types/modes.ts';
-import { AnyShape, InferredObject } from '../types/shapes.ts';
-import { Template } from '../types/templates.ts';
+import type { Creation } from '../types/creations.ts';
+import type { ProductionMode } from '../types/modes.ts';
+import type { AnyShape, InferredObject } from '../types/shapes.ts';
+import type { Template } from '../types/templates.ts';
 
 /**
  * Settings to run a template with {@link produceTemplate}.

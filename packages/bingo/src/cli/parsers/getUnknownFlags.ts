@@ -1,4 +1,4 @@
-import { AnyShape } from '../../types/shapes.ts';
+import type { AnyShape } from '../../types/shapes.ts';
 import { cliArgsOptions } from '../cliArgsOptions.ts';
 
 export interface UnknownFlag {

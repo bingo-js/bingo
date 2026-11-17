@@ -1,4 +1,4 @@
-import { Endpoints, RequestParameters } from '@octokit/types';
+import type { Endpoints, RequestParameters } from '@octokit/types';
 
 export interface CreatedRequestBase {
   /**

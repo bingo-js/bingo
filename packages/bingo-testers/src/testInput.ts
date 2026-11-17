@@ -1,4 +1,4 @@
-import {
+import type {
   AnyShape,
   InferredObject,
   Input,
@@ -10,7 +10,7 @@ import {
 } from 'bingo';
 
 import { createMockSystems } from './createMockSystems.ts';
-import { MockSystemOptions } from './types.ts';
+import type { MockSystemOptions } from './types.ts';
 
 export interface InputContextSettingsWithArgs<
   Args extends object,

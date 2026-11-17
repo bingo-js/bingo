@@ -1,4 +1,4 @@
-import { CreatedEntry, CreatedFileEntry } from 'bingo-fs';
+import type { CreatedEntry, CreatedFileEntry } from 'bingo-fs';
 
 export function mergeFileEntries(
   first: CreatedFileEntry | false | undefined,

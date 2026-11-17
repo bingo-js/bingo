@@ -1,4 +1,4 @@
-import { Preset } from '../types/presets.ts';
+import type { Preset } from '../types/presets.ts';
 import { isBase } from './isBase.ts';
 import { isPresetAbout } from './isPresetAbout.ts';
 

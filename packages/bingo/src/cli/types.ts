@@ -1,4 +1,4 @@
-import { CLIStatus } from './status.ts';
+import type { CLIStatus } from './status.ts';
 
 export type ModeResults = ModeResultsError | ModeResultsNonError;
 

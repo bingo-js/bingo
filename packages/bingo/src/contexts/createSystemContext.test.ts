@@ -1,4 +1,4 @@
-import { Octokit } from 'octokit';
+import type { Octokit } from 'octokit';
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 

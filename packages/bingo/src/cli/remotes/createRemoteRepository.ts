@@ -1,12 +1,12 @@
 import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
-import { BingoSystem } from 'bingo-systems';
-import { newGitHubRepository, RepositoryLocator } from 'new-github-repository';
+import type { BingoSystem } from 'bingo-systems';
+import { newGitHubRepository, type RepositoryLocator } from 'new-github-repository';
 
 import type { AnyShape } from '../../types/shapes.ts';
 import type { Template } from '../../types/templates.ts';
-import { ClackDisplay } from '../display/createClackDisplay.ts';
+import type { ClackDisplay } from '../display/createClackDisplay.ts';
 import { runSpinnerTask } from '../display/runSpinnerTask.ts';
 import { prepareGitRepository } from '../repository/prepareGitRepository.ts';
 

@@ -1,6 +1,6 @@
 import { createMockSystems, testInput } from 'bingo-testers';
-import { Octokit } from 'octokit';
-import { describe, expect, it, Mock, vi } from 'vitest';
+import type { Octokit } from 'octokit';
+import { describe, expect, it, type Mock, vi } from 'vitest';
 
 import { inputFromOctokit } from './index.ts';
 

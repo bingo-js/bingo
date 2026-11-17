@@ -1,7 +1,7 @@
 import hashObject from 'hash-object';
 
-import { BlockWithProps } from '../types/blocks.ts';
-import { CreatedBlockExtension } from '../types/creations.ts';
+import type { BlockWithProps } from '../types/blocks.ts';
+import type { CreatedBlockExtension } from '../types/creations.ts';
 import { createBlockExtension } from '../utils/createBlockExtension.ts';
 
 export function mergeExtensions<Options extends object | unknown[]>(

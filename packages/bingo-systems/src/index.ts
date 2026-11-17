@@ -1,10 +1,10 @@
 export * from './fetchers/createSystemFetchers.ts';
 export * from './fetchers/createSystemFetchersOffline.ts';
 export * from './fetchers/createSystemFetchersWithAuth.ts';
-export * from './fetchers/types.ts';
+export type * from './fetchers/types.ts';
 export * from './files/createReadingFileSystem.ts';
 export * from './files/createWritingFileSystem.ts';
-export * from './files/types.ts';
+export type * from './files/types.ts';
 export * from './runner/createSystemRunner.ts';
-export * from './runner/runner.ts';
-export * from './types/system.ts';
+export type * from './runner/runner.ts';
+export type * from './types/system.ts';

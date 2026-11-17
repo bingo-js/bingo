@@ -1,6 +1,6 @@
 import * as fs from 'node:fs/promises';
 
-import { CreatedFileMetadata } from 'bingo-fs';
+import type { CreatedFileMetadata } from 'bingo-fs';
 
 import { createReadingFileSystem } from './createReadingFileSystem.ts';
 

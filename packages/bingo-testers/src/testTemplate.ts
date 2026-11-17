@@ -1,5 +1,5 @@
-import { AnyShape, InferredObject, produceTemplate, Template } from 'bingo';
-import { BingoSystem } from 'bingo-systems';
+import { type AnyShape, type InferredObject, produceTemplate, type Template } from 'bingo';
+import type { BingoSystem } from 'bingo-systems';
 
 import { createMockSystems } from './createMockSystems.ts';
 

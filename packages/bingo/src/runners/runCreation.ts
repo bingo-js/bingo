@@ -1,6 +1,6 @@
-import { Creation } from '../types/creations.ts';
-import { RequestedSkips } from '../types/skips.ts';
-import { SystemContext } from '../types/system.ts';
+import type { Creation } from '../types/creations.ts';
+import type { RequestedSkips } from '../types/skips.ts';
+import type { SystemContext } from '../types/system.ts';
 import { applyFilesToSystem } from './applyFilesToSystem.ts';
 import { applyRequestsToSystem } from './applyRequestsToSystem.ts';
 import { applyScriptsToSystem } from './applyScriptsToSystem.ts';

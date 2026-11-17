@@ -1,6 +1,6 @@
-import { SystemRunner } from 'bingo-systems';
+import type { SystemRunner } from 'bingo-systems';
 import gitUrlParse from 'git-url-parse';
-import { RepositoryLocator } from 'new-github-repository';
+import type { RepositoryLocator } from 'new-github-repository';
 
 import { tryCatchSafeSync } from '../../utils/tryCatch.ts';
 

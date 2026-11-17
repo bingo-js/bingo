@@ -1,6 +1,6 @@
-import { AnyShape } from 'bingo';
+import type { AnyShape } from 'bingo';
 
-import { BaseDefinition } from '../types/bases.ts';
+import type { BaseDefinition } from '../types/bases.ts';
 
 export function assertNoPresetOption<OptionsShape extends AnyShape>(
   baseDefinition: BaseDefinition<OptionsShape>,

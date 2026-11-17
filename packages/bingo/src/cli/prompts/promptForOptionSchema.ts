@@ -3,7 +3,7 @@ import * as z from 'zod';
 
 import { getSchemaDescription } from '../../utils/getSchemaDescription.ts';
 import { isZodDefaultDef } from '../schemas/isZodDefaultDef.ts';
-import { PromptFriendlyZodDef, ZodDefType } from '../schemas/types.ts';
+import { type PromptFriendlyZodDef, ZodDefType } from '../schemas/types.ts';
 import { validateNumber, validatorFromSchema } from './validators.ts';
 
 export async function promptForOptionSchema(

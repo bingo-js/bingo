@@ -1,15 +1,15 @@
 import fs from 'node:fs/promises';
 
-import { IntakeDirectory } from 'bingo-fs';
-import { BingoSystem } from 'bingo-systems';
+import type { IntakeDirectory } from 'bingo-fs';
+import type { BingoSystem } from 'bingo-systems';
 
 import { createSystemContextWithAuth } from '../contexts/createSystemContextWithAuth.ts';
 import { produceTemplate } from '../producers/produceTemplate.ts';
-import { Creation } from '../types/creations.ts';
-import { ProductionMode } from '../types/modes.ts';
-import { AnyShape, InferredObject } from '../types/shapes.ts';
-import { RequestedSkips } from '../types/skips.ts';
-import { Template } from '../types/templates.ts';
+import type { Creation } from '../types/creations.ts';
+import type { ProductionMode } from '../types/modes.ts';
+import type { AnyShape, InferredObject } from '../types/shapes.ts';
+import type { RequestedSkips } from '../types/skips.ts';
+import type { Template } from '../types/templates.ts';
 import { runCreation } from './runCreation.ts';
 
 /**

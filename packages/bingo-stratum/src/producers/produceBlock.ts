@@ -1,9 +1,9 @@
-import { ProductionMode } from 'bingo';
+import type { ProductionMode } from 'bingo';
 
 import { mergeBlockCreations } from '../mergers/mergeBlockCreations.ts';
-import { BlockWithoutProps, BlockWithProps } from '../types/blocks.ts';
-import { BlockCreation } from '../types/creations.ts';
-import { StratumTemplateOptions } from '../types/templates.ts';
+import type { BlockWithoutProps, BlockWithProps } from '../types/blocks.ts';
+import type { BlockCreation } from '../types/creations.ts';
+import type { StratumTemplateOptions } from '../types/templates.ts';
 
 /**
  * Settings to run a Block with {@link produceBlock} that might have props.

@@ -1,8 +1,8 @@
-import { Creation } from 'bingo';
+import type { Creation } from 'bingo';
 
 import { mergePropsIfUpdated } from '../mergers/mergePropsIfUpdated.ts';
-import { Block, BlockWithProps } from '../types/blocks.ts';
-import { CreatedBlockExtension } from '../types/creations.ts';
+import type { Block, BlockWithProps } from '../types/blocks.ts';
+import type { CreatedBlockExtension } from '../types/creations.ts';
 import { getName } from '../utils/getName.ts';
 
 export interface BlockProduction<Props extends object | undefined> {

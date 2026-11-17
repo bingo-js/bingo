@@ -3,9 +3,9 @@ import { styleText } from 'node:util';
 import * as prompts from '@clack/prompts';
 
 import { packageData } from '../packageData.ts';
-import { AnyShape } from '../types/shapes.ts';
-import { Template } from '../types/templates.ts';
-import { DisplayPackageData, runInsideClackDisplay } from './display/runInsideClackDisplay.ts';
+import type { AnyShape } from '../types/shapes.ts';
+import type { Template } from '../types/templates.ts';
+import { type DisplayPackageData, runInsideClackDisplay } from './display/runInsideClackDisplay.ts';
 import { getTemplatePackageData } from './getTemplatePackageData.ts';
 import { parseProcessArgv } from './parseProcessArgv.ts';
 import { runCLI } from './runCLI.ts';

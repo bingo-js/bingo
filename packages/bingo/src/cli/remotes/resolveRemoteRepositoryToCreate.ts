@@ -1,15 +1,15 @@
 import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
-import { BingoSystem, SystemRunner } from 'bingo-systems';
-import { Octokit } from 'octokit';
+import type { BingoSystem, SystemRunner } from 'bingo-systems';
+import type { Octokit } from 'octokit';
 
-import { AnyShape } from '../../types/shapes.ts';
-import { RepositoryLocator, Template } from '../../types/templates.ts';
+import type { AnyShape } from '../../types/shapes.ts';
+import type { RepositoryLocator, Template } from '../../types/templates.ts';
 import { promptForOptionSchema } from '../prompts/promptForOptionSchema.ts';
 import { isStringLikeSchema } from '../schemas/isStringLikeSchema.ts';
 import { hasAccessToOwner } from './hasAccessToOwner.ts';
-import { PartialRepositoryLocator } from './types.ts';
+import type { PartialRepositoryLocator } from './types.ts';
 
 export async function resolveRemoteRepositoryToCreate<
   OptionsShape extends AnyShape = AnyShape,

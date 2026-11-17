@@ -1,7 +1,7 @@
-import { CreatedDirectory } from 'bingo-fs';
+import type { CreatedDirectory } from 'bingo-fs';
 
-import { TakeInput } from './inputs.ts';
-import { ContextLog } from './templates.ts';
+import type { TakeInput } from './inputs.ts';
+import type { ContextLog } from './templates.ts';
 
 /**
  * Either a value, an async function, or a sync function to generate the value or undefined.

@@ -1,15 +1,15 @@
 import { styleText } from 'node:util';
 
-import { AnyShape, InferredObject, LazyOptionalOptions, TemplatePrepareContext } from 'bingo';
+import type { AnyShape, InferredObject, LazyOptionalOptions, TemplatePrepareContext } from 'bingo';
 import { z } from 'zod';
 
 import {
   produceStratumTemplate,
-  ProduceStratumTemplateSettings,
+  type ProduceStratumTemplateSettings,
 } from '../producers/produceStratumTemplate.ts';
-import { Base } from '../types/bases.ts';
-import { StratumRefinements } from '../types/refinements.ts';
-import {
+import type { Base } from '../types/bases.ts';
+import type { StratumRefinements } from '../types/refinements.ts';
+import type {
   StratumTemplate,
   StratumTemplateDefinition,
   StratumTemplateOptionsShapeFor,

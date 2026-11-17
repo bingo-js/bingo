@@ -1,5 +1,5 @@
-import { Block } from './blocks.ts';
-import { CreatedBlockExtension } from './creations.ts';
+import type { Block } from './blocks.ts';
+import type { CreatedBlockExtension } from './creations.ts';
 
 /**
  * Blocks to add and/or exclude from production.

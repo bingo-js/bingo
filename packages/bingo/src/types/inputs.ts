@@ -1,6 +1,6 @@
-import { ReadingFileSystem, SystemFetchers, SystemRunner } from 'bingo-systems';
+import type { ReadingFileSystem, SystemFetchers, SystemRunner } from 'bingo-systems';
 
-import { AnyShape, InferredObject } from './shapes.ts';
+import type { AnyShape, InferredObject } from './shapes.ts';
 
 /**
  * An Input that might have args schema defined.
