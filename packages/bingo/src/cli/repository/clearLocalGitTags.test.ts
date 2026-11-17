@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { clearLocalGitTags } from './clearLocalGitTags.js';
+import { clearLocalGitTags } from './clearLocalGitTags.ts';
 
 describe('clearLocalGitTags', () => {
   it('deletes tags when git tag -l has stdout', async () => {

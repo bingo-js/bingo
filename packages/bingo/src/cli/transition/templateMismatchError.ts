@@ -1,5 +1,5 @@
-import { AnyShape } from '../../types/shapes.js';
-import { Template } from '../../types/templates.js';
+import { AnyShape } from '../../types/shapes.ts';
+import { Template } from '../../types/templates.ts';
 
 const anonymousName = '(anonymous)';
 

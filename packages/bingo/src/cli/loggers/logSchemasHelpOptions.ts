@@ -1,7 +1,7 @@
-import { AnyShape } from '../../types/shapes.js';
-import { getSchemaDescription } from '../../utils/getSchemaDescription.js';
-import { getSchemaTypeName } from '../../utils/getSchemaTypeName.js';
-import { logHelpOptions } from './logHelpOptions.js';
+import { AnyShape } from '../../types/shapes.ts';
+import { getSchemaDescription } from '../../utils/getSchemaDescription.ts';
+import { getSchemaTypeName } from '../../utils/getSchemaTypeName.ts';
+import { logHelpOptions } from './logHelpOptions.ts';
 
 export function logSchemasHelpOptions(packageName: string, schemas: AnyShape) {
   logHelpOptions(

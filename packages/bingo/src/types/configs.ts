@@ -1,5 +1,5 @@
-import { AnyShape, InferredObject } from './shapes.js';
-import { Template } from './templates.js';
+import { AnyShape, InferredObject } from './shapes.ts';
+import { Template } from './templates.ts';
 
 /**
  * Configuration object to be default-exported from a config file.

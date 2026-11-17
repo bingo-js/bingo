@@ -1,9 +1,9 @@
 import { describe, expect, it, test, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createTemplate } from '../../creators/createTemplate.js';
-import { cliArgsOptions } from '../cliArgsOptions.js';
-import { logHelpText } from './logHelpText.js';
+import { createTemplate } from '../../creators/createTemplate.ts';
+import { cliArgsOptions } from '../cliArgsOptions.ts';
+import { logHelpText } from './logHelpText.ts';
 
 const mockLog = {
   info: vi.fn(),

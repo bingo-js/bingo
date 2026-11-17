@@ -3,26 +3,26 @@ import { styleText } from 'node:util';
 import * as prompts from '@clack/prompts';
 import { z } from 'zod';
 
-import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.js';
-import { prepareOptions } from '../../preparation/prepareOptions.js';
-import { runTemplate } from '../../runners/runTemplate.js';
-import { AnyShape } from '../../types/shapes.js';
-import { RequestedSkips } from '../../types/skips.js';
-import { Template } from '../../types/templates.js';
-import { ClackDisplay } from '../display/createClackDisplay.js';
-import { runSpinnerTask } from '../display/runSpinnerTask.js';
-import { GitRepositoryType } from '../getGitRepositoryType.js';
-import { logRerunSuggestion } from '../loggers/logRerunSuggestion.js';
-import { logStartText } from '../loggers/logStartText.js';
-import { CLIMessage } from '../messages.js';
-import { parseZodArgs } from '../parsers/parseZodArgs.js';
-import { promptForDirectory } from '../prompts/promptForDirectory.js';
-import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.js';
-import { prepareGitRepository } from '../repository/prepareGitRepository.js';
-import { resolveLocalRepository } from '../repository/resolveLocalRepository.js';
-import { CLIStatus } from '../status.js';
-import { ModeResults } from '../types.js';
-import { makeRelative } from '../utils.js';
+import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.ts';
+import { prepareOptions } from '../../preparation/prepareOptions.ts';
+import { runTemplate } from '../../runners/runTemplate.ts';
+import { AnyShape } from '../../types/shapes.ts';
+import { RequestedSkips } from '../../types/skips.ts';
+import { Template } from '../../types/templates.ts';
+import { ClackDisplay } from '../display/createClackDisplay.ts';
+import { runSpinnerTask } from '../display/runSpinnerTask.ts';
+import { GitRepositoryType } from '../getGitRepositoryType.ts';
+import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
+import { logStartText } from '../loggers/logStartText.ts';
+import { CLIMessage } from '../messages.ts';
+import { parseZodArgs } from '../parsers/parseZodArgs.ts';
+import { promptForDirectory } from '../prompts/promptForDirectory.ts';
+import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
+import { prepareGitRepository } from '../repository/prepareGitRepository.ts';
+import { resolveLocalRepository } from '../repository/resolveLocalRepository.ts';
+import { CLIStatus } from '../status.ts';
+import { ModeResults } from '../types.ts';
+import { makeRelative } from '../utils.ts';
 
 export interface RunModeSetupSettings<
   OptionsShape extends AnyShape = AnyShape,

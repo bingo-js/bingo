@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { createBase } from '../creators/createBase.js';
-import { produceStratumTemplate } from './produceStratumTemplate.js';
+import { createBase } from '../creators/createBase.ts';
+import { produceStratumTemplate } from './produceStratumTemplate.ts';
 
 describe(produceStratumTemplate, () => {
   it('passes options to the preset when provided', () => {

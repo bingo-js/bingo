@@ -1,7 +1,7 @@
 import { describe, expect, it, test, vi } from 'vitest';
 
-import { BlockWithProps } from '../types/blocks.js';
-import { mergeExtensions } from './mergeProps.js';
+import { BlockWithProps } from '../types/blocks.ts';
+import { mergeExtensions } from './mergeProps.ts';
 
 const blockFirst: BlockWithProps<object, object> = Object.assign(vi.fn(), {
   about: { name: 'Block First' },

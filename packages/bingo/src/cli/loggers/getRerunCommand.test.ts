@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { getRerunCommand } from './getRerunCommand.js';
+import { getRerunCommand } from './getRerunCommand.ts';
 
 describe('getRerunCommand', () => {
   afterEach(() => {

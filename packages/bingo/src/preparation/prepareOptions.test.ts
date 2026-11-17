@@ -2,8 +2,8 @@ import { Octokit } from 'octokit';
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createTemplate } from '../creators/createTemplate.js';
-import { HasOptionsAndMaybePrepare, prepareOptions } from './prepareOptions.js';
+import { createTemplate } from '../creators/createTemplate.ts';
+import { HasOptionsAndMaybePrepare, prepareOptions } from './prepareOptions.ts';
 
 const system = {
   fetchers: {

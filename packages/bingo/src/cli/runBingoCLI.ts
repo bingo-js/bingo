@@ -2,14 +2,14 @@ import path from 'node:path';
 
 import * as prompts from '@clack/prompts';
 
-import { packageData } from '../packageData.js';
-import { runInsideClackDisplay } from './display/runInsideClackDisplay.js';
-import { tryImportTemplate } from './importers/tryImportTemplate.js';
-import { logHelpOptions } from './loggers/logHelpOptions.js';
-import { parseProcessArgv } from './parseProcessArgv.js';
-import { runCLI } from './runCLI.js';
-import { CLIStatus } from './status.js';
-import { makeRelative, quoteIfSpaced } from './utils.js';
+import { packageData } from '../packageData.ts';
+import { runInsideClackDisplay } from './display/runInsideClackDisplay.ts';
+import { tryImportTemplate } from './importers/tryImportTemplate.ts';
+import { logHelpOptions } from './loggers/logHelpOptions.ts';
+import { parseProcessArgv } from './parseProcessArgv.ts';
+import { runCLI } from './runCLI.ts';
+import { CLIStatus } from './status.ts';
+import { makeRelative, quoteIfSpaced } from './utils.ts';
 
 /**
  * Runs the full Bingo CLI, including reading process arguments.

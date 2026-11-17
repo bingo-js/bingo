@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { createWritingFileSystem } from './createWritingFileSystem.js';
+import { createWritingFileSystem } from './createWritingFileSystem.ts';
 
 const mockMkdir = vi.fn();
 const mockRm = vi.fn();

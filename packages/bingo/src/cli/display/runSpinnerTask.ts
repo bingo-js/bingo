@@ -2,8 +2,8 @@ import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
 
-import { tryCatchError } from '../../utils/tryCatch.js';
-import { ClackDisplay } from './createClackDisplay.js';
+import { tryCatchError } from '../../utils/tryCatch.ts';
+import { ClackDisplay } from './createClackDisplay.ts';
 
 export async function runSpinnerTask<T>(
   display: ClackDisplay,

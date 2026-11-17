@@ -1,7 +1,7 @@
 import { createInput } from 'bingo';
 import { z } from 'zod';
 
-import { fetchInit } from './fetchInit.js';
+import { fetchInit } from './fetchInit.ts';
 
 export const inputFromFetch = createInput({
   args: {

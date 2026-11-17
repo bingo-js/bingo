@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { getUnknownFlags } from './getUnknownFlags.js';
+import { getUnknownFlags } from './getUnknownFlags.ts';
 
 describe(getUnknownFlags, () => {
   it('returns an empty array when all flags are known CLI flags', () => {

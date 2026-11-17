@@ -1,7 +1,7 @@
 import hostedGitInfo from 'hosted-git-info';
 import { readPackage } from 'read-pkg';
 
-import { RepositoryLocator } from '../../types/templates.js';
+import { RepositoryLocator } from '../../types/templates.ts';
 
 export async function getForkedRepositoryLocator(directory: string, repository: RepositoryLocator) {
   const packageData = await readPackage({ cwd: directory });

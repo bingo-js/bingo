@@ -2,7 +2,7 @@ import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
 
-import { formatFlag } from './formatFlag.js';
+import { formatFlag } from './formatFlag.ts';
 
 export interface HelpOption {
   examples?: string[];

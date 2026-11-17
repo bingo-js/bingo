@@ -2,11 +2,11 @@ import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
 
-import { logOutro } from '../loggers/logOutro.js';
-import { CLIMessage } from '../messages.js';
-import { CLIStatus } from '../status.js';
-import { ModeResults } from '../types.js';
-import { ClackDisplay, createClackDisplay } from './createClackDisplay.js';
+import { logOutro } from '../loggers/logOutro.ts';
+import { CLIMessage } from '../messages.ts';
+import { CLIStatus } from '../status.ts';
+import { ModeResults } from '../types.ts';
+import { ClackDisplay, createClackDisplay } from './createClackDisplay.ts';
 
 export interface DisplayPackageData {
   name: string;

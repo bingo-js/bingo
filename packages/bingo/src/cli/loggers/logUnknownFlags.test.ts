@@ -3,7 +3,7 @@ import { styleText } from 'node:util';
 import * as prompts from '@clack/prompts';
 import { describe, expect, it, vi } from 'vitest';
 
-import { logUnknownFlags } from './logUnknownFlags.js';
+import { logUnknownFlags } from './logUnknownFlags.ts';
 
 vi.mock('@clack/prompts', () => ({
   log: {

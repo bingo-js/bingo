@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { makeRelative, quoteIfSpaced } from './utils.js';
+import { makeRelative, quoteIfSpaced } from './utils.ts';
 
 describe('makeRelative', () => {
   it.each([

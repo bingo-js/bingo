@@ -1,14 +1,14 @@
 import { BingoSystem } from 'bingo-systems';
 import { RepositoryLocator } from 'new-github-repository';
 
-import { AnyShape } from '../../types/shapes.js';
-import { Template } from '../../types/templates.js';
-import { ClackDisplay } from '../display/createClackDisplay.js';
-import { getGitRepositoryType, GitRepositoryType } from '../getGitRepositoryType.js';
-import { createRemoteRepository } from '../remotes/createRemoteRepository.js';
-import { resolveRemoteRepositoryFromOrigin } from '../remotes/resolveRemoteRepositoryFromOrigin.js';
-import { resolveRemoteRepositoryToCreate } from '../remotes/resolveRemoteRepositoryToCreate.js';
-import { PartialRepositoryLocator } from '../remotes/types.js';
+import { AnyShape } from '../../types/shapes.ts';
+import { Template } from '../../types/templates.ts';
+import { ClackDisplay } from '../display/createClackDisplay.ts';
+import { getGitRepositoryType, GitRepositoryType } from '../getGitRepositoryType.ts';
+import { createRemoteRepository } from '../remotes/createRemoteRepository.ts';
+import { resolveRemoteRepositoryFromOrigin } from '../remotes/resolveRemoteRepositoryFromOrigin.ts';
+import { resolveRemoteRepositoryToCreate } from '../remotes/resolveRemoteRepositoryToCreate.ts';
+import { PartialRepositoryLocator } from '../remotes/types.ts';
 
 export interface RemoteRepositoryRequest {
   offline?: boolean | undefined;

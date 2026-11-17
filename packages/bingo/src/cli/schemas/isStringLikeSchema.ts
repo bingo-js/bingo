@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { PromptFriendlyZodDef, ZodDefType } from './types.js';
+import { PromptFriendlyZodDef, ZodDefType } from './types.ts';
 
 export function isStringLikeSchema(schema: z.ZodType): boolean {
   const def = schema.def as unknown as PromptFriendlyZodDef;

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { mergePropsIfUpdated } from './mergePropsIfUpdated.js';
+import { mergePropsIfUpdated } from './mergePropsIfUpdated.ts';
 
 describe(mergePropsIfUpdated, () => {
   it.each([

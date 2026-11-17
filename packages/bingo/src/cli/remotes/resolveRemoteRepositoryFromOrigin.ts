@@ -2,7 +2,7 @@ import { SystemRunner } from 'bingo-systems';
 import gitUrlParse from 'git-url-parse';
 import { RepositoryLocator } from 'new-github-repository';
 
-import { tryCatchSafeSync } from '../../utils/tryCatch.js';
+import { tryCatchSafeSync } from '../../utils/tryCatch.ts';
 
 export async function resolveRemoteRepositoryFromOrigin(
   runner: SystemRunner,

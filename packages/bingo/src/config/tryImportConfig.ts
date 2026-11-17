@@ -1,5 +1,5 @@
-import { tryImportWithPredicate } from '../cli/tryImportWithPredicate.js';
-import { isTemplateConfig } from '../predicates/isTemplateConfig.js';
+import { tryImportWithPredicate } from '../cli/tryImportWithPredicate.ts';
+import { isTemplateConfig } from '../predicates/isTemplateConfig.ts';
 
 export async function tryImportConfig(configFile: string) {
   return await tryImportWithPredicate(

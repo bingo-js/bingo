@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { createSystemRunner } from './createSystemRunner.js';
+import { createSystemRunner } from './createSystemRunner.ts';
 
 const mockGetColorsEnv = vi.fn();
 

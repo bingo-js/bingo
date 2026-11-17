@@ -2,7 +2,7 @@ import { normalize } from 'node:path';
 
 import { describe, expect, it, vi } from 'vitest';
 
-import { applyFilesToSystem } from './applyFilesToSystem.js';
+import { applyFilesToSystem } from './applyFilesToSystem.ts';
 
 function createMockSystem() {
   return {

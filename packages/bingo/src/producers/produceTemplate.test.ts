@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { createTemplate } from '../creators/createTemplate.js';
-import { produceTemplate } from './produceTemplate.js';
+import { createTemplate } from '../creators/createTemplate.ts';
+import { produceTemplate } from './produceTemplate.ts';
 
 const template = createTemplate({
   about: { name: 'Test Template' },

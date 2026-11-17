@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { createTemplate } from '../../creators/createTemplate.js';
-import { readConfigSettings } from './readConfigSettings.js';
+import { createTemplate } from '../../creators/createTemplate.ts';
+import { readConfigSettings } from './readConfigSettings.ts';
 
 const mockTryImportConfig = vi.fn();
 

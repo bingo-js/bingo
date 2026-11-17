@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 
-import { isFile } from './isFile.js';
-import { CreatedEntry } from './types.js';
+import { isFile } from './isFile.ts';
+import { CreatedEntry } from './types.ts';
 
 describe('isFile', () => {
   test.each([

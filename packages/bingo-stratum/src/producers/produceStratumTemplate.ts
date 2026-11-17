@@ -1,11 +1,11 @@
 import { AnyShape, InferredObject, ProductionMode } from 'bingo';
 import { IntakeDirectory } from 'bingo-fs';
 
-import { StratumRefinements } from '../types/refinements.js';
-import { StratumTemplate } from '../types/templates.js';
-import { getPresetByName } from '../utils/getPresetByName.js';
-import { applyBlockRefinements } from './applyBlockRefinements.js';
-import { produceBlocks } from './produceBlocks.js';
+import { StratumRefinements } from '../types/refinements.ts';
+import { StratumTemplate } from '../types/templates.ts';
+import { getPresetByName } from '../utils/getPresetByName.ts';
+import { applyBlockRefinements } from './applyBlockRefinements.ts';
+import { produceBlocks } from './produceBlocks.ts';
 
 export interface ProduceStratumTemplateSettings<OptionsShape extends AnyShape> {
   /**

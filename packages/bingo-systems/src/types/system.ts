@@ -1,6 +1,6 @@
-import { SystemFetchers } from '../fetchers/types.js';
-import { WritingFileSystem } from '../files/types.js';
-import { SystemRunner } from '../runner/runner.js';
+import { SystemFetchers } from '../fetchers/types.ts';
+import { WritingFileSystem } from '../files/types.ts';
+import { SystemRunner } from '../runner/runner.ts';
 
 /**
  * Shared APIs used by Bingo preparers, producers, and runners.

@@ -4,7 +4,7 @@ import { CreatedDirectory } from 'bingo-fs';
 import c from 'tinyrainbow';
 import { describe, expect, test } from 'vitest';
 
-import { diffCreatedDirectory, DiffedCreatedDirectory } from './diffCreatedDirectory.js';
+import { diffCreatedDirectory, DiffedCreatedDirectory } from './diffCreatedDirectory.ts';
 
 function withoutColors(value: unknown): unknown {
   if (typeof value === 'string') {

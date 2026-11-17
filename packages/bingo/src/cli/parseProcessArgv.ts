@@ -1,6 +1,6 @@
 import { parseArgs } from 'node:util';
 
-import { cliArgsOptions } from './cliArgsOptions.js';
+import { cliArgsOptions } from './cliArgsOptions.ts';
 
 export interface RunCLIRawValues {
   directory?: boolean | string | undefined;

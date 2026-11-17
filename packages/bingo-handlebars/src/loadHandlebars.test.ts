@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { loadHandlebars } from './loadHandlebars.js';
+import { loadHandlebars } from './loadHandlebars.ts';
 
 const mockIntake = vi.fn();
 

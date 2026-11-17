@@ -5,8 +5,8 @@ import { Octokit } from 'octokit';
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createTemplate } from '../../creators/createTemplate.js';
-import { resolveRemoteRepositoryToCreate } from './resolveRemoteRepositoryToCreate.js';
+import { createTemplate } from '../../creators/createTemplate.ts';
+import { resolveRemoteRepositoryToCreate } from './resolveRemoteRepositoryToCreate.ts';
 
 const mockPromptForOptionSchema = vi.fn();
 

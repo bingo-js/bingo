@@ -1,6 +1,6 @@
-import { CreatedScript } from '../types/creations.js';
-import { SystemContext } from '../types/system.js';
-import { groupBy } from '../utils/groupBy.js';
+import { CreatedScript } from '../types/creations.ts';
+import { SystemContext } from '../types/system.ts';
+import { groupBy } from '../utils/groupBy.ts';
 
 export async function applyScriptsToSystem(
   scripts: CreatedScript[],

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { z } from 'zod';
 
-import { parseZodArgs } from './parseZodArgs.js';
+import { parseZodArgs } from './parseZodArgs.ts';
 
 describe('parseZodArgs', () => {
   test('boolean parsing success', () => {
@@ -81,6 +81,31 @@ describe('parseZodArgs', () => {
   test('object parsing failure', () => {
     const args = ['--value'];
     const options = { value: z.object({}) };
+
+    expect(parseZodArgs(args, options)).toEqual({ value: true });
+  });
+
+  test('array of strings parsing success', () => {
+    const args = ['--value', 'abc', '--value', 'def'];
+    const options = { value: z.array(z.string()) };
+
+    const actual = parseZodArgs(args, options);
+
+    expect(actual).toEqual({ value: ['abc', 'def'] });
+  });
+
+  test('optional array of strings parsing success', () => {
+    const args = ['--value', 'abc', '--value', 'def'];
+    const options = { value: z.array(z.string()).optional() };
+
+    const actual = parseZodArgs(args, options);
+
+    expect(actual).toEqual({ value: ['abc', 'def'] });
+  });
+
+  test('array of unsupported objects parsing failure', () => {
+    const args = ['--value'];
+    const options = { value: z.array(z.object({})) };
 
     expect(parseZodArgs(args, options)).toEqual({ value: true });
   });

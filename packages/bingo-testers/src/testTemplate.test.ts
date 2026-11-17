@@ -2,7 +2,7 @@ import { createTemplate } from 'bingo';
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { testTemplate } from './testTemplate.js';
+import { testTemplate } from './testTemplate.ts';
 
 describe('testTemplate', () => {
   describe('options', () => {
