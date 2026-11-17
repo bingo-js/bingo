@@ -2,4 +2,4 @@
 'bingo-stratum': patch
 ---
 
-Replace dots with dashes in slugifyName for valid CLI flags.
+Properly handle `add-*` and `remove-*` CLI flags for blocks with `.` in the name.  They're now replaced with `-`.
