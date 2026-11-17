@@ -1,5 +1,5 @@
-import { WritingFileSystem } from 'bingo-systems';
-import { Octokit } from 'octokit';
+import type { WritingFileSystem } from 'bingo-systems';
+import type { Octokit } from 'octokit';
 import { describe, expect, it, vi } from 'vitest';
 
 import { applyRequestsToSystem } from './applyRequestsToSystem.ts';

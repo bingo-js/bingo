@@ -1,13 +1,13 @@
-import { BingoSystem } from 'bingo-systems';
+import type { BingoSystem } from 'bingo-systems';
 
 import { createSystemContext } from '../contexts/createSystemContext.ts';
-import {
+import type {
   Input,
   InputContextWithArgs,
   InputContextWithoutArgs,
   ProvidedInputArgs,
 } from '../types/inputs.ts';
-import { AnyShape, InferredObject } from '../types/shapes.ts';
+import type { AnyShape, InferredObject } from '../types/shapes.ts';
 
 export interface RunInputSettings<Args extends object = object> extends Partial<BingoSystem> {
   args: Args;

@@ -1,6 +1,6 @@
 import hashObject from 'hash-object';
 
-import { CreatedScript, CreatedScriptWithOptions } from '../types/creations.ts';
+import type { CreatedScript, CreatedScriptWithOptions } from '../types/creations.ts';
 
 export function mergeScripts(first: CreatedScript[], second: CreatedScript[]): CreatedScript[] {
   const commandsByPhase = new Map<number | undefined, string[][]>();

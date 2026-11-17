@@ -1,5 +1,5 @@
 import { allPropertiesLazy } from 'all-properties-lazy';
-import { AnyShape, HasOptionsAndMaybePrepare, InferredObject, OptionsContext } from 'bingo';
+import type { AnyShape, HasOptionsAndMaybePrepare, InferredObject, OptionsContext } from 'bingo';
 
 import { createFailingFunction } from './utils.ts';
 

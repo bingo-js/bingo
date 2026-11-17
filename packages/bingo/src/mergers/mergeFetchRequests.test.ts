@@ -1,4 +1,4 @@
-import { CreatedFetchRequest } from 'bingo-requests';
+import type { CreatedFetchRequest } from 'bingo-requests';
 import { describe, expect, it } from 'vitest';
 
 import { mergeFetchRequests } from './mergeFetchRequests.ts';

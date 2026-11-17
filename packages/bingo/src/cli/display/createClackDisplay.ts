@@ -1,7 +1,7 @@
 import * as prompts from '@clack/prompts';
 import { CachedFactory } from 'cached-factory';
 
-import { Display, DisplayItem } from '../../contexts/createDisplay.ts';
+import type { Display, DisplayItem } from '../../contexts/createDisplay.ts';
 
 export interface ClackDisplay extends Display {
   dumpItems(): SystemItemsDump;

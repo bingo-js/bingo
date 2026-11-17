@@ -1,16 +1,16 @@
 import {
-  AnyShape,
+  type AnyShape,
   createSystemContextWithAuth,
-  InferredObject,
+  type InferredObject,
   runCreation,
-  RunTemplateSettings,
+  type RunTemplateSettings,
 } from 'bingo';
-import { IntakeDirectory } from 'bingo-fs';
+import type { IntakeDirectory } from 'bingo-fs';
 
 import { producePreset } from '../producers/producePreset.ts';
-import { BlockCreation } from '../types/creations.ts';
-import { Preset } from '../types/presets.ts';
-import { StratumRefinements } from '../types/refinements.ts';
+import type { BlockCreation } from '../types/creations.ts';
+import type { Preset } from '../types/presets.ts';
+import type { StratumRefinements } from '../types/refinements.ts';
 
 export interface RunPresetSettings<OptionsShape extends AnyShape> extends RunTemplateSettings<
   OptionsShape,

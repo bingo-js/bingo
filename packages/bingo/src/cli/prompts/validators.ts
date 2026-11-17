@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 
-import { z } from 'zod';
+import type { z } from 'zod';
 
 export const validateNewDirectory = (value?: string) => {
   if (value && fs.existsSync(value)) {

@@ -1,4 +1,4 @@
-import { IntakeDirectory } from 'bingo-fs';
+import type { IntakeDirectory } from 'bingo-fs';
 import { describe, expect, it } from 'vitest';
 
 import { getSourceFromDirectory } from './getSourceFromDirectory.ts';

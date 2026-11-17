@@ -1,7 +1,7 @@
 import * as path from 'node:path';
 
-import { CreatedDirectory } from 'bingo-fs';
-import { WritingFileSystem } from 'bingo-systems';
+import type { CreatedDirectory } from 'bingo-fs';
+import type { WritingFileSystem } from 'bingo-systems';
 
 export async function applyFilesToSystem(
   files: CreatedDirectory,

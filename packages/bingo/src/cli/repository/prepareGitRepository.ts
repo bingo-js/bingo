@@ -1,5 +1,5 @@
-import { SystemRunner } from 'bingo-systems';
-import { RepositoryLocator } from 'new-github-repository';
+import type { SystemRunner } from 'bingo-systems';
+import type { RepositoryLocator } from 'new-github-repository';
 
 import { clearLocalGitTags } from './clearLocalGitTags.ts';
 import { createInitialCommit } from './createInitialCommit.ts';

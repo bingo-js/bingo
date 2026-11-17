@@ -1,4 +1,4 @@
-import { Octokit, RequestError } from 'octokit';
+import { type Octokit, RequestError } from 'octokit';
 import { describe, expect, it, vi } from 'vitest';
 
 import { hasAccessToOwner } from './hasAccessToOwner.ts';

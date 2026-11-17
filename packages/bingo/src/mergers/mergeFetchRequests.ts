@@ -1,4 +1,4 @@
-import { CreatedFetchRequest } from 'bingo-requests';
+import type { CreatedFetchRequest } from 'bingo-requests';
 import { withoutUndefinedProperties } from 'without-undefined-properties';
 
 export function mergeFetchRequests(

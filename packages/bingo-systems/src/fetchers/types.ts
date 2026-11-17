@@ -1,4 +1,4 @@
-import { Octokit } from 'octokit';
+import type { Octokit } from 'octokit';
 
 /**
  * APIs to send network requests.

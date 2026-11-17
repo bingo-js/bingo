@@ -1,8 +1,8 @@
 import { createSystemContextWithAuth, runCreation } from 'bingo';
-import { BingoSystem } from 'bingo-systems';
+import type { BingoSystem } from 'bingo-systems';
 
 import { produceBlock } from '../producers/produceBlock.ts';
-import { BlockWithoutProps, BlockWithProps } from '../types/blocks.ts';
+import type { BlockWithoutProps, BlockWithProps } from '../types/blocks.ts';
 
 export type RunBlockSettings<
   Props extends object | undefined,

@@ -1,4 +1,4 @@
-import { WritingFileSystem } from 'bingo-systems';
+import type { WritingFileSystem } from 'bingo-systems';
 
 import { createFailingFunction } from './utils.ts';
 

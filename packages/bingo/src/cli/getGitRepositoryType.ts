@@ -1,4 +1,4 @@
-import { SystemRunner } from 'bingo-systems';
+import type { SystemRunner } from 'bingo-systems';
 
 export enum GitRepositoryType {
   None,

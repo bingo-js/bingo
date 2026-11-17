@@ -1,9 +1,9 @@
-import { AnyShape, InferredObject, InputWithArgs, TakeInput } from 'bingo';
-import { BingoSystem } from 'bingo-systems';
+import type { AnyShape, InferredObject, InputWithArgs, TakeInput } from 'bingo';
+import type { BingoSystem } from 'bingo-systems';
 
 import { createMockFetchers } from './createMockFetchers.ts';
 import { createMockFileSystem } from './createMockFileSystem.ts';
-import { MockSystemOptions } from './types.ts';
+import type { MockSystemOptions } from './types.ts';
 import { createFailingFunction } from './utils.ts';
 
 export interface MockSystems {

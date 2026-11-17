@@ -1,4 +1,4 @@
-import { Template } from '../types/templates.ts';
+import type { Template } from '../types/templates.ts';
 
 export function isTemplate(value: unknown): value is Template {
   return (

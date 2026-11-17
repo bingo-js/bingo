@@ -1,5 +1,5 @@
-import { CreatedRequest } from 'bingo-requests';
-import { SystemFetchers } from 'bingo-systems';
+import type { CreatedRequest } from 'bingo-requests';
+import type { SystemFetchers } from 'bingo-systems';
 
 export interface RequestSender {
   id: string;

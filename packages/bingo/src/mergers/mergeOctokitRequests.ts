@@ -1,4 +1,4 @@
-import { CreatedOctokitRequest } from 'bingo-requests';
+import type { CreatedOctokitRequest } from 'bingo-requests';
 import { withoutUndefinedProperties } from 'without-undefined-properties';
 
 export function mergeOctokitRequests(

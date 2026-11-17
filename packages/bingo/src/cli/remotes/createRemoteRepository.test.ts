@@ -1,10 +1,10 @@
 import { styleText } from 'node:util';
 
-import { BingoSystem } from 'bingo-systems';
+import type { BingoSystem } from 'bingo-systems';
 import { describe, expect, it, vi } from 'vitest';
 
-import { Template } from '../../types/templates.ts';
-import { ClackDisplay } from '../display/createClackDisplay.ts';
+import type { Template } from '../../types/templates.ts';
+import type { ClackDisplay } from '../display/createClackDisplay.ts';
 import { createRemoteRepository } from './createRemoteRepository.ts';
 
 const mockLog = {

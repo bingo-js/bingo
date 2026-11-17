@@ -1,8 +1,8 @@
 import { CachedFactory } from 'cached-factory';
 
 import { isBlockWithName } from '../creators/utils.ts';
-import { Block } from '../types/blocks.ts';
-import { BlockRefinements } from '../types/refinements.ts';
+import type { Block } from '../types/blocks.ts';
+import type { BlockRefinements } from '../types/refinements.ts';
 import { slugifyName } from '../utils/slugifyName.ts';
 
 interface BlockRefinement {

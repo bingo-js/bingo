@@ -2,14 +2,14 @@ import { styleText } from 'node:util';
 
 import { z } from 'zod';
 
-import { AnyShape } from '../types/shapes.ts';
-import { Template } from '../types/templates.ts';
-import { ClackDisplay } from './display/createClackDisplay.ts';
+import type { AnyShape } from '../types/shapes.ts';
+import type { Template } from '../types/templates.ts';
+import type { ClackDisplay } from './display/createClackDisplay.ts';
 import { getRerunCommand } from './loggers/getRerunCommand.ts';
 import { logHelpText } from './loggers/logHelpText.ts';
 import { logOutro } from './loggers/logOutro.ts';
 import { logUnknownFlags } from './loggers/logUnknownFlags.ts';
-import { RunCLIRawValues } from './parseProcessArgv.ts';
+import type { RunCLIRawValues } from './parseProcessArgv.ts';
 import { getUnknownFlags } from './parsers/getUnknownFlags.ts';
 import { readProductionSettings } from './readProductionSettings.ts';
 import { runModeSetup } from './setup/runModeSetup.ts';

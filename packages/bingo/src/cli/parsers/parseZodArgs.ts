@@ -2,14 +2,14 @@
 // https://github.com/bingo-js/bingo/issues/285
 import {
   parseArgs,
-  ParseArgsOptionDescriptor,
-  ParseArgsOptionsConfig,
-  ParseArgsOptionsType,
+  type ParseArgsOptionDescriptor,
+  type ParseArgsOptionsConfig,
+  type ParseArgsOptionsType,
 } from 'node:util';
 
-import { z } from 'zod';
+import type { z } from 'zod';
 
-import { AnyShape, InferredObject } from '../../types/shapes.ts';
+import type { AnyShape, InferredObject } from '../../types/shapes.ts';
 
 export function parseZodArgs<OptionsShape extends AnyShape>(
   args: string[],

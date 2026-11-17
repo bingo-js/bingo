@@ -2,11 +2,11 @@ import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
 
-import { AnyShape } from '../../types/shapes.ts';
-import { Template } from '../../types/templates.ts';
+import type { AnyShape } from '../../types/shapes.ts';
+import type { Template } from '../../types/templates.ts';
 import { CLIMessage } from '../messages.ts';
 import { CLIStatus } from '../status.ts';
-import { ModeResults } from '../types.ts';
+import type { ModeResults } from '../types.ts';
 import { logHelpOptions } from './logHelpOptions.ts';
 import { logSchemasHelpOptions } from './logSchemasHelpOptions.ts';
 

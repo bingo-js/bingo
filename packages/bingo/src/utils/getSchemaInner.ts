@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 
 /**
  * Unwraps any schema wrappers, such as defaults and optionals, from a schema.

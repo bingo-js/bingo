@@ -1,4 +1,4 @@
-import { SystemRunner } from 'bingo-systems';
+import type { SystemRunner } from 'bingo-systems';
 
 export async function clearLocalGitTags(runner: SystemRunner) {
   const tags = await runner('git tag -l');

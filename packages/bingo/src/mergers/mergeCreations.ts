@@ -1,6 +1,6 @@
 import { withoutUndefinedProperties } from 'without-undefined-properties';
 
-import { Creation } from '../types/creations.ts';
+import type { Creation } from '../types/creations.ts';
 import { applyMerger } from './applyMerger.ts';
 import { mergeCreatedDirectories } from './mergeCreatedDirectories.ts';
 import { mergeRequests } from './mergeRequests.ts';

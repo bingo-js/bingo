@@ -1,7 +1,7 @@
 import path from 'node:path';
 
 import { diffStringsUnified } from '@vitest/utils/diff';
-import { CreatedDirectory, CreatedEntry, CreatedFileMetadata } from 'bingo-fs';
+import type { CreatedDirectory, CreatedEntry, CreatedFileMetadata } from 'bingo-fs';
 import c from 'tinyrainbow';
 import { withoutUndefinedProperties } from 'without-undefined-properties';
 

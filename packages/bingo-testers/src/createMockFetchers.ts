@@ -1,7 +1,7 @@
-import { SystemFetchers } from 'bingo-systems';
+import type { SystemFetchers } from 'bingo-systems';
 import { Octokit } from 'octokit';
 
-import { Fetch } from './types.ts';
+import type { Fetch } from './types.ts';
 import { createFailingFunction } from './utils.ts';
 
 export function createMockFetchers(

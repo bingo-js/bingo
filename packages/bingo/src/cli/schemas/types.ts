@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 
 /**
  * The `def.type` values of the Zod schemas we know how to prompt for.

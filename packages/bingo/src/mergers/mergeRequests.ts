@@ -1,4 +1,4 @@
-import { CreatedFetchRequest, CreatedOctokitRequest, CreatedRequest } from 'bingo-requests';
+import type { CreatedFetchRequest, CreatedOctokitRequest, CreatedRequest } from 'bingo-requests';
 
 import { groupBy } from '../utils/groupBy.ts';
 import { mergeFetchRequests } from './mergeFetchRequests.ts';

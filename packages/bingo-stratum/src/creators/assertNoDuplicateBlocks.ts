@@ -1,4 +1,4 @@
-import { PresetDefinition } from '../types/presets.ts';
+import type { PresetDefinition } from '../types/presets.ts';
 import { getName } from '../utils/getName.ts';
 
 export function assertNoDuplicateBlocks<Options extends object>(

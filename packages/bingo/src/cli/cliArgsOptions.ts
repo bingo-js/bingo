@@ -1,4 +1,4 @@
-import { ParseArgsOptionsConfig } from 'node:util';
+import type { ParseArgsOptionsConfig } from 'node:util';
 
 export const cliArgsOptions = {
   directory: {

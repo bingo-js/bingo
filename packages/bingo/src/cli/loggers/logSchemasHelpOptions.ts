@@ -1,4 +1,4 @@
-import { AnyShape } from '../../types/shapes.ts';
+import type { AnyShape } from '../../types/shapes.ts';
 import { getSchemaDescription } from '../../utils/getSchemaDescription.ts';
 import { getSchemaTypeName } from '../../utils/getSchemaTypeName.ts';
 import { logHelpOptions } from './logHelpOptions.ts';

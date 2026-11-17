@@ -1,10 +1,10 @@
-import { AnyShape, InferredObject, ProduceTemplateSettings } from 'bingo';
-import { IntakeDirectory } from 'bingo-fs';
+import type { AnyShape, InferredObject, ProduceTemplateSettings } from 'bingo';
+import type { IntakeDirectory } from 'bingo-fs';
 
-import { BlockCreation } from '../types/creations.ts';
-import { Preset } from '../types/presets.ts';
-import { StratumRefinements } from '../types/refinements.ts';
-import { StratumTemplate } from '../types/templates.ts';
+import type { BlockCreation } from '../types/creations.ts';
+import type { Preset } from '../types/presets.ts';
+import type { StratumRefinements } from '../types/refinements.ts';
+import type { StratumTemplate } from '../types/templates.ts';
 import { applyBlockRefinements } from './applyBlockRefinements.ts';
 import { produceBlocks } from './produceBlocks.ts';
 

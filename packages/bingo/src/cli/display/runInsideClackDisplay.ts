@@ -5,8 +5,8 @@ import * as prompts from '@clack/prompts';
 import { logOutro } from '../loggers/logOutro.ts';
 import { CLIMessage } from '../messages.ts';
 import { CLIStatus } from '../status.ts';
-import { ModeResults } from '../types.ts';
-import { ClackDisplay, createClackDisplay } from './createClackDisplay.ts';
+import type { ModeResults } from '../types.ts';
+import { type ClackDisplay, createClackDisplay } from './createClackDisplay.ts';
 
 export interface DisplayPackageData {
   name: string;

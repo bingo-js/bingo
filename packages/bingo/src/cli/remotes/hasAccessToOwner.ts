@@ -1,4 +1,4 @@
-import { Octokit, RequestError } from 'octokit';
+import { type Octokit, RequestError } from 'octokit';
 
 // Only a definitive 404 proves a lack of access. Other failures, such as a token
 // without the read:org scope, defer to repository creation to report the reason.

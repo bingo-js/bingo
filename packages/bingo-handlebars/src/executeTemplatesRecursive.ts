@@ -1,4 +1,9 @@
-import { CreatedDirectory, CreatedEntry, CreatedFileEntry, CreatedFileMetadata } from 'bingo-fs';
+import type {
+  CreatedDirectory,
+  CreatedEntry,
+  CreatedFileEntry,
+  CreatedFileMetadata,
+} from 'bingo-fs';
 
 import { executeTemplate } from './executeTemplate.ts';
 

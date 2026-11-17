@@ -1,6 +1,6 @@
-import { CreatedDirectory } from 'bingo-fs';
-import { CreatedRequest } from 'bingo-requests';
-import { SystemFetchers } from 'bingo-systems';
+import type { CreatedDirectory } from 'bingo-fs';
+import type { CreatedRequest } from 'bingo-requests';
+import type { SystemFetchers } from 'bingo-systems';
 
 export type CreatedRequestSender = (fetchers: SystemFetchers) => Promise<void>;
 

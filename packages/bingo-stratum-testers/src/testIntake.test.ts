@@ -1,4 +1,4 @@
-import { IntakeFileEntry } from 'bingo-fs';
+import type { IntakeFileEntry } from 'bingo-fs';
 import { createBase } from 'bingo-stratum';
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';

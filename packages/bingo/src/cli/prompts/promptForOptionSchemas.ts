@@ -1,9 +1,9 @@
 import * as prompts from '@clack/prompts';
-import { z } from 'zod';
+import type { z } from 'zod';
 
-import { AnyShape, InferredObject } from '../../types/shapes.ts';
-import { SystemContext } from '../../types/system.ts';
-import { Template } from '../../types/templates.ts';
+import type { AnyShape, InferredObject } from '../../types/shapes.ts';
+import type { SystemContext } from '../../types/system.ts';
+import type { Template } from '../../types/templates.ts';
 import { getSchemaDefaultValue } from '../../utils/getSchemaDefaultValue.ts';
 import { getSchemaDescription } from '../../utils/getSchemaDescription.ts';
 import { promptForOptionSchema } from './promptForOptionSchema.ts';

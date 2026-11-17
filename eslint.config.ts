@@ -50,13 +50,13 @@ export default defineConfig(
       },
     },
     rules: {
-      // These on-by-default rules work well for this repo if configured
+      '@typescript-eslint/consistent-type-exports': 'error',
+      '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/no-unnecessary-condition': [
         'error',
         { allowConstantLoopConditions: 'only-allowed-literals' },
       ],
       '@typescript-eslint/no-unused-vars': ['error', { caughtErrors: 'all' }],
-      'jsdoc/informative-docs': 'error',
 
       // These on-by-default rules cause too much friction for this repo
       'no-undef': 'off',

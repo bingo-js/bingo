@@ -1,7 +1,7 @@
 import { styleText } from 'node:util';
 
-import { BingoSystem, WritingFileSystem } from 'bingo-systems';
-import { Octokit } from 'octokit';
+import type { BingoSystem, WritingFileSystem } from 'bingo-systems';
+import type { Octokit } from 'octokit';
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 

@@ -1,4 +1,4 @@
-import { CreatedDirectory } from 'bingo-fs';
+import type { CreatedDirectory } from 'bingo-fs';
 import { describe, expect, test } from 'vitest';
 
 import { mergeCreatedDirectories } from './mergeCreatedDirectories.ts';

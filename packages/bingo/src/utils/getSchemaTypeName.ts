@@ -1,6 +1,6 @@
 // TODO: Split Zod generation out into standalone package
 // https://github.com/bingo-js/bingo/issues/285
-import { z } from 'zod';
+import type { z } from 'zod';
 
 import { getSchemaInner } from './getSchemaInner.ts';
 

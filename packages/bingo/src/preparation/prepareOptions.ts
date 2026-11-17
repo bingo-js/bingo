@@ -1,11 +1,11 @@
 import { allPropertiesLazy } from 'all-properties-lazy';
-import { CreatedDirectory, intake } from 'bingo-fs';
-import { BingoSystem } from 'bingo-systems';
+import { type CreatedDirectory, intake } from 'bingo-fs';
+import type { BingoSystem } from 'bingo-systems';
 
-import { Display } from '../contexts/createDisplay.ts';
+import type { Display } from '../contexts/createDisplay.ts';
 import { createSystemContextWithAuth } from '../contexts/createSystemContextWithAuth.ts';
-import { LazyOptionalOptions, OptionsContext } from '../types/options.ts';
-import { AnyShape, InferredObject } from '../types/shapes.ts';
+import type { LazyOptionalOptions, OptionsContext } from '../types/options.ts';
+import type { AnyShape, InferredObject } from '../types/shapes.ts';
 
 /**
  * Any object that has options, and optionally a prepare function.

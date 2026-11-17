@@ -1,5 +1,5 @@
-import { IntakeDirectory } from 'bingo-fs';
-import { BlockWithProps, type StratumTemplateOptions } from 'bingo-stratum';
+import type { IntakeDirectory } from 'bingo-fs';
+import type { BlockWithProps, StratumTemplateOptions } from 'bingo-stratum';
 
 import { createFailingObject } from './utils.ts';
 

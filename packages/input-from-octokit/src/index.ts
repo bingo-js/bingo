@@ -1,6 +1,6 @@
-import { Endpoints, RequestParameters } from '@octokit/types';
-import { createInput, InputContextWithArgs } from 'bingo';
-import { GitHubEndpoint } from 'bingo-requests';
+import type { Endpoints, RequestParameters } from '@octokit/types';
+import { createInput, type InputContextWithArgs } from 'bingo';
+import type { GitHubEndpoint } from 'bingo-requests';
 import { z } from 'zod';
 
 /**

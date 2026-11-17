@@ -1,14 +1,14 @@
-import { AnyOptionalShape, AnyShape, InferredObject, TemplatePrepare } from 'bingo';
+import type { AnyOptionalShape, AnyShape, InferredObject, TemplatePrepare } from 'bingo';
 
-import {
+import type {
   BlockDefinitionWithoutProps,
   BlockDefinitionWithProps,
   BlockWithoutProps,
   BlockWithProps,
 } from './blocks.ts';
-import { Preset, PresetDefinition } from './presets.ts';
-import { StratumRefinements } from './refinements.ts';
-import { StratumTemplate, StratumTemplateDefinition } from './templates.ts';
+import type { Preset, PresetDefinition } from './presets.ts';
+import type { StratumRefinements } from './refinements.ts';
+import type { StratumTemplate, StratumTemplateDefinition } from './templates.ts';
 
 /**
  * Shared options and creator APIs to create a Template from Blocks and Presets.

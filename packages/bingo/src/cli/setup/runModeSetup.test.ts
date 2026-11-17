@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
 import { createTemplate } from '../../creators/createTemplate.ts';
-import { ClackDisplay } from '../display/createClackDisplay.ts';
+import type { ClackDisplay } from '../display/createClackDisplay.ts';
 import { GitRepositoryType } from '../getGitRepositoryType.ts';
 import { CLIMessage } from '../messages.ts';
 import { CLIStatus } from '../status.ts';

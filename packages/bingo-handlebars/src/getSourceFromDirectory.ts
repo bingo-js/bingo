@@ -1,4 +1,4 @@
-import { IntakeDirectory, IntakeEntry } from 'bingo-fs';
+import type { IntakeDirectory, IntakeEntry } from 'bingo-fs';
 
 export function getSourceFromDirectory(
   directoryPath: string,

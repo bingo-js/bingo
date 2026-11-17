@@ -1,14 +1,14 @@
 import {
-  BingoSystem,
+  type BingoSystem,
   createSystemFetchers,
   createSystemFetchersOffline,
   createSystemRunner,
   createWritingFileSystem,
 } from 'bingo-systems';
 
-import { InputWithArgs, TakeInput } from '../types/inputs.ts';
-import { AnyShape, InferredObject } from '../types/shapes.ts';
-import { createDisplay, Display } from './createDisplay.ts';
+import type { InputWithArgs, TakeInput } from '../types/inputs.ts';
+import type { AnyShape, InferredObject } from '../types/shapes.ts';
+import { createDisplay, type Display } from './createDisplay.ts';
 
 export interface SystemContextSettings extends Partial<BingoSystem> {
   auth?: string;

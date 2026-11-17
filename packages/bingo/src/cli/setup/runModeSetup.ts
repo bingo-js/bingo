@@ -6,10 +6,10 @@ import { z } from 'zod';
 import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.ts';
 import { prepareOptions } from '../../preparation/prepareOptions.ts';
 import { runTemplate } from '../../runners/runTemplate.ts';
-import { AnyShape } from '../../types/shapes.ts';
-import { RequestedSkips } from '../../types/skips.ts';
-import { Template } from '../../types/templates.ts';
-import { ClackDisplay } from '../display/createClackDisplay.ts';
+import type { AnyShape } from '../../types/shapes.ts';
+import type { RequestedSkips } from '../../types/skips.ts';
+import type { Template } from '../../types/templates.ts';
+import type { ClackDisplay } from '../display/createClackDisplay.ts';
 import { runSpinnerTask } from '../display/runSpinnerTask.ts';
 import { GitRepositoryType } from '../getGitRepositoryType.ts';
 import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
@@ -21,7 +21,7 @@ import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
 import { prepareGitRepository } from '../repository/prepareGitRepository.ts';
 import { resolveLocalRepository } from '../repository/resolveLocalRepository.ts';
 import { CLIStatus } from '../status.ts';
-import { ModeResults } from '../types.ts';
+import type { ModeResults } from '../types.ts';
 import { makeRelative } from '../utils.ts';
 
 export interface RunModeSetupSettings<

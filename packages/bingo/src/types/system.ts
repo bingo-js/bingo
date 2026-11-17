@@ -1,6 +1,6 @@
-import { BingoSystem } from 'bingo-systems';
+import type { BingoSystem } from 'bingo-systems';
 
-import { Display } from '../contexts/createDisplay.ts';
+import type { Display } from '../contexts/createDisplay.ts';
 
 /**
  * Internal context in Bingo areas that rely on a CLI-style directory or display.

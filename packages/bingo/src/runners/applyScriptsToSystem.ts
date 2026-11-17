@@ -1,5 +1,5 @@
-import { CreatedScript } from '../types/creations.ts';
-import { SystemContext } from '../types/system.ts';
+import type { CreatedScript } from '../types/creations.ts';
+import type { SystemContext } from '../types/system.ts';
 import { groupBy } from '../utils/groupBy.ts';
 
 export async function applyScriptsToSystem(

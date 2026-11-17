@@ -2,7 +2,7 @@ import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
 
-import { UnknownFlag } from '../parsers/getUnknownFlags.ts';
+import type { UnknownFlag } from '../parsers/getUnknownFlags.ts';
 
 export function logUnknownFlags(unknownFlags: UnknownFlag[]) {
   prompts.log.error(
