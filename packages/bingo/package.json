@@ -71,5 +71,8 @@
       ".": "./dist/index.mjs",
       "./package.json": "./package.json"
     }
+  },
+  "inlinedDependencies": {
+    "@octokit/request-error": "7.1.2"
   }
 }
