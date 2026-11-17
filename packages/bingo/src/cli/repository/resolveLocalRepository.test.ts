@@ -1,10 +1,10 @@
 import { BingoSystem } from 'bingo-systems';
 import { describe, expect, it, vi } from 'vitest';
 
-import { Template } from '../../types/templates.js';
-import { ClackDisplay } from '../display/createClackDisplay.js';
-import { GitRepositoryType } from '../getGitRepositoryType.js';
-import { resolveLocalRepository } from './resolveLocalRepository.js';
+import { Template } from '../../types/templates.ts';
+import { ClackDisplay } from '../display/createClackDisplay.ts';
+import { GitRepositoryType } from '../getGitRepositoryType.ts';
+import { resolveLocalRepository } from './resolveLocalRepository.ts';
 
 const mockGetGitRepositoryType = vi.fn();
 

@@ -1,8 +1,8 @@
 import { AboutBase, AnyOptionalShape, InferredObject } from 'bingo';
 import { IntakeDirectory } from 'bingo-fs';
 
-import { BlockCreation, CreatedBlockExtension } from './creations.js';
-import { StratumTemplateOptions } from './templates.js';
+import { BlockCreation, CreatedBlockExtension } from './creations.ts';
+import { StratumTemplateOptions } from './templates.ts';
 
 /**
  * Logic to create one portion of a repository.

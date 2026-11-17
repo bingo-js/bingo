@@ -2,8 +2,8 @@ import { Octokit } from 'octokit';
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createInput } from '../creators/createInput.js';
-import { createSystemContext } from './createSystemContext.js';
+import { createInput } from '../creators/createInput.ts';
+import { createSystemContext } from './createSystemContext.ts';
 
 const mockOfflineFetchers = {
   variant: 'offline',

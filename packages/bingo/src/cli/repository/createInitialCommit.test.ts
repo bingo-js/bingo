@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
 
-import { createInitialCommit } from './createInitialCommit.js';
+import { createInitialCommit } from './createInitialCommit.ts';
 
 describe('createInitialCommit', () => {
   test('runs without --amend when amend is falsy', async () => {

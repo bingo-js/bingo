@@ -2,7 +2,7 @@ import { createMockSystems, testInput } from 'bingo-testers';
 import { Octokit } from 'octokit';
 import { describe, expect, it, Mock, vi } from 'vitest';
 
-import { inputFromOctokit } from './index.js';
+import { inputFromOctokit } from './index.ts';
 
 const endpoint = 'GET /repos/{owner}/{repo}/labels';
 const options = { owner: 'TestOwner', repo: 'test-repo' };

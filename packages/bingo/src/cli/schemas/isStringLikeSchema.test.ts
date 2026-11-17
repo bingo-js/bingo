@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { z } from 'zod';
 
-import { isStringLikeSchema } from './isStringLikeSchema.js';
+import { isStringLikeSchema } from './isStringLikeSchema.ts';
 
 enum Value {
   A,

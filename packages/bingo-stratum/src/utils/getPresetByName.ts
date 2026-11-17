@@ -1,7 +1,7 @@
 import { AnyShape } from 'bingo';
 
-import { Preset } from '../types/presets.js';
-import { slugifyName } from './slugifyName.js';
+import { Preset } from '../types/presets.ts';
+import { slugifyName } from './slugifyName.ts';
 
 export function getPresetByName<OptionsShape extends AnyShape>(
   presets: Preset<OptionsShape>[],

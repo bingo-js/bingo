@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { createClackDisplay } from './createClackDisplay.js';
+import { createClackDisplay } from './createClackDisplay.ts';
 
 describe('createClackDisplay', () => {
   test('dumpItems', () => {

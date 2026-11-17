@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { applyMerger } from './applyMerger.js';
+import { applyMerger } from './applyMerger.ts';
 
 describe('applyMerger', () => {
   it('returns second when first is undefined', () => {

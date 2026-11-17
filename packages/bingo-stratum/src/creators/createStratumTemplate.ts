@@ -6,19 +6,19 @@ import { z } from 'zod';
 import {
   produceStratumTemplate,
   ProduceStratumTemplateSettings,
-} from '../producers/produceStratumTemplate.js';
-import { Base } from '../types/bases.js';
-import { StratumRefinements } from '../types/refinements.js';
+} from '../producers/produceStratumTemplate.ts';
+import { Base } from '../types/bases.ts';
+import { StratumRefinements } from '../types/refinements.ts';
 import {
   StratumTemplate,
   StratumTemplateDefinition,
   StratumTemplateOptionsShapeFor,
   ZodPresetNameLiterals,
-} from '../types/templates.js';
-import { createBlockRefinementOption } from '../utils/createBlockRefinementOption.js';
-import { slugifyName } from '../utils/slugifyName.js';
-import { inferExistingBlocks } from './inferExistingBlocks.js';
-import { isBlockWithName } from './utils.js';
+} from '../types/templates.ts';
+import { createBlockRefinementOption } from '../utils/createBlockRefinementOption.ts';
+import { slugifyName } from '../utils/slugifyName.ts';
+import { inferExistingBlocks } from './inferExistingBlocks.ts';
+import { isBlockWithName } from './utils.ts';
 
 export function createStratumTemplate<OptionsShape extends AnyShape>(
   base: Base<OptionsShape>,

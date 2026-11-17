@@ -1,4 +1,4 @@
-import { Base } from '../types/bases.js';
+import { Base } from '../types/bases.ts';
 
 export function isBase(value: unknown): value is Base {
   return (

@@ -1,4 +1,4 @@
-import { tryCatchError } from '../utils/tryCatch.js';
+import { tryCatchError } from '../utils/tryCatch.ts';
 
 export async function tryImportWithPredicate<T>(
   importer: (moduleName: string) => Promise<object>,

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { createTemplate } from '../../creators/createTemplate.js';
-import { promptForDirectory } from './promptForDirectory.js';
+import { createTemplate } from '../../creators/createTemplate.ts';
+import { promptForDirectory } from './promptForDirectory.ts';
 
 const mockCancel = Symbol('cancel');
 const mockText = vi.fn();

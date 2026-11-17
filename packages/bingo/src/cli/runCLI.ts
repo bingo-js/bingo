@@ -2,18 +2,18 @@ import { styleText } from 'node:util';
 
 import { z } from 'zod';
 
-import { Template } from '../types/templates.js';
-import { ClackDisplay } from './display/createClackDisplay.js';
-import { getRerunCommand } from './loggers/getRerunCommand.js';
-import { logHelpText } from './loggers/logHelpText.js';
-import { logOutro } from './loggers/logOutro.js';
-import { logUnknownFlags } from './loggers/logUnknownFlags.js';
-import { RunCLIRawValues } from './parseProcessArgv.js';
-import { getUnknownFlags } from './parsers/getUnknownFlags.js';
-import { readProductionSettings } from './readProductionSettings.js';
-import { runModeSetup } from './setup/runModeSetup.js';
-import { CLIStatus } from './status.js';
-import { runModeTransition } from './transition/runModeTransition.js';
+import { Template } from '../types/templates.ts';
+import { ClackDisplay } from './display/createClackDisplay.ts';
+import { getRerunCommand } from './loggers/getRerunCommand.ts';
+import { logHelpText } from './loggers/logHelpText.ts';
+import { logOutro } from './loggers/logOutro.ts';
+import { logUnknownFlags } from './loggers/logUnknownFlags.ts';
+import { RunCLIRawValues } from './parseProcessArgv.ts';
+import { getUnknownFlags } from './parsers/getUnknownFlags.ts';
+import { readProductionSettings } from './readProductionSettings.ts';
+import { runModeSetup } from './setup/runModeSetup.ts';
+import { CLIStatus } from './status.ts';
+import { runModeTransition } from './transition/runModeTransition.ts';
 
 const valuesSchema = z.object({
   directory: z.string().optional(),

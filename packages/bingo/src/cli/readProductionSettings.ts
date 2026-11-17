@@ -1,9 +1,9 @@
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
 
-import { ProductionMode } from '../types/modes.js';
-import { tryCatchSafe } from '../utils/tryCatch.js';
-import { ProductionSettings } from './types.js';
+import { ProductionMode } from '../types/modes.ts';
+import { tryCatchSafe } from '../utils/tryCatch.ts';
+import { ProductionSettings } from './types.ts';
 
 export interface ReadProductionSettingsOptions {
   directory?: string;

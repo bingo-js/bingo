@@ -2,7 +2,7 @@ import { Readable } from 'node:stream';
 
 import { describe, expect, it, vi } from 'vitest';
 
-import { createReadingFileSystem } from './createReadingFileSystem.js';
+import { createReadingFileSystem } from './createReadingFileSystem.ts';
 
 const mockGlob = vi.fn();
 const mockReaddir = vi.fn();

@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
 
-import { createTrackingBranches } from './createTrackingBranches.js';
+import { createTrackingBranches } from './createTrackingBranches.ts';
 
 describe('createTrackingBranches', () => {
   test('commands', async () => {

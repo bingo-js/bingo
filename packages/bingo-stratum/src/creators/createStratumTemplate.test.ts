@@ -5,7 +5,7 @@ import { produceTemplate } from 'bingo';
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createBase } from './createBase.js';
+import { createBase } from './createBase.ts';
 
 const mockInferExistingBlocks = vi.fn();
 

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { isModeExecutable } from './isModeExecutable.js';
+import { isModeExecutable } from './isModeExecutable.ts';
 
 describe('isModeExecutable', () => {
   test.each([

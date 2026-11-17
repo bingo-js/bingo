@@ -2,13 +2,13 @@ import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
 
-import { packageData } from '../packageData.js';
-import { Template } from '../types/templates.js';
-import { DisplayPackageData, runInsideClackDisplay } from './display/runInsideClackDisplay.js';
-import { getTemplatePackageData } from './getTemplatePackageData.js';
-import { parseProcessArgv } from './parseProcessArgv.js';
-import { runCLI } from './runCLI.js';
-import { CLIStatus } from './status.js';
+import { packageData } from '../packageData.ts';
+import { Template } from '../types/templates.ts';
+import { DisplayPackageData, runInsideClackDisplay } from './display/runInsideClackDisplay.ts';
+import { getTemplatePackageData } from './getTemplatePackageData.ts';
+import { parseProcessArgv } from './parseProcessArgv.ts';
+import { runCLI } from './runCLI.ts';
+import { CLIStatus } from './status.ts';
 
 /**
  * Runs an interactive CLI to generate and apply a template's output.

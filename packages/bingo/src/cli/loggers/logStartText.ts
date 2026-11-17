@@ -2,7 +2,7 @@ import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
 
-import { ProductionMode } from '../../types/modes.js';
+import { ProductionMode } from '../../types/modes.ts';
 
 export function logStartText(mode: ProductionMode, offline: boolean | undefined) {
   prompts.log.step(`Running with mode --${mode}`);

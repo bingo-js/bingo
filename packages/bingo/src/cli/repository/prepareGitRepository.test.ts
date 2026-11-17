@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { prepareGitRepository } from './prepareGitRepository.js';
+import { prepareGitRepository } from './prepareGitRepository.ts';
 
 const mockCreateInitialCommit = vi.fn();
 

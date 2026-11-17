@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 
-import { createBase } from '../creators/createBase.js';
-import { isBase } from './isBase.js';
+import { createBase } from '../creators/createBase.ts';
+import { isBase } from './isBase.ts';
 
 const base = createBase({
   options: {},

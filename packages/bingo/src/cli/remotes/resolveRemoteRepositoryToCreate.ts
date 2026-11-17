@@ -4,11 +4,11 @@ import * as prompts from '@clack/prompts';
 import { BingoSystem, SystemRunner } from 'bingo-systems';
 import { Octokit } from 'octokit';
 
-import { RepositoryLocator, Template } from '../../types/templates.js';
-import { promptForOptionSchema } from '../prompts/promptForOptionSchema.js';
-import { isStringLikeSchema } from '../schemas/isStringLikeSchema.js';
-import { hasAccessToOwner } from './hasAccessToOwner.js';
-import { PartialRepositoryLocator } from './types.js';
+import { RepositoryLocator, Template } from '../../types/templates.ts';
+import { promptForOptionSchema } from '../prompts/promptForOptionSchema.ts';
+import { isStringLikeSchema } from '../schemas/isStringLikeSchema.ts';
+import { hasAccessToOwner } from './hasAccessToOwner.ts';
+import { PartialRepositoryLocator } from './types.ts';
 
 export async function resolveRemoteRepositoryToCreate(
   locator: PartialRepositoryLocator,

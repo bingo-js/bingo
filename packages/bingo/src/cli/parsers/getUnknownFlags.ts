@@ -1,5 +1,5 @@
-import { AnyShape } from '../../types/shapes.js';
-import { cliArgsOptions } from '../cliArgsOptions.js';
+import { AnyShape } from '../../types/shapes.ts';
+import { cliArgsOptions } from '../cliArgsOptions.ts';
 
 export interface UnknownFlag {
   flag: string;

@@ -8,7 +8,7 @@ import {
   type StratumTemplateOptions,
 } from 'bingo-stratum';
 
-import { createFailingObject } from './utils.js';
+import { createFailingObject } from './utils.ts';
 
 export interface BlockContextSettingsWithOptionalProps<
   Props extends object,

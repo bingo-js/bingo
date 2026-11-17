@@ -2,10 +2,10 @@ import { styleText } from 'node:util';
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { createTemplate } from '../creators/createTemplate.js';
-import { createClackDisplay } from './display/createClackDisplay.js';
-import { runCLI } from './runCLI.js';
-import { CLIStatus } from './status.js';
+import { createTemplate } from '../creators/createTemplate.ts';
+import { createClackDisplay } from './display/createClackDisplay.ts';
+import { runCLI } from './runCLI.ts';
+import { CLIStatus } from './status.ts';
 
 const mockLogHelpText = vi.fn();
 

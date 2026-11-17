@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { createTemplate } from '../creators/createTemplate.js';
-import { runTemplateCLI } from './runTemplateCLI.js';
-import { CLIStatus } from './status.js';
+import { createTemplate } from '../creators/createTemplate.ts';
+import { runTemplateCLI } from './runTemplateCLI.ts';
+import { CLIStatus } from './status.ts';
 
 const mockLog = {
   error: vi.fn(),
@@ -20,6 +20,7 @@ vi.mock('@clack/prompts', () => ({
     cancel: vi.fn(),
     start: vi.fn(),
   }),
+  text: vi.fn(),
 }));
 
 vi.mock('bingo-fs');

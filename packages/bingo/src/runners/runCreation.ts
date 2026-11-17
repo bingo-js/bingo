@@ -1,9 +1,9 @@
-import { Creation } from '../types/creations.js';
-import { RequestedSkips } from '../types/skips.js';
-import { SystemContext } from '../types/system.js';
-import { applyFilesToSystem } from './applyFilesToSystem.js';
-import { applyRequestsToSystem } from './applyRequestsToSystem.js';
-import { applyScriptsToSystem } from './applyScriptsToSystem.js';
+import { Creation } from '../types/creations.ts';
+import { RequestedSkips } from '../types/skips.ts';
+import { SystemContext } from '../types/system.ts';
+import { applyFilesToSystem } from './applyFilesToSystem.ts';
+import { applyRequestsToSystem } from './applyRequestsToSystem.ts';
+import { applyScriptsToSystem } from './applyScriptsToSystem.ts';
 
 export interface ApplyCreationSettings {
   offline?: boolean;

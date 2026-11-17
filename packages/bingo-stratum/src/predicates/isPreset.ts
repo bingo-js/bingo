@@ -1,6 +1,6 @@
-import { Preset } from '../types/presets.js';
-import { isBase } from './isBase.js';
-import { isPresetAbout } from './isPresetAbout.js';
+import { Preset } from '../types/presets.ts';
+import { isBase } from './isBase.ts';
+import { isPresetAbout } from './isPresetAbout.ts';
 
 export function isPreset(value: unknown): value is Preset {
   return (

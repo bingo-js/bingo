@@ -1,8 +1,8 @@
 import { AnyShape, InferredObject } from 'bingo';
 
-import { Base } from '../types/bases.js';
-import { Preset, PresetDefinition } from '../types/presets.js';
-import { assertNoDuplicateBlocks } from './assertNoDuplicateBlocks.js';
+import { Base } from '../types/bases.ts';
+import { Preset, PresetDefinition } from '../types/presets.ts';
+import { assertNoDuplicateBlocks } from './assertNoDuplicateBlocks.ts';
 
 export function createPreset<OptionsShape extends AnyShape>(
   base: Base<OptionsShape>,

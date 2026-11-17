@@ -1,7 +1,7 @@
 import { CreatedRequest } from 'bingo-requests';
 
-import { SystemContext } from '../types/system.js';
-import { getRequestSender } from './getRequestSender.js';
+import { SystemContext } from '../types/system.ts';
+import { getRequestSender } from './getRequestSender.ts';
 
 export async function applyRequestsToSystem(requests: CreatedRequest[], system: SystemContext) {
   await Promise.all(

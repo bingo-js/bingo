@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { createTemplate } from '../../creators/createTemplate.js';
-import { templateMismatchError } from './templateMismatchError.js';
+import { createTemplate } from '../../creators/createTemplate.ts';
+import { templateMismatchError } from './templateMismatchError.ts';
 
 const templateAnonymousA = createTemplate({
   produce: vi.fn(),

@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import { describe, expect, it, vi } from 'vitest';
 
-import { readProductionSettings } from './readProductionSettings.js';
+import { readProductionSettings } from './readProductionSettings.ts';
 
 const mockReaddir = vi.fn();
 

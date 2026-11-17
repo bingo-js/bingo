@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { createBlock } from './createBlock.js';
+import { createBlock } from './createBlock.ts';
 
 describe(createBlock, () => {
   describe('without Props', () => {

@@ -3,7 +3,7 @@ import { createBase } from 'bingo-stratum';
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { testIntake } from './testIntake.js';
+import { testIntake } from './testIntake.ts';
 
 const base = createBase({
   options: {

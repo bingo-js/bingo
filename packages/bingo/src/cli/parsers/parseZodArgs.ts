@@ -9,7 +9,7 @@ import {
 
 import { z } from 'zod';
 
-import { AnyShape, InferredObject } from '../../types/shapes.js';
+import { AnyShape, InferredObject } from '../../types/shapes.ts';
 
 export function parseZodArgs<OptionsShape extends AnyShape>(
   args: string[],
@@ -36,6 +36,17 @@ function zodValueToArgsOption(key: string, zodValue: z.ZodType): Error | ParseAr
   const def = zodValue.def;
 
   switch (def.type) {
+    case 'array': {
+      const inner = zodValueToArgsOption(key, (def as z.core.$ZodArrayDef).element as z.ZodType);
+      if (inner instanceof Error) {
+        return inner;
+      }
+      return {
+        ...inner,
+        multiple: true,
+      };
+    }
+
     case 'boolean':
     case 'literal':
     case 'string':

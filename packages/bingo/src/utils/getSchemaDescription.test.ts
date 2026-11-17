@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { getSchemaDescription } from './getSchemaDescription.js';
+import { getSchemaDescription } from './getSchemaDescription.ts';
 
 describe(getSchemaDescription, () => {
   it('returns undefined when the schema has no description', () => {

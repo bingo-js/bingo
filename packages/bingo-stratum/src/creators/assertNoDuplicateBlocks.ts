@@ -1,5 +1,5 @@
-import { PresetDefinition } from '../types/presets.js';
-import { getName } from '../utils/getName.js';
+import { PresetDefinition } from '../types/presets.ts';
+import { getName } from '../utils/getName.ts';
 
 export function assertNoDuplicateBlocks<Options extends object>(
   presetDefinition: PresetDefinition<Options>,
