@@ -11,7 +11,6 @@ import type { RequestedSkips } from '../../types/skips.ts';
 import type { Template } from '../../types/templates.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
 import { runSpinnerTask } from '../display/runSpinnerTask.ts';
-import { GitRepositoryType } from '../getGitRepositoryType.ts';
 import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
 import { logStartText } from '../loggers/logStartText.ts';
 import { CLIMessage } from '../messages.ts';
@@ -159,7 +158,7 @@ export async function runModeSetup<
   }
 
   const preparationError =
-    repositoryType !== GitRepositoryType.Subdirectory &&
+    repositoryType !== 'subdirectory' &&
     (await runSpinnerTask(
       display,
       'Preparing local Git repository',
@@ -169,7 +168,7 @@ export async function runModeSetup<
       },
     ));
 
-  if (!remote && repositoryType !== GitRepositoryType.Subdirectory) {
+  if (!remote && repositoryType !== 'subdirectory') {
     prompts.log.info(
       [
         `Run ${styleText('blue', `${rerunCommand} --remote`)} in ${styleText('green', makeRelative(directory))}`,

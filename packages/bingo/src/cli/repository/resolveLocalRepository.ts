@@ -4,7 +4,7 @@ import type { RepositoryLocator } from 'new-github-repository';
 import type { AnyShape } from '../../types/shapes.ts';
 import type { Template } from '../../types/templates.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
-import { getGitRepositoryType, GitRepositoryType } from '../getGitRepositoryType.ts';
+import { getGitRepositoryType, type GitRepositoryType } from '../getGitRepositoryType.ts';
 import { createRemoteRepository } from '../remotes/createRemoteRepository.ts';
 import { resolveRemoteRepositoryFromOrigin } from '../remotes/resolveRemoteRepositoryFromOrigin.ts';
 import { resolveRemoteRepositoryToCreate } from '../remotes/resolveRemoteRepositoryToCreate.ts';
@@ -45,7 +45,7 @@ export async function resolveLocalRepository<
     };
   }
 
-  if (repositoryType === GitRepositoryType.Subdirectory) {
+  if (repositoryType === 'subdirectory') {
     return {
       remote: request.remote
         ? new Error(
@@ -57,8 +57,7 @@ export async function resolveLocalRepository<
   }
 
   const origin =
-    repositoryType === GitRepositoryType.Root &&
-    (await resolveRemoteRepositoryFromOrigin(system.runner));
+    repositoryType === 'root' && (await resolveRemoteRepositoryFromOrigin(system.runner));
 
   if (origin) {
     if (request.remote) {

@@ -5,7 +5,6 @@ import { z } from 'zod';
 
 import { createTemplate } from '../../creators/createTemplate.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
-import { GitRepositoryType } from '../getGitRepositoryType.ts';
 import { CLIMessage } from '../messages.ts';
 import { CLIStatus } from '../status.ts';
 import { runModeSetup } from './runModeSetup.ts';
@@ -322,7 +321,7 @@ describe(runModeSetup, () => {
     });
     mockResolveLocalRepository.mockResolvedValueOnce({
       remote,
-      repositoryType: GitRepositoryType.None,
+      repositoryType: 'none',
     });
     mockRunTemplate.mockResolvedValueOnce({ creation: {} });
 
@@ -346,7 +345,7 @@ describe(runModeSetup, () => {
     });
     mockResolveLocalRepository.mockResolvedValueOnce({
       remote,
-      repositoryType: GitRepositoryType.Subdirectory,
+      repositoryType: 'subdirectory',
     });
     mockRunTemplate.mockResolvedValueOnce({ creation: {} });
 
@@ -371,7 +370,7 @@ describe(runModeSetup, () => {
     });
     mockResolveLocalRepository.mockResolvedValueOnce({
       remote: { owner: 'user', repository: 'repo' },
-      repositoryType: GitRepositoryType.None,
+      repositoryType: 'none',
     });
     mockRunTemplate.mockResolvedValueOnce({ creation: {} });
     mockPrepareGitRepository.mockRejectedValueOnce(preparationError);
