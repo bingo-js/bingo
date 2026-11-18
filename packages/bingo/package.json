@@ -25,9 +25,10 @@
     ".": "./src/index.ts",
     "./package.json": "./package.json"
   },
-  "bin": "./bin/index.js",
+  "bin": {
+    "bingo": "./src/bin/index.ts"
+  },
   "files": [
-    "bin/",
     "dist/"
   ],
   "dependencies": {
@@ -67,6 +68,9 @@
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
   "publishConfig": {
+    "bin": {
+      "bingo": "./dist/bin/index.mjs"
+    },
     "exports": {
       ".": "./dist/index.mjs",
       "./package.json": "./package.json"
