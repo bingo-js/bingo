@@ -58,8 +58,8 @@ describe(createBlock, () => {
       );
 
       const production = block.produce({
-        options: { name: 'abc', preset: 'test' },
         props: { names: ['def'] },
+        options: { name: 'abc', preset: 'test' },
       });
 
       expect(production).toEqual({});
@@ -69,10 +69,10 @@ describe(createBlock, () => {
       const block = createBlock<{ names: z.ZodDefault<z.ZodArray<z.ZodString>> }, { name: string }>(
         {
           about: { name: 'Example' },
-          produce: () => ({}),
           props: {
             names: z.array(z.string()).default([]),
           },
+          produce: () => ({}),
         },
       );
 
@@ -91,10 +91,10 @@ describe(createBlock, () => {
     it('snapshots the Block as-is when the Block has no about name', () => {
       const block = createBlock<{ names: z.ZodDefault<z.ZodArray<z.ZodString>> }, { name: string }>(
         {
-          produce: () => ({}),
           props: {
             names: z.array(z.string()).default([]),
           },
+          produce: () => ({}),
         },
       );
 
@@ -113,6 +113,9 @@ describe(createBlock, () => {
     it('applies Zod defaults when producing with Props', () => {
       const block = createBlock<{ names: z.ZodDefault<z.ZodArray<z.ZodString>> }, { name: string }>(
         {
+          props: {
+            names: z.array(z.string()).default([]),
+          },
           produce({ options, props }) {
             const { names } = props;
 
@@ -122,15 +125,12 @@ describe(createBlock, () => {
               },
             };
           },
-          props: {
-            names: z.array(z.string()).default([]),
-          },
         },
       );
 
       const production = block.produce({
-        options: { name: 'abc', preset: 'test' },
         props: { names: ['def'] },
+        options: { name: 'abc', preset: 'test' },
       });
 
       expect(production).toEqual({
@@ -152,8 +152,8 @@ describe(createBlock, () => {
 
       expect(() =>
         block.produce({
-          options: { name: 'abc', preset: 'test' },
           props: { names: [], unknown: true } as { names: string[] },
+          options: { name: 'abc', preset: 'test' },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`[Error: Unknown Prop(s) for Block Example: unknown.]`);
     });
@@ -169,8 +169,8 @@ describe(createBlock, () => {
 
       expect(() =>
         block.produce({
-          options: { name: 'abc', preset: 'test' },
           props: { names: [], unknown: true } as { names: string[] },
+          options: { name: 'abc', preset: 'test' },
         }),
       ).toThrowErrorMatchingInlineSnapshot(`[Error: Unknown Prop(s) for Block: unknown.]`);
     });
@@ -180,11 +180,11 @@ describe(createBlock, () => {
         { names: z.ZodDefault<z.ZodArray<z.ZodString>> },
         { name: string }
       >({
-        produce() {
-          return {};
-        },
         props: {
           names: z.array(z.string()).default([]),
+        },
+        produce() {
+          return {};
         },
       });
       const blockProviding = createBlock<{ name: string }>({

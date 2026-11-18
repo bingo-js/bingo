@@ -27,10 +27,10 @@ const blockC = base.createBlock({
 
 const blockWithProps = base.createBlock({
   about: { name: 'With Props' },
-  produce: vi.fn(),
   props: {
     names: z.array(z.string()).default([]),
   },
+  produce: vi.fn(),
 });
 
 const blocksAvailable = [blockA, blockB, blockC];

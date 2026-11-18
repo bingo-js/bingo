@@ -35,15 +35,15 @@ describe(testBlock, () => {
 
   describe('props', () => {
     const blockUsingProps = base.createBlock({
+      props: {
+        value: z.string().optional(),
+      },
       produce({ props }) {
         return {
           files: {
             'value.txt': props.value ?? 'default',
           },
         };
-      },
-      props: {
-        value: z.string().optional(),
       },
     });
 

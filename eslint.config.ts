@@ -35,7 +35,6 @@ export default defineConfig(
       jsdoc.configs['flat/contents-typescript-error'],
       jsdoc.configs['flat/logical-typescript-error'],
       jsdoc.configs['flat/stylistic-typescript-error'],
-      perfectionist.configs['recommended-natural'],
       regexp.configs['flat/recommended'],
       tseslint.configs.strictTypeChecked,
       tseslint.configs.stylisticTypeChecked,
@@ -46,6 +45,7 @@ export default defineConfig(
         projectService: true,
       },
     },
+    plugins: { perfectionist },
     rules: {
       '@typescript-eslint/consistent-type-exports': 'error',
       '@typescript-eslint/consistent-type-imports': 'error',
@@ -54,6 +54,9 @@ export default defineConfig(
         { allowConstantLoopConditions: 'only-allowed-literals' },
       ],
       '@typescript-eslint/no-unused-vars': ['error', { caughtErrors: 'all' }],
+      'perfectionist/sort-exports': 'error',
+      'perfectionist/sort-named-exports': 'error',
+      'perfectionist/sort-named-imports': 'error',
 
       // These on-by-default rules cause too much friction for this repo
       'no-undef': 'off',
@@ -63,8 +66,6 @@ export default defineConfig(
       'no-useless-rename': 'error',
       'object-shorthand': 'error',
       'operator-assignment': 'error',
-      'perfectionist/sort-imports': 'off',
-      'perfectionist/sort-objects': 'off',
     },
     settings: { perfectionist: { partitionByComment: true, type: 'natural' } },
   },

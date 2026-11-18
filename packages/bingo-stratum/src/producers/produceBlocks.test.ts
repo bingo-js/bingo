@@ -40,13 +40,13 @@ describe(produceBlocks, () => {
       about: {
         name: 'Example Block',
       },
+      props: {
+        extra: z.string().optional(),
+      },
       produce({ options, props }) {
         return {
           files: { 'README.md': [options.value, props.extra].join('\n') },
         };
-      },
-      props: {
-        extra: z.string().optional(),
       },
     });
 
@@ -67,6 +67,9 @@ describe(produceBlocks, () => {
       about: {
         name: 'Example Block',
       },
+      props: {
+        extra: z.string().optional(),
+      },
       intake({ files }) {
         return {
           extra: (files['README.md'] as IntakeFileEntry)[0].split('\n').at(-1),
@@ -76,9 +79,6 @@ describe(produceBlocks, () => {
         return {
           files: { 'README.md': [options.value, props.extra].join('\n') },
         };
-      },
-      props: {
-        extra: z.string().optional(),
       },
     });
 
@@ -107,6 +107,7 @@ describe(produceBlocks, () => {
       about: {
         name: 'Example Block',
       },
+      props: propsSchema,
       intake() {
         return {
           a: 'intake a',
@@ -120,7 +121,6 @@ describe(produceBlocks, () => {
           },
         };
       },
-      props: propsSchema,
     });
 
     const result = produceBlocks([block], {
@@ -157,10 +157,10 @@ describe(produceBlocks, () => {
       about: {
         name: 'Unknown Block',
       },
-      produce: vi.fn(),
       props: {
         extra: z.string().optional(),
       },
+      produce: vi.fn(),
     });
 
     const result = produceBlocks([blockKnown], {
@@ -180,13 +180,13 @@ describe(produceBlocks, () => {
       about: {
         name: 'Receiving Block',
       },
+      props: {
+        lines: z.array(z.string()).default([]),
+      },
       produce({ props }) {
         return {
           files: { 'README.md': props.lines.join('\n') },
         };
-      },
-      props: {
-        lines: z.array(z.string()).default([]),
       },
     });
 
@@ -219,13 +219,13 @@ describe(produceBlocks, () => {
       about: {
         name: 'Receiving Block',
       },
+      props: {
+        nested: z.object({ value: z.string() }).optional(),
+      },
       produce({ props }) {
         return {
           files: { 'README.md': props.nested?.value },
         };
-      },
-      props: {
-        nested: z.object({ value: z.string() }).optional(),
       },
     });
 
@@ -262,13 +262,13 @@ describe(produceBlocks, () => {
 
   it("describes Blocks as anonymous in merge errors when they don't have names", () => {
     const blockReceiving = base.createBlock({
+      props: {
+        value: z.string().optional(),
+      },
       produce({ props }) {
         return {
           files: { 'README.md': props.value },
         };
-      },
-      props: {
-        value: z.string().optional(),
       },
     });
 
