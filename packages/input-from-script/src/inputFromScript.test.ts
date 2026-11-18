@@ -1,7 +1,7 @@
 import { testInput } from 'bingo-testers';
 import { describe, expect, it, vi } from 'vitest';
 
-import { inputFromScript } from './index.ts';
+import { inputFromScript } from './inputFromScript.ts';
 
 describe('inputFromScript', () => {
   it('returns the result from running the command', async () => {

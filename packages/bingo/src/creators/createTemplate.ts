@@ -1,5 +1,3 @@
-// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-/* eslint-disable @typescript-eslint/no-empty-object-type */
 import type { AnyShape } from '../types/shapes.ts';
 import type { Template, TemplateDefinition } from '../types/templates.ts';
 
@@ -13,7 +11,9 @@ export function createTemplate<OptionsShape extends AnyShape, Refinements>(
   definition: TemplateDefinition<OptionsShape, Refinements>,
 ): Template<OptionsShape, Refinements>;
 export function createTemplate<Customizations>(
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   definition: TemplateDefinition<{}, Customizations>,
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 ): Template<{}, Customizations>;
 export function createTemplate<OptionsShape extends AnyShape, Refinements>(
   definition: TemplateDefinition<OptionsShape, Refinements>,

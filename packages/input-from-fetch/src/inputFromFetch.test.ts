@@ -1,9 +1,9 @@
 import { createMockFetchers, createMockSystems, testInput } from 'bingo-testers';
 import { describe, expect, it, vi } from 'vitest';
 
-import { inputFromFetch } from './index.ts';
+import { inputFromFetch } from './inputFromFetch.ts';
 
-describe('inputFromFetch', () => {
+describe(inputFromFetch, () => {
   it('returns the result from running the network request', async () => {
     const resource = 'https://example.com';
     const expected = { stdout: '123' };
