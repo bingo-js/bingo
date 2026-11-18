@@ -248,7 +248,7 @@ importers:
         specifier: 0.78.0
         version: 0.78.0(@astrojs/compiler-rs@0.5.3)
       rimraf:
-        specifier: ^6.1.4
+        specifier: 6.1.4
         version: 6.1.4
       simple-git-hooks:
         specifier: 2.14.0
