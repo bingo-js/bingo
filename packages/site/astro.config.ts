@@ -95,7 +95,7 @@ export default defineConfig({
                       link: 'build/apis/run-template',
                     },
                     {
-                      label: 'runTemplateCLI',
+                      label: 'runTemplateCli',
                       link: 'build/apis/run-template-cli',
                     },
                   ],

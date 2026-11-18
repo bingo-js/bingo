@@ -373,7 +373,7 @@ For example, this test asserts that a template defaults its `name` to the proper
 
 ```ts
 import { testOptions } from 'bingo-testers';
-import { inputFromFileJSON } from 'input-from-file-json';
+import { inputFromFileJson } from 'input-from-file-json';
 import { describe, expect, it, vi } from 'vitest';
 
 import { exampleTemplate } from './exampleTemplate.js';
@@ -386,7 +386,7 @@ describe('exampleTemplate', () => {
       const actual = await testOptions(exampleTemplate, { take });
 
       expect(actual).toEqual({ name: 'create-example' });
-      expect(take).toHaveBeenCalledWith(inputFromFileJSON, {
+      expect(take).toHaveBeenCalledWith(inputFromFileJson, {
         filePath: 'package.json',
       });
     });

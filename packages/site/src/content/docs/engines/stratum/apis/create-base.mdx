@@ -52,7 +52,7 @@ For example, this Base allows defaulting a required `name` option to that proper
 
 ```ts
 import { createBase } from 'bingo-stratum';
-import { inputFromFileJSON } from 'input-from-file-json';
+import { inputFromFileJson } from 'input-from-file-json';
 import { z } from 'zod';
 
 export const base = createBase({
@@ -61,7 +61,7 @@ export const base = createBase({
   },
   prepare({ take }) {
     return {
-      name: async () => (await take(inputFromFileJSON, { fileName: 'package.json' })).name,
+      name: async () => (await take(inputFromFileJson, { fileName: 'package.json' })).name,
     };
   },
 });

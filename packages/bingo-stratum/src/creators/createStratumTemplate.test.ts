@@ -1,7 +1,7 @@
 import { styleText } from 'node:util';
 
 import { allPropertiesLazy } from 'all-properties-lazy';
-import { produceTemplate, runTemplateCLI } from 'bingo';
+import { produceTemplate, runTemplateCli } from 'bingo';
 import { assertType, describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
@@ -50,12 +50,12 @@ describe('createStratumTemplate', () => {
     expect(actual).toEqual({ files: { 'example.txt': 'example' } });
   });
 
-  it('can be passed to runTemplateCLI', () => {
+  it('can be passed to runTemplateCli', () => {
     const template = base.createStratumTemplate({
       presets: [preset],
     });
 
-    assertType<() => Promise<unknown>>(() => runTemplateCLI(template));
+    assertType<() => Promise<unknown>>(() => runTemplateCli(template));
   });
 
   describe('blocks', () => {

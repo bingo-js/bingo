@@ -14,14 +14,14 @@ npm i input-from-file-json
 ```
 
 ```ts
-import { inputFromFileJSON } from 'input-from-file-json';
+import { inputFromFileJson } from 'input-from-file-json';
 
-await take(inputFromFileJSON, { filePath: 'data.json' });
+await take(inputFromFileJson, { filePath: 'data.json' });
 ```
 
 ## Options
 
-`inputFromFileJSON` takes a single argument, `filePath`, of type `string`.
+`inputFromFileJson` takes a single argument, `filePath`, of type `string`.
 
 It reads the `filePath` from disk and returns either:
 

@@ -1,1 +1,1 @@
-export { inputFromFileJSON } from './inputFromFileJson.ts';
+export { inputFromFileJson } from './inputFromFileJson.ts';

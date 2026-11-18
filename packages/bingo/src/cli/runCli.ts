@@ -9,7 +9,7 @@ import { getRerunCommand } from './loggers/getRerunCommand.ts';
 import { logHelpText } from './loggers/logHelpText.ts';
 import { logOutro } from './loggers/logOutro.ts';
 import { logUnknownFlags } from './loggers/logUnknownFlags.ts';
-import type { RunCLIRawValues } from './parseProcessArgv.ts';
+import type { RunCliRawValues } from './parseProcessArgv.ts';
 import { getUnknownFlags } from './parsers/getUnknownFlags.ts';
 import { readProductionSettings } from './readProductionSettings.ts';
 import { runModeSetup } from './setup/runModeSetup.ts';
@@ -29,23 +29,23 @@ const valuesSchema = z.object({
   'skip-scripts': z.boolean().optional(),
 });
 
-export interface RunCLISettings<OptionsShape extends AnyShape = AnyShape, Refinements = unknown> {
+export interface RunCliSettings<OptionsShape extends AnyShape = AnyShape, Refinements = unknown> {
   argv: string[];
   display: ClackDisplay;
   from: string;
   rerunFrom?: string;
   template: Template<OptionsShape, Refinements>;
-  values: RunCLIRawValues;
+  values: RunCliRawValues;
 }
 
-export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinements = unknown>({
+export async function runCli<OptionsShape extends AnyShape = AnyShape, Refinements = unknown>({
   argv,
   display,
   from,
   rerunFrom = from,
   template,
   values,
-}: RunCLISettings<OptionsShape, Refinements>) {
+}: RunCliSettings<OptionsShape, Refinements>) {
   const unknownFlags = getUnknownFlags(values, template.options);
   if (unknownFlags.length) {
     logUnknownFlags(unknownFlags);

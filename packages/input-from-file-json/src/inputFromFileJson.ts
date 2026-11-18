@@ -1,7 +1,7 @@
 import { createInput } from 'bingo';
 import { inputFromFile } from 'input-from-file';
 
-export const inputFromFileJSON = createInput({
+export const inputFromFileJson = createInput({
   args: inputFromFile.args,
   async produce({ args, take }) {
     const text = await take(inputFromFile, args);

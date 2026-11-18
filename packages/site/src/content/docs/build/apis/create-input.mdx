@@ -37,7 +37,7 @@ Calling this input in a production method would require passing a `filePath` str
 import { createInput } from 'bingo';
 import { inputFromFile } from 'input-from-file';
 
-export const inputFromFileJSON = createInput({
+export const inputFromFileJson = createInput({
   args: inputFromFile.args,
   async produce({ args, take }) {
     return JSON.parse(await take(inputFromFile, args));
