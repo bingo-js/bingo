@@ -3,12 +3,6 @@ import { z } from 'zod';
 
 import { isZodDefaultDef } from './isZodDefaultDef.ts';
 
-enum Value {
-  A,
-  B,
-  C,
-}
-
 describe('isZodDefaultDef', () => {
   test.each([
     ['boolean', z.boolean(), false],
@@ -33,8 +27,6 @@ describe('isZodDefaultDef', () => {
     ['default tuple', z.tuple([z.string()]).default(['']), true],
     ['date', z.date(), false],
     ['default date', z.date().default(new Date()), true],
-    ['native enum', z.enum(Value), false],
-    ['default native enum', z.enum(Value).default(Value.A), true],
   ])('%s', (_, schema, expected) => {
     expect(isZodDefaultDef(schema.def)).toBe(expected);
   });

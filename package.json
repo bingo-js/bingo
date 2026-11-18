@@ -25,6 +25,7 @@
   ],
   "scripts": {
     "build": "tsdown",
+    "clean:all": "rimraf node_modules lib --glob \"packages/*/node_modules\" \"packages/*/lib\" \"packages/*/dist\"",
     "format": "oxfmt",
     "lint": "eslint . --max-warnings 0",
     "lint:spelling": "cspell \"**\" \".github/**/*\"",
@@ -65,6 +66,7 @@
     "knip": "6.45.1",
     "lint-staged": "17.6.0",
     "oxfmt": "0.78.0",
+    "rimraf": "^6.1.4",
     "simple-git-hooks": "2.14.0",
     "tsdown": "0.23.7",
     "typescript": "6.0.3",
