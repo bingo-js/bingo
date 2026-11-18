@@ -74,15 +74,15 @@ describe(runBlock, () => {
 
   describe('Block with Props', () => {
     const block = base.createBlock({
+      props: {
+        descriptions: z.array(z.string()).default([]),
+      },
       produce({ options, props }) {
         return {
           files: {
             'README.md': `# ${options.title}\n${props.descriptions.join('\n')}`,
           },
         };
-      },
-      props: {
-        descriptions: z.array(z.string()).default([]),
       },
     });
 
@@ -119,10 +119,10 @@ describe(runBlock, () => {
       const system = createSystem();
 
       await runBlock(block, {
-        options: { title: 'abc' },
         props: {
           descriptions: ['def'],
         },
+        options: { title: 'abc' },
         ...system,
       });
 

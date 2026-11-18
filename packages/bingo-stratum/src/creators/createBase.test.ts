@@ -36,6 +36,9 @@ describe(createBase, () => {
     describe('with Props', () => {
       it('applies Zod defaults when producing with Props', () => {
         const block = base.createBlock({
+          props: {
+            names: z.array(z.string()).default([]),
+          },
           produce({ options, props }) {
             const { names } = props;
 
@@ -45,14 +48,11 @@ describe(createBase, () => {
               },
             };
           },
-          props: {
-            names: z.array(z.string()).default([]),
-          },
         });
 
         const production = block.produce({
-          options: { name: 'abc', preset: 'test' },
           props: { names: ['def'] },
+          options: { name: 'abc', preset: 'test' },
         });
 
         expect(production).toEqual({
