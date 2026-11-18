@@ -120,4 +120,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: $/.github/actions/setup
-      - run: pnpm tsc -b
+      - run: pnpm typecheck

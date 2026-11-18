@@ -8,7 +8,7 @@ import { tryImportTemplate } from './importers/tryImportTemplate.ts';
 import { logHelpOptions } from './loggers/logHelpOptions.ts';
 import { parseProcessArgv } from './parseProcessArgv.ts';
 import { runCLI } from './runCLI.ts';
-import { CLIStatus } from './status.ts';
+import { cliStatuses } from './status.ts';
 import { makeRelative, quoteIfSpaced } from './utils.ts';
 
 /**
@@ -19,20 +19,20 @@ export async function runBingoCLI() {
   const { argv, positionals, values } = parseProcessArgv();
   if (values.version) {
     console.log(packageData.version);
-    return CLIStatus.Success;
+    return cliStatuses.success;
   }
 
   return await runInsideClackDisplay(packageData, async (display) => {
     const from = positionals.find((positional) => !positional.startsWith('-'));
     if (!from) {
       prompts.log.error('bingo requires a path to local template file.');
-      return CLIStatus.Error;
+      return cliStatuses.error;
     }
 
     const template = await tryImportTemplate(makeRelative(from));
     if (template instanceof Error) {
       console.error(template);
-      return CLIStatus.Error;
+      return cliStatuses.error;
     }
 
     const result = await runCLI({

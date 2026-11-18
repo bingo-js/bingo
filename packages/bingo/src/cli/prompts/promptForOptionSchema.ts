@@ -3,7 +3,7 @@ import * as z from 'zod';
 
 import { getSchemaDescription } from '../../utils/getSchemaDescription.ts';
 import { isZodDefaultDef } from '../schemas/isZodDefaultDef.ts';
-import { type PromptFriendlyZodDef, ZodDefType } from '../schemas/types.ts';
+import { type PromptFriendlyZodDef } from '../schemas/types.ts';
 import { validateNumber, validatorFromSchema } from './validators.ts';
 
 export async function promptForOptionSchema(
@@ -31,7 +31,7 @@ export async function promptForOptionSchema(
 
   while (value === undefined || value === '') {
     switch (def.type) {
-      case ZodDefType.Boolean: {
+      case 'boolean': {
         value = await prompts.confirm({
           initialValue: defaultValue as boolean,
           message,
@@ -39,7 +39,7 @@ export async function promptForOptionSchema(
         break;
       }
 
-      case ZodDefType.Enum: {
+      case 'enum': {
         const options = z.core.util.getEnumValues(def.entries).map((value) => ({ value })) as {
           value: string;
         }[];
@@ -52,7 +52,7 @@ export async function promptForOptionSchema(
         return cancelOrParse(schema, text);
       }
 
-      case ZodDefType.Number:
+      case 'number':
         value = Number(
           await prompts.text({
             message,
@@ -62,7 +62,7 @@ export async function promptForOptionSchema(
         );
         break;
 
-      case ZodDefType.Union: {
+      case 'union': {
         const options = def.options.flatMap((option) =>
           // TODO: Handle non-string-like schema data types
           // https://github.com/bingo-js/bingo/issues/285

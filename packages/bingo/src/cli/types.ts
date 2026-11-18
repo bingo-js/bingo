@@ -1,4 +1,4 @@
-import type { CLIStatus } from './status.ts';
+import type { cliStatuses } from './status.ts';
 
 export type ModeResults = ModeResultsError | ModeResultsNonError;
 
@@ -9,11 +9,11 @@ export interface ModeResultsBase {
 
 export interface ModeResultsError extends ModeResultsBase {
   error?: Error;
-  status: CLIStatus.Error;
+  status: typeof cliStatuses.error;
 }
 
 export interface ModeResultsNonError extends ModeResultsBase {
-  status: CLIStatus.Cancelled | CLIStatus.Success;
+  status: typeof cliStatuses.cancelled | typeof cliStatuses.success;
 }
 
 export type ProductionSettings = ProductionSettingsSetup | ProductionSettingsTransition;

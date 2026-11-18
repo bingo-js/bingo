@@ -64,6 +64,7 @@ export default defineConfig(
       'object-shorthand': 'error',
       'operator-assignment': 'error',
       'perfectionist/sort-imports': 'off',
+      'perfectionist/sort-objects': 'off',
     },
     settings: { perfectionist: { partitionByComment: true, type: 'natural' } },
   },

@@ -11,16 +11,15 @@ import type { RequestedSkips } from '../../types/skips.ts';
 import type { Template } from '../../types/templates.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
 import { runSpinnerTask } from '../display/runSpinnerTask.ts';
-import { GitRepositoryType } from '../getGitRepositoryType.ts';
 import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
 import { logStartText } from '../loggers/logStartText.ts';
-import { CLIMessage } from '../messages.ts';
+import { cliMessages } from '../messages.ts';
 import { parseZodArgs } from '../parsers/parseZodArgs.ts';
 import { promptForDirectory } from '../prompts/promptForDirectory.ts';
 import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
 import { prepareGitRepository } from '../repository/prepareGitRepository.ts';
 import { resolveLocalRepository } from '../repository/resolveLocalRepository.ts';
-import { CLIStatus } from '../status.ts';
+import { cliStatuses } from '../status.ts';
 import type { ModeResults } from '../types.ts';
 import { makeRelative } from '../utils.ts';
 
@@ -63,7 +62,7 @@ export async function runModeSetup<
     template,
   });
   if (prompts.isCancel(directory)) {
-    return { status: CLIStatus.Cancelled };
+    return { status: cliStatuses.cancelled };
   }
 
   const system = await createSystemContextWithAuth({
@@ -96,7 +95,7 @@ export async function runModeSetup<
   );
   if (preparedOptions instanceof Error) {
     logRerunSuggestion(rerunCommand, providedOptions);
-    return { status: CLIStatus.Error };
+    return { status: cliStatuses.error };
   }
 
   const repository = requestedRepository ?? directory;
@@ -111,7 +110,7 @@ export async function runModeSetup<
   });
   if (baseOptions.cancelled) {
     logRerunSuggestion(rerunCommand, baseOptions.prompted);
-    return { status: CLIStatus.Cancelled };
+    return { status: cliStatuses.cancelled };
   }
 
   const { message, remote, repositoryType } = await resolveLocalRepository(
@@ -124,7 +123,7 @@ export async function runModeSetup<
 
   if (remote instanceof Error) {
     logRerunSuggestion(rerunCommand, baseOptions.prompted);
-    return { error: remote, status: CLIStatus.Error };
+    return { error: remote, status: cliStatuses.error };
   }
 
   if (message) {
@@ -153,13 +152,13 @@ export async function runModeSetup<
   if (creation instanceof Error) {
     logRerunSuggestion(rerunCommand, baseOptions.prompted);
     return {
-      outro: CLIMessage.Leaving,
-      status: CLIStatus.Error,
+      outro: cliMessages.leaving,
+      status: cliStatuses.error,
     };
   }
 
   const preparationError =
-    repositoryType !== GitRepositoryType.Subdirectory &&
+    repositoryType !== 'subdirectory' &&
     (await runSpinnerTask(
       display,
       'Preparing local Git repository',
@@ -169,7 +168,7 @@ export async function runModeSetup<
       },
     ));
 
-  if (!remote && repositoryType !== GitRepositoryType.Subdirectory) {
+  if (!remote && repositoryType !== 'subdirectory') {
     prompts.log.info(
       [
         `Run ${styleText('blue', `${rerunCommand} --remote`)} in ${styleText('green', makeRelative(directory))}`,
@@ -182,14 +181,14 @@ export async function runModeSetup<
 
   if (preparationError) {
     return {
-      outro: CLIMessage.Leaving,
-      status: CLIStatus.Error,
+      outro: cliMessages.leaving,
+      status: cliStatuses.error,
     };
   }
 
   return {
     outro: `Thanks for using ${styleText(['bgGreenBright', 'black'], from)}! 💝`,
-    status: CLIStatus.Success,
+    status: cliStatuses.success,
     suggestions: creation.suggestions,
   };
 }

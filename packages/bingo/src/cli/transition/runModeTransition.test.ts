@@ -3,8 +3,8 @@ import { z } from 'zod';
 
 import { createTemplate } from '../../creators/createTemplate.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
-import { CLIMessage } from '../messages.ts';
-import { CLIStatus } from '../status.ts';
+import { cliMessages } from '../messages.ts';
+import { cliStatuses } from '../status.ts';
 import { runModeTransition } from './runModeTransition.ts';
 
 const mockLog = {
@@ -187,7 +187,7 @@ describe(runModeTransition, () => {
 
     expect(actual).toEqual({
       error,
-      status: CLIStatus.Error,
+      status: cliStatuses.error,
     });
     expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
   });
@@ -205,7 +205,7 @@ describe(runModeTransition, () => {
       template,
     });
 
-    expect(actual).toEqual({ status: CLIStatus.Error });
+    expect(actual).toEqual({ status: cliStatuses.error });
     expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
   });
 
@@ -225,7 +225,7 @@ describe(runModeTransition, () => {
     });
 
     expect(actual).toEqual({
-      status: CLIStatus.Cancelled,
+      status: cliStatuses.cancelled,
     });
     expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
   });
@@ -249,7 +249,7 @@ describe(runModeTransition, () => {
 
     expect(actual).toEqual({
       error: remote,
-      status: CLIStatus.Error,
+      status: cliStatuses.error,
     });
     expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
   });
@@ -273,8 +273,8 @@ describe(runModeTransition, () => {
     });
 
     expect(actual).toEqual({
-      outro: CLIMessage.Leaving,
-      status: CLIStatus.Error,
+      outro: cliMessages.leaving,
+      status: cliStatuses.error,
     });
     expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
   });
@@ -295,7 +295,7 @@ describe(runModeTransition, () => {
 
     expect(actual).toEqual({
       error,
-      status: CLIStatus.Error,
+      status: cliStatuses.error,
     });
     expect(mockCheckUncommittedChanges).not.toHaveBeenCalled();
     expect(mockClearTemplateFiles).not.toHaveBeenCalled();
@@ -319,7 +319,7 @@ describe(runModeTransition, () => {
       error: new Error(
         'Transitioning a repository cloned from a/b clears all of its files, but this one has uncommitted changes. Commit or stash them, then re-run.',
       ),
-      status: CLIStatus.Error,
+      status: cliStatuses.error,
     });
     expect(mockCheckUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
     expect(mockClearTemplateFiles).not.toHaveBeenCalled();
@@ -346,7 +346,7 @@ describe(runModeTransition, () => {
       error: new Error(
         "Transitioning a repository cloned from a/b clears all of its files, but it couldn't be determined whether this one has uncommitted changes. Make sure git is installed and this is a git repository, then re-run.",
       ),
-      status: CLIStatus.Error,
+      status: cliStatuses.error,
     });
     expect(mockCheckUncommittedChanges).toHaveBeenCalledWith(mockSystem.runner);
     expect(mockClearTemplateFiles).not.toHaveBeenCalled();
@@ -372,8 +372,8 @@ describe(runModeTransition, () => {
     });
 
     expect(actual).toEqual({
-      outro: CLIMessage.Done,
-      status: CLIStatus.Success,
+      outro: cliMessages.done,
+      status: cliStatuses.success,
     });
     expect(mockCheckUncommittedChanges).not.toHaveBeenCalled();
     expect(mockClearTemplateFiles).not.toHaveBeenCalled();
@@ -400,8 +400,8 @@ describe(runModeTransition, () => {
     });
 
     expect(actual).toEqual({
-      outro: CLIMessage.Done,
-      status: CLIStatus.Success,
+      outro: cliMessages.done,
+      status: cliStatuses.success,
       suggestions,
     });
   });
@@ -427,8 +427,8 @@ describe(runModeTransition, () => {
     });
 
     expect(actual).toEqual({
-      outro: CLIMessage.New,
-      status: CLIStatus.Success,
+      outro: cliMessages.new,
+      status: cliStatuses.success,
     });
     expect(mockLogStartText).toHaveBeenCalledWith('transition', false);
     expect(mockClearTemplateFiles).toHaveBeenCalled();
@@ -462,8 +462,8 @@ describe(runModeTransition, () => {
     });
 
     expect(actual).toEqual({
-      outro: CLIMessage.New,
-      status: CLIStatus.Success,
+      outro: cliMessages.new,
+      status: cliStatuses.success,
     });
     expect(mockLogStartText).toHaveBeenCalledWith('transition', false);
     expect(mockClearTemplateFiles).toHaveBeenCalled();
@@ -493,8 +493,8 @@ describe(runModeTransition, () => {
     });
 
     expect(actual).toEqual({
-      outro: CLIMessage.Done,
-      status: CLIStatus.Success,
+      outro: cliMessages.done,
+      status: cliStatuses.success,
     });
     expect(mockLogStartText).toHaveBeenCalledWith('transition', false);
     expect(mockClearTemplateFiles).not.toHaveBeenCalled();
@@ -530,8 +530,8 @@ describe(runModeTransition, () => {
     });
 
     expect(actual).toEqual({
-      outro: CLIMessage.New,
-      status: CLIStatus.Success,
+      outro: cliMessages.new,
+      status: cliStatuses.success,
     });
     expect(mockLogStartText).toHaveBeenCalledWith('transition', true);
     expect(mockClearTemplateFiles).toHaveBeenCalled();

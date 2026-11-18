@@ -3,12 +3,6 @@ import { z } from 'zod';
 
 import { isStringLikeSchema } from './isStringLikeSchema.ts';
 
-enum Value {
-  A,
-  B,
-  C,
-}
-
 describe('isStringLikeSchema', () => {
   test.each([
     ['boolean', z.boolean(), true],
@@ -67,7 +61,6 @@ describe('isStringLikeSchema', () => {
     ['array', z.array(z.string()), false],
     ['tuple', z.tuple([z.string()]), false],
     ['date', z.date(), false],
-    ['native enum', z.enum(Value), true],
   ])('%s', (_, schema, expected) => {
     expect(isStringLikeSchema(schema)).toBe(expected);
   });

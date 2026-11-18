@@ -5,6 +5,7 @@
     "composite": true,
     "declaration": true,
     "emitDeclarationOnly": true,
+    "erasableSyntaxOnly": true,
     "esModuleInterop": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",

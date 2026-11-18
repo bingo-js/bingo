@@ -3,7 +3,6 @@ import { describe, expect, it, vi } from 'vitest';
 
 import type { Template } from '../../types/templates.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
-import { GitRepositoryType } from '../getGitRepositoryType.ts';
 import { resolveLocalRepository } from './resolveLocalRepository.ts';
 
 const mockGetGitRepositoryType = vi.fn();
@@ -59,7 +58,7 @@ const stubDisplay: ClackDisplay = {
 
 describe(resolveLocalRepository, () => {
   it('returns a remote error when both requests.remote and offline are true', async () => {
-    mockGetGitRepositoryType.mockResolvedValueOnce(GitRepositoryType.Root);
+    mockGetGitRepositoryType.mockResolvedValueOnce('root');
 
     const actual = await resolveLocalRepository(
       stubDisplay,
@@ -71,13 +70,13 @@ describe(resolveLocalRepository, () => {
 
     expect(actual).toEqual({
       remote: new Error('--offline cannot be combined with --remote.'),
-      repositoryType: GitRepositoryType.Root,
+      repositoryType: 'root',
     });
     expect(mockResolveRemoteRepositoryFromOrigin).not.toHaveBeenCalled();
   });
 
   it('returns no remote when requests.remote is falsy and offline is true', async () => {
-    mockGetGitRepositoryType.mockResolvedValueOnce(GitRepositoryType.Root);
+    mockGetGitRepositoryType.mockResolvedValueOnce('root');
 
     const actual = await resolveLocalRepository(
       stubDisplay,
@@ -89,13 +88,13 @@ describe(resolveLocalRepository, () => {
 
     expect(actual).toEqual({
       remote: undefined,
-      repositoryType: GitRepositoryType.Root,
+      repositoryType: 'root',
     });
     expect(mockResolveRemoteRepositoryFromOrigin).not.toHaveBeenCalled();
   });
 
   it('returns no remote when in a Git subdirectory and request.remote is falsy', async () => {
-    mockGetGitRepositoryType.mockResolvedValueOnce(GitRepositoryType.Subdirectory);
+    mockGetGitRepositoryType.mockResolvedValueOnce('subdirectory');
 
     const actual = await resolveLocalRepository(
       stubDisplay,
@@ -107,12 +106,12 @@ describe(resolveLocalRepository, () => {
 
     expect(actual).toEqual({
       remote: undefined,
-      repositoryType: GitRepositoryType.Subdirectory,
+      repositoryType: 'subdirectory',
     });
   });
 
   it('returns a remote error when in a Git subdirectory and request.remote is true', async () => {
-    mockGetGitRepositoryType.mockResolvedValueOnce(GitRepositoryType.Subdirectory);
+    mockGetGitRepositoryType.mockResolvedValueOnce('subdirectory');
 
     const actual = await resolveLocalRepository(
       stubDisplay,
@@ -126,12 +125,12 @@ describe(resolveLocalRepository, () => {
       remote: new Error(
         '--remote can only be used when in a non-Git directory or in the root of a Git directory.',
       ),
-      repositoryType: GitRepositoryType.Subdirectory,
+      repositoryType: 'subdirectory',
     });
   });
 
   it('returns the origin when it already exists and request.remote is falsy', async () => {
-    mockGetGitRepositoryType.mockResolvedValueOnce(GitRepositoryType.Root);
+    mockGetGitRepositoryType.mockResolvedValueOnce('root');
     mockResolveRemoteRepositoryFromOrigin.mockResolvedValueOnce({
       owner: stubOrigin,
       repository: stubRepository,
@@ -154,12 +153,12 @@ describe(resolveLocalRepository, () => {
         owner: stubOrigin,
         repository: stubRepository,
       },
-      repositoryType: GitRepositoryType.Root,
+      repositoryType: 'root',
     });
   });
 
   it('returns an error when an origin already exists and request.remote is true', async () => {
-    mockGetGitRepositoryType.mockResolvedValueOnce(GitRepositoryType.Root);
+    mockGetGitRepositoryType.mockResolvedValueOnce('root');
     mockResolveRemoteRepositoryFromOrigin.mockResolvedValueOnce({
       owner: stubOrigin,
       repository: stubRepository,
@@ -175,12 +174,12 @@ describe(resolveLocalRepository, () => {
 
     expect(actual).toEqual({
       remote: new Error('--remote requested, but an origin remote already exists.'),
-      repositoryType: GitRepositoryType.Root,
+      repositoryType: 'root',
     });
   });
 
   it('returns no remote when there is no existing origin and both requests.remote and offline are falsy', async () => {
-    mockGetGitRepositoryType.mockResolvedValueOnce(GitRepositoryType.Root);
+    mockGetGitRepositoryType.mockResolvedValueOnce('root');
     mockResolveRemoteRepositoryFromOrigin.mockResolvedValueOnce(undefined);
 
     const actual = await resolveLocalRepository(
@@ -193,12 +192,12 @@ describe(resolveLocalRepository, () => {
 
     expect(actual).toEqual({
       remote: undefined,
-      repositoryType: GitRepositoryType.Root,
+      repositoryType: 'root',
     });
   });
 
   it('returns a remote error when there is no existing origin, requests.remote is true, and there is no Octokit fetcher', async () => {
-    mockGetGitRepositoryType.mockResolvedValueOnce(GitRepositoryType.Root);
+    mockGetGitRepositoryType.mockResolvedValueOnce('root');
     mockResolveRemoteRepositoryFromOrigin.mockResolvedValueOnce(undefined);
 
     const actual = await resolveLocalRepository(
@@ -213,12 +212,12 @@ describe(resolveLocalRepository, () => {
       remote: new Error(
         '--remote requested, but no existing repository or GitHub authentication found. Please log in with the GitHub CLI or set a GH_AUTH env variable.',
       ),
-      repositoryType: GitRepositoryType.Root,
+      repositoryType: 'root',
     });
   });
 
   it('returns the error when resolving a remote repository to create fails', async () => {
-    mockGetGitRepositoryType.mockResolvedValueOnce(GitRepositoryType.Root);
+    mockGetGitRepositoryType.mockResolvedValueOnce('root');
     const creationLocator = new Error('Could not create remote.');
 
     mockResolveRemoteRepositoryFromOrigin.mockResolvedValueOnce(undefined);
@@ -234,12 +233,12 @@ describe(resolveLocalRepository, () => {
 
     expect(actual).toEqual({
       remote: creationLocator,
-      repositoryType: GitRepositoryType.Root,
+      repositoryType: 'root',
     });
   });
 
   it('returns the error when resolving a remote repository to create succeeds and creating a new repository fails', async () => {
-    mockGetGitRepositoryType.mockResolvedValueOnce(GitRepositoryType.Root);
+    mockGetGitRepositoryType.mockResolvedValueOnce('root');
     const creationError = new Error('Could not create repository.');
 
     mockResolveRemoteRepositoryFromOrigin.mockResolvedValueOnce(undefined);
@@ -259,12 +258,12 @@ describe(resolveLocalRepository, () => {
 
     expect(actual).toEqual({
       remote: creationError,
-      repositoryType: GitRepositoryType.Root,
+      repositoryType: 'root',
     });
   });
 
   it('returns the locator when resolving a remote repository to create succeeds and creating a new repository succeeds', async () => {
-    mockGetGitRepositoryType.mockResolvedValueOnce(GitRepositoryType.Root);
+    mockGetGitRepositoryType.mockResolvedValueOnce('root');
     const creationLocator = {
       owner: stubOrigin,
       repository: stubRepository,
@@ -284,7 +283,7 @@ describe(resolveLocalRepository, () => {
 
     expect(actual).toEqual({
       remote: creationLocator,
-      repositoryType: GitRepositoryType.Root,
+      repositoryType: 'root',
     });
   });
 });

@@ -4,8 +4,8 @@ import * as prompts from '@clack/prompts';
 
 import type { AnyShape } from '../../types/shapes.ts';
 import type { Template } from '../../types/templates.ts';
-import { CLIMessage } from '../messages.ts';
-import { CLIStatus } from '../status.ts';
+import { cliMessages } from '../messages.ts';
+import { cliStatuses } from '../status.ts';
 import type { ModeResults } from '../types.ts';
 import { logHelpOptions } from './logHelpOptions.ts';
 import { logSchemasHelpOptions } from './logSchemasHelpOptions.ts';
@@ -99,7 +99,7 @@ export function logHelpText<OptionsShape extends AnyShape, Refinements>(
   logSchemasHelpOptions(packageName, template.options);
 
   return {
-    outro: CLIMessage.Ok,
-    status: CLIStatus.Success,
+    outro: cliMessages.ok,
+    status: cliStatuses.success,
   };
 }

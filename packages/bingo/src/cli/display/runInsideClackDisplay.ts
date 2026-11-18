@@ -3,8 +3,8 @@ import { styleText } from 'node:util';
 import * as prompts from '@clack/prompts';
 
 import { logOutro } from '../loggers/logOutro.ts';
-import { CLIMessage } from '../messages.ts';
-import { CLIStatus } from '../status.ts';
+import { cliMessages } from '../messages.ts';
+import { type CliStatus, cliStatuses } from '../status.ts';
 import type { ModeResults } from '../types.ts';
 import { type ClackDisplay, createClackDisplay } from './createClackDisplay.ts';
 
@@ -15,7 +15,7 @@ export interface DisplayPackageData {
 
 export async function runInsideClackDisplay(
   { name, version }: DisplayPackageData,
-  runner: (display: ClackDisplay) => Promise<CLIStatus | ModeResults>,
+  runner: (display: ClackDisplay) => Promise<CliStatus | ModeResults>,
 ) {
   const display = createClackDisplay();
 
@@ -34,11 +34,11 @@ export async function runInsideClackDisplay(
     return results;
   }
 
-  if (results.status === CLIStatus.Error && results.error) {
+  if (results.status === cliStatuses.error && results.error) {
     prompts.log.error(styleText('red', `Error: ${results.error.message}`));
   }
 
-  logOutro(results.outro ?? styleText('yellow', `Operation cancelled. ${CLIMessage.Exiting}`), {
+  logOutro(results.outro ?? styleText('yellow', `Operation cancelled. ${cliMessages.exiting}`), {
     items: display.dumpItems(),
     suggestions: results.suggestions,
   });

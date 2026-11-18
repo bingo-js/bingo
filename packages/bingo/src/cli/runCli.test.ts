@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createTemplate } from '../creators/createTemplate.ts';
 import { createClackDisplay } from './display/createClackDisplay.ts';
 import { runCLI } from './runCLI.ts';
-import { CLIStatus } from './status.ts';
+import { cliStatuses } from './status.ts';
 
 const mockLogHelpText = vi.fn();
 
@@ -78,7 +78,7 @@ describe('runCli', () => {
     expect(mockLogUnknownFlags).toHaveBeenCalledWith([
       { flag: 'skip-file', suggestion: 'skip-files' },
     ]);
-    expect(actual).toEqual({ status: CLIStatus.Error });
+    expect(actual).toEqual({ status: cliStatuses.error });
     expect(mockReadProductionSettings).not.toHaveBeenCalled();
   });
 
@@ -95,7 +95,7 @@ describe('runCli', () => {
     });
 
     expect(mockLogOutro).toHaveBeenCalledWith(styleText('red', error.message));
-    expect(actual).toBe(CLIStatus.Error);
+    expect(actual).toBe(cliStatuses.error);
   });
 
   it('runs logHelpText when help is specified', async () => {

@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { createTemplate } from '../creators/createTemplate.ts';
 import { runTemplateCLI } from './runTemplateCLI.ts';
-import { CLIStatus } from './status.ts';
+import { cliStatuses } from './status.ts';
 
 const mockLog = {
   error: vi.fn(),
@@ -73,7 +73,7 @@ describe(runTemplateCLI, () => {
     const actual = await runTemplateCLI(template);
 
     expect(mockConsole.error).toHaveBeenCalledWith(error);
-    expect(actual).toBe(CLIStatus.Error);
+    expect(actual).toBe(cliStatuses.error);
   });
 
   it('logs versions with loaded template package data when parsed process argv includes version and package data is not provided', async () => {
@@ -86,7 +86,7 @@ describe(runTemplateCLI, () => {
     const actual = await runTemplateCLI(template);
 
     expect(mockConsole.log.mock.calls).toEqual([['bingo@1.2.3'], ['create-example@0.1.2']]);
-    expect(actual).toBe(CLIStatus.Success);
+    expect(actual).toBe(cliStatuses.success);
   });
 
   it('logs versions with the template package data when parsed process argv includes version and package data is provided', async () => {
@@ -98,7 +98,7 @@ describe(runTemplateCLI, () => {
     });
 
     expect(mockConsole.log.mock.calls).toEqual([['bingo@1.2.3'], ['create-example@0.1.2']]);
-    expect(actual).toBe(CLIStatus.Success);
+    expect(actual).toBe(cliStatuses.success);
   });
 
   it('accepts a template with options', async () => {
@@ -118,7 +118,7 @@ describe(runTemplateCLI, () => {
     );
 
     expect(mockConsole.log.mock.calls).toEqual([['bingo@1.2.3'], ['create-example@0.1.2']]);
-    expect(actual).toBe(CLIStatus.Success);
+    expect(actual).toBe(cliStatuses.success);
   });
 
   it('logs a link when template.about.repository is defined', async () => {
