@@ -58,7 +58,7 @@ export default defineConfig(
         'error',
         {
           selector: 'ExportAllDeclaration',
-          message: "Do not use 'export * from' statements. Please use export individual symbols.",
+          message: "Do not use 'export * from' statements. Please export individual symbols.",
         },
       ],
       'perfectionist/sort-exports': 'error',
