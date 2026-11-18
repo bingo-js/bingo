@@ -1,8 +1,5 @@
 import type { CreatedDirectory } from 'bingo-fs';
 import type { CreatedRequest } from 'bingo-requests';
-import type { SystemFetchers } from 'bingo-systems';
-
-export type CreatedRequestSender = (fetchers: SystemFetchers) => Promise<void>;
 
 /**
  * A script to run to set up part of a repository's tooling.

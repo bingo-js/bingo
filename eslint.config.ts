@@ -54,6 +54,13 @@ export default defineConfig(
         { allowConstantLoopConditions: 'only-allowed-literals' },
       ],
       '@typescript-eslint/no-unused-vars': ['error', { caughtErrors: 'all' }],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'ExportAllDeclaration',
+          message: "Do not use 'export * from' statements. Please use export individual symbols.",
+        },
+      ],
       'perfectionist/sort-exports': 'error',
       'perfectionist/sort-named-exports': 'error',
       'perfectionist/sort-named-imports': 'error',

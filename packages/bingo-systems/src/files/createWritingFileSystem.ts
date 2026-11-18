@@ -3,8 +3,9 @@ import * as fs from 'node:fs/promises';
 import type { CreatedFileMetadata } from 'bingo-fs';
 
 import { createReadingFileSystem } from './createReadingFileSystem.ts';
+import type { WritingFileSystem } from './types.ts';
 
-export function createWritingFileSystem() {
+export function createWritingFileSystem(): WritingFileSystem {
   return {
     ...createReadingFileSystem(),
     removeFile: async (filePath: string): Promise<void> => {

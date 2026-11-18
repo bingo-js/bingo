@@ -1,9 +1,9 @@
 import { testInput } from 'bingo-testers';
 import { describe, expect, it } from 'vitest';
 
-import { inputFromFile } from './index.ts';
+import { inputFromFile } from './inputFromFile.ts';
 
-describe('inputFromFile', () => {
+describe(inputFromFile, () => {
   it("returns the file's text when it exists", async () => {
     const text = 'abc123';
 
