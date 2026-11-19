@@ -238,7 +238,7 @@ describe('runCli', () => {
     );
   });
 
-  it('keeps string CLI flags when a template option of the same name is not a string', async () => {
+  it('parses a template option that overrides a CLI flag by its own schema', async () => {
     mockReadProductionSettings.mockResolvedValueOnce({ mode: 'setup' });
 
     await runCLI({
@@ -254,7 +254,46 @@ describe('runCli', () => {
     expect(mockLogInvalidFlags).not.toHaveBeenCalled();
     expect(mockRunModeSetup).toHaveBeenCalledWith(
       expect.objectContaining({
-        providedValues: { owner: '5', title: 'x' },
+        providedValues: { owner: 5, title: 'x' },
+      }),
+    );
+  });
+
+  it('logs invalid flags when a value does not fit a template option overriding a CLI flag', async () => {
+    mockReadProductionSettings.mockResolvedValueOnce({ mode: 'setup' });
+
+    const actual = await runCLI({
+      args: ['--owner', 'abc'],
+      display: createClackDisplay(),
+      from: '',
+      template: createTemplate({
+        options: { owner: z.number().optional() as unknown },
+        produce: vi.fn(),
+      }),
+    });
+
+    expect(mockLogInvalidFlags).toHaveBeenCalledWith([
+      expect.objectContaining({ flag: 'owner', kind: 'invalid' }),
+    ]);
+    expect(actual).toEqual({ status: cliStatuses.error });
+  });
+
+  it('collects repeated flags for a template option that overrides a CLI flag with an array', async () => {
+    mockReadProductionSettings.mockResolvedValueOnce({ mode: 'setup' });
+
+    await runCLI({
+      args: ['--owner', 'x', '--owner', 'y'],
+      display: createClackDisplay(),
+      from: '',
+      template: createTemplate({
+        options: { owner: z.array(z.string()) as unknown },
+        produce: vi.fn(),
+      }),
+    });
+
+    expect(mockRunModeSetup).toHaveBeenCalledWith(
+      expect.objectContaining({
+        providedValues: { owner: ['x', 'y'] },
       }),
     );
   });

@@ -36,8 +36,8 @@ export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinemen
   rerunFrom = from,
   template,
 }: RunCLISettings<OptionsShape, Refinements>) {
-  const overrides = describeOptions(template.options).filter(
-    (flag) => overridableCliFlags.has(flag.key) && flag.kind === 'string' && !flag.multiple,
+  const overrides = describeOptions(template.options).filter((flag) =>
+    overridableCliFlags.has(flag.key),
   );
   const cliKeys = new Set(cliFlags.map((flag) => flag.key));
   const { issues, values } = parseRawArgs({
