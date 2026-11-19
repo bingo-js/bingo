@@ -202,6 +202,42 @@ describe('runCli', () => {
     expect(actual).toBe(cliStatuses.error);
   });
 
+  it('logs invalid flags when --mode is not a known mode', async () => {
+    const actual = await runCLI({
+      args: ['--mode', 'bogus'],
+      display: createClackDisplay(),
+      from: '',
+      template,
+    });
+
+    expect(mockLogInvalidFlags).toHaveBeenCalledWith([
+      expect.objectContaining({ flag: 'mode', kind: 'invalid' }),
+    ]);
+    expect(actual).toEqual({ status: cliStatuses.error });
+  });
+
+  it('keeps CLI flags that templates have options of the same name for', async () => {
+    mockReadProductionSettings.mockResolvedValueOnce({ mode: 'setup' });
+
+    const actual = await runCLI({
+      args: ['--mode', 'transition', '--owner', 'abc'],
+      display: createClackDisplay(),
+      from: '',
+      template: createTemplate({
+        options: { mode: z.number() as unknown, owner: z.string() as unknown },
+        produce: vi.fn(),
+      }),
+    });
+
+    expect(mockLogInvalidFlags).not.toHaveBeenCalled();
+    expect(actual).not.toEqual({ status: cliStatuses.error });
+    expect(mockRunModeSetup).toHaveBeenCalledWith(
+      expect.objectContaining({
+        providedValues: { mode: 'transition', owner: 'abc' },
+      }),
+    );
+  });
+
   it('runs logHelpText when help is specified', async () => {
     mockReadProductionSettings.mockResolvedValueOnce({
       mode: 'setup',

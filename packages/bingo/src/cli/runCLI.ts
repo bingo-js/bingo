@@ -29,6 +29,8 @@ const valuesSchema = z.object({
   'skip-scripts': z.boolean().optional(),
 });
 
+const overridableCliFlags = new Set(['directory', 'owner', 'repository']);
+
 export interface RunCLISettings<OptionsShape extends AnyShape = AnyShape, Refinements = unknown> {
   /**
    * Args as provided on the command line, without the node and script paths.
@@ -47,12 +49,18 @@ export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinemen
   rerunFrom = from,
   template,
 }: RunCLISettings<OptionsShape, Refinements>) {
+  const optionFlags = describeOptions(template.options);
   const { issues, values } = parseRawArgs({
     args,
-    // Template options take precedence over CLI flags of the same name, such as --owner.
+    // Template options may take over these CLI flags, but not others, such as --mode.
     flags: [
-      ...cliFlags.filter((flag) => !(flag.key in template.options)),
-      ...describeOptions(template.options),
+      ...cliFlags.filter(
+        (flag) => !overridableCliFlags.has(flag.key) || !(flag.key in template.options),
+      ),
+      ...optionFlags.filter(
+        (flag) =>
+          overridableCliFlags.has(flag.key) || !cliFlags.some(({ key }) => key === flag.key),
+      ),
     ],
     positionals: { kinds: [], rest: 'string' },
   });

@@ -19,6 +19,10 @@ export function logSchemasHelpOptions(packageName: string, schemas: AnyShape) {
 }
 
 function asSentence(flag: FlagDescriptor) {
-  const text = formatFlagDescription(flag);
-  return text && text[0].toUpperCase() + text.slice(1) + (flag.description ? '.' : '');
+  // Without a description, the details alone read as a sentence: "(required)" is "Required."
+  const text = flag.description
+    ? formatFlagDescription(flag)
+    : formatFlagDescription(flag).replace(/^\((.*)\)$/, '$1');
+
+  return text && text[0].toUpperCase() + text.slice(1) + '.';
 }

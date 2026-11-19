@@ -211,4 +211,19 @@ describe('logHelpText', () => {
       ]
     `);
   });
+
+  test('required option without a description', () => {
+    logHelpText(
+      'setup',
+      './template.ts',
+      createTemplate({
+        options: { title: z.string() },
+        produce: vi.fn(),
+      }),
+    );
+
+    const message = mockLog.message.mock.calls.at(-1)?.[0];
+
+    expect(message).toContain('--title (string): Required.');
+  });
 });

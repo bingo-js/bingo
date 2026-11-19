@@ -14,7 +14,7 @@ function stringFlag(key: string): FlagDescriptor {
 export const cliFlags: FlagDescriptor[] = [
   stringFlag('directory'),
   booleanFlag('help'),
-  stringFlag('mode'),
+  { ...stringFlag('mode'), choices: ['setup', 'transition'] },
   booleanFlag('offline'),
   stringFlag('owner'),
   booleanFlag('remote'),
