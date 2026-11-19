@@ -16,7 +16,7 @@ export function logHelpOptions(category: string, packageName: string, options: H
     `${styleText(['bgGreenBright', 'black'], category)} options:`,
     '',
     ...options.map((option) => {
-      const text = option.text ? styleText('blue', option.text) : '';
+      const text = option.text ? styleText('blue', `: ${option.text}`) : '';
       return [
         `  ${formatFlag(option.flag, option.type)}${text}`,
         option.examples?.length &&

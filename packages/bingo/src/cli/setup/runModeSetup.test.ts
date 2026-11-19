@@ -96,8 +96,6 @@ vi.mock('../../runners/runTemplate.js', () => ({
   },
 }));
 
-const argv = ['npx', 'bingo-my-app'];
-
 const from = 'create-example';
 
 const rerunCommand = 'npx create-example';
@@ -130,7 +128,7 @@ describe(runModeSetup, () => {
     mockPromptForDirectory.mockResolvedValueOnce(mockCancel);
 
     const actual = await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,
@@ -147,7 +145,7 @@ describe(runModeSetup, () => {
     mockPrepareOptions.mockResolvedValueOnce(new Error('Oh no!'));
 
     const actual = await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,
@@ -159,6 +157,31 @@ describe(runModeSetup, () => {
     });
   });
 
+  it('prompts with provided values for the template options, directory, owner, and repository only', async () => {
+    mockPromptForDirectory.mockResolvedValueOnce('test-directory');
+    mockPromptForOptionSchemas.mockResolvedValueOnce({
+      cancelled: true,
+      prompted: {},
+    });
+
+    await runModeSetup({
+      display,
+      from,
+      providedValues: { mode: 'setup', owner: 'my-owner', value: 'abc' },
+      rerunCommand,
+      template,
+    });
+
+    expect(mockPromptForOptionSchemas).toHaveBeenCalledWith(template, {
+      existing: expect.objectContaining({ owner: 'my-owner', value: 'abc' }) as object,
+      system: expect.anything() as object,
+    });
+    expect(mockPromptForOptionSchemas).not.toHaveBeenCalledWith(template, {
+      existing: expect.objectContaining({ mode: 'setup' }) as object,
+      system: expect.anything() as object,
+    });
+  });
+
   it('returns a cancellation status when prompting for options is cancelled', async () => {
     mockPromptForDirectory.mockResolvedValueOnce('test-directory');
     mockPromptForOptionSchemas.mockResolvedValueOnce({
@@ -167,7 +190,7 @@ describe(runModeSetup, () => {
     });
 
     const actual = await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,
@@ -190,7 +213,7 @@ describe(runModeSetup, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({ remote });
 
     const actual = await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,
@@ -221,7 +244,7 @@ describe(runModeSetup, () => {
     mockRunTemplate.mockResolvedValueOnce(new Error('Creation error.'));
 
     const actual = await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,
@@ -247,7 +270,7 @@ describe(runModeSetup, () => {
     mockRunTemplate.mockResolvedValueOnce({ creation: {} });
 
     await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,
@@ -275,7 +298,7 @@ describe(runModeSetup, () => {
     mockRunTemplate.mockResolvedValueOnce({ creation: {} });
 
     await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,
@@ -302,7 +325,7 @@ describe(runModeSetup, () => {
     mockRunTemplate.mockResolvedValueOnce({ creation: {} });
 
     await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,
@@ -326,7 +349,7 @@ describe(runModeSetup, () => {
     mockRunTemplate.mockResolvedValueOnce({ creation: {} });
 
     await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,
@@ -350,7 +373,7 @@ describe(runModeSetup, () => {
     mockRunTemplate.mockResolvedValueOnce({ creation: {} });
 
     await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,
@@ -376,7 +399,7 @@ describe(runModeSetup, () => {
     mockPrepareGitRepository.mockRejectedValueOnce(preparationError);
 
     const actual = await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,
@@ -401,7 +424,7 @@ describe(runModeSetup, () => {
     mockRunTemplate.mockResolvedValueOnce({ creation: {}, suggestions });
 
     const actual = await runModeSetup({
-      argv,
+      providedValues: {},
       display,
       from,
       rerunCommand,

@@ -16,14 +16,6 @@ vi.mock('./loggers/logHelpText.js', () => ({
   },
 }));
 
-const mockLogUnknownFlags = vi.fn();
-
-vi.mock('./loggers/logUnknownFlags.js', () => ({
-  get logUnknownFlags() {
-    return mockLogUnknownFlags;
-  },
-}));
-
 const mockLogInvalidFlags = vi.fn();
 
 vi.mock('./loggers/logInvalidFlags.ts', () => ({
@@ -68,8 +60,6 @@ const template = createTemplate({
   produce: vi.fn(),
 });
 
-const argv = ['npx', 'bingo-example'];
-
 describe('runCli', () => {
   afterEach(() => {
     vi.unstubAllEnvs();
@@ -77,37 +67,42 @@ describe('runCli', () => {
 
   it('logs unknown flags and errors when an unknown flag is provided', async () => {
     const actual = await runCLI({
-      argv: [...argv, '--skip-file'],
+      args: ['--skip-file'],
       display: createClackDisplay(),
       from: '',
       template,
-      values: { 'skip-file': true } as object,
     });
 
-    expect(mockLogUnknownFlags).toHaveBeenCalledWith([
-      { flag: 'skip-file', suggestion: 'skip-files' },
+    expect(mockLogInvalidFlags).toHaveBeenCalledWith([
+      {
+        flag: 'skip-file',
+        kind: 'unknown',
+        message: 'Unknown flag: --skip-file',
+        suggestion: 'skip-files',
+      },
     ]);
-    expect(mockLogInvalidFlags).not.toHaveBeenCalled();
     expect(actual).toEqual({ status: cliStatuses.error });
     expect(mockReadProductionSettings).not.toHaveBeenCalled();
   });
 
   it('logs unknown flags and invalid flags together when both are provided', async () => {
     const actual = await runCLI({
-      argv: [...argv, '--skip-file', '--count', 'abc'],
+      args: ['--skip-file', '--count', 'abc'],
       display: createClackDisplay(),
       from: '',
       template: createTemplate({
         options: { count: z.number() as unknown },
         produce: vi.fn(),
       }),
-      values: { help: true, 'skip-file': true } as object,
     });
 
-    expect(mockLogUnknownFlags).toHaveBeenCalledWith([
-      { flag: 'skip-file', suggestion: 'skip-files' },
-    ]);
     expect(mockLogInvalidFlags).toHaveBeenCalledWith([
+      {
+        flag: 'skip-file',
+        kind: 'unknown',
+        message: 'Unknown flag: --skip-file',
+        suggestion: 'skip-files',
+      },
       {
         flag: 'count',
         kind: 'invalid',
@@ -118,13 +113,13 @@ describe('runCli', () => {
     expect(mockLogHelpText).not.toHaveBeenCalled();
   });
 
-  it('does not log unknown flags when only known CLI flags and template options are provided', async () => {
+  it('parses without logging when only known CLI flags and template options are provided', async () => {
     mockReadProductionSettings.mockResolvedValueOnce({
       mode: 'setup',
     });
 
     await runCLI({
-      argv: [...argv, '--offline', '--mode', 'setup', '--no-value', '--title=abc'],
+      args: ['--offline', '--mode', 'setup', '--no-value', '--title=abc'],
       display: createClackDisplay(),
       from: '',
       template: createTemplate({
@@ -134,12 +129,14 @@ describe('runCli', () => {
         },
         produce: vi.fn(),
       }),
-      values: { mode: 'setup', offline: true },
     });
 
-    expect(mockLogUnknownFlags).not.toHaveBeenCalled();
     expect(mockLogInvalidFlags).not.toHaveBeenCalled();
-    expect(mockRunModeSetup).toHaveBeenCalled();
+    expect(mockRunModeSetup).toHaveBeenCalledWith(
+      expect.objectContaining({
+        providedValues: { mode: 'setup', offline: true, title: 'abc', value: false },
+      }),
+    );
   });
 
   it("logs invalid flags and errors when a template option's value can't be converted", async () => {
@@ -148,17 +145,15 @@ describe('runCli', () => {
     });
 
     const actual = await runCLI({
-      argv: [...argv, '--count', 'abc'],
+      args: ['--count', 'abc'],
       display: createClackDisplay(),
       from: '',
       template: createTemplate({
         options: { count: z.number() as unknown },
         produce: vi.fn(),
       }),
-      values: {},
     });
 
-    expect(mockLogUnknownFlags).not.toHaveBeenCalled();
     expect(mockLogInvalidFlags).toHaveBeenCalledWith([
       {
         flag: 'count',
@@ -181,11 +176,10 @@ describe('runCli', () => {
     });
 
     await runCLI({
-      argv: [...argv, '--help', '--count'],
+      args: ['--help', '--count'],
       display: createClackDisplay(),
       from: '',
       template,
-      values: { help: true },
     });
 
     expect(mockLogInvalidFlags).not.toHaveBeenCalled();
@@ -193,40 +187,15 @@ describe('runCli', () => {
     expect(mockRunModeSetup).not.toHaveBeenCalled();
   });
 
-  it("returns an error when a template option's schema doesn't support Standard JSON Schema", async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { jsonSchema, ...standard } = z.string()['~standard'];
-    const actual = await runCLI({
-      argv,
-      display: createClackDisplay(),
-      from: '',
-      template: createTemplate({
-        options: { title: { '~standard': standard } as unknown },
-        produce: vi.fn(),
-      }),
-      values: { help: true },
-    });
-
-    expect(actual).toEqual({
-      error: new Error(
-        "This template's options must be created with Zod 4.2 or newer, but these were created with an older version: --title.\nUpdate the template's zod dependency to ^4.2.0 or newer.",
-      ),
-      status: cliStatuses.error,
-    });
-    expect(mockReadProductionSettings).not.toHaveBeenCalled();
-    expect(mockLogHelpText).not.toHaveBeenCalled();
-  });
-
   it('logs the error when readProductionSettings resolves an error', async () => {
     const error = new Error('Oh no!');
     mockReadProductionSettings.mockResolvedValueOnce(error);
 
     const actual = await runCLI({
-      argv,
+      args: ['--skip-files'],
       display: createClackDisplay(),
       from: '',
       template,
-      values: {},
     });
 
     expect(mockLogOutro).toHaveBeenCalledWith(styleText('red', error.message));
@@ -239,13 +208,10 @@ describe('runCli', () => {
     });
 
     await runCLI({
-      argv,
+      args: ['--help'],
       display: createClackDisplay(),
       from: '',
       template,
-      values: {
-        help: true,
-      },
     });
 
     expect(mockLogHelpText).toHaveBeenCalledWith('setup', '', template);
@@ -259,11 +225,10 @@ describe('runCli', () => {
     });
 
     await runCLI({
-      argv,
+      args: [],
       display: createClackDisplay(),
       from: '',
       template,
-      values: {},
     });
 
     expect(mockLogOutro).not.toHaveBeenCalled();
@@ -277,11 +242,10 @@ describe('runCli', () => {
     });
 
     await runCLI({
-      argv,
+      args: [],
       display: createClackDisplay(),
       from: '',
       template,
-      values: {},
     });
 
     expect(mockLogOutro).not.toHaveBeenCalled();
@@ -295,13 +259,10 @@ describe('runCli', () => {
     });
 
     await runCLI({
-      argv,
+      args: ['--skip-files'],
       display: createClackDisplay(),
       from: '',
       template,
-      values: {
-        'skip-files': true,
-      },
     });
 
     expect(mockRunModeSetup).toHaveBeenCalledWith(
@@ -319,13 +280,10 @@ describe('runCli', () => {
     });
 
     await runCLI({
-      argv,
+      args: ['--skip-requests'],
       display: createClackDisplay(),
       from: '',
       template,
-      values: {
-        'skip-requests': true,
-      },
     });
 
     expect(mockRunModeSetup).toHaveBeenCalledWith(
@@ -343,13 +301,10 @@ describe('runCli', () => {
     });
 
     await runCLI({
-      argv,
+      args: ['--skip-scripts'],
       display: createClackDisplay(),
       from: '',
       template,
-      values: {
-        'skip-scripts': true,
-      },
     });
 
     expect(mockRunModeSetup).toHaveBeenCalledWith(
@@ -367,11 +322,10 @@ describe('runCli', () => {
     });
 
     await runCLI({
-      argv,
+      args: [],
       display: createClackDisplay(),
       from: 'create-example',
       template,
-      values: {},
     });
 
     expect(mockRunModeSetup).toHaveBeenCalledWith(
@@ -388,12 +342,11 @@ describe('runCli', () => {
     });
 
     await runCLI({
-      argv,
+      args: [],
       display: createClackDisplay(),
       from: 'bingo',
       rerunFrom: 'bingo /path/to/template.js',
       template,
-      values: {},
     });
 
     expect(mockRunModeSetup).toHaveBeenCalledWith(

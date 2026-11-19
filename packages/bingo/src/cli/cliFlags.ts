@@ -1,0 +1,26 @@
+import type { FlagDescriptor } from 'parse-standard-args';
+
+function booleanFlag(key: string): FlagDescriptor {
+  return { key, kind: 'boolean', multiple: false, required: false };
+}
+
+function stringFlag(key: string): FlagDescriptor {
+  return { key, kind: 'string', multiple: false, required: false };
+}
+
+/**
+ * Flags the CLI itself reads, which are parsed alongside templates' options.
+ */
+export const cliFlags: FlagDescriptor[] = [
+  stringFlag('directory'),
+  booleanFlag('help'),
+  stringFlag('mode'),
+  booleanFlag('offline'),
+  stringFlag('owner'),
+  booleanFlag('remote'),
+  stringFlag('repository'),
+  booleanFlag('skip-files'),
+  booleanFlag('skip-requests'),
+  booleanFlag('skip-scripts'),
+  booleanFlag('version'),
+];

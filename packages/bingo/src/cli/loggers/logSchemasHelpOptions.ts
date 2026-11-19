@@ -1,4 +1,5 @@
-import { describeOptions, formatFlagType } from 'parse-standard-args';
+import type { FlagDescriptor } from 'parse-standard-args';
+import { describeOptions, formatFlagDescription, formatFlagType } from 'parse-standard-args';
 
 import type { AnyShape } from '../../types/shapes.ts';
 import { logHelpOptions } from './logHelpOptions.ts';
@@ -11,12 +12,13 @@ export function logSchemasHelpOptions(packageName: string, schemas: AnyShape) {
       .filter((flag) => !flag.hidden)
       .map((flag) => ({
         flag: `--${flag.key}`,
-        text: asSentence(flag.description),
+        text: asSentence(flag),
         type: formatFlagType(flag),
       })),
   );
 }
 
-function asSentence(text: string | undefined) {
-  return text && text[0].toUpperCase() + text.slice(1) + '.';
+function asSentence(flag: FlagDescriptor) {
+  const text = formatFlagDescription(flag);
+  return text && text[0].toUpperCase() + text.slice(1) + (flag.description ? '.' : '');
 }

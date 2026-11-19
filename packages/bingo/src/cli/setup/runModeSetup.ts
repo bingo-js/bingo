@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.ts';
 import { prepareOptions } from '../../preparation/prepareOptions.ts';
 import { runTemplate } from '../../runners/runTemplate.ts';
-import type { AnyShape } from '../../types/shapes.ts';
+import type { AnyShape, InferredObject } from '../../types/shapes.ts';
 import type { RequestedSkips } from '../../types/skips.ts';
 import type { Template } from '../../types/templates.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
@@ -14,7 +14,7 @@ import { runSpinnerTask } from '../display/runSpinnerTask.ts';
 import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
 import { logStartText } from '../loggers/logStartText.ts';
 import { cliMessages } from '../messages.ts';
-import { parseOptionsArgs } from '../parsers/parseOptionsArgs.ts';
+import { pickKeys } from '../parsers/pickKeys.ts';
 import { promptForDirectory } from '../prompts/promptForDirectory.ts';
 import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
 import { prepareGitRepository } from '../repository/prepareGitRepository.ts';
@@ -27,11 +27,15 @@ export interface RunModeSetupSettings<
   OptionsShape extends AnyShape = AnyShape,
   Refinements = unknown,
 > {
-  argv: string[];
   directory?: string;
   display: ClackDisplay;
   from: string;
   offline?: boolean;
+
+  /**
+   * Values parsed from CLI flags, including ones for the template's options.
+   */
+  providedValues: Record<string, unknown>;
   remote?: boolean;
   repository?: string;
   rerunCommand: string;
@@ -43,12 +47,12 @@ export async function runModeSetup<
   OptionsShape extends AnyShape = AnyShape,
   Refinements = unknown,
 >({
-  argv,
   repository: requestedRepository,
   directory: requestedDirectory = requestedRepository,
   display,
   from,
   offline = false,
+  providedValues,
   remote: requestedRemote,
   rerunCommand,
   skips = {},
@@ -71,17 +75,17 @@ export async function runModeSetup<
     offline,
   });
 
-  const providedTemplateOptions = parseOptionsArgs(argv, template.options).values;
   const optionsShape = {
     directory: z.string().optional(),
     owner: z.string().optional(),
     repository: z.string().optional(),
     ...template.options,
   };
-  const providedOptions = {
-    ...parseOptionsArgs(argv, optionsShape).values,
-    ...providedTemplateOptions,
-  };
+  const providedOptions = pickKeys(providedValues, Object.keys(optionsShape));
+  const providedTemplateOptions = pickKeys(
+    providedValues,
+    Object.keys(template.options),
+  ) as Partial<InferredObject<OptionsShape>>;
 
   const preparedOptions = await runSpinnerTask(
     display,

@@ -1,9 +1,10 @@
 import { execFileSync } from 'node:child_process';
 
+import { describeOptions, parseRawArgs } from 'parse-standard-args';
 import { describe, expect, it, test, vi } from 'vitest';
 import { z } from 'zod';
 
-import { parseOptionsArgs } from '../parsers/parseOptionsArgs.ts';
+import type { AnyShape } from '../../types/shapes.ts';
 import { logRerunSuggestion, stringifyRerunArgs } from './logRerunSuggestion.ts';
 
 const mockLog = {
@@ -25,6 +26,12 @@ function splitWithShell(text: string) {
   })
     .split('\0')
     .slice(0, -1);
+}
+
+function parseOptionsArgs(args: string[], options: AnyShape) {
+  const { issues, unknown, values } = parseRawArgs({ args, flags: describeOptions(options) });
+
+  return { issues, unknown, values };
 }
 
 describe(logRerunSuggestion, () => {

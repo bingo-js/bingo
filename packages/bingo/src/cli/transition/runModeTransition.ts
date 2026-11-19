@@ -4,7 +4,7 @@ import { intakeDirectory } from 'bingo-fs';
 import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.ts';
 import { prepareOptions } from '../../preparation/prepareOptions.ts';
 import { runTemplate } from '../../runners/runTemplate.ts';
-import type { AnyShape } from '../../types/shapes.ts';
+import type { AnyShape, InferredObject } from '../../types/shapes.ts';
 import type { RequestedSkips } from '../../types/skips.ts';
 import type { Template } from '../../types/templates.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
@@ -12,7 +12,7 @@ import { runSpinnerTask } from '../display/runSpinnerTask.ts';
 import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
 import { logStartText } from '../loggers/logStartText.ts';
 import { cliMessages } from '../messages.ts';
-import { parseOptionsArgs } from '../parsers/parseOptionsArgs.ts';
+import { pickKeys } from '../parsers/pickKeys.ts';
 import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
 import { checkUncommittedChanges } from '../repository/checkUncommittedChanges.ts';
 import { clearLocalGitTags } from '../repository/clearLocalGitTags.ts';
@@ -28,12 +28,16 @@ export interface RunModeTransitionSettings<
   OptionsShape extends AnyShape = AnyShape,
   Refinements = unknown,
 > {
-  argv: string[];
   configFile: string | undefined;
   directory?: string;
   display: ClackDisplay;
   from: string;
   offline?: boolean;
+
+  /**
+   * Values parsed from CLI flags, including ones for the template's options.
+   */
+  providedValues: Record<string, unknown>;
   remote?: boolean;
   rerunCommand: string;
   skips?: RequestedSkips;
@@ -44,12 +48,12 @@ export async function runModeTransition<
   OptionsShape extends AnyShape = AnyShape,
   Refinements = unknown,
 >({
-  argv,
   configFile,
   directory = '.',
   display,
   from,
   offline = false,
+  providedValues,
   remote: requestedRemote,
   rerunCommand,
   skips = {},
@@ -67,7 +71,9 @@ export async function runModeTransition<
     template.about?.repository &&
     (await getForkedRepositoryLocator(directory, template.about.repository));
 
-  const providedOptions = parseOptionsArgs(argv, template.options).values;
+  const providedOptions = pickKeys(providedValues, Object.keys(template.options)) as Partial<
+    InferredObject<OptionsShape>
+  >;
 
   const loadedConfig = await readConfigSettings(configFile, directory, template);
   if (loadedConfig instanceof Error) {

@@ -122,7 +122,7 @@ describe(runTemplateCLI, () => {
   });
 
   it('logs a link when template.about.repository is defined', async () => {
-    mockParseProcessArgv.mockReturnValueOnce({ argv: [], values: {} });
+    mockParseProcessArgv.mockReturnValueOnce({ args: [], values: {} });
 
     await runTemplateCLI(
       createTemplate({

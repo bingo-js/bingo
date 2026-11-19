@@ -2,7 +2,7 @@ import { describe, expect, it, test, vi } from 'vitest';
 import { z } from 'zod';
 
 import { createTemplate } from '../../creators/createTemplate.ts';
-import { cliArgsOptions } from '../cliArgsOptions.ts';
+import { cliFlags } from '../cliFlags.ts';
 import { logHelpText } from './logHelpText.ts';
 
 const mockLog = {
@@ -29,8 +29,8 @@ describe('logHelpText', () => {
     );
 
     const [[message]] = mockLog.message.mock.calls;
-    const missing = Object.entries(cliArgsOptions)
-      .map(([flag, { type }]) => `--${flag} (${narrowedTypes.get(flag) ?? type})`)
+    const missing = cliFlags
+      .map((flag) => `--${flag.key} (${narrowedTypes.get(flag.key) ?? flag.kind})`)
       .filter((expected) => !message.includes(expected));
 
     expect(missing).toEqual([]);
@@ -122,53 +122,53 @@ describe('logHelpText', () => {
 			]
 		`);
     expect(mockLog.message.mock.calls).toMatchInlineSnapshot(`
-			[
-			  [
-			    "Bingo template options:
+      [
+        [
+          "Bingo template options:
 
-			  --directory (string): What local directory path to run under
-			      npx ./template.js --directory my-fancy-project
+        --directory (string): What local directory path to run under
+            npx ./template.js --directory my-fancy-project
 
-			  --help (boolean): Prints help text.
-			      npx ./template.js --help
+        --help (boolean): Prints help text.
+            npx ./template.js --help
 
-			  --mode ("setup" | "transition"): Which mode to run in.
-			      npx ./template.js --mode setup
-			      npx ./template.js --mode transition
+        --mode ("setup" | "transition"): Which mode to run in.
+            npx ./template.js --mode setup
+            npx ./template.js --mode transition
 
-			  --offline (boolean): Whether to run in an "offline" mode that skips network requests.
-			      npx ./template.js --offline
+        --offline (boolean): Whether to run in an "offline" mode that skips network requests.
+            npx ./template.js --offline
 
-			  --owner (string): What GitHub organization or user the repository will be under.
-			      npx ./template.js --owner my-org
+        --owner (string): What GitHub organization or user the repository will be under.
+            npx ./template.js --owner my-org
 
-			  --remote (boolean): Whether to create a remote repository on GitHub if one does not already exist.
-			      npx ./template.js --remote
+        --remote (boolean): Whether to create a remote repository on GitHub if one does not already exist.
+            npx ./template.js --remote
 
-			  --repository (string): What the repository will be named.
-			      npx ./template.js --repository my-fancy-project
+        --repository (string): What the repository will be named.
+            npx ./template.js --repository my-fancy-project
 
-			  --skip-files (boolean): Whether to skip creating files on disk.
-			      npx ./template.js --skip-files
+        --skip-files (boolean): Whether to skip creating files on disk.
+            npx ./template.js --skip-files
 
-			  --skip-requests (boolean): Whether to skip sending network requests as specified by templates.
-			      npx ./template.js --skip-requests
+        --skip-requests (boolean): Whether to skip sending network requests as specified by templates.
+            npx ./template.js --skip-requests
 
-			  --skip-scripts (boolean): Whether to skip running local scripts as specified by templates.
-			      npx ./template.js --skip-scripts
+        --skip-scripts (boolean): Whether to skip running local scripts as specified by templates.
+            npx ./template.js --skip-scripts
 
-			  --version (boolean): Prints package versions.
-			      npx ./template.js --version
-			",
-			  ],
-			  [
-			    "My Template options:
+        --version (boolean): Prints package versions.
+            npx ./template.js --version
+      ",
+        ],
+        [
+          "My Template options:
 
-			  --first (number): My first option.
-			  --second (number): My second option.",
-			  ],
-			]
-		`);
+        --first (number): My first option (required).
+        --second (number): My second option (required).",
+        ],
+      ]
+    `);
   });
 
   test('template options of each type', () => {
@@ -198,17 +198,17 @@ describe('logHelpText', () => {
     );
 
     expect(mockLog.message.mock.calls[1]).toMatchInlineSnapshot(`
-			[
-			  "My Template options:
+      [
+        "My Template options:
 
-			  --access ("public" | "restricted"): Npm access.
-			  --count (integer): How many.
-			  --emoji (string): 
-			  --keywords (string[]): Keywords.
-			  --logo (json): Logo for the repository.
-			  --private (boolean): Whether it's private.
-			  --type ("commonjs" | "module"): Module type.",
-			]
-		`);
+        --access ("public" | "restricted"): Npm access (default: public).
+        --count (integer): How many.
+        --emoji (string)
+        --keywords (string[]): Keywords (repeatable).
+        --logo (json): Logo for the repository.
+        --private (boolean): Whether it's private.
+        --type ("commonjs" | "module"): Module type (required).",
+      ]
+    `);
   });
 });

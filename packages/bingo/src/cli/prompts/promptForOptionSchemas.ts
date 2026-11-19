@@ -1,25 +1,13 @@
 import { describeOptions } from 'parse-standard-args';
+import type {
+  PromptedOptionsCancelled,
+  PromptedOptionsCompleted,
+} from 'parse-standard-args/prompts';
 import { promptForOptions } from 'parse-standard-args/prompts';
-import type { z } from 'zod';
 
 import type { AnyShape, InferredObject } from '../../types/shapes.ts';
 import type { SystemContext } from '../../types/system.ts';
 import type { Template } from '../../types/templates.ts';
-
-export type PromptedOptions<Options extends object> =
-  | PromptedOptionsCancelled<Options>
-  | PromptedOptionsProduced<Options>;
-
-export interface PromptedOptionsCancelled<Options extends object> {
-  cancelled: true;
-  prompted: Partial<Options>;
-}
-
-export interface PromptedOptionsProduced<Options extends object> {
-  cancelled: false;
-  completed: Options;
-  prompted: Partial<Options>;
-}
 
 export interface PromptForOptionsSettings<OptionsShape extends AnyShape> {
   existing: Partial<InferredObject<OptionsShape>>;
@@ -29,9 +17,10 @@ export interface PromptForOptionsSettings<OptionsShape extends AnyShape> {
 export async function promptForOptionSchemas<OptionsShape extends AnyShape, Refinements>(
   template: Template<OptionsShape, Refinements>,
   { existing, system }: PromptForOptionsSettings<OptionsShape>,
-): Promise<PromptedOptions<InferredObject<OptionsShape>>> {
-  type Options = InferredObject<OptionsShape>;
-
+): Promise<
+  | PromptedOptionsCancelled
+  | (PromptedOptionsCompleted & { completed: InferredObject<OptionsShape> })
+> {
   const result = await promptForOptions({
     flags: describeOptions(template.options),
     values: {
@@ -41,30 +30,22 @@ export async function promptForOptionSchemas<OptionsShape extends AnyShape, Refi
   });
 
   if (result.cancelled) {
-    return result as PromptedOptionsCancelled<Options>;
+    return result;
   }
 
   // Prompted values are kept as entered, so they can be suggested as CLI flags.
   // Templates are given their schemas' outputs, such as transformed values.
-  const parsed = await Promise.all(
-    Object.entries(result.prompted).map(async ([key, value]) => [
-      key,
-      await getSchemaOutput(template.options[key], value),
-    ]),
-  );
+  // Prompted values were already validated, and schemas must be synchronous.
+  const outputs = Object.entries(result.prompted).map(([key, value]) => [
+    key,
+    (template.options[key]['~standard'].validate(value) as { value: unknown }).value,
+  ]);
 
   return {
-    cancelled: false,
+    ...result,
     completed: {
       ...result.completed,
-      ...Object.fromEntries(parsed),
-    } as Options,
-    prompted: result.prompted as Partial<Options>,
+      ...Object.fromEntries(outputs),
+    } as InferredObject<OptionsShape>,
   };
-}
-
-async function getSchemaOutput(schema: z.ZodType, value: unknown) {
-  const result = await schema['~standard'].validate(value);
-
-  return result.issues ? value : result.value;
 }

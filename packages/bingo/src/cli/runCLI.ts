@@ -1,19 +1,16 @@
 import { styleText } from 'node:util';
 
+import { describeOptions, parseRawArgs } from 'parse-standard-args';
 import { z } from 'zod';
 
 import type { AnyShape } from '../types/shapes.ts';
 import type { Template } from '../types/templates.ts';
+import { cliFlags } from './cliFlags.ts';
 import type { ClackDisplay } from './display/createClackDisplay.ts';
 import { getRerunCommand } from './loggers/getRerunCommand.ts';
 import { logHelpText } from './loggers/logHelpText.ts';
 import { logInvalidFlags } from './loggers/logInvalidFlags.ts';
 import { logOutro } from './loggers/logOutro.ts';
-import { logUnknownFlags } from './loggers/logUnknownFlags.ts';
-import type { RunCLIRawValues } from './parseProcessArgv.ts';
-import { getTemplateOptionsError } from './parsers/getTemplateOptionsError.ts';
-import { getUnknownFlags } from './parsers/getUnknownFlags.ts';
-import { parseOptionsArgs } from './parsers/parseOptionsArgs.ts';
 import { readProductionSettings } from './readProductionSettings.ts';
 import { runModeSetup } from './setup/runModeSetup.ts';
 import { cliStatuses } from './status.ts';
@@ -33,34 +30,35 @@ const valuesSchema = z.object({
 });
 
 export interface RunCLISettings<OptionsShape extends AnyShape = AnyShape, Refinements = unknown> {
-  argv: string[];
+  /**
+   * Args as provided on the command line, without the node and script paths.
+   */
+  args: string[];
   display: ClackDisplay;
   from: string;
   rerunFrom?: string;
   template: Template<OptionsShape, Refinements>;
-  values: RunCLIRawValues;
 }
 
 export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinements = unknown>({
-  argv,
+  args,
   display,
   from,
   rerunFrom = from,
   template,
-  values,
 }: RunCLISettings<OptionsShape, Refinements>) {
-  const optionsError = getTemplateOptionsError(template.options);
-  if (optionsError) {
-    return { error: optionsError, status: cliStatuses.error };
-  }
+  const { issues, values } = parseRawArgs({
+    args,
+    // Template options take precedence over CLI flags of the same name, such as --owner.
+    flags: [
+      ...cliFlags.filter((flag) => !(flag.key in template.options)),
+      ...describeOptions(template.options),
+    ],
+    positionals: { kinds: [], rest: 'string' },
+  });
 
-  const { issues, unknown } = parseOptionsArgs(argv, template.options);
-  const unknownFlags = getUnknownFlags(unknown, template.options);
-  if (unknownFlags.length) {
-    logUnknownFlags(unknownFlags);
-    if (issues.length) {
-      logInvalidFlags(issues);
-    }
+  if (issues.some((issue) => issue.kind === 'unknown')) {
+    logInvalidFlags(issues);
     return { status: cliStatuses.error };
   }
 
@@ -84,9 +82,9 @@ export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinemen
 
   const sharedSettings = {
     ...validatedValues,
-    argv,
     display,
     from,
+    providedValues: values,
     remote: validatedValues.remote,
     rerunCommand: getRerunCommand(rerunFrom),
     skips: {

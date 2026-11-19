@@ -161,8 +161,6 @@ const templateWithRepository = createTemplate({
   produce: vi.fn(),
 });
 
-const argv = ['npx', 'bingo-my-app'];
-
 const from = 'create-example';
 
 const rerunCommand = 'npx create-example';
@@ -177,7 +175,7 @@ describe(runModeTransition, () => {
     mockReadConfigSettings.mockResolvedValueOnce(error);
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: 'example.config.ts',
       display,
       from,
@@ -197,7 +195,7 @@ describe(runModeTransition, () => {
     mockPrepareOptions.mockRejectedValueOnce(error);
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -216,7 +214,7 @@ describe(runModeTransition, () => {
     });
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -243,7 +241,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({ remote });
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -272,7 +270,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({});
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -297,7 +295,7 @@ describe(runModeTransition, () => {
     mockReadConfigSettings.mockResolvedValueOnce(error);
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: 'example.config.ts',
       display,
       from,
@@ -319,7 +317,7 @@ describe(runModeTransition, () => {
     mockCheckUncommittedChanges.mockResolvedValueOnce('changes');
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -350,7 +348,7 @@ describe(runModeTransition, () => {
     mockCheckUncommittedChanges.mockResolvedValueOnce('unknown');
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -383,7 +381,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({});
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -415,7 +413,7 @@ describe(runModeTransition, () => {
     mockRunTemplate.mockResolvedValueOnce({ creation: {}, suggestions });
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -442,7 +440,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({});
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -480,7 +478,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({});
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -515,7 +513,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({});
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -556,7 +554,7 @@ describe(runModeTransition, () => {
     });
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
