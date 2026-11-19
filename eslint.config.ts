@@ -57,7 +57,7 @@ export default defineConfig(
       'no-restricted-syntax': [
         'error',
         {
-          selector: 'ExportAllDeclaration',
+          selector: 'ExportAllDeclaration[exported=null]',
           message: "Do not use 'export * from' statements. Please export individual symbols.",
         },
       ],
