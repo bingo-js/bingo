@@ -8,9 +8,6 @@ function stringFlag(key: string): FlagDescriptor {
   return { key, kind: 'string', multiple: false, required: false };
 }
 
-/**
- * Flags the CLI itself reads, which are parsed alongside templates' options.
- */
 export const cliFlags: FlagDescriptor[] = [
   stringFlag('directory'),
   booleanFlag('help'),

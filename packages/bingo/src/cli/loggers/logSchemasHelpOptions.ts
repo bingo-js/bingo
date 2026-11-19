@@ -19,7 +19,6 @@ export function logSchemasHelpOptions(packageName: string, schemas: AnyShape) {
 }
 
 function asSentence(flag: FlagDescriptor) {
-  // Without a description, the details alone read as a sentence: "(required)" is "Required."
   const text = flag.description
     ? formatFlagDescription(flag)
     : formatFlagDescription(flag).replace(/^\((.*)\)$/, '$1');

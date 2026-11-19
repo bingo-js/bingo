@@ -33,10 +33,6 @@ export interface RunModeTransitionSettings<
   display: ClackDisplay;
   from: string;
   offline?: boolean;
-
-  /**
-   * Values parsed from CLI flags, including ones for the template's options.
-   */
   providedValues: Record<string, unknown>;
   remote?: boolean;
   rerunCommand: string;
