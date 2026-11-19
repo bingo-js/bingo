@@ -38,15 +38,10 @@ export function mergePropsIfUpdated<T extends object>(
         return createMismatchError(keyPath, result[key], value);
       }
 
-      const existingElementKeys = new Set(result[key].map((value) => createHash(value)));
-
-      for (const newElement of value) {
-        const newElementKey = createHash(newElement);
-        if (!existingElementKeys.has(newElementKey)) {
-          existingElementKeys.add(newElementKey);
-          result[key].push(newElement);
-          updated = true;
-        }
+      const mergedArray = mergePropArraysIfUpdated(result[key], value);
+      if (mergedArray) {
+        result[key] = mergedArray as T[keyof T];
+        updated = true;
       }
 
       continue;

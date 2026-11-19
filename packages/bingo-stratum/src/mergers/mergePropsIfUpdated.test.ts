@@ -49,4 +49,13 @@ describe(mergePropsIfUpdated, () => {
 
     expect(actual).toEqual(expected);
   });
+
+  it('does not mutate arrays in the existing props when merging new elements', () => {
+    const existingArray = ['a1'];
+
+    const actual = mergePropsIfUpdated({ a: existingArray }, { a: ['a2'] });
+
+    expect(actual).toEqual({ a: ['a1', 'a2'] });
+    expect(existingArray).toEqual(['a1']);
+  });
 });
