@@ -7,6 +7,5 @@ export function formatFlag(flag: string, type: string) {
       : styleText(['bold', 'green'], flag),
     ' ',
     styleText('green', `(${type})`),
-    styleText('blue', ': '),
   ].join('');
 }

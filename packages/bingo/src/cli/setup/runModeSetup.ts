@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.ts';
 import { prepareOptions } from '../../preparation/prepareOptions.ts';
 import { runTemplate } from '../../runners/runTemplate.ts';
-import type { AnyShape } from '../../types/shapes.ts';
+import type { AnyShape, InferredObject } from '../../types/shapes.ts';
 import type { RequestedSkips } from '../../types/skips.ts';
 import type { Template } from '../../types/templates.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
@@ -14,7 +14,7 @@ import { runSpinnerTask } from '../display/runSpinnerTask.ts';
 import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
 import { logStartText } from '../loggers/logStartText.ts';
 import { cliMessages } from '../messages.ts';
-import { parseZodArgs } from '../parsers/parseZodArgs.ts';
+import { pickKeys } from '../parsers/pickKeys.ts';
 import { promptForDirectory } from '../prompts/promptForDirectory.ts';
 import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
 import { prepareGitRepository } from '../repository/prepareGitRepository.ts';
@@ -27,11 +27,11 @@ export interface RunModeSetupSettings<
   OptionsShape extends AnyShape = AnyShape,
   Refinements = unknown,
 > {
-  argv: string[];
   directory?: string;
   display: ClackDisplay;
   from: string;
   offline?: boolean;
+  providedValues: Record<string, unknown>;
   remote?: boolean;
   repository?: string;
   rerunCommand: string;
@@ -43,12 +43,12 @@ export async function runModeSetup<
   OptionsShape extends AnyShape = AnyShape,
   Refinements = unknown,
 >({
-  argv,
   repository: requestedRepository,
   directory: requestedDirectory = requestedRepository,
   display,
   from,
   offline = false,
+  providedValues,
   remote: requestedRemote,
   rerunCommand,
   skips = {},
@@ -71,15 +71,17 @@ export async function runModeSetup<
     offline,
   });
 
-  const providedTemplateOptions = parseZodArgs(argv, template.options);
-  const providedOptions = {
-    ...parseZodArgs(argv, {
-      directory: z.string().optional(),
-      owner: z.string().optional(),
-      repository: z.string().optional(),
-    }),
-    ...providedTemplateOptions,
+  const optionsShape = {
+    directory: z.string().optional(),
+    owner: z.string().optional(),
+    repository: z.string().optional(),
+    ...template.options,
   };
+  const providedOptions = pickKeys(providedValues, Object.keys(optionsShape));
+  const providedTemplateOptions = pickKeys(
+    providedValues,
+    Object.keys(template.options),
+  ) as Partial<InferredObject<OptionsShape>>;
 
   const preparedOptions = await runSpinnerTask(
     display,
@@ -94,7 +96,7 @@ export async function runModeSetup<
     },
   );
   if (preparedOptions instanceof Error) {
-    logRerunSuggestion(rerunCommand, providedOptions);
+    logRerunSuggestion(rerunCommand, providedOptions, optionsShape);
     return { status: cliStatuses.error };
   }
 
@@ -109,7 +111,7 @@ export async function runModeSetup<
     system,
   });
   if (baseOptions.cancelled) {
-    logRerunSuggestion(rerunCommand, baseOptions.prompted);
+    logRerunSuggestion(rerunCommand, baseOptions.prompted, optionsShape);
     return { status: cliStatuses.cancelled };
   }
 
@@ -122,7 +124,7 @@ export async function runModeSetup<
   );
 
   if (remote instanceof Error) {
-    logRerunSuggestion(rerunCommand, baseOptions.prompted);
+    logRerunSuggestion(rerunCommand, baseOptions.prompted, optionsShape);
     return { error: remote, status: cliStatuses.error };
   }
 
@@ -150,7 +152,7 @@ export async function runModeSetup<
       }),
   );
   if (creation instanceof Error) {
-    logRerunSuggestion(rerunCommand, baseOptions.prompted);
+    logRerunSuggestion(rerunCommand, baseOptions.prompted, optionsShape);
     return {
       outro: cliMessages.leaving,
       status: cliStatuses.error,
@@ -177,7 +179,7 @@ export async function runModeSetup<
     );
   }
 
-  logRerunSuggestion(rerunCommand, baseOptions.prompted);
+  logRerunSuggestion(rerunCommand, baseOptions.prompted, optionsShape);
 
   if (preparationError) {
     return {

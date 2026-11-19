@@ -4,7 +4,7 @@ import { intakeDirectory } from 'bingo-fs';
 import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.ts';
 import { prepareOptions } from '../../preparation/prepareOptions.ts';
 import { runTemplate } from '../../runners/runTemplate.ts';
-import type { AnyShape } from '../../types/shapes.ts';
+import type { AnyShape, InferredObject } from '../../types/shapes.ts';
 import type { RequestedSkips } from '../../types/skips.ts';
 import type { Template } from '../../types/templates.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
@@ -12,7 +12,7 @@ import { runSpinnerTask } from '../display/runSpinnerTask.ts';
 import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
 import { logStartText } from '../loggers/logStartText.ts';
 import { cliMessages } from '../messages.ts';
-import { parseZodArgs } from '../parsers/parseZodArgs.ts';
+import { pickKeys } from '../parsers/pickKeys.ts';
 import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
 import { checkUncommittedChanges } from '../repository/checkUncommittedChanges.ts';
 import { clearLocalGitTags } from '../repository/clearLocalGitTags.ts';
@@ -28,12 +28,12 @@ export interface RunModeTransitionSettings<
   OptionsShape extends AnyShape = AnyShape,
   Refinements = unknown,
 > {
-  argv: string[];
   configFile: string | undefined;
   directory?: string;
   display: ClackDisplay;
   from: string;
   offline?: boolean;
+  providedValues: Record<string, unknown>;
   remote?: boolean;
   rerunCommand: string;
   skips?: RequestedSkips;
@@ -44,12 +44,12 @@ export async function runModeTransition<
   OptionsShape extends AnyShape = AnyShape,
   Refinements = unknown,
 >({
-  argv,
   configFile,
   directory = '.',
   display,
   from,
   offline = false,
+  providedValues,
   remote: requestedRemote,
   rerunCommand,
   skips = {},
@@ -67,11 +67,13 @@ export async function runModeTransition<
     template.about?.repository &&
     (await getForkedRepositoryLocator(directory, template.about.repository));
 
-  const providedOptions = parseZodArgs(argv, template.options);
+  const providedOptions = pickKeys(providedValues, Object.keys(template.options)) as Partial<
+    InferredObject<OptionsShape>
+  >;
 
   const loadedConfig = await readConfigSettings(configFile, directory, template);
   if (loadedConfig instanceof Error) {
-    logRerunSuggestion(rerunCommand, providedOptions);
+    logRerunSuggestion(rerunCommand, providedOptions, template.options);
     return { error: loadedConfig, status: cliStatuses.error };
   }
 
@@ -80,7 +82,7 @@ export async function runModeTransition<
   if (repositoryLocator) {
     const uncommittedChanges = await checkUncommittedChanges(system.runner);
     if (uncommittedChanges !== 'clean') {
-      logRerunSuggestion(rerunCommand, providedOptions);
+      logRerunSuggestion(rerunCommand, providedOptions, template.options);
       return {
         error: new Error(
           uncommittedChanges === 'changes'
@@ -121,7 +123,7 @@ export async function runModeTransition<
       },
     ));
   if (preparedOptions instanceof Error) {
-    logRerunSuggestion(rerunCommand, providedOptions);
+    logRerunSuggestion(rerunCommand, providedOptions, template.options);
     return { status: cliStatuses.error };
   }
 
@@ -130,7 +132,7 @@ export async function runModeTransition<
     system,
   });
   if (baseOptions.cancelled) {
-    logRerunSuggestion(rerunCommand, baseOptions.prompted);
+    logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
     return { status: cliStatuses.cancelled };
   }
 
@@ -143,7 +145,7 @@ export async function runModeTransition<
   );
 
   if (remote instanceof Error) {
-    logRerunSuggestion(rerunCommand, baseOptions.prompted);
+    logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
     return { error: remote, status: cliStatuses.error };
   }
 
@@ -175,7 +177,7 @@ export async function runModeTransition<
       }),
   );
   if (creation instanceof Error) {
-    logRerunSuggestion(rerunCommand, baseOptions.prompted);
+    logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
     return {
       outro: cliMessages.leaving,
       status: cliStatuses.error,
@@ -197,7 +199,7 @@ export async function runModeTransition<
         )
       : undefined;
 
-  logRerunSuggestion(rerunCommand, baseOptions.prompted);
+  logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
 
   return commit instanceof Error
     ? {

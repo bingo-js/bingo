@@ -1,27 +1,13 @@
-import * as prompts from '@clack/prompts';
-import type { z } from 'zod';
+import { describeOptions } from 'parse-standard-args';
+import type {
+  PromptedOptionsCancelled,
+  PromptedOptionsCompleted,
+} from 'parse-standard-args/prompts';
+import { promptForOptions } from 'parse-standard-args/prompts';
 
 import type { AnyShape, InferredObject } from '../../types/shapes.ts';
 import type { SystemContext } from '../../types/system.ts';
 import type { Template } from '../../types/templates.ts';
-import { getSchemaDefaultValue } from '../../utils/getSchemaDefaultValue.ts';
-import { getSchemaDescription } from '../../utils/getSchemaDescription.ts';
-import { promptForOptionSchema } from './promptForOptionSchema.ts';
-
-export type PromptedOptions<Options extends object> =
-  | PromptedOptionsCancelled<Options>
-  | PromptedOptionsProduced<Options>;
-
-export interface PromptedOptionsCancelled<Options extends object> {
-  cancelled: true;
-  prompted: Partial<Options>;
-}
-
-export interface PromptedOptionsProduced<Options extends object> {
-  cancelled: false;
-  completed: Options;
-  prompted: Partial<Options>;
-}
 
 export interface PromptForOptionsSettings<OptionsShape extends AnyShape> {
   existing: Partial<InferredObject<OptionsShape>>;
@@ -31,45 +17,35 @@ export interface PromptForOptionsSettings<OptionsShape extends AnyShape> {
 export async function promptForOptionSchemas<OptionsShape extends AnyShape, Refinements>(
   template: Template<OptionsShape, Refinements>,
   { existing, system }: PromptForOptionsSettings<OptionsShape>,
-): Promise<PromptedOptions<InferredObject<OptionsShape>>> {
-  type Options = InferredObject<OptionsShape>;
+): Promise<
+  | PromptedOptionsCancelled
+  | (PromptedOptionsCompleted & { completed: InferredObject<OptionsShape> })
+> {
+  const result = await promptForOptions({
+    flags: describeOptions(template.options),
+    values: {
+      directory: system.directory,
+      ...existing,
+    },
+  });
 
-  const { directory } = system;
-  const completed: InferredObject<AnyShape> = {
-    directory,
-    ...existing,
-  };
-  const prompted: Partial<Options> = {};
-
-  for (const [key, schema] of Object.entries(template.options)) {
-    const defaultValue = getSchemaDefaultValue(schema);
-    if ((isOptionalSchema(schema) && defaultValue === undefined) || completed[key] !== undefined) {
-      continue;
-    }
-
-    const produced = await promptForOptionSchema(
-      key,
-      schema,
-      getSchemaDescription(schema),
-      defaultValue,
-    );
-    if (prompts.isCancel(produced)) {
-      return { cancelled: true, prompted };
-    }
-
-    (prompted as typeof completed)[key] = produced;
+  if (result.cancelled) {
+    return result;
   }
 
-  return {
-    cancelled: false,
-    completed: {
-      ...completed,
-      ...prompted,
-    } as Options,
-    prompted,
-  };
-}
+  // Prompted values are kept as entered, so they can be suggested as CLI flags.
+  // Templates are given their schemas' outputs, such as transformed values.
+  // Prompted values were already validated, and schemas must be synchronous.
+  const outputs = Object.entries(result.prompted).map(([key, value]) => [
+    key,
+    (template.options[key]['~standard'].validate(value) as { value: unknown }).value,
+  ]);
 
-function isOptionalSchema(schema: z.ZodType) {
-  return schema.safeParse(undefined).success;
+  return {
+    ...result,
+    completed: {
+      ...result.completed,
+      ...Object.fromEntries(outputs),
+    } as InferredObject<OptionsShape>,
+  };
 }

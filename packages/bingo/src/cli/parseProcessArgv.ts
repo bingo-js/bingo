@@ -1,26 +1,20 @@
-import { parseArgs } from 'node:util';
+import { parseRawArgs } from 'parse-standard-args';
 
-import { cliArgsOptions } from './cliArgsOptions.ts';
+import { cliFlags } from './cliFlags.ts';
 
-export interface RunCLIRawValues {
-  directory?: boolean | string | undefined;
-  help?: boolean | string | undefined;
-  mode?: boolean | string | undefined;
-  offline?: boolean | string | undefined;
-  owner?: boolean | string | undefined;
-  repository?: boolean | string | undefined;
-  'skip-files'?: boolean | string | undefined;
-  'skip-requests'?: boolean | string | undefined;
-  'skip-scripts'?: boolean | string | undefined;
-  version?: boolean | string | undefined;
-}
-
+/**
+ * Parses only the CLI's own flags and positionals from the process args,
+ * before a template is known. Other flags are left for runCLI to check.
+ */
 export function parseProcessArgv() {
+  const args = process.argv.slice(2);
+
   return {
-    argv: process.argv,
-    ...parseArgs({
-      args: process.argv.slice(2),
-      options: cliArgsOptions,
+    args,
+    ...parseRawArgs({
+      args,
+      flags: cliFlags,
+      positionals: { kinds: [], rest: 'string' },
       strict: false,
     }),
   };

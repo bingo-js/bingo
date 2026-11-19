@@ -16,14 +16,17 @@ import { makeRelative, quoteIfSpaced } from './utils.ts';
  * @returns CLI status to assign to `process.exitCode`.
  */
 export async function runBingoCLI() {
-  const { argv, positionals, values } = parseProcessArgv();
+  const { args, positionals, values } = parseProcessArgv();
   if (values.version) {
     console.log(packageData.version);
     return cliStatuses.success;
   }
 
   return await runInsideClackDisplay(packageData, async (display) => {
-    const from = positionals.find((positional) => !positional.startsWith('-'));
+    const from = positionals.find(
+      (positional): positional is string =>
+        typeof positional === 'string' && !positional.startsWith('-'),
+    );
     if (!from) {
       prompts.log.error('bingo requires a path to local template file.');
       return cliStatuses.error;
@@ -36,12 +39,11 @@ export async function runBingoCLI() {
     }
 
     const result = await runCLI({
-      argv,
+      args,
       display,
       from: 'bingo',
       rerunFrom: `bingo ${quoteIfSpaced(path.resolve(from))}`,
       template,
-      values,
     });
 
     if (values.help) {

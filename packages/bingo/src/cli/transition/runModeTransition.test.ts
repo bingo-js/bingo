@@ -161,8 +161,6 @@ const templateWithRepository = createTemplate({
   produce: vi.fn(),
 });
 
-const argv = ['npx', 'bingo-my-app'];
-
 const from = 'create-example';
 
 const rerunCommand = 'npx create-example';
@@ -177,7 +175,7 @@ describe(runModeTransition, () => {
     mockReadConfigSettings.mockResolvedValueOnce(error);
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: 'example.config.ts',
       display,
       from,
@@ -189,7 +187,7 @@ describe(runModeTransition, () => {
       error,
       status: cliStatuses.error,
     });
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {}, template.options);
   });
 
   it('returns the error when prepareOptions throws an error', async () => {
@@ -197,7 +195,7 @@ describe(runModeTransition, () => {
     mockPrepareOptions.mockRejectedValueOnce(error);
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -206,7 +204,7 @@ describe(runModeTransition, () => {
     });
 
     expect(actual).toEqual({ status: cliStatuses.error });
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {}, template.options);
   });
 
   it('returns the cancellation when promptForOptions is cancelled', async () => {
@@ -216,7 +214,7 @@ describe(runModeTransition, () => {
     });
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -227,7 +225,11 @@ describe(runModeTransition, () => {
     expect(actual).toEqual({
       status: cliStatuses.cancelled,
     });
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+      rerunCommand,
+      promptedOptions,
+      template.options,
+    );
   });
 
   it('returns the error when resolveLocalRepository resolves with an error', async () => {
@@ -239,7 +241,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({ remote });
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -251,7 +253,11 @@ describe(runModeTransition, () => {
       error: remote,
       status: cliStatuses.error,
     });
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+      rerunCommand,
+      promptedOptions,
+      template.options,
+    );
   });
 
   it('returns the error when runTemplate resolves with an error', async () => {
@@ -264,7 +270,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({});
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -276,7 +282,11 @@ describe(runModeTransition, () => {
       outro: cliMessages.leaving,
       status: cliStatuses.error,
     });
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+      rerunCommand,
+      promptedOptions,
+      template.options,
+    );
   });
 
   it("doesn't clear the existing repository when readConfigSettings resolves an error and a forked repository locator is available", async () => {
@@ -285,7 +295,7 @@ describe(runModeTransition, () => {
     mockReadConfigSettings.mockResolvedValueOnce(error);
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: 'example.config.ts',
       display,
       from,
@@ -307,7 +317,7 @@ describe(runModeTransition, () => {
     mockCheckUncommittedChanges.mockResolvedValueOnce('changes');
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -326,7 +336,11 @@ describe(runModeTransition, () => {
     expect(mockClearLocalGitTags).not.toHaveBeenCalled();
     expect(mockPrepareOptions).not.toHaveBeenCalled();
     expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+      rerunCommand,
+      {},
+      templateWithRepository.options,
+    );
   });
 
   it("returns an error without clearing the existing repository when uncommitted changes can't be determined and a forked repository locator is available", async () => {
@@ -334,7 +348,7 @@ describe(runModeTransition, () => {
     mockCheckUncommittedChanges.mockResolvedValueOnce('unknown');
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -353,7 +367,11 @@ describe(runModeTransition, () => {
     expect(mockClearLocalGitTags).not.toHaveBeenCalled();
     expect(mockPrepareOptions).not.toHaveBeenCalled();
     expect(mockPromptForOptionSchemas).not.toHaveBeenCalled();
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {});
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+      rerunCommand,
+      {},
+      templateWithRepository.options,
+    );
   });
 
   it("doesn't clear the existing repository when the template does not have a repository locator", async () => {
@@ -363,7 +381,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({});
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -378,7 +396,11 @@ describe(runModeTransition, () => {
     expect(mockCheckUncommittedChanges).not.toHaveBeenCalled();
     expect(mockClearTemplateFiles).not.toHaveBeenCalled();
     expect(mockClearLocalGitTags).not.toHaveBeenCalled();
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+      rerunCommand,
+      promptedOptions,
+      template.options,
+    );
   });
 
   it('returns suggestions from the creation when everything succeeds', async () => {
@@ -391,7 +413,7 @@ describe(runModeTransition, () => {
     mockRunTemplate.mockResolvedValueOnce({ creation: {}, suggestions });
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -418,7 +440,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({});
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -437,7 +459,11 @@ describe(runModeTransition, () => {
       amend: true,
       push: true,
     });
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+      rerunCommand,
+      promptedOptions,
+      templateWithRepository.options,
+    );
   });
 
   it('clears the existing repository online when a remote is true, a locator exists, and offline is falsy', async () => {
@@ -452,7 +478,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({});
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -472,7 +498,11 @@ describe(runModeTransition, () => {
       amend: true,
       push: true,
     });
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+      rerunCommand,
+      promptedOptions,
+      templateWithRepository.options,
+    );
   });
 
   it('clears the existing repository online when a remote is true, a locator does not exist, and offline is falsy', async () => {
@@ -483,7 +513,7 @@ describe(runModeTransition, () => {
     mockResolveLocalRepository.mockResolvedValueOnce({});
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -503,7 +533,11 @@ describe(runModeTransition, () => {
       amend: true,
       push: true,
     });
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+      rerunCommand,
+      promptedOptions,
+      templateWithRepository.options,
+    );
   });
 
   it('clears the existing repository offline when a forked repository locator is available and offline is true', async () => {
@@ -520,7 +554,7 @@ describe(runModeTransition, () => {
     });
 
     const actual = await runModeTransition({
-      argv,
+      providedValues: {},
       configFile: undefined,
       display,
       from,
@@ -540,6 +574,10 @@ describe(runModeTransition, () => {
       amend: true,
       push: false,
     });
-    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(rerunCommand, promptedOptions);
+    expect(mockLogRerunSuggestion).toHaveBeenCalledWith(
+      rerunCommand,
+      promptedOptions,
+      templateWithRepository.options,
+    );
   });
 });

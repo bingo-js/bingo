@@ -26,7 +26,7 @@ export async function runTemplateCLI<
     return cliStatuses.error;
   }
 
-  const { argv, values } = parseProcessArgv();
+  const { args, values } = parseProcessArgv();
   if (values.version) {
     console.log(`${packageData.name}@${packageData.version}`);
     console.log(`${templatePackageData.name}@${templatePackageData.version}`);
@@ -41,11 +41,10 @@ export async function runTemplateCLI<
     }
 
     return await runCLI({
-      argv,
+      args,
       display,
       from: templatePackageData.name,
       template,
-      values,
     });
   });
 }

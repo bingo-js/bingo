@@ -1,24 +1,27 @@
+import type { FlagDescriptor } from 'parse-standard-args';
+import { describeOptions, formatFlagDescription, formatFlagType } from 'parse-standard-args';
+
 import type { AnyShape } from '../../types/shapes.ts';
-import { getSchemaDescription } from '../../utils/getSchemaDescription.ts';
-import { getSchemaTypeName } from '../../utils/getSchemaTypeName.ts';
 import { logHelpOptions } from './logHelpOptions.ts';
 
 export function logSchemasHelpOptions(packageName: string, schemas: AnyShape) {
   logHelpOptions(
     packageName,
     packageName,
-    Object.entries(schemas)
-      .map(([flag, schema]) => ({
-        flag: `--${flag}`,
-        text: asSentence(getSchemaDescription(schema)),
-        type: getSchemaTypeName(schema),
-      }))
-      // TODO: Once a Zod-to-args conversion is made, reuse that here...
-      // https://github.com/bingo-js/bingo/issues/285
-      .filter((entry) => !entry.type.startsWith('object')),
+    describeOptions(schemas)
+      .filter((flag) => !flag.hidden)
+      .map((flag) => ({
+        flag: `--${flag.key}`,
+        text: asSentence(flag),
+        type: formatFlagType(flag),
+      })),
   );
 }
 
-function asSentence(text: string | undefined) {
+function asSentence(flag: FlagDescriptor) {
+  const text = flag.description
+    ? formatFlagDescription(flag)
+    : formatFlagDescription(flag).replace(/^\((.*)\)$/, '$1');
+
   return text && text[0].toUpperCase() + text.slice(1) + '.';
 }

@@ -3,11 +3,11 @@ import { styleText } from 'node:util';
 import * as prompts from '@clack/prompts';
 import type { BingoSystem, SystemRunner } from 'bingo-systems';
 import type { Octokit } from 'octokit';
+import { describeOptions } from 'parse-standard-args';
+import { promptForFlag } from 'parse-standard-args/prompts';
 
 import type { AnyShape } from '../../types/shapes.ts';
 import type { RepositoryLocator, Template } from '../../types/templates.ts';
-import { promptForOptionSchema } from '../prompts/promptForOptionSchema.ts';
-import { isStringLikeSchema } from '../schemas/isStringLikeSchema.ts';
 import { hasAccessToOwner } from './hasAccessToOwner.ts';
 import type { PartialRepositoryLocator } from './types.ts';
 
@@ -38,20 +38,18 @@ export async function resolveRemoteRepositoryToCreate<
     );
   }
 
-  const ownerSchema = template.options.owner;
+  const [ownerFlag] = describeOptions({ owner: template.options.owner });
 
-  if (!isStringLikeSchema(ownerSchema)) {
+  if (ownerFlag.kind === 'json' || ownerFlag.multiple) {
     return new Error(
       "--remote requested, but could not infer an owner because this template's owner option is not a string-like.",
     );
   }
 
   while (true) {
-    const prompted = await promptForOptionSchema(
-      'owner',
-      ownerSchema,
-      'organization or username owning the repository',
-      undefined,
+    const prompted = await promptForFlag(
+      ownerFlag,
+      'What will the organization or username owning the repository be? (--owner)',
     );
 
     if (typeof prompted !== 'string') {
