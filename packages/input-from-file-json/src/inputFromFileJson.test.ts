@@ -1,13 +1,13 @@
 import { testInput } from 'bingo-testers';
 import { describe, expect, it } from 'vitest';
 
-import { inputFromFileJSON } from './inputFromFileJson.ts';
+import { inputFromFileJson } from './inputFromFileJson.ts';
 
-describe(inputFromFileJSON, () => {
+describe(inputFromFileJson, () => {
   it("returns the file's data when inputFromFile resolves with a data string", async () => {
     const data = { value: 'abc123' };
 
-    const actual = await testInput(inputFromFileJSON, {
+    const actual = await testInput(inputFromFileJson, {
       args: {
         filePath: 'file.txt',
       },
@@ -20,7 +20,7 @@ describe(inputFromFileJSON, () => {
   it('returns the error when inputFromFile resolves with an error', async () => {
     const error = new Error('Oh no!');
 
-    const actual = await testInput(inputFromFileJSON, {
+    const actual = await testInput(inputFromFileJson, {
       args: {
         filePath: 'file.txt',
       },
@@ -31,7 +31,7 @@ describe(inputFromFileJSON, () => {
   });
 
   it('returns the parsing error when inputFromFile resolves with non-parsable string', async () => {
-    const actual = await testInput(inputFromFileJSON, {
+    const actual = await testInput(inputFromFileJson, {
       args: {
         filePath: 'file.txt',
       },

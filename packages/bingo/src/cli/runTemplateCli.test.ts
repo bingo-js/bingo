@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
 import { createTemplate } from '../creators/createTemplate.ts';
-import { runTemplateCLI } from './runTemplateCLI.ts';
+import { runTemplateCli } from './runTemplateCli.ts';
 import { cliStatuses } from './status.ts';
 
 const mockLog = {
@@ -61,7 +61,7 @@ const mockConsole = {
   log: vi.fn(),
 };
 
-describe(runTemplateCLI, () => {
+describe(runTemplateCli, () => {
   beforeEach(() => {
     Object.assign(console, mockConsole);
   });
@@ -70,7 +70,7 @@ describe(runTemplateCLI, () => {
     const error = new Error('Oh no!');
     mockGetTemplatePackageData.mockResolvedValueOnce(error);
 
-    const actual = await runTemplateCLI(template);
+    const actual = await runTemplateCli(template);
 
     expect(mockConsole.error).toHaveBeenCalledWith(error);
     expect(actual).toBe(cliStatuses.error);
@@ -83,7 +83,7 @@ describe(runTemplateCLI, () => {
       version: '0.1.2',
     });
 
-    const actual = await runTemplateCLI(template);
+    const actual = await runTemplateCli(template);
 
     expect(mockConsole.log.mock.calls).toEqual([['bingo@1.2.3'], ['create-example@0.1.2']]);
     expect(actual).toBe(cliStatuses.success);
@@ -92,7 +92,7 @@ describe(runTemplateCLI, () => {
   it('logs versions with the template package data when parsed process argv includes version and package data is provided', async () => {
     mockParseProcessArgv.mockReturnValueOnce({ values: { version: true } });
 
-    const actual = await runTemplateCLI(template, {
+    const actual = await runTemplateCli(template, {
       name: 'create-example',
       version: '0.1.2',
     });
@@ -108,7 +108,7 @@ describe(runTemplateCLI, () => {
       version: '0.1.2',
     });
 
-    const actual = await runTemplateCLI(
+    const actual = await runTemplateCli(
       createTemplate({
         options: {
           text: z.string(),
@@ -124,7 +124,7 @@ describe(runTemplateCLI, () => {
   it('logs a link when template.about.repository is defined', async () => {
     mockParseProcessArgv.mockReturnValueOnce({ args: [], values: {} });
 
-    await runTemplateCLI(
+    await runTemplateCli(
       createTemplate({
         about: {
           repository: {

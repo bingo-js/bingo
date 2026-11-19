@@ -2,7 +2,7 @@ import { parseArgs } from 'node:util';
 
 import { cliArgsOptions } from './cliArgsOptions.ts';
 
-export interface RunCLIRawValues {
+export interface RunCliRawValues {
   directory?: boolean | string | undefined;
   help?: boolean | string | undefined;
   mode?: boolean | string | undefined;

@@ -1,6 +1,6 @@
 // CLI
-export { runBingoCLI } from './cli/runBingoCLI.ts';
-export { runTemplateCLI } from './cli/runTemplateCLI.ts';
+export { runBingoCli } from './cli/runBingoCli.ts';
+export { runTemplateCli } from './cli/runTemplateCli.ts';
 
 // Creators
 export {

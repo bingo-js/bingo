@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import process from 'node:process';
 
-import { runBingoCLI } from '../index.ts';
+import { runBingoCli } from '../index.ts';
 
-process.exitCode = await runBingoCLI();
+process.exitCode = await runBingoCli();

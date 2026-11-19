@@ -110,11 +110,11 @@ Create an `index.js` file with the following content:
 
 ```js title="index.js"
 #!/usr/bin/env node
-import { runTemplateCLI } from 'bingo';
+import { runTemplateCli } from 'bingo';
 
 import template from './template.js';
 
-process.exitCode = await runTemplateCLI(template);
+process.exitCode = await runTemplateCli(template);
 ```
 
 Then, add a `bin` entry for the `index.js` file to your `package.json`:
@@ -161,4 +161,4 @@ Here are the main concepts you'll want to understand:
 See also API documentation for the functions referenced on this page:
 
 - [`createTemplate`](/build/apis/create-template)
-- [`runTemplateCLI`](/build/apis/run-template-cli)
+- [`runTemplateCli`](/build/apis/run-template-cli)

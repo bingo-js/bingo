@@ -8,14 +8,14 @@ import type { Template } from '../types/templates.ts';
 import { type DisplayPackageData, runInsideClackDisplay } from './display/runInsideClackDisplay.ts';
 import { getTemplatePackageData } from './getTemplatePackageData.ts';
 import { parseProcessArgv } from './parseProcessArgv.ts';
-import { runCLI } from './runCLI.ts';
+import { runCli } from './runCli.ts';
 import { cliStatuses } from './status.ts';
 
 /**
  * Runs an interactive CLI to generate and apply a template's output.
  * @see {@link https://create.bingo/build/apis/run-template-cli}
  */
-export async function runTemplateCLI<
+export async function runTemplateCli<
   OptionsShape extends AnyShape = AnyShape,
   Refinements = unknown,
 >(template: Template<OptionsShape, Refinements>, providedTemplatePackageData?: DisplayPackageData) {
@@ -40,7 +40,7 @@ export async function runTemplateCLI<
       );
     }
 
-    return await runCLI({
+    return await runCli({
       argv,
       display,
       from: templatePackageData.name,

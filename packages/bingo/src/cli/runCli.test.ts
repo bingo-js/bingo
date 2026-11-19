@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { createTemplate } from '../creators/createTemplate.ts';
 import { createClackDisplay } from './display/createClackDisplay.ts';
-import { runCLI } from './runCLI.ts';
+import { runCli } from './runCli.ts';
 import { cliStatuses } from './status.ts';
 
 const mockLogHelpText = vi.fn();
@@ -67,7 +67,7 @@ describe('runCli', () => {
   });
 
   it('logs unknown flags and errors when an unknown flag is provided', async () => {
-    const actual = await runCLI({
+    const actual = await runCli({
       argv,
       display: createClackDisplay(),
       from: '',
@@ -86,7 +86,7 @@ describe('runCli', () => {
     const error = new Error('Oh no!');
     mockReadProductionSettings.mockResolvedValueOnce(error);
 
-    const actual = await runCLI({
+    const actual = await runCli({
       argv,
       display: createClackDisplay(),
       from: '',
@@ -103,7 +103,7 @@ describe('runCli', () => {
       mode: 'setup',
     });
 
-    await runCLI({
+    await runCli({
       argv,
       display: createClackDisplay(),
       from: '',
@@ -123,7 +123,7 @@ describe('runCli', () => {
       mode: 'setup',
     });
 
-    await runCLI({
+    await runCli({
       argv,
       display: createClackDisplay(),
       from: '',
@@ -141,7 +141,7 @@ describe('runCli', () => {
       mode: 'transition',
     });
 
-    await runCLI({
+    await runCli({
       argv,
       display: createClackDisplay(),
       from: '',
@@ -159,7 +159,7 @@ describe('runCli', () => {
       mode: 'setup',
     });
 
-    await runCLI({
+    await runCli({
       argv,
       display: createClackDisplay(),
       from: '',
@@ -183,7 +183,7 @@ describe('runCli', () => {
       mode: 'setup',
     });
 
-    await runCLI({
+    await runCli({
       argv,
       display: createClackDisplay(),
       from: '',
@@ -207,7 +207,7 @@ describe('runCli', () => {
       mode: 'setup',
     });
 
-    await runCLI({
+    await runCli({
       argv,
       display: createClackDisplay(),
       from: '',
@@ -231,7 +231,7 @@ describe('runCli', () => {
       mode: 'setup',
     });
 
-    await runCLI({
+    await runCli({
       argv,
       display: createClackDisplay(),
       from: 'create-example',
@@ -252,7 +252,7 @@ describe('runCli', () => {
       mode: 'setup',
     });
 
-    await runCLI({
+    await runCli({
       argv,
       display: createClackDisplay(),
       from: 'bingo',

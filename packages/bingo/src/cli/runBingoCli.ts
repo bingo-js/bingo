@@ -7,7 +7,7 @@ import { runInsideClackDisplay } from './display/runInsideClackDisplay.ts';
 import { tryImportTemplate } from './importers/tryImportTemplate.ts';
 import { logHelpOptions } from './loggers/logHelpOptions.ts';
 import { parseProcessArgv } from './parseProcessArgv.ts';
-import { runCLI } from './runCLI.ts';
+import { runCli } from './runCli.ts';
 import { cliStatuses } from './status.ts';
 import { makeRelative, quoteIfSpaced } from './utils.ts';
 
@@ -15,7 +15,7 @@ import { makeRelative, quoteIfSpaced } from './utils.ts';
  * Runs the full Bingo CLI, including reading process arguments.
  * @returns CLI status to assign to `process.exitCode`.
  */
-export async function runBingoCLI() {
+export async function runBingoCli() {
   const { argv, positionals, values } = parseProcessArgv();
   if (values.version) {
     console.log(packageData.version);
@@ -35,7 +35,7 @@ export async function runBingoCLI() {
       return cliStatuses.error;
     }
 
-    const result = await runCLI({
+    const result = await runCli({
       argv,
       display,
       from: 'bingo',
