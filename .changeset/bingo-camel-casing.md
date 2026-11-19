@@ -1,5 +1,5 @@
 ---
-"bingo": minor
+'bingo': minor
 ---
 
-Rename `runBingoCLI` to `runBingoCli` and `runTemplateCLI` to `runTemplateCli`.
+Renamed symbols to use proper camelCasing. `runBingoCLI` is now `runBingoCli` and `runTemplateCLI` is now `runTemplateCli`.

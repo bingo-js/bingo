@@ -1,5 +1,5 @@
 ---
-"input-from-file-json": minor
+'input-from-file-json': minor
 ---
 
-Rename `inputFromFileJSON` to `inputFromFileJson`.
+Renamed symbols to use proper camelCasing. `inputFromFileJSON` is now `inputFromFileJson`.
