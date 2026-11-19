@@ -238,6 +238,27 @@ describe('runCli', () => {
     );
   });
 
+  it('keeps string CLI flags when a template option of the same name is not a string', async () => {
+    mockReadProductionSettings.mockResolvedValueOnce({ mode: 'setup' });
+
+    await runCLI({
+      args: ['--owner', '5', '--title', 'x'],
+      display: createClackDisplay(),
+      from: '',
+      template: createTemplate({
+        options: { owner: z.number().optional() as unknown, title: z.string() as unknown },
+        produce: vi.fn(),
+      }),
+    });
+
+    expect(mockLogInvalidFlags).not.toHaveBeenCalled();
+    expect(mockRunModeSetup).toHaveBeenCalledWith(
+      expect.objectContaining({
+        providedValues: { owner: '5', title: 'x' },
+      }),
+    );
+  });
+
   it('runs logHelpText when help is specified', async () => {
     mockReadProductionSettings.mockResolvedValueOnce({
       mode: 'setup',

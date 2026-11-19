@@ -1,8 +1,8 @@
 import { styleText } from 'node:util';
 
 import { describeOptions, parseRawArgs } from 'parse-standard-args';
-import { z } from 'zod';
 
+import type { ProductionMode } from '../types/modes.ts';
 import type { AnyShape } from '../types/shapes.ts';
 import type { Template } from '../types/templates.ts';
 import { cliFlags } from './cliFlags.ts';
@@ -15,19 +15,6 @@ import { readProductionSettings } from './readProductionSettings.ts';
 import { runModeSetup } from './setup/runModeSetup.ts';
 import { cliStatuses } from './status.ts';
 import { runModeTransition } from './transition/runModeTransition.ts';
-
-const valuesSchema = z.object({
-  directory: z.string().optional(),
-  help: z.boolean().optional(),
-  mode: z.union([z.literal('setup'), z.literal('transition')]).optional(),
-  offline: z.boolean().optional(),
-  owner: z.string().optional(),
-  remote: z.boolean().optional(),
-  repository: z.string().optional(),
-  'skip-files': z.boolean().optional(),
-  'skip-requests': z.boolean().optional(),
-  'skip-scripts': z.boolean().optional(),
-});
 
 const overridableCliFlags = new Set(['directory', 'owner', 'repository']);
 
@@ -49,18 +36,16 @@ export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinemen
   rerunFrom = from,
   template,
 }: RunCLISettings<OptionsShape, Refinements>) {
-  const optionFlags = describeOptions(template.options);
+  const overrides = describeOptions(template.options).filter(
+    (flag) => overridableCliFlags.has(flag.key) && flag.kind === 'string' && !flag.multiple,
+  );
+  const cliKeys = new Set(cliFlags.map((flag) => flag.key));
   const { issues, values } = parseRawArgs({
     args,
-    // Template options may take over these CLI flags, but not others, such as --mode.
     flags: [
-      ...cliFlags.filter(
-        (flag) => !overridableCliFlags.has(flag.key) || !(flag.key in template.options),
-      ),
-      ...optionFlags.filter(
-        (flag) =>
-          overridableCliFlags.has(flag.key) || !cliFlags.some(({ key }) => key === flag.key),
-      ),
+      ...cliFlags.filter((flag) => !overrides.some(({ key }) => key === flag.key)),
+      ...overrides,
+      ...describeOptions(template.options).filter((flag) => !cliKeys.has(flag.key)),
     ],
     positionals: { kinds: [], rest: 'string' },
   });
@@ -70,16 +55,25 @@ export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinemen
     return { status: cliStatuses.error };
   }
 
-  const validatedValues = valuesSchema.parse(values);
+  const cliValues = {
+    directory: getString(values.directory),
+    help: getBoolean(values.help),
+    mode: getMode(values.mode),
+    offline: getBoolean(values.offline),
+    owner: getString(values.owner),
+    remote: getBoolean(values.remote),
+    repository: getString(values.repository),
+  };
   const productionSettings = await readProductionSettings({
     from,
-    ...validatedValues,
+    directory: cliValues.directory,
+    mode: cliValues.mode,
   });
   if (productionSettings instanceof Error) {
     logOutro(styleText('red', productionSettings.message));
     return cliStatuses.error;
   }
-  if (validatedValues.help) {
+  if (cliValues.help) {
     return logHelpText(productionSettings.mode, from, template);
   }
 
@@ -89,16 +83,18 @@ export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinemen
   }
 
   const sharedSettings = {
-    ...validatedValues,
+    directory: cliValues.directory,
     display,
     from,
+    offline: cliValues.offline,
     providedValues: values,
-    remote: validatedValues.remote,
+    remote: cliValues.remote,
+    repository: cliValues.repository,
     rerunCommand: getRerunCommand(rerunFrom),
     skips: {
-      files: validatedValues['skip-files'],
-      requests: validatedValues['skip-requests'],
-      scripts: validatedValues['skip-scripts'],
+      files: getBoolean(values['skip-files']),
+      requests: getBoolean(values['skip-requests']),
+      scripts: getBoolean(values['skip-scripts']),
     },
     template,
   };
@@ -109,4 +105,16 @@ export async function runCLI<OptionsShape extends AnyShape = AnyShape, Refinemen
         ...sharedSettings,
         configFile: productionSettings.configFile,
       });
+}
+
+function getString(value: unknown) {
+  return typeof value === 'string' ? value : undefined;
+}
+
+function getBoolean(value: unknown) {
+  return typeof value === 'boolean' ? value : undefined;
+}
+
+function getMode(value: unknown): ProductionMode | undefined {
+  return value === 'setup' || value === 'transition' ? value : undefined;
 }
