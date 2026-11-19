@@ -6,7 +6,7 @@ hero:
     - icon: open-book
       link: /about
       text: Learn More
-      variant: "primary"
+      variant: 'primary'
     - icon: right-arrow
       link: /cli
       text: Run the CLI
@@ -24,30 +24,30 @@ hero:
     dark: ~/assets/logo-dark.webp
     light: ~/assets/logo-light.webp
   tagline: Delightful templates for web repositories.
-  title: "Bingo"
+  title: 'Bingo'
 title: Delightful templates for web repositories. 💝
 ---
 
-import { Card, CardGrid } from "@astrojs/starlight/components";
-import TryItOut from "~/components/TryItOut.astro";
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import TryItOut from '~/components/TryItOut.astro';
 
 <CardGrid stagger>
-	<Card title="Creation from Templates" icon="add-document">
-		Create fully-formed, ready-to-use repositories with a single command from
-		templates of your choosing.
-	</Card>
-	<Card title="Flexible Options" icon="setting">
-		Customize templates with base options and swapping out which pieces of
-		tooling you'd like to use.
-	</Card>
-	<Card title="Predictable Transitions" icon="approve-check-circle">
-		Keep your repositories up-to-date with automated transitions -- including
-		preserving template customizations.
-	</Card>
-	<Card title="Rich Templating" icon="document">
-		Define templates as straightforward as Handlebars folders or as nuanced as
-		individually configurable blocks. It's up to you.
-	</Card>
+  <Card title="Creation from Templates" icon="add-document">
+    Create fully-formed, ready-to-use repositories with a single command from templates of your
+    choosing.
+  </Card>
+  <Card title="Flexible Options" icon="setting">
+    Customize templates with base options and swapping out which pieces of tooling you'd like to
+    use.
+  </Card>
+  <Card title="Predictable Transitions" icon="approve-check-circle">
+    Keep your repositories up-to-date with automated transitions -- including preserving template
+    customizations.
+  </Card>
+  <Card title="Rich Templating" icon="document">
+    Define templates as straightforward as Handlebars folders or as nuanced as individually
+    configurable blocks. It's up to you.
+  </Card>
 </CardGrid>
 
 <TryItOut />

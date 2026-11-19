@@ -20,13 +20,13 @@ Those options carry through to Blocks and Presets associated with the base.
 For example, this minimal Base stores only a `name` string:
 
 ```ts
-import { createBase } from "bingo-stratum";
-import { z } from "zod";
+import { createBase } from 'bingo-stratum';
+import { z } from 'zod';
 
 export const base = createBase({
-	options: {
-		name: z.string(),
-	},
+  options: {
+    name: z.string(),
+  },
 });
 ```
 
@@ -46,18 +46,18 @@ Bases can optionally define a `prepare()` function that provides default fallbac
 For example, this Base defaults its `value` option to `"default"` if not provided:
 
 ```ts
-import { createBase } from "bingo-stratum";
-import { z } from "zod";
+import { createBase } from 'bingo-stratum';
+import { z } from 'zod';
 
 export const base = createBase({
-	options: {
-		value: z.string().optional(),
-	},
-	prepare() {
-		return {
-			value: "default",
-		};
-	},
+  options: {
+    value: z.string().optional(),
+  },
+  prepare() {
+    return {
+      value: 'default',
+    };
+  },
 });
 ```
 

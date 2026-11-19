@@ -12,7 +12,9 @@ const data = Astro.props.entry?.data ?? {
 };
 ---
 
-<Default {...Astro.props}><slot /></Default>
+<Default {...Astro.props}>
+	<slot />
+</Default>
 
 <meta property="og:image" content={ogImageUrl} />
 <meta property="twitter:domain" content={Astro.site} />

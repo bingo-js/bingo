@@ -1,5 +1,14 @@
+minimumReleaseAgeExclude:
+  - parse-standard-args@0.3.0
+
+overrides:
+  '@astrojs/check@^0.9.10>chokidar': 6.0.0 # trust downgrade in 4.0.3 (resolved in 5.0.0)
+
 packages:
-  - "packages/*"
-allowBuilds:
-  esbuild: true
-  sharp: true
+  - 'packages/*'
+
+permissions:
+  simple-git-hooks:
+    build: false
+
+trustPolicy: no-downgrade

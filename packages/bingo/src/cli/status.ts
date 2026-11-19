@@ -1,5 +1,7 @@
-export enum CLIStatus {
-	Cancelled = 2,
-	Error = 1,
-	Success = 0,
-}
+export const cliStatuses = {
+  success: 0,
+  error: 1,
+  cancelled: 2,
+} as const;
+export type CliStatus = (typeof cliStatuses)[CliStatusType];
+export type CliStatusType = 'cancelled' | 'error' | 'success';

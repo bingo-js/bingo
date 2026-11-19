@@ -1,21 +1,21 @@
 export function getRerunCommand(from: string) {
-	return `${getPackageRunner()} ${from}`;
+  return `${getPackageRunner()} ${from}`;
 }
 
 function getPackageRunner() {
-	const userAgent = process.env.npm_config_user_agent ?? "";
+  const userAgent = process.env.npm_config_user_agent ?? '';
 
-	if (userAgent.startsWith("bun/")) {
-		return "bunx";
-	}
+  if (userAgent.startsWith('bun/')) {
+    return 'bunx';
+  }
 
-	if (userAgent.startsWith("pnpm/")) {
-		return "pnpm dlx";
-	}
+  if (userAgent.startsWith('pnpm/')) {
+    return 'pnpm dlx';
+  }
 
-	if (userAgent.startsWith("yarn/") && !userAgent.startsWith("yarn/1.")) {
-		return "yarn dlx";
-	}
+  if (userAgent.startsWith('yarn/') && !userAgent.startsWith('yarn/1.')) {
+    return 'yarn dlx';
+  }
 
-	return "npx";
+  return 'npx';
 }

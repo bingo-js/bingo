@@ -1,5 +1,5 @@
 ---
-description: "Options and shared helpers made available to inputs and templates."
+description: 'Options and shared helpers made available to inputs and templates.'
 title: Contexts
 ---
 
@@ -21,16 +21,16 @@ Any manually provided values as described by the [Input's `args`](/build/apis/cr
 For example, this input takes in an `roundTo` number that defaults to `1000`:
 
 ```ts
-import { createInput } from "bingo";
-import { z } from "zod";
+import { createInput } from 'bingo';
+import { z } from 'zod';
 
 export const inputCurrentTime = createInput({
-	args: {
-		roundTo: z.boolean().default(1000),
-	},
-	produce({ args }) {
-		return Math.floor(+new Date() * args.roundTo) / args.roundTo;
-	},
+  args: {
+    roundTo: z.boolean().default(1000),
+  },
+  produce({ args }) {
+    return Math.floor(+new Date() * args.roundTo) / args.roundTo;
+  },
 });
 ```
 
@@ -44,15 +44,15 @@ An object to make network calls, containing:
 For example, this input retrieves a random Cat fact:
 
 ```ts
-import { createInput } from "bingo";
+import { createInput } from 'bingo';
 
 export const inputCatFact = createInput({
-	async produce({ fetchers }) {
-		const response = await fetchers.fetch("https://catfact.ninja/fact");
-		const data = (await response.json()) as { fact: string };
+  async produce({ fetchers }) {
+    const response = await fetchers.fetch('https://catfact.ninja/fact');
+    const data = (await response.json()) as { fact: string };
 
-		return data.fact;
-	},
+    return data.fact;
+  },
 });
 ```
 
@@ -69,16 +69,16 @@ The `fs` object contains the properties of a [`ReadingFileSystem`](/build/packag
 For example, this input reads the contents of a file from disk as a string:
 
 ```ts
-import { createInput } from "bingo";
-import { z } from "zod";
+import { createInput } from 'bingo';
+import { z } from 'zod';
 
 export const inputFromFile = createInput({
-	args: {
-		fileName: z.string(),
-	},
-	async produce({ args, fs }) {
-		return (await fs.readFile(args.fileName)).toString();
-	},
+  args: {
+    fileName: z.string(),
+  },
+  async produce({ args, fs }) {
+    return (await fs.readFile(args.fileName)).toString();
+  },
 });
 ```
 
@@ -92,15 +92,15 @@ If provided, [Input Context `fetchers`](/build/details/contexts#input-fetchers) 
 For example, this input resolves with `undefined` instead of sending a request when `offline` is true:
 
 ```ts
-import { createInput } from "bingo";
+import { createInput } from 'bingo';
 
 export const inputFromFetch = createInput({
-	args: {
-		resource: z.string(),
-	},
-	async produce({ fetchers, offline }) {
-		return offline ? undefined : await fetchers.fetch(args.resource);
-	},
+  args: {
+    resource: z.string(),
+  },
+  async produce({ fetchers, offline }) {
+    return offline ? undefined : await fetchers.fetch(args.resource);
+  },
 });
 ```
 
@@ -113,12 +113,12 @@ This is useful for data that's easiest to pull from the CLI.
 For example, this input retrieves the current Git user's email:
 
 ```ts
-import { createInput } from "bingo";
+import { createInput } from 'bingo';
 
 export const inputGitUserEmail = createInput({
-	async produce({ runner }) {
-		return (await runner("git config user.email")).stdout;
-	},
+  async produce({ runner }) {
+    return (await runner('git config user.email')).stdout;
+  },
 });
 ```
 
@@ -136,26 +136,26 @@ It returns the result of calling the `input` with the `args`.
 For example, this input uses `take` to read in data from a file from another input:
 
 ```ts
-import { createInput } from "bingo";
-import { inputFromFile } from "input-from-file";
+import { createInput } from 'bingo';
+import { inputFromFile } from 'input-from-file';
 
 export const inputFromFileJSON = createInput({
-	args: {
-		filePath: z.string(),
-	},
-	async produce({ args, take }) {
-		const text = await take(inputFromFile, args);
+  args: {
+    filePath: z.string(),
+  },
+  async produce({ args, take }) {
+    const text = await take(inputFromFile, args);
 
-		if (text instanceof Error) {
-			return text;
-		}
+    if (text instanceof Error) {
+      return text;
+    }
 
-		try {
-			return JSON.parse(text) as unknown;
-		} catch (error) {
-			return error as SyntaxError;
-		}
-	},
+    try {
+      return JSON.parse(text) as unknown;
+    } catch (error) {
+      return error as SyntaxError;
+    }
+  },
 });
 ```
 
@@ -187,23 +187,23 @@ For example, if a [Stratum template](/engines/stratum/concepts/templates) infers
 For example, this template logs if its name falls back to the default:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	options: {
-		name: z.string().optional(),
-	},
-	prepare({ log, options }) {
-		if (!options.name) {
-			log(`Defaulting to --name "(anonymous)".`);
-		}
-		return {
-			name: "(anonymous)",
-		};
-	},
-	produce() {
-		// ...
-	},
+  options: {
+    name: z.string().optional(),
+  },
+  prepare({ log, options }) {
+    if (!options.name) {
+      log(`Defaulting to --name "(anonymous)".`);
+    }
+    return {
+      name: '(anonymous)',
+    };
+  },
+  produce() {
+    // ...
+  },
 });
 ```
 
@@ -233,21 +233,21 @@ This can be useful when default values for some options are dependent on other o
 For example, this template defaults an `name` option to a kebab-case version of its `title` option:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	options: {
-		name: z.string().optional(),
-		title: z.string(),
-	},
-	prepare({ options }) {
-		return {
-			name: options.title.toLowerCase().replaceAll(" ", "-"),
-		};
-	},
-	produce() {
-		// ...
-	},
+  options: {
+    name: z.string().optional(),
+    title: z.string(),
+  },
+  prepare({ options }) {
+    return {
+      name: options.title.toLowerCase().replaceAll(' ', '-'),
+    };
+  },
+  produce() {
+    // ...
+  },
 });
 ```
 
@@ -265,21 +265,21 @@ It returns the result of calling the `input` with the `args`.
 For example, this template uses `take` to default an option to the contents of a file:
 
 ```ts
-import { createTemplate } from "bingo";
-import { inputFromFile } from "input-from-file";
+import { createTemplate } from 'bingo';
+import { inputFromFile } from 'input-from-file';
 
 export default createTemplate({
-	options: {
-		nvm: z.string(),
-	},
-	prepare({ take }) {
-		return {
-			nvm: async () => await take(inputFromFile, { filePath: ".nvmrc" }),
-		};
-	},
-	produce() {
-		// ...
-	},
+  options: {
+    nvm: z.string(),
+  },
+  prepare({ take }) {
+    return {
+      nvm: async () => await take(inputFromFile, { filePath: '.nvmrc' }),
+    };
+  },
+  produce() {
+    // ...
+  },
 });
 ```
 
@@ -302,15 +302,15 @@ This is equivalent to the [`--offline` CLI flag](/cli#--offline).
 For example, this template adds an `--offline` flag to its installation script if `offline` is true:
 
 ```ts
-import { createTemplate, take } from "bingo";
-import { z } from "zod";
+import { createTemplate, take } from 'bingo';
+import { z } from 'zod';
 
 export default createTemplate({
-	produce({ offline }) {
-		return {
-			scripts: [offline ? "pnpm install --offline" : "pnpm install"],
-		};
-	},
+  produce({ offline }) {
+    return {
+      scripts: [offline ? 'pnpm install --offline' : 'pnpm install'],
+    };
+  },
 });
 ```
 
@@ -321,18 +321,18 @@ Values for options as described by the [template's `options`](/build/apis/create
 For example, this template uses its `title` option to create a `README.md`:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
 export default createTemplate({
-	options: {
-		title: z.string(),
-	},
-	produce({ options }) {
-		return {
-			files: {
-				"README.md": `# ${options.title}`,
-			},
-		};
-	},
+  options: {
+    title: z.string(),
+  },
+  produce({ options }) {
+    return {
+      files: {
+        'README.md': `# ${options.title}`,
+      },
+    };
+  },
 });
 ```

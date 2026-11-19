@@ -1,1 +1,7 @@
-export type * from "./types.js";
+export type {
+  CreatedFetchRequest,
+  CreatedOctokitRequest,
+  CreatedRequest,
+  CreatedRequestBase,
+  GitHubEndpoint,
+} from './types.ts';

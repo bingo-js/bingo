@@ -1,68 +1,66 @@
-import { describe, expect, it } from "vitest";
-import { z } from "zod";
+import { describe, expect, it } from 'vitest';
+import { z } from 'zod';
 
-import { createBase } from "./createBase.js";
+import { createBase } from './createBase.ts';
 
 const base = createBase({
-	options: { name: z.string() },
+  options: { name: z.string() },
 });
 
-describe("createBase", () => {
-	describe("createBlock", () => {
-		describe("without Addons", () => {
-			it("produces without Addons", () => {
-				const block = base.createBlock({
-					produce({ options }) {
-						return {
-							files: {
-								"name.txt": `${options.name} (${options.preset})`,
-							},
-						};
-					},
-				});
+describe(createBase, () => {
+  describe('createBlock', () => {
+    describe('without Props', () => {
+      it('produces without Props', () => {
+        const block = base.createBlock({
+          produce({ options }) {
+            return {
+              files: {
+                'name.txt': `${options.name} (${options.preset})`,
+              },
+            };
+          },
+        });
 
-				const production = block.produce({
-					options: { name: "abc", preset: "test" },
-				});
+        const production = block.produce({
+          options: { name: 'abc', preset: 'test' },
+        });
 
-				expect(production).toEqual({
-					files: {
-						"name.txt": "abc (test)",
-					},
-				});
-			});
-		});
+        expect(production).toEqual({
+          files: {
+            'name.txt': 'abc (test)',
+          },
+        });
+      });
+    });
 
-		describe("with Addons", () => {
-			it("applies Zod defaults when producing with Addons", () => {
-				const block = base.createBlock({
-					addons: {
-						names: z.array(z.string()).default([]),
-					},
-					produce({ addons, options }) {
-						const { names } = addons;
+    describe('with Props', () => {
+      it('applies Zod defaults when producing with Props', () => {
+        const block = base.createBlock({
+          props: {
+            names: z.array(z.string()).default([]),
+          },
+          produce({ options, props }) {
+            const { names } = props;
 
-						return {
-							files: {
-								"names.txt": [options.preset, options.name, ...names].join(
-									"\n",
-								),
-							},
-						};
-					},
-				});
+            return {
+              files: {
+                'names.txt': [options.preset, options.name, ...names].join('\n'),
+              },
+            };
+          },
+        });
 
-				const production = block.produce({
-					addons: { names: ["def"] },
-					options: { name: "abc", preset: "test" },
-				});
+        const production = block.produce({
+          props: { names: ['def'] },
+          options: { name: 'abc', preset: 'test' },
+        });
 
-				expect(production).toEqual({
-					files: {
-						"names.txt": "test\nabc\ndef",
-					},
-				});
-			});
-		});
-	});
+        expect(production).toEqual({
+          files: {
+            'names.txt': 'test\nabc\ndef',
+          },
+        });
+      });
+    });
+  });
 });

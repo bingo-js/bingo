@@ -1,4 +1,4 @@
 export interface PartialRepositoryLocator {
-	owner?: string;
-	repository: string;
+  owner?: string;
+  repository: string;
 }

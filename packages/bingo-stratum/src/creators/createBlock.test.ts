@@ -1,174 +1,207 @@
-import { describe, expect, it } from "vitest";
-import { z } from "zod";
+import { describe, expect, it } from 'vitest';
+import { z } from 'zod';
 
-import { createBlock } from "./createBlock.js";
+import { createBlock } from './createBlock.ts';
 
-describe("createBlock", () => {
-	describe("without Addons", () => {
-		it("produces nothing when the Block has no produce", () => {
-			const block = createBlock<{ name: string }>({
-				setup() {
-					return { files: { "setup.txt": "setup" } };
-				},
-			});
+describe(createBlock, () => {
+  describe('without Props', () => {
+    it('produces nothing when the Block has no produce', () => {
+      const block = createBlock<{ name: string }>({
+        setup() {
+          return { files: { 'setup.txt': 'setup' } };
+        },
+      });
 
-			const production = block.produce({
-				options: { name: "abc", preset: "test" },
-			});
+      const production = block.produce({
+        options: { name: 'abc', preset: 'test' },
+      });
 
-			expect(production).toEqual({});
-		});
+      expect(production).toEqual({});
+    });
 
-		it("produces without Addons", () => {
-			const block = createBlock<{ name: string }>({
-				produce({ options }) {
-					return {
-						files: {
-							"name.txt": `${options.name} (${options.preset})`,
-						},
-					};
-				},
-			});
+    it('produces without Props', () => {
+      const block = createBlock<{ name: string }>({
+        produce({ options }) {
+          return {
+            files: {
+              'name.txt': `${options.name} (${options.preset})`,
+            },
+          };
+        },
+      });
 
-			const production = block.produce({
-				options: { name: "abc", preset: "test" },
-			});
+      expect(block()).toBe(block);
 
-			expect(production).toEqual({
-				files: {
-					"name.txt": "abc (test)",
-				},
-			});
-		});
-	});
+      const production = block.produce({
+        options: { name: 'abc', preset: 'test' },
+      });
 
-	describe("with Addons", () => {
-		it("produces nothing when the Block has no produce", () => {
-			const block = createBlock<
-				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
-				{ name: string }
-			>({
-				addons: {
-					names: z.array(z.string()).default([]),
-				},
-				setup() {
-					return { files: { "setup.txt": "setup" } };
-				},
-			});
+      expect(production).toEqual({
+        files: {
+          'name.txt': 'abc (test)',
+        },
+      });
+    });
+  });
 
-			const production = block.produce({
-				addons: { names: ["def"] },
-				options: { name: "abc", preset: "test" },
-			});
+  describe('with Props', () => {
+    it('produces nothing when the Block has no produce', () => {
+      const block = createBlock<{ names: z.ZodDefault<z.ZodArray<z.ZodString>> }, { name: string }>(
+        {
+          props: {
+            names: z.array(z.string()).default([]),
+          },
+          setup() {
+            return { files: { 'setup.txt': 'setup' } };
+          },
+        },
+      );
 
-			expect(production).toEqual({});
-		});
+      const production = block.produce({
+        props: { names: ['def'] },
+        options: { name: 'abc', preset: 'test' },
+      });
 
-		it("snapshots with the Block's name when the Block has an about name", () => {
-			const block = createBlock<
-				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
-				{ name: string }
-			>({
-				about: { name: "Example" },
-				addons: {
-					names: z.array(z.string()).default([]),
-				},
-				produce: () => ({}),
-			});
+      expect(production).toEqual({});
+    });
 
-			expect(block({ names: ["def"] })).toMatchInlineSnapshot(`
+    it("snapshots with the Block's name when the Block has an about name", () => {
+      const block = createBlock<{ names: z.ZodDefault<z.ZodArray<z.ZodString>> }, { name: string }>(
+        {
+          about: { name: 'Example' },
+          props: {
+            names: z.array(z.string()).default([]),
+          },
+          produce: () => ({}),
+        },
+      );
+
+      expect(block({ names: ['def'] })).toMatchInlineSnapshot(`
 				{
-				  "addons": {
-				    "names": [
-				      "def",
-				    ],
-				  },
 				  "block": "[Block Example]",
-				}
-			`);
-		});
-
-		it("snapshots the Block as-is when the Block has no about name", () => {
-			const block = createBlock<
-				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
-				{ name: string }
-			>({
-				addons: {
-					names: z.array(z.string()).default([]),
-				},
-				produce: () => ({}),
-			});
-
-			expect(block({ names: ["def"] })).toMatchInlineSnapshot(`
-				{
-				  "addons": {
+				  "props": {
 				    "names": [
 				      "def",
 				    ],
 				  },
-				  "block": [Function],
 				}
 			`);
-		});
+    });
 
-		it("applies Zod defaults when producing with Addons", () => {
-			const block = createBlock<
-				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
-				{ name: string }
-			>({
-				addons: {
-					names: z.array(z.string()).default([]),
-				},
-				produce({ addons, options }) {
-					const { names } = addons;
+    it('snapshots the Block as-is when the Block has no about name', () => {
+      const block = createBlock<{ names: z.ZodDefault<z.ZodArray<z.ZodString>> }, { name: string }>(
+        {
+          props: {
+            names: z.array(z.string()).default([]),
+          },
+          produce: () => ({}),
+        },
+      );
 
-					return {
-						files: {
-							"names.txt": [options.preset, options.name, ...names].join("\n"),
-						},
-					};
-				},
-			});
+      expect(block({ names: ['def'] })).toMatchInlineSnapshot(`
+				{
+				  "block": [Function],
+				  "props": {
+				    "names": [
+				      "def",
+				    ],
+				  },
+				}
+			`);
+    });
 
-			const production = block.produce({
-				addons: { names: ["def"] },
-				options: { name: "abc", preset: "test" },
-			});
+    it('applies Zod defaults when producing with Props', () => {
+      const block = createBlock<{ names: z.ZodDefault<z.ZodArray<z.ZodString>> }, { name: string }>(
+        {
+          props: {
+            names: z.array(z.string()).default([]),
+          },
+          produce({ options, props }) {
+            const { names } = props;
 
-			expect(production).toEqual({
-				files: {
-					"names.txt": "test\nabc\ndef",
-				},
-			});
-		});
+            return {
+              files: {
+                'names.txt': [options.preset, options.name, ...names].join('\n'),
+              },
+            };
+          },
+        },
+      );
 
-		it("produces Addons for another Block", () => {
-			const blockReceiving = createBlock<
-				{ names: z.ZodDefault<z.ZodArray<z.ZodString>> },
-				{ name: string }
-			>({
-				addons: {
-					names: z.array(z.string()).default([]),
-				},
-				produce() {
-					return {};
-				},
-			});
-			const blockProviding = createBlock<{ name: string }>({
-				produce() {
-					return {
-						addons: [blockReceiving({ names: ["def"] })],
-					};
-				},
-			});
+      const production = block.produce({
+        props: { names: ['def'] },
+        options: { name: 'abc', preset: 'test' },
+      });
 
-			const production = blockProviding.produce({
-				options: { name: "abc", preset: "test" },
-			});
+      expect(production).toEqual({
+        files: {
+          'names.txt': 'test\nabc\ndef',
+        },
+      });
+    });
 
-			expect(production).toEqual({
-				addons: [{ addons: { names: ["def"] }, block: blockReceiving }],
-			});
-		});
-	});
+    it('throws when producing with an unknown Prop and the Block has an about name', () => {
+      const block = createBlock<{ names: z.ZodDefault<z.ZodArray<z.ZodString>> }, { name: string }>(
+        {
+          about: { name: 'Example' },
+          props: {
+            names: z.array(z.string()).default([]),
+          },
+        },
+      );
+
+      expect(() =>
+        block.produce({
+          props: { names: [], unknown: true } as { names: string[] },
+          options: { name: 'abc', preset: 'test' },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`[Error: Unknown Prop(s) for Block Example: unknown.]`);
+    });
+
+    it('throws when producing with an unknown Prop and the Block has no about name', () => {
+      const block = createBlock<{ names: z.ZodDefault<z.ZodArray<z.ZodString>> }, { name: string }>(
+        {
+          props: {
+            names: z.array(z.string()).default([]),
+          },
+        },
+      );
+
+      expect(() =>
+        block.produce({
+          props: { names: [], unknown: true } as { names: string[] },
+          options: { name: 'abc', preset: 'test' },
+        }),
+      ).toThrowErrorMatchingInlineSnapshot(`[Error: Unknown Prop(s) for Block: unknown.]`);
+    });
+
+    it('produces Props for another Block', () => {
+      const blockReceiving = createBlock<
+        { names: z.ZodDefault<z.ZodArray<z.ZodString>> },
+        { name: string }
+      >({
+        props: {
+          names: z.array(z.string()).default([]),
+        },
+        produce() {
+          return {};
+        },
+      });
+      const blockProviding = createBlock<{ name: string }>({
+        produce() {
+          return {
+            extensions: [blockReceiving({ names: ['def'] })],
+          };
+        },
+      });
+
+      const production = blockProviding.produce({
+        options: { name: 'abc', preset: 'test' },
+      });
+
+      expect(production).toEqual({
+        extensions: [{ block: blockReceiving, props: { names: ['def'] } }],
+      });
+    });
+  });
 });

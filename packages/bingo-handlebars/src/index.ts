@@ -1,2 +1,2 @@
-export * from "./handlebars.js";
-export * from "./loadHandlebars.js";
+export { handlebars } from './handlebars.ts';
+export { loadHandlebars } from './loadHandlebars.ts';

@@ -8,25 +8,25 @@ _Templates_ are generated in the Stratum engine by grouping together [Presets](/
 Templates are the highest layer in Stratum.
 Stratum-generated Templates can be used as general Bingo templates: under the hood, they are created with the same [`createTemplate` API](/build/apis/create-template) as any other template.
 
-For example, this Template groups several levels of tooling from a `create-typescript-app`-like generator:
+For example, this Template groups several levels of tooling from a `@mfaith/create`-like generator:
 
 ```ts
-import { createTemplate } from "bingo";
+import { createTemplate } from 'bingo';
 
-import { presetCommon } from "./presetCommon";
-import { presetEverything } from "./presetEverything";
-import { presetMinimal } from "./presetMinimal";
+import { presetCommon } from './presetCommon';
+import { presetEverything } from './presetEverything';
+import { presetMinimal } from './presetMinimal';
 
 export const template = createTemplate({
-	about: {
-		name: "Stratum Example",
-	},
-	presets: [
-		{ label: "Minimal", preset: presetMinimal },
-		{ label: "Common", preset: presetCommon },
-		{ label: "Everything", preset: presetEverything },
-	],
-	suggested: presetCommon,
+  about: {
+    name: 'Stratum Example',
+  },
+  presets: [
+    { label: 'Minimal', preset: presetMinimal },
+    { label: 'Common', preset: presetCommon },
+    { label: 'Everything', preset: presetEverything },
+  ],
+  suggested: presetCommon,
 });
 ```
 
@@ -34,11 +34,11 @@ The preset labels are turned into a `--preset` option.
 Runners like [Template CLIs](/cli) will know to prompt for a preset if not provided:
 
 ```plaintext
-$ npx create-typescript-app
+$ npx @mfaith/create
 
-┌  ✨ create-typescript-app@2.0.0 ✨
+┌  ✨ @mfaith/create@2.0.0 ✨
 │
-│  Learn more on: https://github.com/JoshuaKGoldberg/create-typescript-app
+│  Learn more on: https://github.com/michaelfaith/mfaith-create
 │
 │  Running with mode --initialize for a new repository.
 │
@@ -66,12 +66,12 @@ npx create-stratum-example --preset everything
 Presets can also be specified as a standard option in a configuration file:
 
 ```ts title="create-stratum-example.config.ts"
-import { template } from "create-stratum-example";
+import { template } from 'create-stratum-example';
 
 export default createConfig(template, {
-	options: {
-		preset: "everything",
-	},
+  options: {
+    preset: 'everything',
+  },
 });
 ```
 
@@ -87,19 +87,19 @@ Each Block name is transformed to kebab-cases boolean option that defaults to `f
 For example, given the following named `ESLint` Block:
 
 ```ts
-import { base } from "./base";
+import { base } from './base';
 
 export const blockESLint = base.createBlock({
-	about: {
-		name: "ESLint",
-	},
-	produce() {
-		return {
-			files: {
-				"eslint.config.js": "...",
-			},
-		};
-	},
+  about: {
+    name: 'ESLint',
+  },
+  produce() {
+    return {
+      files: {
+        'eslint.config.js': '...',
+      },
+    };
+  },
 });
 ```
 

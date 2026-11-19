@@ -1,40 +1,54 @@
 {
-	"name": "bingo-stratum-testers",
-	"version": "0.5.14",
-	"description": "Test utilities for Stratum Blocks and Presets. 🧑‍🔧",
-	"homepage": "https://www.create.bingo/engines/stratum/packages/bingo-stratum-testers",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bingo-js/bingo",
-		"directory": "packages/bingo-stratum-testers"
-	},
-	"license": "MIT",
-	"author": {
-		"name": "Josh Goldberg ✨",
-		"email": "npm@joshuakgoldberg.com"
-	},
-	"type": "module",
-	"main": "./lib/index.js",
-	"files": [
-		"lib/"
-	],
-	"scripts": {
-		"build": "tsc"
-	},
-	"devDependencies": {
-		"bingo": "workspace:^",
-		"bingo-fs": "workspace:^",
-		"bingo-stratum": "workspace:^",
-		"bingo-systems": "workspace:^",
-		"zod": "4.4.3"
-	},
-	"peerDependencies": {
-		"bingo": "workspace:^",
-		"bingo-fs": "workspace:^",
-		"bingo-stratum": "workspace:^",
-		"bingo-systems": "workspace:^"
-	},
-	"engines": {
-		"node": ">=18"
-	}
+  "name": "bingo-stratum-testers",
+  "version": "0.8.0",
+  "description": "Test utilities for Stratum Blocks and Presets. 🧑‍🔧",
+  "homepage": "https://www.create.bingo/engines/stratum/packages/bingo-stratum-testers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingo-js/bingo",
+    "directory": "packages/bingo-stratum-testers"
+  },
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Josh Goldberg ✨",
+      "email": "npm@joshuakgoldberg.com"
+    },
+    {
+      "name": "michael faith",
+      "url": "https://michael.faith"
+    }
+  ],
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/"
+  ],
+  "devDependencies": {
+    "@bingo/build": "workspace:^",
+    "bingo": "workspace:^",
+    "bingo-fs": "workspace:^",
+    "bingo-stratum": "workspace:^",
+    "bingo-systems": "workspace:^",
+    "zod": "4.6.7"
+  },
+  "peerDependencies": {
+    "bingo": "workspace:^",
+    "bingo-fs": "workspace:^",
+    "bingo-stratum": "workspace:^",
+    "bingo-systems": "workspace:^"
+  },
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": "./dist/index.mjs",
+      "./package.json": "./package.json"
+    }
+  }
 }

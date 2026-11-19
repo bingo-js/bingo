@@ -1,13 +1,13 @@
-import { AnyShape } from "bingo";
+import type { AnyShape } from 'bingo';
 
-import { BaseDefinition } from "../types/bases.js";
+import type { BaseDefinition } from '../types/bases.ts';
 
 export function assertNoPresetOption<OptionsShape extends AnyShape>(
-	baseDefinition: BaseDefinition<OptionsShape>,
+  baseDefinition: BaseDefinition<OptionsShape>,
 ) {
-	// https://github.com/typescript-eslint/typescript-eslint/issues/6632
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-	if (baseDefinition.options.preset) {
-		throw new Error(`Bases should not declare a preset option.`);
-	}
+  // https://github.com/typescript-eslint/typescript-eslint/issues/6632
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (baseDefinition.options.preset) {
+    throw new Error(`Bases should not declare a preset option.`);
+  }
 }

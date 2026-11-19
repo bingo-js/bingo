@@ -1,8 +1,5 @@
-import { CreatedDirectory } from "bingo-fs";
-import { CreatedRequest } from "bingo-requests";
-import { SystemFetchers } from "bingo-systems";
-
-export type CreatedRequestSender = (fetchers: SystemFetchers) => Promise<void>;
+import type { CreatedDirectory } from 'bingo-fs';
+import type { CreatedRequest } from 'bingo-requests';
 
 /**
  * A script to run to set up part of a repository's tooling.
@@ -14,20 +11,20 @@ export type CreatedScript = CreatedScriptWithOptions | string;
  * Commands to run to set up part of a repository's tooling.
  */
 export interface CreatedScriptWithOptions {
-	/**
-	 * Shell scripts to run within the phase, in order.
-	 */
-	commands: string[];
+  /**
+   * Shell scripts to run within the phase, in order.
+   */
+  commands: string[];
 
-	/**
-	 * What order, relative to any other command groups, to run in.
-	 */
-	phase?: number;
+  /**
+   * What order, relative to any other command groups, to run in.
+   */
+  phase?: number;
 
-	/**
-	 * Whether to skip logging errors if the script fails.
-	 */
-	silent?: boolean;
+  /**
+   * Whether to skip logging errors if the script fails.
+   */
+  silent?: boolean;
 }
 
 /**
@@ -36,23 +33,23 @@ export interface CreatedScriptWithOptions {
  * @see https://www.create.bingo/build/concepts/creations
  */
 export interface Creation {
-	/**
-	 * Files to write to disk.
-	 */
-	files: CreatedDirectory;
+  /**
+   * Files to write to disk.
+   */
+  files: CreatedDirectory;
 
-	/**
-	 * Network requests to send to initialize repository API settings.
-	 */
-	requests: CreatedRequest[];
+  /**
+   * Network requests to send to initialize repository API settings.
+   */
+  requests: CreatedRequest[];
 
-	/**
-	 * Scripts to run after writing files to disk.
-	 */
-	scripts: CreatedScript[];
+  /**
+   * Scripts to run after writing files to disk.
+   */
+  scripts: CreatedScript[];
 
-	/**
-	 * Suggestions to hint in the CLI after running.
-	 */
-	suggestions: string[];
+  /**
+   * Suggestions to hint in the CLI after running.
+   */
+  suggestions: string[];
 }

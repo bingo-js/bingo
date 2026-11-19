@@ -62,23 +62,23 @@ Files are represented as in-memory strings.
 This template defines `owner` and `repository` options that are turned into `package.json` and `README.md` files:
 
 ```ts title
-import { createTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate } from 'bingo';
+import { z } from 'zod';
 
 export default createTemplate({
-	options: {
-		owner: z.string(),
-		repository: z.string(),
-	},
-	produce({ options }) {
-		return {
-			"package.json": JSON.stringify({
-				name: options.name,
-				repository: `github:${options.owner}/${options.repository}`,
-			}),
-			"README.md": `# ${options.repository}\n\nHello, world!`,
-		};
-	},
+  options: {
+    owner: z.string(),
+    repository: z.string(),
+  },
+  produce({ options }) {
+    return {
+      'package.json': JSON.stringify({
+        name: options.name,
+        repository: `github:${options.owner}/${options.repository}`,
+      }),
+      'README.md': `# ${options.repository}\n\nHello, world!`,
+    };
+  },
 });
 ```
 
@@ -119,7 +119,6 @@ I hope you'll join me in trying it out.
 
 Please, try Bingo out and give feedback:
 
-- [Bingo's Discord](https://discord.gg/SFsnbpWqpU): Join if you'd like to chat about Bingo and/or get help with templates
 - [github.com/bingo-js/bingo](https://github.com/bingo-js/bingo) is always open for bug reports, documentation suggestions, and feature requests
 
 Thanks for reading, and I look forward to seeing what you build with Bingo! 💝

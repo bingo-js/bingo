@@ -1,5 +1,70 @@
 # bingo-stratum-testers
 
+## 0.8.0
+
+### Minor Changes
+
+- [#552](https://github.com/bingo-js/bingo/pull/552) [`8f50ea7`](https://github.com/bingo-js/bingo/commit/8f50ea7e8bdc4608213bfaba2108d2aebb1e8470) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Bumped Node support to `^22.22.2 || ^24.15.0 || >=26.0.0`. Namely, this just means a slightly higher minimum for v22.
+
+### Patch Changes
+
+- [#544](https://github.com/bingo-js/bingo/pull/544) [`94c14ee`](https://github.com/bingo-js/bingo/commit/94c14ee7d83e96a24efe67d21510578e4dd79e54) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Updated attribution for all packages to include both maintainers.
+- Updated dependencies [[`94c14ee`](https://github.com/bingo-js/bingo/commit/94c14ee7d83e96a24efe67d21510578e4dd79e54), [`41f0dbe`](https://github.com/bingo-js/bingo/commit/41f0dbe2d45509e82bf9569bd815df4d9174414d), [`f256818`](https://github.com/bingo-js/bingo/commit/f25681821ac79bccf85a71322cd644b995b9ea81), [`8f50ea7`](https://github.com/bingo-js/bingo/commit/8f50ea7e8bdc4608213bfaba2108d2aebb1e8470)]:
+  - bingo@0.16.0
+  - bingo-fs@0.8.0
+  - bingo-stratum@0.11.0
+  - bingo-systems@0.9.0
+
+## 0.7.0
+
+### Minor Changes
+
+- [#495](https://github.com/bingo-js/bingo/pull/495) [`1e0acec`](https://github.com/bingo-js/bingo/commit/1e0acece25c593e8f22727006ed239c440c287e3) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Added `exports` conditions to the package to establish a strict public API.
+In addition to the primary entry point, the `package.json` is also exported.
+
+- [#495](https://github.com/bingo-js/bingo/pull/495) [`1e0acec`](https://github.com/bingo-js/bingo/commit/1e0acece25c593e8f22727006ed239c440c287e3) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Updated supported versions of node to `^22.15.0 || ^24.15.0 || >=26.0.0`, removing support for EoL versions.
+
+### Patch Changes
+
+- [#509](https://github.com/bingo-js/bingo/pull/509) [`89223e9`](https://github.com/bingo-js/bingo/commit/89223e9724b08d8747ad7e9d91bd07bff623d6b5) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Declared `sideEffects: false` to the package.json.
+- Updated dependencies [[`1e0acec`](https://github.com/bingo-js/bingo/commit/1e0acece25c593e8f22727006ed239c440c287e3), [`1e0acec`](https://github.com/bingo-js/bingo/commit/1e0acece25c593e8f22727006ed239c440c287e3), [`89223e9`](https://github.com/bingo-js/bingo/commit/89223e9724b08d8747ad7e9d91bd07bff623d6b5)]:
+  - bingo@0.15.0
+  - bingo-fs@0.7.0
+  - bingo-stratum@0.10.0
+  - bingo-systems@0.8.0
+
+## 0.6.1
+
+### Patch Changes
+
+- Updated dependencies [[`9a98512`](https://github.com/bingo-js/bingo/commit/9a98512c30b41c289c450cc5a140f477d08007aa), [`471336b`](https://github.com/bingo-js/bingo/commit/471336be2234f8569c0b7ad0cadebb9f5fc388cd)]:
+  - bingo-stratum@0.9.1
+  - bingo@0.14.0
+
+## 0.6.0
+
+### Minor Changes
+
+- [#472](https://github.com/bingo-js/bingo/pull/472) [`bb00c04`](https://github.com/bingo-js/bingo/commit/bb00c0462ba8fd853c0dabec15549a5e1655dc9f) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Break up the `addons` api into `props` and `extensions`.
+The `addons` name was being applied to two different concepts:
+  1. Extending a template by passing parameters to a block from the template
+  2. Defining the parameters that blocks can take in
+
+  Now, `extensions` is the name for concept 1, and `props` is the name for concept 2.
+  This helps disambiguate the name and provide users more clarity for each purpose.
+
+### Patch Changes
+
+- Updated dependencies [[`bb00c04`](https://github.com/bingo-js/bingo/commit/bb00c0462ba8fd853c0dabec15549a5e1655dc9f)]:
+  - bingo-stratum@0.9.0
+
+## 0.5.15
+
+### Patch Changes
+
+- Updated dependencies [[`e9e9df3`](https://github.com/bingo-js/bingo/commit/e9e9df304fb35df322caca843a10d388e3854d3c)]:
+  - bingo-stratum@0.8.0
+
 ## 0.5.14
 
 ### Patch Changes

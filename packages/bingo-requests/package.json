@@ -1,30 +1,46 @@
 {
-	"name": "bingo-requests",
-	"version": "0.5.6",
-	"description": "Abstracted network requests as used by Bingo. 📠",
-	"homepage": "https://www.create.bingo/build/packages/bingo-requests",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bingo-js/bingo",
-		"directory": "packages/bingo-requests"
-	},
-	"license": "MIT",
-	"author": {
-		"name": "Josh Goldberg ✨",
-		"email": "npm@joshuakgoldberg.com"
-	},
-	"type": "module",
-	"main": "./lib/index.js",
-	"files": [
-		"lib/"
-	],
-	"scripts": {
-		"build": "tsc"
-	},
-	"dependencies": {
-		"@octokit/types": "^16.0.0"
-	},
-	"engines": {
-		"node": ">=18"
-	}
+  "name": "bingo-requests",
+  "version": "0.7.1",
+  "description": "Abstracted network requests as used by Bingo. 📠",
+  "homepage": "https://www.create.bingo/build/packages/bingo-requests",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bingo-js/bingo",
+    "directory": "packages/bingo-requests"
+  },
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Josh Goldberg ✨",
+      "email": "npm@joshuakgoldberg.com"
+    },
+    {
+      "name": "michael faith",
+      "url": "https://michael.faith"
+    }
+  ],
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "@octokit/types": "^18.0.0"
+  },
+  "devDependencies": {
+    "@bingo/build": "workspace:^"
+  },
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": "./dist/index.mjs",
+      "./package.json": "./package.json"
+    }
+  }
 }

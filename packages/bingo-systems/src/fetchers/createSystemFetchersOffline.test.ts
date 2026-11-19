@@ -1,15 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from 'vitest';
 
-import { createSystemFetchersOffline } from "./createSystemFetchersOffline.js";
+import { createSystemFetchersOffline } from './createSystemFetchersOffline.ts';
 
-describe("createSystemFetchersOffline", () => {
-	it("rejects when called", async () => {
-		const fetchers = createSystemFetchersOffline();
+describe('createSystemFetchersOffline', () => {
+  it('rejects when called', async () => {
+    const fetchers = createSystemFetchersOffline();
 
-		await expect(
-			async () => await fetchers.fetch(""),
-		).rejects.toMatchInlineSnapshot(
-			`[Error: Offline specified. This request should be caught by its Input.]`,
-		);
-	});
+    await expect(fetchers.fetch('')).rejects.toMatchInlineSnapshot(
+      `[Error: Offline specified. This request should be caught by its Input.]`,
+    );
+  });
 });

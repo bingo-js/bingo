@@ -1,7 +1,8 @@
-export enum CLIMessage {
-	Done = `Done. Enjoy your updated repository! 💝`,
-	Exiting = "Exiting - maybe another time? 👋",
-	Leaving = "Leaving changes to the local directory on disk. 👋",
-	New = `Done. Enjoy your new repository! 💝`,
-	Ok = "Cheers! 💝",
-}
+export const cliMessages: Record<CliMessageType, string> = {
+  done: `Done. Enjoy your updated repository! 💝`,
+  exiting: 'Exiting - maybe another time? 👋',
+  leaving: 'Leaving changes to the local directory on disk. 👋',
+  new: `Done. Enjoy your new repository! 💝`,
+  ok: 'Cheers! 💝',
+};
+export type CliMessageType = 'done' | 'exiting' | 'leaving' | 'new' | 'ok';

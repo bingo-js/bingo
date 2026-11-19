@@ -15,21 +15,21 @@ It returns a Promise for the resultant options for the template.
 For example, given this template that declares an optional `value` option that defaults to `"default"`, `prepareOptions` can be run to generate its options object:
 
 ```ts
-import { createTemplate, prepareOptions } from "bingo";
-import { z } from "zod";
+import { createTemplate, prepareOptions } from 'bingo';
+import { z } from 'zod';
 
 const template = createTemplate({
-	options: {
-		value: z.string().optional(),
-	},
-	prepare() {
-		return {
-			value: "default",
-		};
-	},
-	produce() {
-		// ...
-	},
+  options: {
+    value: z.string().optional(),
+  },
+  prepare() {
+    return {
+      value: 'default',
+    };
+  },
+  produce() {
+    // ...
+  },
 });
 
 // { value: "default" }
@@ -52,25 +52,25 @@ If provided, [Input Context `fetchers`](/build/details/contexts#input-fetchers) 
 For example, this template uses [`inputFromFetch`](https://www.npmjs.com/package/input-from-fetch), which resolves with `undefined` for an option when `offline` is true:
 
 ```ts
-import { createTemplate, prepareOptions, take } from "bingo";
-import { inputFromFetch } from "input-from-fetch";
-import { z } from "zod";
+import { createTemplate, prepareOptions, take } from 'bingo';
+import { inputFromFetch } from 'input-from-fetch';
+import { z } from 'zod';
 
 const template = createTemplate({
-	options: {
-		fact: z.string().optional(),
-	},
-	prepare({ take }) {
-		return {
-			fact: async () =>
-				await take(inputFromFetch, {
-					resource: "https://catfact.ninja/fact",
-				}),
-		};
-	},
-	produce() {
-		// ...
-	},
+  options: {
+    fact: z.string().optional(),
+  },
+  prepare({ take }) {
+    return {
+      fact: async () =>
+        await take(inputFromFetch, {
+          resource: 'https://catfact.ninja/fact',
+        }),
+    };
+  },
+  produce() {
+    // ...
+  },
 });
 
 // { fact: "Cats can jump up to 7 times their tail length." }
@@ -96,28 +96,28 @@ For example, the following template declares an optional `value` option that def
 Passing in a `value` prevents that default value from being used:
 
 ```ts
-import { createTemplate, prepareOptions } from "bingo";
-import { z } from "zod";
+import { createTemplate, prepareOptions } from 'bingo';
+import { z } from 'zod';
 
 const template = createTemplate({
-	options: {
-		value: z.string().optional(),
-	},
-	prepare() {
-		return {
-			value: "default",
-		};
-	},
-	produce() {
-		// ...
-	},
+  options: {
+    value: z.string().optional(),
+  },
+  prepare() {
+    return {
+      value: 'default',
+    };
+  },
+  produce() {
+    // ...
+  },
 });
 
 // { value: "override" }
 await prepareOptions(template, {
-	options: {
-		value: "override",
-	},
+  options: {
+    value: 'override',
+  },
 });
 ```
 
@@ -130,39 +130,39 @@ This can be useful if you'd like a production's [Inputs](/build/details/inputs) 
 For example, this Block production adds an authorization header to all network requests:
 
 ```ts
-import { createTemplate, prepareOptions } from "bingo";
-import { inputFromFetch } from "input-from-fetch";
-import { Octokit } from "octokit";
-import { z } from "zod";
+import { createTemplate, prepareOptions } from 'bingo';
+import { inputFromFetch } from 'input-from-fetch';
+import { Octokit } from 'octokit';
+import { z } from 'zod';
 
 const template = createTemplate({
-	options: {
-		apiKey: z.string(),
-	},
-	prepare() {
-		return {
-			apiKey: async () =>
-				await take(inputFromFetch, {
-					resource: "(API key generator URL)",
-				}),
-		};
-	},
-	produce() {
-		//
-	},
+  options: {
+    apiKey: z.string(),
+  },
+  prepare() {
+    return {
+      apiKey: async () =>
+        await take(inputFromFetch, {
+          resource: '(API key generator URL)',
+        }),
+    };
+  },
+  produce() {
+    //
+  },
 });
 
 const fetch = async (...args) => {
-	const request = new Request(...args);
-	request.headers.set("Authorization", "Bearer ...");
-	return await fetch(request);
+  const request = new Request(...args);
+  request.headers.set('Authorization', 'Bearer ...');
+  return await fetch(request);
 };
 
 prepareOptions(template, {
-	fetchers: {
-		fetch,
-		octokit: new Octokit({ request: fetch }),
-	},
+  fetchers: {
+    fetch,
+    octokit: new Octokit({ request: fetch }),
+  },
 });
 ```
 
@@ -181,19 +181,19 @@ For documentation on the system call wrappers, see [Packages > `bingo-systems`](
 For example, the [Stratum engine's Bases](/engines/stratum/concepts/bases) can have options inferred with `prepareOptions`:
 
 ```ts
-import { prepareOptions } from "bingo";
-import { createBase } from "bingo-stratum";
-import { z } from "zod";
+import { prepareOptions } from 'bingo';
+import { createBase } from 'bingo-stratum';
+import { z } from 'zod';
 
 const base = createBase({
-	options: {
-		value: z.string().optional(),
-	},
-	prepare(options) {
-		return {
-			value: "default",
-		};
-	},
+  options: {
+    value: z.string().optional(),
+  },
+  prepare(options) {
+    return {
+      value: 'default',
+    };
+  },
 });
 
 // { value: "default" }
@@ -201,8 +201,8 @@ await prepareBase(base);
 
 // { value: "override" }
 await prepareBase(base, {
-	options: {
-		value: "override",
-	},
+  options: {
+    value: 'override',
+  },
 });
 ```

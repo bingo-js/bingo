@@ -1,208 +1,212 @@
-import * as prompts from "@clack/prompts";
-import { intakeDirectory } from "bingo-fs";
+import * as prompts from '@clack/prompts';
+import { intakeDirectory } from 'bingo-fs';
 
-import { createSystemContextWithAuth } from "../../contexts/createSystemContextWithAuth.js";
-import { prepareOptions } from "../../preparation/prepareOptions.js";
-import { runTemplate } from "../../runners/runTemplate.js";
-import { RequestedSkips } from "../../types/skips.js";
-import { Template } from "../../types/templates.js";
-import { ClackDisplay } from "../display/createClackDisplay.js";
-import { runSpinnerTask } from "../display/runSpinnerTask.js";
-import { logRerunSuggestion } from "../loggers/logRerunSuggestion.js";
-import { logStartText } from "../loggers/logStartText.js";
-import { CLIMessage } from "../messages.js";
-import { parseOptionsArgs } from "../parsers/parseOptionsArgs.js";
-import { promptForOptionSchemas } from "../prompts/promptForOptionSchemas.js";
-import { checkUncommittedChanges } from "../repository/checkUncommittedChanges.js";
-import { clearLocalGitTags } from "../repository/clearLocalGitTags.js";
-import { createInitialCommit } from "../repository/createInitialCommit.js";
-import { resolveLocalRepository } from "../repository/resolveLocalRepository.js";
-import { CLIStatus } from "../status.js";
-import { ModeResults } from "../types.js";
-import { clearTemplateFiles } from "./clearTemplateFiles.js";
-import { getForkedRepositoryLocator } from "./getForkedRepositoryLocator.js";
-import { readConfigSettings } from "./readConfigSettings.js";
+import { createSystemContextWithAuth } from '../../contexts/createSystemContextWithAuth.ts';
+import { prepareOptions } from '../../preparation/prepareOptions.ts';
+import { runTemplate } from '../../runners/runTemplate.ts';
+import type { AnyShape } from '../../types/shapes.ts';
+import type { RequestedSkips } from '../../types/skips.ts';
+import type { Template } from '../../types/templates.ts';
+import type { ClackDisplay } from '../display/createClackDisplay.ts';
+import { runSpinnerTask } from '../display/runSpinnerTask.ts';
+import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
+import { logStartText } from '../loggers/logStartText.ts';
+import { cliMessages } from '../messages.ts';
+import { parseOptionsArgs } from '../parsers/parseOptionsArgs.ts';
+import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
+import { checkUncommittedChanges } from '../repository/checkUncommittedChanges.ts';
+import { clearLocalGitTags } from '../repository/clearLocalGitTags.ts';
+import { createInitialCommit } from '../repository/createInitialCommit.ts';
+import { resolveLocalRepository } from '../repository/resolveLocalRepository.ts';
+import { cliStatuses } from '../status.ts';
+import type { ModeResults } from '../types.ts';
+import { clearTemplateFiles } from './clearTemplateFiles.ts';
+import { getForkedRepositoryLocator } from './getForkedRepositoryLocator.ts';
+import { readConfigSettings } from './readConfigSettings.ts';
 
-export interface RunModeTransitionSettings {
-	argv: string[];
-	configFile: string | undefined;
-	directory?: string;
-	display: ClackDisplay;
-	from: string;
-	offline?: boolean;
-	remote?: boolean;
-	rerunCommand: string;
-	skips?: RequestedSkips;
-	template: Template;
+export interface RunModeTransitionSettings<
+  OptionsShape extends AnyShape = AnyShape,
+  Refinements = unknown,
+> {
+  argv: string[];
+  configFile: string | undefined;
+  directory?: string;
+  display: ClackDisplay;
+  from: string;
+  offline?: boolean;
+  remote?: boolean;
+  rerunCommand: string;
+  skips?: RequestedSkips;
+  template: Template<OptionsShape, Refinements>;
 }
 
-export async function runModeTransition({
-	argv,
-	configFile,
-	directory = ".",
-	display,
-	from,
-	offline = false,
-	remote: requestedRemote,
-	rerunCommand,
-	skips = {},
-	template,
-}: RunModeTransitionSettings): Promise<ModeResults> {
-	logStartText("transition", offline);
+export async function runModeTransition<
+  OptionsShape extends AnyShape = AnyShape,
+  Refinements = unknown,
+>({
+  argv,
+  configFile,
+  directory = '.',
+  display,
+  from,
+  offline = false,
+  remote: requestedRemote,
+  rerunCommand,
+  skips = {},
+  template,
+}: RunModeTransitionSettings<OptionsShape, Refinements>): Promise<ModeResults> {
+  logStartText('transition', offline);
 
-	const system = await createSystemContextWithAuth({
-		directory,
-		display,
-		offline,
-	});
+  const system = await createSystemContextWithAuth({
+    directory,
+    display,
+    offline,
+  });
 
-	const repositoryLocator =
-		template.about?.repository &&
-		(await getForkedRepositoryLocator(directory, template.about.repository));
+  const repositoryLocator =
+    template.about?.repository &&
+    (await getForkedRepositoryLocator(directory, template.about.repository));
 
-	const providedOptions = parseOptionsArgs(argv, template.options).values;
+  const providedOptions = parseOptionsArgs(argv, template.options).values;
 
-	const loadedConfig = await readConfigSettings(
-		configFile,
-		directory,
-		template,
-	);
-	if (loadedConfig instanceof Error) {
-		logRerunSuggestion(rerunCommand, providedOptions, template.options);
-		return { error: loadedConfig, status: CLIStatus.Error };
-	}
+  const loadedConfig = await readConfigSettings(configFile, directory, template);
+  if (loadedConfig instanceof Error) {
+    logRerunSuggestion(rerunCommand, providedOptions, template.options);
+    return { error: loadedConfig, status: cliStatuses.error };
+  }
 
-	// Templates infer options from files on disk, so clearing must happen before
-	// prepareOptions. It can't be undone, so it's refused on uncommitted changes.
-	if (repositoryLocator) {
-		const uncommittedChanges = await checkUncommittedChanges(system.runner);
-		if (uncommittedChanges !== "clean") {
-			logRerunSuggestion(rerunCommand, providedOptions, template.options);
-			return {
-				error: new Error(
-					uncommittedChanges === "changes"
-						? `Transitioning a repository cloned from ${repositoryLocator} clears all of its files, but this one has uncommitted changes. Commit or stash them, then re-run.`
-						: `Transitioning a repository cloned from ${repositoryLocator} clears all of its files, but it couldn't be determined whether this one has uncommitted changes. Make sure git is installed and this is a git repository, then re-run.`,
-				),
-				status: CLIStatus.Error,
-			};
-		}
+  // Templates infer options from files on disk, so clearing must happen before
+  // prepareOptions. It can't be undone, so it's refused on uncommitted changes.
+  if (repositoryLocator) {
+    const uncommittedChanges = await checkUncommittedChanges(system.runner);
+    if (uncommittedChanges !== 'clean') {
+      logRerunSuggestion(rerunCommand, providedOptions, template.options);
+      return {
+        error: new Error(
+          uncommittedChanges === 'changes'
+            ? `Transitioning a repository cloned from ${repositoryLocator} clears all of its files, but this one has uncommitted changes. Commit or stash them, then re-run.`
+            : `Transitioning a repository cloned from ${repositoryLocator} clears all of its files, but it couldn't be determined whether this one has uncommitted changes. Make sure git is installed and this is a git repository, then re-run.`,
+        ),
+        status: cliStatuses.error,
+      };
+    }
 
-		await runSpinnerTask(
-			display,
-			`Clearing from ${repositoryLocator}`,
-			`Cleared from ${repositoryLocator}`,
-			async () => {
-				await clearTemplateFiles(directory);
-				await clearLocalGitTags(system.runner);
-			},
-		);
-	}
+    await runSpinnerTask(
+      display,
+      `Clearing from ${repositoryLocator}`,
+      `Cleared from ${repositoryLocator}`,
+      async () => {
+        await clearTemplateFiles(directory);
+        await clearLocalGitTags(system.runner);
+      },
+    );
+  }
 
-	const preparedOptions =
-		Object.keys(template.options).length &&
-		(await runSpinnerTask(
-			display,
-			"Inferring options from existing repository",
-			"Inferred options from existing repository",
-			async () => {
-				return await prepareOptions(template, {
-					...system,
-					existing: {
-						...loadedConfig?.options,
-						...providedOptions,
-						directory,
-					},
-					offline,
-				});
-			},
-		));
-	if (preparedOptions instanceof Error) {
-		logRerunSuggestion(rerunCommand, providedOptions, template.options);
-		return { status: CLIStatus.Error };
-	}
+  const preparedOptions =
+    Object.keys(template.options).length &&
+    (await runSpinnerTask(
+      display,
+      'Inferring options from existing repository',
+      'Inferred options from existing repository',
+      async () => {
+        return await prepareOptions(template, {
+          ...system,
+          existing: {
+            ...loadedConfig?.options,
+            ...providedOptions,
+            directory,
+          },
+          offline,
+        });
+      },
+    ));
+  if (preparedOptions instanceof Error) {
+    logRerunSuggestion(rerunCommand, providedOptions, template.options);
+    return { status: cliStatuses.error };
+  }
 
-	const baseOptions = await promptForOptionSchemas(template, {
-		existing: { ...providedOptions, ...preparedOptions },
-		system,
-	});
-	if (baseOptions.cancelled) {
-		logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
-		return { status: CLIStatus.Cancelled };
-	}
+  const baseOptions = await promptForOptionSchemas(template, {
+    existing: { ...providedOptions, ...preparedOptions },
+    system,
+  });
+  if (baseOptions.cancelled) {
+    logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
+    return { status: cliStatuses.cancelled };
+  }
 
-	const { message, remote } = await resolveLocalRepository(
-		display,
-		{ repository: directory, ...baseOptions.completed },
-		{ offline, remote: requestedRemote },
-		system,
-		template,
-	);
+  const { message, remote } = await resolveLocalRepository(
+    display,
+    { repository: directory, ...baseOptions.completed },
+    { offline, remote: requestedRemote },
+    system,
+    template,
+  );
 
-	if (remote instanceof Error) {
-		logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
-		return { error: remote, status: CLIStatus.Error };
-	}
+  if (remote instanceof Error) {
+    logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
+    return { error: remote, status: cliStatuses.error };
+  }
 
-	if (message) {
-		prompts.log[message.level](message.text);
-	}
+  if (message) {
+    prompts.log[message.level](message.text);
+  }
 
-	const files = await intakeDirectory(directory, {
-		exclude: /node_modules|^\.git$/,
-	});
+  const files = await intakeDirectory(directory, {
+    exclude: /node_modules|^\.git$/,
+  });
 
-	const creation = await runSpinnerTask(
-		display,
-		`Running ${from}`,
-		`Ran ${from}`,
-		async () =>
-			await runTemplate(template, {
-				...system,
-				directory,
-				files,
-				mode: "transition",
-				offline,
-				options: baseOptions.completed,
-				refinements: loadedConfig?.refinements,
-				skips: {
-					...skips,
-					requests: skips.requests ?? !remote,
-				},
-			}),
-	);
-	if (creation instanceof Error) {
-		logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
-		return {
-			outro: CLIMessage.Leaving,
-			status: CLIStatus.Error,
-		};
-	}
+  const creation = await runSpinnerTask(
+    display,
+    `Running ${from}`,
+    `Ran ${from}`,
+    async () =>
+      await runTemplate(template, {
+        ...system,
+        directory,
+        files,
+        mode: 'transition',
+        offline,
+        options: baseOptions.completed,
+        refinements: loadedConfig?.refinements,
+        skips: {
+          ...skips,
+          requests: skips.requests ?? !remote,
+        },
+      }),
+  );
+  if (creation instanceof Error) {
+    logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
+    return {
+      outro: cliMessages.leaving,
+      status: cliStatuses.error,
+    };
+  }
 
-	const commit =
-		repositoryLocator || requestedRemote
-			? await runSpinnerTask(
-					display,
-					"Creating initial commit",
-					"Created initial commit",
-					async () => {
-						await createInitialCommit(system.runner, {
-							amend: true,
-							push: !offline,
-						});
-					},
-				)
-			: undefined;
+  const commit =
+    repositoryLocator || requestedRemote
+      ? await runSpinnerTask(
+          display,
+          'Creating initial commit',
+          'Created initial commit',
+          async () => {
+            await createInitialCommit(system.runner, {
+              amend: true,
+              push: !offline,
+            });
+          },
+        )
+      : undefined;
 
-	logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
+  logRerunSuggestion(rerunCommand, baseOptions.prompted, template.options);
 
-	return commit instanceof Error
-		? {
-				outro: CLIMessage.Leaving,
-				status: CLIStatus.Error,
-			}
-		: {
-				outro: repositoryLocator ? CLIMessage.New : CLIMessage.Done,
-				status: CLIStatus.Success,
-			};
+  return commit instanceof Error
+    ? {
+        outro: cliMessages.leaving,
+        status: cliStatuses.error,
+      }
+    : {
+        outro: repositoryLocator ? cliMessages.new : cliMessages.done,
+        status: cliStatuses.success,
+        suggestions: creation.suggestions,
+      };
 }

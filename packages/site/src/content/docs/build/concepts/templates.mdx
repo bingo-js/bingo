@@ -1,5 +1,5 @@
 ---
-description: "How Bingo templates define their options and producer functions."
+description: 'How Bingo templates define their options and producer functions.'
 title: Templates
 ---
 
@@ -24,20 +24,20 @@ It returns a [`Creation`](/build/concepts/creations) object.
 The following example template takes in a `repository` option and produces a `README.md` file with a heading:
 
 ```ts title="template.js"
-import { createTemplate } from "bingo";
-import { z } from "zod";
+import { createTemplate } from 'bingo';
+import { z } from 'zod';
 
 export default createTemplate({
-	options: {
-		title: z.string(),
-	},
-	produce({ options }) {
-		return {
-			files: {
-				"README.md": `# ${options.title}`,
-			},
-		};
-	},
+  options: {
+    title: z.string(),
+  },
+  produce({ options }) {
+    return {
+      files: {
+        'README.md': `# ${options.title}`,
+      },
+    };
+  },
 });
 ```
 
@@ -65,8 +65,8 @@ A single `produce()` function generally doesn't scale well beyond small straight
 Templates generally end up using one or more template systems for defining files.
 
 1. [Handlebars](/engines/handlebars/about): allows defining files as [handlebars](https://handlebarsjs.com) templates.
-Generally recommended for straightforward templates that have more than a half dozen files.
+   Generally recommended for straightforward templates that have more than a half dozen files.
 2. [Stratum](/engines/stratum/about): a rich system to define each feature of a template as an independent "Blocks".
-Recommended for templates that want to allow rich logic and/or multiple starting presets.
+   Recommended for templates that want to allow rich logic and/or multiple starting presets.
 
 See [Templating Engines](/engines/about) for more information.

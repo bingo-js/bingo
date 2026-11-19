@@ -1,0 +1,37 @@
+name: Setup
+
+description: Sets up the repo for a typical CI job
+
+inputs:
+  cache:
+    description: Cache the pnpm store
+    default: true
+    required: false
+  install-flags:
+    description: Flags to pass to `pnpm install`
+    required: false
+    type: string
+  node-version:
+    description: Node.js version to use
+    default: 26.13.0
+    required: false
+  skip-checkout:
+    description: Skip the checkout step if the repo is already checked out
+    default: false
+    required: false
+
+runs:
+  steps:
+    - uses: actions/checkout@v7.0.1
+      if: ${{ inputs.skip-checkout == 'false' }}
+      with:
+        persist-credentials: false
+    - uses: pnpm/setup@v3.1.2
+      with:
+        cache: ${{ inputs.cache }}
+        install: ${{ inputs.install-flags == '' }}
+        runtime: node@${{ inputs.node-version }}
+    - run: pnpm install ${{ inputs.install-flags }}
+      if: ${{ inputs.install-flags != '' }}
+      shell: bash
+  using: composite

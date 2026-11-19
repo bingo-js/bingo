@@ -1,48 +1,45 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from 'vitest';
 
-import {
-	getGitRepositoryType,
-	GitRepositoryType,
-} from "./getGitRepositoryType.js";
+import { getGitRepositoryType } from './getGitRepositoryType.ts';
 
 describe(getGitRepositoryType, () => {
-	it("returns GitRepositoryType.None when git rev-parse --git-dir has no output", async () => {
-		const runner = vi.fn().mockResolvedValueOnce({
-			stdout: undefined,
-		});
+  it('returns "none" when git rev-parse --git-dir has no output', async () => {
+    const runner = vi.fn().mockResolvedValueOnce({
+      stdout: undefined,
+    });
 
-		const actual = await getGitRepositoryType(runner);
+    const actual = await getGitRepositoryType(runner);
 
-		expect(actual).toBe(GitRepositoryType.None);
-	});
+    expect(actual).toBe('none');
+  });
 
-	it("returns GitRepositoryType.None when git rev-parse --git-dir has a fatal stdout", async () => {
-		const runner = vi.fn().mockResolvedValueOnce({
-			stdout: "fatal: not a git repository ...",
-		});
+  it('returns "none" when git rev-parse --git-dir has a fatal stdout', async () => {
+    const runner = vi.fn().mockResolvedValueOnce({
+      stdout: 'fatal: not a git repository ...',
+    });
 
-		const actual = await getGitRepositoryType(runner);
+    const actual = await getGitRepositoryType(runner);
 
-		expect(actual).toBe(GitRepositoryType.None);
-	});
+    expect(actual).toBe('none');
+  });
 
-	it("returns GitRepositoryType.Root when git rev-parse --git-dir returns just .git", async () => {
-		const runner = vi.fn().mockResolvedValueOnce({
-			stdout: ".git",
-		});
+  it('returns "root" when git rev-parse --git-dir returns just .git', async () => {
+    const runner = vi.fn().mockResolvedValueOnce({
+      stdout: '.git',
+    });
 
-		const actual = await getGitRepositoryType(runner);
+    const actual = await getGitRepositoryType(runner);
 
-		expect(actual).toBe(GitRepositoryType.Root);
-	});
+    expect(actual).toBe('root');
+  });
 
-	it("returns GitRepositoryType.Subdirectory when git rev-parse --git-dir returns a subdirectory", async () => {
-		const runner = vi.fn().mockResolvedValueOnce({
-			stdout: "/parent/directory/.git",
-		});
+  it('returns "subdirectory" when git rev-parse --git-dir returns a subdirectory', async () => {
+    const runner = vi.fn().mockResolvedValueOnce({
+      stdout: '/parent/directory/.git',
+    });
 
-		const actual = await getGitRepositoryType(runner);
+    const actual = await getGitRepositoryType(runner);
 
-		expect(actual).toBe(GitRepositoryType.Subdirectory);
-	});
+    expect(actual).toBe('subdirectory');
+  });
 });

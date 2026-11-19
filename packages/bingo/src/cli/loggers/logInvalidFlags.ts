@@ -1,6 +1,6 @@
-import * as prompts from "@clack/prompts";
-import { ArgsIssue } from "parse-standard-args";
+import * as prompts from '@clack/prompts';
+import type { ArgsIssue } from 'parse-standard-args';
 
 export function logInvalidFlags(issues: ArgsIssue[]) {
-	prompts.log.error(issues.map((issue) => issue.message).join("\n"));
+  prompts.log.error(issues.map((issue) => issue.message).join('\n'));
 }

@@ -18,14 +18,14 @@ It is a union of the lowercased labels for the Template's available [Presets](/e
 
 For example, given a Template whose Base includes a boolean `bin` string, this configuration explicitly sets that option to `"index.js"`:
 
-```ts title="create-typescript-app.config.ts"
-import { blockCSpell, createConfig } from "create-typescript-app";
+```ts title="mfaith-create.config.ts"
+import { blockCSpell, createConfig } from '@mfaith/create';
 
 export default createConfig({
-	options: {
-		base: "index.js",
-		preset: "everything",
-	},
+  options: {
+    base: 'index.js',
+    preset: 'everything',
+  },
 });
 ```
 
@@ -33,28 +33,28 @@ export default createConfig({
 
 All Stratum Templates support the following `refinements` in their configuration files:
 
-### `addons`
+### `extensions`
 
-Any [Addons](/engines/stratum/concepts/blocks#addons) to be passed to the [Blocks](/engines/stratum/concepts/blocks) provided by the selected [Preset](/engines/stratum/concepts/presets).
-These will be [merged](/build/details/merging) in with Addons provided by other Blocks.
+Any [Props](/engines/stratum/concepts/blocks#props) to be passed to the [Blocks](/engines/stratum/concepts/blocks) provided by the selected [Preset](/engines/stratum/concepts/presets).
+These will be [merged](/build/details/merging) in with Props provided by other Blocks.
 
-For example, this configuration file adds the word `"arethetypeswrong"` to a CSpell Block's Addons:
+For example, this configuration file adds the word `"arethetypeswrong"` to a CSpell Block's Props:
 
-```ts title="create-typescript-app.config.ts"
-import { blockCSpell, createConfig } from "create-typescript-app";
+```ts title="mfaith-create.config.ts"
+import { blockCSpell, createConfig } from '@mfaith/create';
 
 export default createConfig({
-	refinements: {
-		addons: [
-			blockCSpell({
-				words: ["arethetypeswrong"],
-			}),
-		],
-	},
+  refinements: {
+    extensions: [
+      blockCSpell({
+        words: ['arethetypeswrong'],
+      }),
+    ],
+  },
 });
 ```
 
-Running `npx create-typescript-app` in a repository with that configuration file would merge in that `words` to the Addons provided to its CSpell Block.
+Running `npx @mfaith/create` in a repository with that configuration file would merge in that `words` with any other Props provided to its CSpell Block.
 
 ### `blocks`
 
@@ -64,41 +64,41 @@ Any customizations to the [Blocks](/engines/stratum/concepts/blocks) provided by
 
 Any Blocks to add to what the Preset provides.
 
-For example, this configuration file adds in an "arethetypeswrong" Block alongside existing Blocks provided by `create-typescript-app`:
+For example, this configuration file adds in an "arethetypeswrong" Block alongside existing Blocks provided by `@mfaith/create`:
 
-```ts title="create-typescript-app.config.ts"
-import { blockAreTheTypesWrong, createConfig } from "create-typescript-app";
+```ts title="mfaith-create.config.ts"
+import { blockAreTheTypesWrong, createConfig } from '@mfaith/create';
 
 export default createConfig({
-	refinements: {
-		blocks: {
-			add: [blockAreTheTypesWrong],
-		},
-	},
+  refinements: {
+    blocks: {
+      add: [blockAreTheTypesWrong],
+    },
+  },
 });
 ```
 
-Running `npx create-typescript-app` in a repository with that configuration file would add in the created outputs from `blockAreTheTypesWrong`.
+Running `npx @mfaith/create` in a repository with that configuration file would add in the created outputs from `blockAreTheTypesWrong`.
 
 #### `exclude`
 
 Any Blocks to exclude from what the Preset provides.
 
-For example, this configuration file omits the default _"This package was templated with..."_ notice that comes with `create-typescript-app`:
+For example, this configuration file omits the default _"This package was templated with..."_ notice that comes with `@mfaith/create`:
 
-```ts title="create-typescript-app.config.ts"
-import { blockTemplatedBy, createConfig } from "create-typescript-app";
+```ts title="mfaith-create.config.ts"
+import { blockTemplatedBy, createConfig } from '@mfaith/create';
 
 export default createConfig({
-	refinements: {
-		blocks: {
-			exclude: [blockTemplatedBy],
-		},
-	},
+  refinements: {
+    blocks: {
+      exclude: [blockTemplatedBy],
+    },
+  },
 });
 ```
 
-Running `npx create-typescript-app` in a repository with that configuration file would not include that Block, and so its generated README.md would not include the notice.
+Running `npx @mfaith/create` in a repository with that configuration file would not include that Block, and so its generated README.md would not include the notice.
 
 ### Custom Blocks
 
@@ -111,84 +111,84 @@ For example, this custom Block adds a [Wallaby configuration file](https://walla
 
 ```ts
 // blockWallabyConfig.js
-import { base, blockPackageJson } from "create-typescript-app";
+import { base, blockPackageJson } from '@mfaith/create';
 
 export const blockWallabyConfig = base.createBlock({
-	about: {
-		name: "Wallaby Config",
-	},
-	produce() {
-		return {
-			files: {
-				"wallaby.js": `module.exports = function () {
+  about: {
+    name: 'Wallaby Config',
+  },
+  produce() {
+    return {
+      files: {
+        'wallaby.js': `module.exports = function () {
 	return {
 		reportConsoleErrorAsError: true,
 	};
 };`,
-			},
-		};
-	},
+      },
+    };
+  },
 });
 ```
 
-```ts title="create-typescript-app.config.ts"
-import { createConfig } from "create-typescript-app";
+```ts title="mfaith-create.config.ts"
+import { createConfig } from '@mfaith/create';
 
-import { blockWallabyConfig } from "./blockWallabyConfig.js";
+import { blockWallabyConfig } from './blockWallabyConfig.js';
 
 export default createConfig({
-	refinements: {
-		blocks: {
-			add: [blockWallabyConfig],
-		},
-	},
+  refinements: {
+    blocks: {
+      add: [blockWallabyConfig],
+    },
+  },
 });
 ```
 
-#### Custom Blocks and Addons
+#### Custom Blocks and Extensions
 
-Custom Blocks can provide Addons to any other Blocks, including those provided by the package.
+Custom Blocks can provide Props to any other Blocks, including those provided by the package, by producing Extensions that include those prop assignments.
 This allows your repositories to blend in seamlessly with the features provided by your Template.
 
-For example, to add an [`@arethetypeswrong/cli`](https://www.npmjs.com/package/@arethetypeswrong/cli) lint task to the `package.json` file, a repository using the `create-typescript-app` Template could create and use a custom Block:
+For example, to add an [`@arethetypeswrong/cli`](https://www.npmjs.com/package/@arethetypeswrong/cli) lint task to the `package.json` file, a repository using the `@mfaith/create` Template could create and use a custom Block:
 
 ```ts
 // blockLintAreTheTypesWrong.js
-import { base, blockPackageJson } from "create-typescript-app";
+import { base, blockPackageJson } from '@mfaith/create';
 
 export const blockLintAreTheTypesWrong = base.createBlock({
-	about: {
-		name: "Lint Are The Types Wrong",
-	},
-	produce() {
-		return {
-			addons: [
-				blockPackageJson({
-					properties: {
-						devDependencies: {
-							"@arethetypeswrong/cli": "0.17.3",
-						},
-						scripts: {
-							"lint:arethetypeswrong": "attw --pack .",
-						},
-					},
-				}),
-			],
-		};
-	},
+  about: {
+    name: 'Lint Are The Types Wrong',
+  },
+  produce() {
+    return {
+      extensions: [
+        blockPackageJson({
+          properties: {
+            devDependencies: {
+              '@arethetypeswrong/cli': '0.17.3',
+            },
+            scripts: {
+              'lint:arethetypeswrong': 'attw --pack .',
+            },
+          },
+        }),
+      ],
+    };
+  },
 });
 ```
 
-```ts title="create-typescript-app.config.ts"
-import { createConfig } from "create-typescript-app";
+```ts title="mfaith-create.config.ts"
+import { createConfig } from '@mfaith/create';
 
-import { blockLintAreTheTypesWrong } from "./blockLintAreTheTypesWrong.js";
+import { blockLintAreTheTypesWrong } from './blockLintAreTheTypesWrong.js';
 
 export default createConfig({
-	refinements: {
-		blocks: {
-			add: [blockLintAreTheTypesWrong],
-		},
-	},
+  refinements: {
+    blocks: {
+      add: [blockLintAreTheTypesWrong],
+    },
+  },
 });
 ```

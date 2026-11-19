@@ -1,25 +1,26 @@
-import { readdirSync } from "node:fs";
-import { coverageConfigDefaults, defineConfig } from "vitest/config";
+import { readdirSync } from 'node:fs';
+import path from 'node:path';
 
-export default defineConfig({
-	test: {
-		coverage: {
-			exclude: [
-				...coverageConfigDefaults.exclude,
-				"**/config.ts",
-				"**/*.astro",
-			],
-			include: ["packages/*/src/"],
-		},
+import { defaultExclude, defineConfig, type ViteUserConfigExport } from 'vitest/config';
 
-		projects: readdirSync("./packages").map((name) => ({
-			test: {
-				clearMocks: true,
-				include: ["**/src/**/*.test.ts"],
-				name,
-				root: `./packages/${name}`,
-				setupFiles: ["console-fail-test/setup"],
-			},
-		})),
-	},
+const config: ViteUserConfigExport = defineConfig({
+  test: {
+    coverage: {
+      exclude: [...defaultExclude, '**/config.ts', '**/*.astro'],
+      include: ['packages/*/src/**/*.ts'],
+      reporter: ['html', 'lcov', 'text'],
+    },
+
+    projects: readdirSync(path.join(import.meta.dirname, 'packages')).map((name) => ({
+      test: {
+        clearMocks: true,
+        include: ['**/src/**/*.test.ts'],
+        name,
+        root: path.join(import.meta.dirname, 'packages', name),
+        setupFiles: ['console-fail-test/setup'],
+      },
+    })),
+  },
 });
+
+export default config;

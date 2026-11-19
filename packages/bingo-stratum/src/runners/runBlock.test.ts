@@ -1,61 +1,61 @@
-import { Octokit } from "octokit";
-import { describe, expect, test, vi } from "vitest";
-import { z } from "zod";
+import type { Octokit } from 'octokit';
+import { describe, expect, test, vi } from 'vitest';
+import { z } from 'zod';
 
-import { createBase } from "../creators/createBase.js";
-import { runBlock } from "./runBlock.js";
+import { createBase } from '../creators/createBase.ts';
+import { runBlock } from './runBlock.ts';
 
 const base = createBase({
-	options: {
-		title: z.string(),
-	},
+  options: {
+    title: z.string(),
+  },
 });
 
 function createSystem() {
-	return {
-		fetchers: {
-			fetch: noop("fetch"),
-			octokit: {} as Octokit,
-		},
-		fs: {
-			glob: noop("glob"),
-			readDirectory: noop("readDirectory"),
-			readFile: noop("readFile"),
-			removeFile: vi.fn(),
-			writeDirectory: vi.fn(),
-			writeFile: vi.fn(),
-		},
-		runner: noop("runner"),
-	};
+  return {
+    fetchers: {
+      fetch: noop('fetch'),
+      octokit: {} as Octokit,
+    },
+    fs: {
+      glob: noop('glob'),
+      readDirectory: noop('readDirectory'),
+      readFile: noop('readFile'),
+      removeFile: vi.fn(),
+      writeDirectory: vi.fn(),
+      writeFile: vi.fn(),
+    },
+    runner: noop('runner'),
+  };
 }
 
 function noop(label: string) {
-	return vi.fn().mockReturnValue(`Not implemented: ${label}`);
+  return vi.fn().mockReturnValue(`Not implemented: ${label}`);
 }
 
-describe("runBlock", () => {
-	test("Block without Addons", async () => {
-		const block = base.createBlock({
-			produce({ options }) {
-				return {
-					files: {
-						"README.md": `# ${options.title}`,
-					},
-				};
-			},
-		});
+describe(runBlock, () => {
+  test('Block without Props', async () => {
+    const block = base.createBlock({
+      produce({ options }) {
+        return {
+          files: {
+            'README.md': `# ${options.title}`,
+          },
+        };
+      },
+    });
 
-		const system = createSystem();
+    const system = createSystem();
 
-		await runBlock(block, {
-			options: { title: "abc" },
-			...system,
-		});
+    await runBlock(block, {
+      options: { title: 'abc' },
+      ...system,
+    });
 
-		expect({
-			writeDirectory: system.fs.writeDirectory.mock.calls,
-			writeFile: system.fs.writeFile.mock.calls,
-		}).toMatchInlineSnapshot(`
+    expect({
+      writeDirectory: system.fs.writeDirectory.mock.calls,
+      writeFile: system.fs.writeFile.mock.calls,
+    }).toMatchInlineSnapshot(`
 			{
 			  "writeDirectory": [
 			    [
@@ -70,34 +70,34 @@ describe("runBlock", () => {
 			  ],
 			}
 		`);
-	});
+  });
 
-	describe("Block with Addons", () => {
-		const block = base.createBlock({
-			addons: {
-				descriptions: z.array(z.string()).default([]),
-			},
-			produce({ addons, options }) {
-				return {
-					files: {
-						"README.md": `# ${options.title}\n${addons.descriptions.join("\n")}`,
-					},
-				};
-			},
-		});
+  describe('Block with Props', () => {
+    const block = base.createBlock({
+      props: {
+        descriptions: z.array(z.string()).default([]),
+      },
+      produce({ options, props }) {
+        return {
+          files: {
+            'README.md': `# ${options.title}\n${props.descriptions.join('\n')}`,
+          },
+        };
+      },
+    });
 
-		test("default Addon value", async () => {
-			const system = createSystem();
+    test('default Prop value', async () => {
+      const system = createSystem();
 
-			await runBlock(block, {
-				options: { title: "abc" },
-				...system,
-			});
+      await runBlock(block, {
+        options: { title: 'abc' },
+        ...system,
+      });
 
-			expect({
-				writeDirectory: system.fs.writeDirectory.mock.calls,
-				writeFile: system.fs.writeFile.mock.calls,
-			}).toMatchInlineSnapshot(`
+      expect({
+        writeDirectory: system.fs.writeDirectory.mock.calls,
+        writeFile: system.fs.writeFile.mock.calls,
+      }).toMatchInlineSnapshot(`
 				{
 				  "writeDirectory": [
 				    [
@@ -113,23 +113,23 @@ describe("runBlock", () => {
 				  ],
 				}
 			`);
-		});
+    });
 
-		test("provided Addon value", async () => {
-			const system = createSystem();
+    test('provided Prop value', async () => {
+      const system = createSystem();
 
-			await runBlock(block, {
-				addons: {
-					descriptions: ["def"],
-				},
-				options: { title: "abc" },
-				...system,
-			});
+      await runBlock(block, {
+        props: {
+          descriptions: ['def'],
+        },
+        options: { title: 'abc' },
+        ...system,
+      });
 
-			expect({
-				writeDirectory: system.fs.writeDirectory.mock.calls,
-				writeFile: system.fs.writeFile.mock.calls,
-			}).toMatchInlineSnapshot(`
+      expect({
+        writeDirectory: system.fs.writeDirectory.mock.calls,
+        writeFile: system.fs.writeFile.mock.calls,
+      }).toMatchInlineSnapshot(`
 				{
 				  "writeDirectory": [
 				    [
@@ -145,6 +145,6 @@ describe("runBlock", () => {
 				  ],
 				}
 			`);
-		});
-	});
+    });
+  });
 });
