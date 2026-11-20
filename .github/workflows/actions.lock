@@ -8,11 +8,11 @@ workflows:
     '.github/workflows/ci.yml':
         - 'actions/checkout@v7.0.1'
         - 'codecov/codecov-action@v7.1.1'
-        - 'pnpm/setup@v3.1.2'
+        - 'pnpm/setup@v3.2.0'
     '.github/workflows/contributors.yml':
         - 'actions/checkout@v7.0.1'
         - 'joshuakgoldberg/all-contributors-auto-action@v0.7.0'
-        - 'pnpm/setup@v3.1.2'
+        - 'pnpm/setup@v3.2.0'
     '.github/workflows/octoguide.yml':
         - 'octoguide/bot@0.33.1'
     '.github/workflows/post-release.yml':
@@ -24,7 +24,7 @@ workflows:
         - 'actions/create-github-app-token@v3.3.0'
         - 'changesets/action@v2.1.2'
         - 'marcalexiei/changesets-release-commenter@v0.3.1'
-        - 'pnpm/setup@v3.1.2'
+        - 'pnpm/setup@v3.2.0'
 dependencies:
     'actions-ecosystem/action-remove-labels@v1.3.0':
         ref: 'v1.3.0'
@@ -83,8 +83,8 @@ dependencies:
         commit: 'sha1-8d29abce6793b35c6bfab51d4db6bfa62634b871'
         owner_id: 231299902
         repo_id: 964218711
-    'pnpm/setup@v3.1.2':
-        ref: 'v3.1.2'
-        commit: 'sha1-fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e'
+    'pnpm/setup@v3.2.0':
+        ref: 'v3.2.0'
+        commit: 'sha1-731dfb6463bbd11c11fd0ee11fe00ed0e36d48a1'
         owner_id: 21320719
         repo_id: 1235693694
