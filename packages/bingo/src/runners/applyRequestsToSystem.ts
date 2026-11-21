@@ -3,7 +3,10 @@ import type { CreatedRequest } from 'bingo-requests';
 import type { SystemContext } from '../types/system.ts';
 import { getRequestSender } from './getRequestSender.ts';
 
-export async function applyRequestsToSystem(requests: CreatedRequest[], system: SystemContext) {
+export const applyRequestsToSystem = async (
+  requests: CreatedRequest[],
+  system: SystemContext,
+): Promise<void> => {
   await Promise.all(
     requests.map(async (request) => {
       const sender = getRequestSender(system.fetchers, request);
@@ -26,4 +29,4 @@ export async function applyRequestsToSystem(requests: CreatedRequest[], system: 
       system.display.item('request', id, { end: Date.now() });
     }),
   );
-}
+};

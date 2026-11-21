@@ -2,9 +2,12 @@ import type { CreatedDirectory, CreatedFileEntry } from 'bingo-fs';
 
 import { mergeFileEntries } from './mergeFileEntries.ts';
 
-export function mergeCreatedDirectories(firsts: CreatedDirectory, seconds: CreatedDirectory) {
+export const mergeCreatedDirectories = (
+  firsts: CreatedDirectory,
+  seconds: CreatedDirectory,
+): CreatedDirectory => {
   return mergeCreatedDirectoriesWorker(firsts, seconds, []);
-}
+};
 
 function mergeCreatedDirectoriesWorker(
   firsts: CreatedDirectory,

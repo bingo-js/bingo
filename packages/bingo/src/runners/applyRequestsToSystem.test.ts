@@ -28,7 +28,7 @@ function createStubSystem() {
   };
 }
 
-describe('applyRequestsToSystem', () => {
+describe(applyRequestsToSystem, () => {
   it('does not do anything when getRequestSender returns undefined', async () => {
     mockGetRequestSender.mockReturnValueOnce(undefined);
 

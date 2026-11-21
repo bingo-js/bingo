@@ -46,7 +46,7 @@ export function runInput(
     },
   ) => unknown,
   settings: Partial<RunInputSettings<InferredObject<AnyShape>>>,
-) {
+): unknown {
   const system = createSystemContext({
     directory: settings.directory ?? '.',
     ...settings,

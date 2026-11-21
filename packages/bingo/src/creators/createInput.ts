@@ -8,7 +8,6 @@ import type {
   InputProducerWithoutArgs,
 } from '../types/inputs.ts';
 import type { AnyShape, InferredObject } from '../types/shapes.ts';
-import { isDefinitionWithArgs } from './utils.ts';
 
 /**
  * Definition for creating a new Input that might have args defined.
@@ -40,6 +39,10 @@ export interface InputDefinitionWithArgs<Result, ArgsShape extends AnyShape> {
 export interface InputDefinitionWithoutArgs<Result> {
   produce: InputProducerWithoutArgs<Result>;
 }
+
+const isDefinitionWithArgs = (definition: object): definition is Record<'args', unknown> => {
+  return 'args' in definition;
+};
 
 /**
  * Creates a new Input.

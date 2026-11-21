@@ -2,9 +2,9 @@ import { getGitHubAuthToken } from 'get-github-auth-token';
 
 import { createSystemContext, type SystemContextSettings } from './createSystemContext.ts';
 
-export async function createSystemContextWithAuth(
+export const createSystemContextWithAuth = async (
   settings: Pick<SystemContextSettings, 'auth' | 'directory' | 'display' | 'fetchers' | 'offline'>,
-) {
+) => {
   const authToken =
     settings.fetchers?.octokit || settings.auth || settings.offline
       ? undefined
@@ -12,4 +12,4 @@ export async function createSystemContextWithAuth(
   const auth = authToken?.succeeded ? authToken.token : settings.auth;
 
   return createSystemContext({ ...settings, auth });
-}
+};

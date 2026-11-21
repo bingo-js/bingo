@@ -3,13 +3,13 @@ import * as path from 'node:path';
 import type { CreatedDirectory } from 'bingo-fs';
 import type { WritingFileSystem } from 'bingo-systems';
 
-export async function applyFilesToSystem(
+export const applyFilesToSystem = async (
   files: CreatedDirectory,
   system: WritingFileSystem,
   directory: string,
-) {
+): Promise<void> => {
   await writeToSystemWorker(files, system, directory);
-}
+};
 
 async function writeToSystemWorker(
   files: CreatedDirectory,

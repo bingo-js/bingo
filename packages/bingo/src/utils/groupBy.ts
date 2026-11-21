@@ -1,7 +1,10 @@
 /**
  * Ponyfill of ES2024's Object.groupBy, pending Node LTS supporting it.
  */
-export function groupBy<T, K extends number | string>(items: T[], getKey: (item: T) => K) {
+export const groupBy = <T, K extends number | string>(
+  items: T[],
+  getKey: (item: T) => K,
+): Record<K, T[]> => {
   const grouped = {} as Record<K, T[]>;
 
   for (const item of items) {
@@ -12,4 +15,4 @@ export function groupBy<T, K extends number | string>(items: T[], getKey: (item:
   return Object.fromEntries(
     Object.entries(grouped).sort(([a], [b]) => a.localeCompare(b)),
   ) as typeof grouped;
-}
+};

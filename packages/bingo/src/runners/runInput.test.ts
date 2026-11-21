@@ -19,7 +19,7 @@ const input = createInput({
   },
 });
 
-describe('runInput', () => {
+describe(runInput, () => {
   it("defaults directory to '.' when not provided", async () => {
     const actual = await runInput(input, { args: { value: 2 } });
 
