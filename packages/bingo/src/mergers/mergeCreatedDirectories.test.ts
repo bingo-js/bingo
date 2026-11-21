@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 
 import { mergeCreatedDirectories } from './mergeCreatedDirectories.ts';
 
-describe('mergeFileCreations', () => {
+describe(mergeCreatedDirectories, () => {
   test.each([
     [{}, {}, {}],
     [{ a: false }, { a: undefined }, {}],

@@ -12,7 +12,7 @@ function createStubSystem() {
   };
 }
 
-describe('applyCommandsToSystem', () => {
+describe(applyScriptsToSystem, () => {
   it('displays the error when a standalone command results in an error', async () => {
     const command = 'abc';
     const error = new Error('Oh no!');

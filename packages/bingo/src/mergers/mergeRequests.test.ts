@@ -6,7 +6,7 @@ import { mergeRequests } from './mergeRequests.ts';
 const owner = 'test-owner';
 const repo = 'test-repo';
 
-describe('mergeRequests', () => {
+describe(mergeRequests, () => {
   it('returns fetch and octokit requests together when both are provided', () => {
     const first: CreatedOctokitRequest = {
       endpoint: 'POST /repos/{owner}/{repo}/labels',

@@ -2,10 +2,10 @@ import type { CreatedScript } from '../types/creations.ts';
 import type { SystemContext } from '../types/system.ts';
 import { groupBy } from '../utils/groupBy.ts';
 
-export async function applyScriptsToSystem(
+export const applyScriptsToSystem = async (
   scripts: CreatedScript[],
   system: Pick<SystemContext, 'display' | 'runner'>,
-) {
+): Promise<void> => {
   const scriptsByPhase = groupBy(
     scripts.filter((script) => typeof script === 'object'),
     (script) => script.phase ?? Infinity,
@@ -47,4 +47,4 @@ export async function applyScriptsToSystem(
   }
 
   await commandsStandaloneTask;
-}
+};

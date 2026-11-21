@@ -14,7 +14,7 @@ function createMockSystemFetchers() {
 const owner = 'test-owner';
 const repo = 'test-repo';
 
-describe('getRequestSender', () => {
+describe(getRequestSender, () => {
   it('returns a sender with url for id when given a fetch request without id', () => {
     const request: CreatedFetchRequest = {
       type: 'fetch',

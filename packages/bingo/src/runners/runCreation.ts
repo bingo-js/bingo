@@ -11,10 +11,10 @@ export interface ApplyCreationSettings {
   system: SystemContext;
 }
 
-export async function runCreation(
+export const runCreation = async (
   creation: Partial<Creation>,
   { offline, skips = {}, system }: ApplyCreationSettings,
-) {
+): Promise<void> => {
   if (creation.files && !skips.files) {
     await applyFilesToSystem(creation.files, system.fs, system.directory);
   }
@@ -26,4 +26,4 @@ export async function runCreation(
       !skips.requests &&
       applyRequestsToSystem(creation.requests, system),
   ]);
-}
+};

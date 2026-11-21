@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { applyMerger } from './applyMerger.ts';
 
-describe('applyMerger', () => {
+describe(applyMerger, () => {
   it('returns second when first is undefined', () => {
     const second = 'b';
 

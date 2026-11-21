@@ -1,23 +1,23 @@
-export async function tryCatchError<T>(promise: Promise<T>) {
+export const tryCatchError = async <T>(promise: Promise<T>): Promise<Error | T> => {
   try {
     return await promise;
   } catch (error) {
     return error as Error;
   }
-}
+};
 
-export async function tryCatchSafe<T>(promise: Promise<T>) {
+export const tryCatchSafe = async <T>(promise: Promise<T>): Promise<T | undefined> => {
   try {
     return await promise;
   } catch {
     return undefined;
   }
-}
+};
 
-export function tryCatchSafeSync<T>(computer: () => T) {
+export const tryCatchSafeSync = <T>(computer: () => T): T | undefined => {
   try {
     return computer();
   } catch {
     return undefined;
   }
-}
+};
