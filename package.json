@@ -51,7 +51,7 @@
     "@eslint/js": "10.0.1",
     "@eslint/markdown": "9.0.0",
     "@types/node": "26.6.6",
-    "@vitest/coverage-v8": "5.1.0",
+    "@vitest/coverage-v8": "5.1.1",
     "@vitest/eslint-plugin": "1.6.28",
     "console-fail-test": "0.10.0",
     "cspell": "10.5.2",
@@ -71,7 +71,7 @@
     "tsdown": "0.23.7",
     "typescript": "6.0.3",
     "typescript-eslint": "8.73.0",
-    "vitest": "5.1.0"
+    "vitest": "5.1.1"
   },
   "packageManager": "pnpm@12.21.0",
   "engines": {
