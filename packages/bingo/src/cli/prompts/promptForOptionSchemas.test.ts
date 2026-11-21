@@ -38,6 +38,7 @@ const system: SystemContext = {
     writeFile: vi.fn(),
   },
   runner: vi.fn(),
+  take: vi.fn(),
 };
 
 describe(promptForOptionSchemas, () => {
