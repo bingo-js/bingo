@@ -54,7 +54,7 @@
     "@vitest/coverage-v8": "5.1.0",
     "@vitest/eslint-plugin": "1.6.28",
     "console-fail-test": "0.10.0",
-    "cspell": "10.5.1",
+    "cspell": "10.5.2",
     "eslint": "10.15.0",
     "eslint-plugin-jsdoc": "65.4.11",
     "eslint-plugin-jsonc": "3.4.2",
