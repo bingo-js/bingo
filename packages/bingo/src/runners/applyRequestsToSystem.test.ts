@@ -25,6 +25,7 @@ function createStubSystem() {
     },
     fs: {} as WritingFileSystem,
     runner: vi.fn(),
+    take: vi.fn(),
   };
 }
 

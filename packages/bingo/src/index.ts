@@ -53,6 +53,7 @@ export type {
 export type { ProductionMode } from './types/modes.ts';
 export type { LazyOptionalOption, LazyOptionalOptions, OptionsContext } from './types/options.ts';
 export type { AnyOptionalShape, AnyShape, InferredObject } from './types/shapes.ts';
+export type { SystemContext } from './types/system.ts';
 export type {
   ContextLog,
   PromiseOrSync,

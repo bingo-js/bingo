@@ -8,6 +8,7 @@ import {
 
 import type { InputWithArgs, TakeInput } from '../types/inputs.ts';
 import type { AnyShape, InferredObject } from '../types/shapes.ts';
+import type { SystemContext } from '../types/system.ts';
 import { createDisplay, type Display } from './createDisplay.ts';
 
 export interface SystemContextSettings extends Partial<BingoSystem> {
@@ -17,7 +18,7 @@ export interface SystemContextSettings extends Partial<BingoSystem> {
   offline?: boolean;
 }
 
-export function createSystemContext(settings: SystemContextSettings) {
+export const createSystemContext = (settings: SystemContextSettings): SystemContext => {
   const system: BingoSystem = {
     fetchers:
       settings.fetchers ??
@@ -35,4 +36,4 @@ export function createSystemContext(settings: SystemContextSettings) {
     display: settings.display ?? createDisplay(),
     take,
   };
-}
+};
