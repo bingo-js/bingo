@@ -1,5 +1,16 @@
 # bingo-handlebars
 
+## 0.5.0
+
+### Minor Changes
+
+- [#605](https://github.com/bingo-js/bingo/pull/605) [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Bundle all package entrypoints. The package no longer includes files for every internal module.
+
+### Patch Changes
+
+- Updated dependencies [[`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf)]:
+  - bingo-fs@0.9.0
+
 ## 0.4.0
 
 ### Minor Changes
