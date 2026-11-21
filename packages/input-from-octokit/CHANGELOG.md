@@ -1,5 +1,17 @@
 # input-from-octokit
 
+## 0.5.0
+
+### Minor Changes
+
+- [#605](https://github.com/bingo-js/bingo/pull/605) [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Bundle all package entrypoints. The package no longer includes files for every internal module.
+
+### Patch Changes
+
+- Updated dependencies [[`8f3cf46`](https://github.com/bingo-js/bingo/commit/8f3cf460beb177a38413878ebc71aebc4bb8f5f8), [`cc5fdd6`](https://github.com/bingo-js/bingo/commit/cc5fdd6e2bdd92315f590862352edb94ca6400b8), [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf)]:
+  - bingo@0.17.0
+  - bingo-requests@0.8.0
+
 ## 0.4.1
 
 ### Patch Changes

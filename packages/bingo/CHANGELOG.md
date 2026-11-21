@@ -1,5 +1,21 @@
 # bingo
 
+## 0.17.0
+
+### Minor Changes
+
+- [#629](https://github.com/bingo-js/bingo/pull/629) [`8f3cf46`](https://github.com/bingo-js/bingo/commit/8f3cf460beb177a38413878ebc71aebc4bb8f5f8) Thanks [@rishitha2625](https://github.com/rishitha2625)! - Renamed symbols to use proper camelCasing. `runBingoCLI` is now `runBingoCli` and `runTemplateCLI` is now `runTemplateCli`.
+
+- [#605](https://github.com/bingo-js/bingo/pull/605) [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Bundle all package entrypoints. The package no longer includes files for every internal module.
+
+### Patch Changes
+
+- [#649](https://github.com/bingo-js/bingo/pull/649) [`cc5fdd6`](https://github.com/bingo-js/bingo/commit/cc5fdd6e2bdd92315f590862352edb94ca6400b8) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Added explicit return type for `createSystemContext` and exported it as `SystemContext`.
+- Updated dependencies [[`dfdd5bf`](https://github.com/bingo-js/bingo/commit/dfdd5bfcf9abc90eb79e0d9ce0935f41f80beed4), [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf)]:
+  - bingo-systems@0.10.0
+  - bingo-fs@0.9.0
+  - bingo-requests@0.8.0
+
 ## 0.16.2
 
 ### Patch Changes
