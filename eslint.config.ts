@@ -65,9 +65,6 @@ export default defineConfig(
       'perfectionist/sort-named-exports': 'error',
       'perfectionist/sort-named-imports': 'error',
 
-      // These on-by-default rules cause too much friction for this repo
-      'no-undef': 'off',
-
       // Stylistic concerns that don't interfere with Oxfmt
       'logical-assignment-operators': ['error', 'always', { enforceForIfStatements: true }],
       'no-useless-rename': 'error',
@@ -99,6 +96,7 @@ export default defineConfig(
     files: ['**/*.test.*'],
     rules: {
       '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-class-instance-assignment': 'off',
       'vitest/no-conditional-expect': 'off',
     },
     settings: { vitest: { typecheck: true } },
