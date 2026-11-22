@@ -15,13 +15,22 @@ import type { Preset } from '../types/presets.ts';
 import type { StratumTemplate } from '../types/templates.ts';
 import { slugifyName } from '../utils/slugifyName.ts';
 
-export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
+export interface ExistingBlocks<OptionsShape extends AnyShape> {
+  blocks: Block<object | undefined, InferredObject<OptionsShape>>[];
+  preset: string;
+}
+export interface NoExistingBlocks {
+  blocks?: never;
+  preset?: never;
+}
+
+export const inferExistingBlocks = <OptionsShape extends AnyShape, Refinements>(
   context: Pick<
     TemplatePrepareContext<Partial<InferredObject<OptionsShape>>, Refinements>,
     'files' | 'options'
   >,
   template: StratumTemplate<OptionsShape>,
-) {
+): ExistingBlocks<OptionsShape> | NoExistingBlocks => {
   const blockSettings: ProduceBlockSettings<undefined, Options> = {
     ...context,
 
@@ -81,7 +90,7 @@ export function inferExistingBlocks<OptionsShape extends AnyShape, Refinements>(
     blocks: existingBlocks.filter((block) => !blocksInPreset.has(block)),
     preset: slugifyName(existingPreset.about.name),
   };
-}
+};
 
 /**
  * Moves any files on disk at produced files' `previously` paths to their current paths,

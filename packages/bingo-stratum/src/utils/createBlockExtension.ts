@@ -1,8 +1,13 @@
-export function createBlockExtension<Block, Props extends object>(
+export interface BlockExtension<Block, Props extends object> {
+  block: Block;
+  props: Props;
+}
+
+export const createBlockExtension = <Block, Props extends object>(
   block: Block,
   props: Props,
   name: string | undefined,
-) {
+): BlockExtension<Block, Props> => {
   const created = { block, props };
 
   if (name) {
@@ -12,4 +17,4 @@ export function createBlockExtension<Block, Props extends object>(
   }
 
   return created;
-}
+};

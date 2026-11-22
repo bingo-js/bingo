@@ -1,6 +1,7 @@
 import type { AnyShape, InferredObject, ProductionMode } from 'bingo';
 import type { IntakeDirectory } from 'bingo-fs';
 
+import type { BlockCreation } from '../types/creations.ts';
 import type { StratumRefinements } from '../types/refinements.ts';
 import type { StratumTemplate } from '../types/templates.ts';
 import { getPresetByName } from '../utils/getPresetByName.ts';
@@ -18,10 +19,10 @@ export interface ProduceStratumTemplateSettings<OptionsShape extends AnyShape> {
   refinements?: StratumRefinements<InferredObject<OptionsShape>>;
 }
 
-export function produceStratumTemplate<OptionsShape extends AnyShape = AnyShape>(
+export const produceStratumTemplate = <OptionsShape extends AnyShape = AnyShape>(
   template: StratumTemplate<OptionsShape>,
   { files, mode, offline, options, refinements = {} }: ProduceStratumTemplateSettings<OptionsShape>,
-) {
+): Partial<BlockCreation<InferredObject<OptionsShape> & { preset: string }>> => {
   const preset = getPresetByName(template.presets, options.preset);
   if (preset instanceof Error) {
     throw preset;
@@ -36,4 +37,4 @@ export function produceStratumTemplate<OptionsShape extends AnyShape = AnyShape>
     offline,
     options,
   });
-}
+};

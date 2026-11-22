@@ -3,7 +3,7 @@ import type { IntakeDirectory } from 'bingo-fs';
 
 import { mergeBlockCreations } from '../mergers/mergeBlockCreations.ts';
 import type { Block, BlockWithProps } from '../types/blocks.ts';
-import type { CreatedBlockExtension } from '../types/creations.ts';
+import type { BlockCreation, CreatedBlockExtension } from '../types/creations.ts';
 import { type BlockProduction, getUpdatedBlockExtensions } from './getUpdatedBlockExtensions.ts';
 import { produceBlock } from './produceBlock.ts';
 
@@ -15,10 +15,10 @@ export interface ProduceBlocksSettings<Options extends object> {
   options: Options;
 }
 
-export function produceBlocks<Options extends object>(
+export const produceBlocks = <Options extends object>(
   blocks: Block<object | undefined, Options>[],
   { blockExtensions, files = {}, mode, offline, options }: ProduceBlocksSettings<Options>,
-) {
+): Partial<BlockCreation<Options>> => {
   // From Templating Engines > Stratum > Details > Execution:
   // This engine continuously re-runs Blocks until no new extensions are provided.
 
@@ -96,10 +96,10 @@ export function produceBlocks<Options extends object>(
     (created, next) => mergeBlockCreations(created, next.creation ?? {}),
     {},
   );
-}
+};
 
-function isBlockWithProps<Options extends object>(
+const isBlockWithProps = <Options extends object>(
   block: Block<object | undefined, Options>,
-): block is BlockWithProps<object, Options> {
+): block is BlockWithProps<object, Options> => {
   return 'props' in block;
-}
+};
