@@ -1,7 +1,7 @@
-export function makeRelative(item: string) {
+export const makeRelative = (item: string): string => {
   return item.startsWith('.') ? item : `./${item}`;
-}
+};
 
-export function quoteIfSpaced(text: string) {
+export const quoteIfSpaced = (text: string): string => {
   return text.includes(' ') ? `"${text}"` : text;
-}
+};

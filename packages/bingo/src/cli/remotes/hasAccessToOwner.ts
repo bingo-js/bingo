@@ -2,7 +2,7 @@ import { type Octokit, RequestError } from 'octokit';
 
 // Only a definitive 404 proves a lack of access. Other failures, such as a token
 // without the read:org scope, defer to repository creation to report the reason.
-export async function hasAccessToOwner(octokit: Octokit, owner: string) {
+export const hasAccessToOwner = async (octokit: Octokit, owner: string): Promise<boolean> => {
   try {
     const { data: user } = await octokit.request('GET /user');
     if (user.login.toLowerCase() === owner.toLowerCase()) {
@@ -21,4 +21,4 @@ export async function hasAccessToOwner(octokit: Octokit, owner: string) {
   } catch (error) {
     return !(error instanceof RequestError && error.status === 404);
   }
-}
+};

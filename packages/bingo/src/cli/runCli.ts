@@ -15,6 +15,7 @@ import { readProductionSettings } from './readProductionSettings.ts';
 import { runModeSetup } from './setup/runModeSetup.ts';
 import { cliStatuses } from './status.ts';
 import { runModeTransition } from './transition/runModeTransition.ts';
+import type { ModeResults } from './types.ts';
 
 const valuesSchema = z.object({
   directory: z.string().optional(),
@@ -45,7 +46,7 @@ export async function runCli<OptionsShape extends AnyShape = AnyShape, Refinemen
   rerunFrom = from,
   template,
   values,
-}: RunCliSettings<OptionsShape, Refinements>) {
+}: RunCliSettings<OptionsShape, Refinements>): Promise<typeof cliStatuses.error | ModeResults> {
   const unknownFlags = getUnknownFlags(values, template.options);
   if (unknownFlags.length) {
     logUnknownFlags(unknownFlags);

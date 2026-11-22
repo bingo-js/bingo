@@ -2,7 +2,7 @@ import { describe, expect, test, vi } from 'vitest';
 
 import { createTrackingBranches } from './createTrackingBranches.ts';
 
-describe('createTrackingBranches', () => {
+describe(createTrackingBranches, () => {
   test('commands', async () => {
     const runner = vi.fn();
 

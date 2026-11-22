@@ -9,7 +9,7 @@ import { type DisplayPackageData, runInsideClackDisplay } from './display/runIns
 import { getTemplatePackageData } from './getTemplatePackageData.ts';
 import { parseProcessArgv } from './parseProcessArgv.ts';
 import { runCli } from './runCli.ts';
-import { cliStatuses } from './status.ts';
+import { type CliStatus, cliStatuses } from './status.ts';
 
 /**
  * Runs an interactive CLI to generate and apply a template's output.
@@ -18,7 +18,10 @@ import { cliStatuses } from './status.ts';
 export async function runTemplateCli<
   OptionsShape extends AnyShape = AnyShape,
   Refinements = unknown,
->(template: Template<OptionsShape, Refinements>, providedTemplatePackageData?: DisplayPackageData) {
+>(
+  template: Template<OptionsShape, Refinements>,
+  providedTemplatePackageData?: DisplayPackageData,
+): Promise<CliStatus> {
   const templatePackageData = providedTemplatePackageData ?? (await getTemplatePackageData());
 
   if (templatePackageData instanceof Error) {

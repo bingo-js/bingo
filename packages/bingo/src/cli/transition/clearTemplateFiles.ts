@@ -1,6 +1,6 @@
 import * as fs from 'node:fs/promises';
 
-export async function clearTemplateFiles(directory: string) {
+export const clearTemplateFiles = async (directory: string): Promise<void> => {
   const children = await fs.readdir(directory);
 
   await Promise.all(
@@ -10,4 +10,4 @@ export async function clearTemplateFiles(directory: string) {
         await fs.rm(child, { recursive: true });
       }),
   );
-}
+};

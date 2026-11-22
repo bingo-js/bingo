@@ -1,6 +1,7 @@
 // CLI
 export { runBingoCli } from './cli/runBingoCli.ts';
 export { runTemplateCli } from './cli/runTemplateCli.ts';
+export type { CliStatus } from './cli/status.ts';
 
 // Creators
 export {

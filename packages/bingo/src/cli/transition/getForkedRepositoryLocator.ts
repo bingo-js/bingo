@@ -3,7 +3,10 @@ import { readPackage } from 'read-pkg';
 
 import type { RepositoryLocator } from '../../types/templates.ts';
 
-export async function getForkedRepositoryLocator(directory: string, repository: RepositoryLocator) {
+export const getForkedRepositoryLocator = async (
+  directory: string,
+  repository: RepositoryLocator,
+): Promise<string | undefined> => {
   const packageData = await readPackage({ cwd: directory });
   if (!packageData.repository?.url) {
     return undefined;
@@ -16,4 +19,4 @@ export async function getForkedRepositoryLocator(directory: string, repository: 
   }
 
   return `${repository.owner}/${repository.repository}`;
-}
+};

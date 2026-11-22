@@ -3,10 +3,10 @@ import type { Template } from '../../types/templates.ts';
 
 const anonymousName = '(anonymous)';
 
-export function templateMismatchError<OptionsShape extends AnyShape, Refinements>(
+export const templateMismatchError = <OptionsShape extends AnyShape, Refinements>(
   fromConfig: Template<OptionsShape, Refinements>,
   running: Template<OptionsShape, Refinements>,
-) {
+): Error => {
   const fromConfigName = getTemplateName(fromConfig);
   const runningName = getTemplateName(running);
 
@@ -25,7 +25,7 @@ export function templateMismatchError<OptionsShape extends AnyShape, Refinements
   return new Error(
     `Config file and running template have the same name, ${runningName}, but are not the same object. Are there multiple template versions?`,
   );
-}
+};
 
 function getTemplateName<OptionsShape extends AnyShape, Refinements>(
   template: Template<OptionsShape, Refinements>,
