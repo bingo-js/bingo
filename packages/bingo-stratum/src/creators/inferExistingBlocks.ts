@@ -59,7 +59,8 @@ export const inferExistingBlocks = <OptionsShape extends AnyShape, Refinements>(
       .filter((x) => !!x)
       .reduce(mergeCreations, {});
     const counted = countMatchedFilePaths(files, existingPresetProduction.files);
-    const percentage = counted.matched / counted.created;
+    const unmatched = countFilePaths(existingPresetProduction.files) - counted.matched;
+    const percentage = counted.matched / (counted.created + unmatched);
 
     if (record) {
       if (percentage > record.percentage) {
@@ -141,6 +142,16 @@ function collectPreviousFilePaths(
       entryPath.join('/'),
     ]);
   });
+}
+
+function countFilePaths(entry: CreatedEntry | undefined): number {
+  if (isCreatedFile(entry)) {
+    return 1;
+  }
+
+  return isCreatedDirectory(entry)
+    ? Object.values(entry).reduce((total, child) => total + countFilePaths(child), 0)
+    : 0;
 }
 
 function countMatchedFilePaths(
