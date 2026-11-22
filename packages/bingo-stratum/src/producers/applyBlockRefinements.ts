@@ -10,12 +10,12 @@ interface BlockRefinement {
   exclude?: boolean;
 }
 
-export function applyBlockRefinements<Options extends object>(
+export const applyBlockRefinements = <Options extends object>(
   blocksAvailable: Block<object | undefined, Options>[],
   blocksInitial: Block<object | undefined, Options>[],
   options: Options,
   { add = [], exclude = [] }: BlockRefinements<Options> = {},
-) {
+): Block<object | undefined, Options>[] => {
   const allOptions = new Set(
     Object.entries(options)
       .filter(([, value]) => !!value)
@@ -78,4 +78,4 @@ export function applyBlockRefinements<Options extends object>(
   }
 
   return Array.from(blocksRefined);
-}
+};

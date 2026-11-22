@@ -1,5 +1,5 @@
 import type { AboutBase } from 'bingo';
 
-export function getName(value: { about?: AboutBase }) {
+export const getName = (value: { about?: AboutBase }): string => {
   return value.about?.name ?? '(anonymous)';
-}
+};

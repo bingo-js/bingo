@@ -10,12 +10,12 @@ export interface BlockProduction<Props extends object | undefined> {
   props: Props;
 }
 
-export function getUpdatedBlockExtensions<Options extends object>(
+export const getUpdatedBlockExtensions = <Options extends object>(
   allowedBlocks: Set<Block<object | undefined, Options>>,
   blockProductions: Map<Block<object | undefined, Options>, BlockProduction<object>>,
   producingBlock: Block<object | undefined, Options>,
   newBlockExtensions: CreatedBlockExtension<object, Options>[] = [],
-) {
+): [BlockWithProps<object, Options>, object][] => {
   const updated: [BlockWithProps<object, Options>, object][] = [];
 
   for (const newExtension of newBlockExtensions) {
@@ -42,4 +42,4 @@ export function getUpdatedBlockExtensions<Options extends object>(
   }
 
   return updated;
-}
+};
