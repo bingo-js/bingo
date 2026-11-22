@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { checkUncommittedChanges } from './checkUncommittedChanges.ts';
 
-describe('checkUncommittedChanges', () => {
+describe(checkUncommittedChanges, () => {
   it('returns clean when git status has no stdout', async () => {
     const runner = vi.fn().mockResolvedValueOnce({
       failed: false,

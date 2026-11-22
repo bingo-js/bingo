@@ -2,7 +2,7 @@ import { describe, expect, test, vi } from 'vitest';
 
 import { createInitialCommit } from './createInitialCommit.ts';
 
-describe('createInitialCommit', () => {
+describe(createInitialCommit, () => {
   test('runs without --amend when amend is falsy', async () => {
     const runner = vi.fn();
 

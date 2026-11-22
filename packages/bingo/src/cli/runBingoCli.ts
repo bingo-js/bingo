@@ -8,14 +8,14 @@ import { tryImportTemplate } from './importers/tryImportTemplate.ts';
 import { logHelpOptions } from './loggers/logHelpOptions.ts';
 import { parseProcessArgv } from './parseProcessArgv.ts';
 import { runCli } from './runCli.ts';
-import { cliStatuses } from './status.ts';
+import { type CliStatus, cliStatuses } from './status.ts';
 import { makeRelative, quoteIfSpaced } from './utils.ts';
 
 /**
  * Runs the full Bingo CLI, including reading process arguments.
  * @returns CLI status to assign to `process.exitCode`.
  */
-export async function runBingoCli() {
+export const runBingoCli = async (): Promise<CliStatus> => {
   const { argv, positionals, values } = parseProcessArgv();
   if (values.version) {
     console.log(packageData.version);
@@ -57,4 +57,4 @@ export async function runBingoCli() {
 
     return result;
   });
-}
+};

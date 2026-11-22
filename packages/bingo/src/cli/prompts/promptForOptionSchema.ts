@@ -6,12 +6,12 @@ import { isZodDefaultDef } from '../schemas/isZodDefaultDef.ts';
 import { type PromptFriendlyZodDef } from '../schemas/types.ts';
 import { validateNumber, validatorFromSchema } from './validators.ts';
 
-export async function promptForOptionSchema(
+export const promptForOptionSchema = async (
   key: string,
   schema: z.ZodType,
   description: string | undefined,
   defaultValue: unknown,
-) {
+): Promise<unknown> => {
   const def = schema.def as unknown as PromptFriendlyZodDef;
   if (isZodDefaultDef(def)) {
     const innerType = def.innerType as z.ZodType;
@@ -92,8 +92,8 @@ export async function promptForOptionSchema(
   }
 
   return value;
-}
+};
 
-function cancelOrParse(schema: z.ZodType, text: unknown) {
+function cancelOrParse(schema: z.ZodType, text: unknown): unknown {
   return prompts.isCancel(text) ? text : schema.parse(text);
 }

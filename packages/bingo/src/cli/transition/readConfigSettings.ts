@@ -6,11 +6,11 @@ import type { AnyShape } from '../../types/shapes.ts';
 import type { Template } from '../../types/templates.ts';
 import { templateMismatchError } from './templateMismatchError.ts';
 
-export async function readConfigSettings<OptionsShape extends AnyShape, Refinements>(
+export const readConfigSettings = async <OptionsShape extends AnyShape, Refinements>(
   configFile: string | undefined,
   directory: string,
   template: Template<OptionsShape, Refinements>,
-) {
+): Promise<Error | TemplateConfig<OptionsShape, Refinements> | undefined> => {
   if (!configFile) {
     return undefined;
   }
@@ -29,4 +29,4 @@ export async function readConfigSettings<OptionsShape extends AnyShape, Refineme
   }
 
   return contents;
-}
+};

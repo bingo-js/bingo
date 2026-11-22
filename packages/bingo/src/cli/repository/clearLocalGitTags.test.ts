@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { clearLocalGitTags } from './clearLocalGitTags.ts';
 
-describe('clearLocalGitTags', () => {
+describe(clearLocalGitTags, () => {
   it('deletes tags when git tag -l has stdout', async () => {
     const runner = vi.fn().mockResolvedValueOnce({ stdout: 'a\nb\nc' });
 

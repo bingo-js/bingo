@@ -5,10 +5,10 @@ export interface CreateInitialCommitSettings {
   push: boolean;
 }
 
-export async function createInitialCommit(
+export const createInitialCommit = async (
   runner: SystemRunner,
   { amend, push }: CreateInitialCommitSettings,
-) {
+): Promise<void> => {
   for (const command of [
     `git add -A`,
     `git commit --message feat:\\ initialized\\ repo\\ ✨ ${amend ? '--amend ' : ''}--no-gpg-sign`,
@@ -16,4 +16,4 @@ export async function createInitialCommit(
   ]) {
     await runner(command);
   }
-}
+};
