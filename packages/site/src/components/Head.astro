@@ -1,19 +1,19 @@
 ---
-import type { StarlightRouteData } from "@astrojs/starlight/route-data";
-import Default from "@astrojs/starlight/components/Head.astro";
+import Default from '@astrojs/starlight/components/Head.astro';
+import type { StarlightRouteData } from '@astrojs/starlight/route-data';
 
 export type Props = StarlightRouteData;
 
 const ogImageUrl = new URL(`social.webp`, Astro.site);
 
 const data = Astro.props.entry?.data ?? {
-	description: "Delightful templates for web repositories.",
-	title: "Bingo",
+  description: 'Delightful templates for web repositories.',
+  title: 'Bingo',
 };
 ---
 
 <Default {...Astro.props}>
-	<slot />
+  <slot />
 </Default>
 
 <meta property="og:image" content={ogImageUrl} />
