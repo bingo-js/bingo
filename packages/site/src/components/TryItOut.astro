@@ -1,48 +1,45 @@
 ---
-import { LinkButton } from "@astrojs/starlight/components";
-import { PackageManagers } from "starlight-package-managers";
+import { LinkButton } from '@astrojs/starlight/components';
+import { PackageManagers } from 'starlight-package-managers';
 ---
 
 <div class="try-it-out">
-	<h2>
-		Try out{" "}
-		<a href="https://github.com/michaelfaith/mfaith-create">
-			@mfaith/create
-		</a>
-		, built with Bingo:
-	</h2>
+  <h2>
+    Try out <a href="https://github.com/michaelfaith/mfaith-create">@mfaith/create</a>, built with
+    Bingo:
+  </h2>
 
-	<PackageManagers type="dlx" pkg="@mfaith/create" />
+  <PackageManagers type="dlx" pkg="@mfaith/create" />
 
-	<p>
-		Frustrated setting up an endless list of tooling configuration files?
-		<br />
-		Tired of dependencies breaking changes in your repositories?
-		<br />
-		<br />
-		Let a package built on Bingo manage it all for you.
-		<br />
-		<br />
-		<LinkButton href="/about">Get started</LinkButton>
-	</p>
+  <p>
+    Frustrated setting up an endless list of tooling configuration files?
+    <br />
+    Tired of dependencies breaking changes in your repositories?
+    <br />
+    <br />
+    Let a package built on Bingo manage it all for you.
+    <br />
+    <br />
+    <LinkButton href="/about">Get started</LinkButton>
+  </p>
 </div>
 
 <style>
-	.try-it-out {
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
-		margin: auto;
-		max-width: 49rem;
-		padding-top: 4rem;
-	}
+  .try-it-out {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: auto;
+    max-width: 49rem;
+    padding-top: 4rem;
+  }
 
-	h2,
-	p {
-		text-align: center;
-	}
+  h2,
+  p {
+    text-align: center;
+  }
 
-	p {
-		font-size: var(--sl-text-xl);
-	}
+  p {
+    font-size: var(--sl-text-xl);
+  }
 </style>
