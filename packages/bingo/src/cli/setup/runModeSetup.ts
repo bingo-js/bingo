@@ -61,7 +61,7 @@ export async function runModeSetup<
     requestedRepository,
     template,
   });
-  if (prompts.isCancel(directory)) {
+  if (directory === undefined) {
     return { status: cliStatuses.cancelled };
   }
 

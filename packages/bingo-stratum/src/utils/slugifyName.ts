@@ -1,5 +1,5 @@
 import slugify from 'slugify';
 
-export function slugifyName(original: string) {
+export const slugifyName = (original: string): string => {
   return slugify(original.replaceAll('.', '-'), { lower: true });
-}
+};

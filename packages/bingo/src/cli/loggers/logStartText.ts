@@ -4,7 +4,7 @@ import * as prompts from '@clack/prompts';
 
 import type { ProductionMode } from '../../types/modes.ts';
 
-export function logStartText(mode: ProductionMode, offline: boolean | undefined) {
+export const logStartText = (mode: ProductionMode, offline: boolean | undefined): void => {
   prompts.log.step(`Running with mode --${mode}`);
 
   if (offline) {
@@ -12,4 +12,4 @@ export function logStartText(mode: ProductionMode, offline: boolean | undefined)
       `${styleText('blue', '--offline')} enabled. You'll need to git push any changes manually.`,
     );
   }
-}
+};

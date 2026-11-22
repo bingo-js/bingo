@@ -4,7 +4,7 @@ import * as prompts from '@clack/prompts';
 
 import type { UnknownFlag } from '../parsers/getUnknownFlags.ts';
 
-export function logUnknownFlags(unknownFlags: UnknownFlag[]) {
+export const logUnknownFlags = (unknownFlags: UnknownFlag[]): void => {
   prompts.log.error(
     unknownFlags
       .map(({ flag, suggestion }) =>
@@ -15,7 +15,7 @@ export function logUnknownFlags(unknownFlags: UnknownFlag[]) {
       )
       .join('\n'),
   );
-}
+};
 
 function formatFlagAsWritten(flag: string) {
   return flag.length === 1 ? `-${flag}` : `--${flag}`;

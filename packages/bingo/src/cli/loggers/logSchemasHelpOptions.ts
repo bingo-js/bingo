@@ -3,7 +3,7 @@ import { getSchemaDescription } from '../../utils/getSchemaDescription.ts';
 import { getSchemaTypeName } from '../../utils/getSchemaTypeName.ts';
 import { logHelpOptions } from './logHelpOptions.ts';
 
-export function logSchemasHelpOptions(packageName: string, schemas: AnyShape) {
+export const logSchemasHelpOptions = (packageName: string, schemas: AnyShape): void => {
   logHelpOptions(
     packageName,
     packageName,
@@ -17,7 +17,7 @@ export function logSchemasHelpOptions(packageName: string, schemas: AnyShape) {
       // https://github.com/bingo-js/bingo/issues/285
       .filter((entry) => !entry.type.startsWith('object')),
   );
-}
+};
 
 function asSentence(text: string | undefined) {
   return text && text[0].toUpperCase() + text.slice(1) + '.';

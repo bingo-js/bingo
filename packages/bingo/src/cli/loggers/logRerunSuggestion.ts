@@ -2,7 +2,7 @@ import { styleText } from 'node:util';
 
 import * as prompts from '@clack/prompts';
 
-export function logRerunSuggestion(rerunCommand: string, prompted: object) {
+export const logRerunSuggestion = (rerunCommand: string, prompted: object): void => {
   const promptedEntries = Object.entries(prompted);
   if (!promptedEntries.length) {
     return;
@@ -20,9 +20,9 @@ export function logRerunSuggestion(rerunCommand: string, prompted: object) {
       ),
     ].join(' '),
   );
-}
+};
 
-function stringifyPair(key: string, value: unknown): string {
+const stringifyPair = (key: string, value: unknown): string => {
   if (Array.isArray(value)) {
     return value.map((element) => stringifyPair(key, element)).join(' ');
   }
@@ -38,4 +38,4 @@ function stringifyPair(key: string, value: unknown): string {
   return valueStringified.includes(' ')
     ? `${flag} "${valueStringified}"`
     : `${flag} ${valueStringified}`;
-}
+};

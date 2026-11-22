@@ -13,11 +13,11 @@ export interface PromptForDirectorySettings<OptionsShape extends AnyShape, Refin
   template: Template<OptionsShape, Refinements>;
 }
 
-export async function promptForDirectory<OptionsShape extends AnyShape, Refinements>({
+export const promptForDirectory = async <OptionsShape extends AnyShape, Refinements>({
   requestedRepository,
   requestedDirectory = requestedRepository,
   template,
-}: PromptForDirectorySettings<OptionsShape, Refinements>) {
+}: PromptForDirectorySettings<OptionsShape, Refinements>): Promise<string | undefined> => {
   if (requestedDirectory) {
     if (validateNewDirectory(requestedDirectory)) {
       prompts.log.warn(`The '${requestedDirectory}' directory already exists.`);
@@ -35,10 +35,12 @@ export async function promptForDirectory<OptionsShape extends AnyShape, Refineme
 
   if (!prompts.isCancel(directory)) {
     await fs.mkdir(directory, { recursive: true });
+  } else {
+    return undefined;
   }
 
   return directory;
-}
+};
 
 function createDefaultDirectory(name: string) {
   const [, scope = '', base = name] = /^@([^/]+)\/(.*)$/.exec(name) ?? [];

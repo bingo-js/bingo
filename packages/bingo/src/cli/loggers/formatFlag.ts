@@ -1,6 +1,6 @@
 import { styleText } from 'node:util';
 
-export function formatFlag(flag: string, type: string) {
+export const formatFlag = (flag: string, type: string): string => {
   return [
     flag.startsWith('--')
       ? [styleText('green', '--'), styleText(['bold', 'green'], flag.slice(2))].join('')
@@ -9,4 +9,4 @@ export function formatFlag(flag: string, type: string) {
     styleText('green', `(${type})`),
     styleText('blue', ': '),
   ].join('');
-}
+};

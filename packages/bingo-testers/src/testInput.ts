@@ -48,7 +48,7 @@ export function testInput<Result, ArgsShape extends AnyShape>(
 export function testInput(
   input: InputProducerWithArgs<unknown, AnyShape>,
   settings: Partial<InputContextSettingsWithArgs<InferredObject<AnyShape>>> = {},
-) {
+): unknown {
   const { system, take } = createMockSystems(settings);
 
   return input({

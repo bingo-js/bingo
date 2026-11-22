@@ -13,10 +13,10 @@ export interface DisplayPackageData {
   version: string;
 }
 
-export async function runInsideClackDisplay(
+export const runInsideClackDisplay = async (
   { name, version }: DisplayPackageData,
   runner: (display: ClackDisplay) => Promise<CliStatus | ModeResults>,
-) {
+): Promise<CliStatus> => {
   const display = createClackDisplay();
 
   prompts.intro(
@@ -44,4 +44,4 @@ export async function runInsideClackDisplay(
   });
 
   return results.status;
-}
+};

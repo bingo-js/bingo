@@ -58,7 +58,7 @@ vi.mock('../../preparation/prepareOptions.js', () => ({
 
 const mockPrepareGitRepository = vi.fn();
 
-vi.mock('../repository/prepareGitRepository.js', () => ({
+vi.mock('../repository/prepareGitRepository.ts', () => ({
   get prepareGitRepository() {
     return mockPrepareGitRepository;
   },
@@ -66,7 +66,7 @@ vi.mock('../repository/prepareGitRepository.js', () => ({
 
 const mockResolveLocalRepository = vi.fn();
 
-vi.mock('../repository/resolveLocalRepository.js', () => ({
+vi.mock('../repository/resolveLocalRepository.ts', () => ({
   get resolveLocalRepository() {
     return mockResolveLocalRepository;
   },
@@ -74,7 +74,7 @@ vi.mock('../repository/resolveLocalRepository.js', () => ({
 
 const mockPromptForDirectory = vi.fn();
 
-vi.mock('../prompts/promptForDirectory.js', () => ({
+vi.mock('../prompts/promptForDirectory.ts', () => ({
   get promptForDirectory() {
     return mockPromptForDirectory;
   },
@@ -82,7 +82,7 @@ vi.mock('../prompts/promptForDirectory.js', () => ({
 
 const mockPromptForOptionSchemas = vi.fn();
 
-vi.mock('../prompts/promptForOptionSchemas.js', () => ({
+vi.mock('../prompts/promptForOptionSchemas.ts', () => ({
   get promptForOptionSchemas() {
     return mockPromptForOptionSchemas;
   },
@@ -90,7 +90,7 @@ vi.mock('../prompts/promptForOptionSchemas.js', () => ({
 
 const mockRunTemplate = vi.fn();
 
-vi.mock('../../runners/runTemplate.js', () => ({
+vi.mock('../../runners/runTemplate.ts', () => ({
   get runTemplate() {
     return mockRunTemplate;
   },
@@ -127,7 +127,7 @@ const template = createTemplate({
 
 describe(runModeSetup, () => {
   it('returns a cancellation status when the directory prompt is cancelled', async () => {
-    mockPromptForDirectory.mockResolvedValueOnce(mockCancel);
+    mockPromptForDirectory.mockResolvedValueOnce(undefined);
 
     const actual = await runModeSetup({
       argv,

@@ -9,7 +9,7 @@ export interface OutroErrata {
   suggestions?: string[];
 }
 
-export function logOutro(message: string, { items, suggestions }: OutroErrata = {}) {
+export const logOutro = (message: string, { items, suggestions }: OutroErrata = {}): void => {
   if (items) {
     for (const [group, groupItems] of Object.entries(items)) {
       for (const [id, item] of Object.entries(groupItems)) {
@@ -40,4 +40,4 @@ export function logOutro(message: string, { items, suggestions }: OutroErrata = 
 
     console.log();
   }
-}
+};

@@ -55,7 +55,7 @@ const testPaths = {
   },
 };
 
-describe('getTemplatePackageData', () => {
+describe(getTemplatePackageData, () => {
   beforeEach(() => {
     isWindowsPaths = false;
     vi.resetAllMocks();

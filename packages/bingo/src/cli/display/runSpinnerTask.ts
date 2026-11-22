@@ -5,12 +5,12 @@ import * as prompts from '@clack/prompts';
 import { tryCatchError } from '../../utils/tryCatch.ts';
 import type { ClackDisplay } from './createClackDisplay.ts';
 
-export async function runSpinnerTask<T>(
+export const runSpinnerTask = async <T>(
   display: ClackDisplay,
   start: string,
   stop: string,
   task: () => Promise<T>,
-) {
+): Promise<T | Error> => {
   display.spinner.start(`${start}...`);
 
   const result = await tryCatchError(task());
@@ -23,4 +23,4 @@ export async function runSpinnerTask<T>(
   }
 
   return result;
-}
+};
