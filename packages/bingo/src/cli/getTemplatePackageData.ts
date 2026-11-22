@@ -2,9 +2,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { getCallId } from 'call-id';
-import { readPackageUp } from 'read-package-up';
+import { type NormalizedPackageJson, readPackageUp } from 'read-package-up';
 
-export async function getTemplatePackageData() {
+export const getTemplatePackageData = async (): Promise<Error | NormalizedPackageJson> => {
   const callId = getCallId(2);
 
   if (!callId) {
@@ -18,4 +18,4 @@ export async function getTemplatePackageData() {
     result?.packageJson ??
     new Error(`Could not find a package.json relative to '${fileURLToPath(directoryUrl)}'.`)
   );
-}
+};

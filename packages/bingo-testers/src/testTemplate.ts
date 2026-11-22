@@ -1,4 +1,10 @@
-import { type AnyShape, type InferredObject, produceTemplate, type Template } from 'bingo';
+import {
+  type AnyShape,
+  type Creation,
+  type InferredObject,
+  produceTemplate,
+  type Template,
+} from 'bingo';
 import type { BingoSystem } from 'bingo-systems';
 
 import { createMockSystems } from './createMockSystems.ts';
@@ -13,11 +19,11 @@ export interface TestTemplateProductionSettings<
   options: InferredObject<OptionsShape>;
 }
 
-export async function testTemplate<OptionsShape extends AnyShape, Refinements>(
+export const testTemplate = async <OptionsShape extends AnyShape, Refinements>(
   template: Template<OptionsShape, Refinements>,
   settings: TestTemplateProductionSettings<OptionsShape>,
-) {
+): Promise<Partial<Creation>> => {
   const { system } = createMockSystems(settings.system);
 
   return await produceTemplate(template, { ...settings, ...system });
-}
+};

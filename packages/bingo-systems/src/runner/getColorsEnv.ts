@@ -3,7 +3,13 @@ interface ColorsStream {
   isTTY: boolean;
 }
 
-export function getColorsEnv(stdout: ColorsStream = process.stdout) {
+export const getColorsEnv = (
+  stdout: ColorsStream = process.stdout,
+):
+  | {
+      FORCE_COLOR: string;
+    }
+  | undefined => {
   if (!stdout.isTTY) {
     return undefined;
   }
@@ -21,4 +27,4 @@ export function getColorsEnv(stdout: ColorsStream = process.stdout) {
   }
 
   return undefined;
-}
+};

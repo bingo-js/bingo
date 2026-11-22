@@ -1,12 +1,24 @@
-import { allPropertiesLazy } from 'all-properties-lazy';
-import type { AnyShape, HasOptionsAndMaybePrepare, InferredObject, OptionsContext } from 'bingo';
+import { allPropertiesLazy, type AwaitedLazyProperties } from 'all-properties-lazy';
+import type {
+  AnyShape,
+  HasOptionsAndMaybePrepare,
+  InferredObject,
+  LazyOptionalOptions,
+  OptionsContext,
+} from 'bingo';
 
 import { createFailingFunction } from './utils.ts';
 
-export async function testOptions<OptionsShape extends AnyShape>(
+export type TestOptions<OptionsShape extends AnyShape> = Promise<
+  | Partial<InferredObject<OptionsShape>>
+  | AwaitedLazyProperties<LazyOptionalOptions<Partial<InferredObject<OptionsShape>>>>
+  | undefined
+>;
+
+export const testOptions = async <OptionsShape extends AnyShape>(
   base: HasOptionsAndMaybePrepare<OptionsShape>,
   context: Partial<OptionsContext<InferredObject<OptionsShape>>> = {},
-) {
+): TestOptions<OptionsShape> => {
   if (!base.prepare) {
     return context.options;
   }
@@ -20,4 +32,4 @@ export async function testOptions<OptionsShape extends AnyShape>(
     }),
     ...context.options,
   });
-}
+};

@@ -1,8 +1,8 @@
-export function getRerunCommand(from: string) {
+export const getRerunCommand = (from: string): string => {
   return `${getPackageRunner()} ${from}`;
-}
+};
 
-function getPackageRunner() {
+const getPackageRunner = () => {
   const userAgent = process.env.npm_config_user_agent ?? '';
 
   if (userAgent.startsWith('bun/')) {
@@ -18,4 +18,4 @@ function getPackageRunner() {
   }
 
   return 'npx';
-}
+};

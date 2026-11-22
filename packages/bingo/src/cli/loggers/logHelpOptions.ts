@@ -11,7 +11,11 @@ export interface HelpOption {
   type: string;
 }
 
-export function logHelpOptions(category: string, packageName: string, options: HelpOption[]) {
+export const logHelpOptions = (
+  category: string,
+  packageName: string,
+  options: HelpOption[],
+): void => {
   const message = [
     `${styleText(['bgGreenBright', 'black'], category)} options:`,
     '',
@@ -30,4 +34,4 @@ export function logHelpOptions(category: string, packageName: string, options: H
   ].join('\n');
 
   prompts.log.message(message.slice(0, `${message}\n`.lastIndexOf('\n')));
-}
+};

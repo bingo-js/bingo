@@ -40,7 +40,7 @@ const templateWithName = createTemplate({
 
 const mockValidateNewDirectory = vi.fn();
 
-vi.mock('./validators.js', () => ({
+vi.mock('./validators.ts', () => ({
   get validateNewDirectory() {
     return mockValidateNewDirectory;
   },
@@ -48,7 +48,7 @@ vi.mock('./validators.js', () => ({
 
 const requestedDirectory = 'my-app-requested';
 
-describe('promptForDirectory', () => {
+describe(promptForDirectory, () => {
   it('creates and returns the requested directory when it does not yet exist', async () => {
     mockValidateNewDirectory.mockReturnValueOnce(false);
 
@@ -165,7 +165,7 @@ describe('promptForDirectory', () => {
       template: templateWithoutAbout,
     });
 
-    expect(directory).toBe(mockCancel);
+    expect(directory).toBeUndefined();
     expect(mockMkdir).not.toHaveBeenCalled();
   });
 });

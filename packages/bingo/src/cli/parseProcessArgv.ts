@@ -15,7 +15,13 @@ export interface RunCliRawValues {
   version?: boolean | string | undefined;
 }
 
-export function parseProcessArgv() {
+export interface ParsedArgs {
+  argv: string[];
+  positionals: string[];
+  values: RunCliRawValues;
+}
+
+export const parseProcessArgv = (): ParsedArgs => {
   return {
     argv: process.argv,
     ...parseArgs({
@@ -24,4 +30,4 @@ export function parseProcessArgv() {
       strict: false,
     }),
   };
-}
+};

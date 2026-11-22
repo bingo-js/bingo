@@ -1,7 +1,7 @@
-export function createFailingFunction(label: string, user: string) {
-  return () => failingFunction(label, user);
-}
+export const createFailingFunction = (label: string, user: string) => {
+  return (): never => failingFunction(label, user);
+};
 
-function failingFunction(label: string, user: string): never {
+const failingFunction = (label: string, user: string): never => {
   throw new Error(`Context property '${label}' was used by ${user} but not provided.`);
-}
+};
