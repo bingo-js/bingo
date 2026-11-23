@@ -24,7 +24,7 @@ function withoutColors(value: unknown): unknown {
   return value;
 }
 
-describe('diffCreatedDirectory', () => {
+describe(diffCreatedDirectory, () => {
   test.each([
     [{}, {}, undefined],
     [{}, { a: '' }, { a: '' }],

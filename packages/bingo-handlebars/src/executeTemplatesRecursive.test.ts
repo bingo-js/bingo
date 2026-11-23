@@ -6,7 +6,7 @@ const options = {
   abc: 123,
 };
 
-describe('executeTemplatesRecursive', () => {
+describe(executeTemplatesRecursive, () => {
   it('returns undefined when given undefined', () => {
     const actual = executeTemplatesRecursive(undefined, options);
 

@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import { createInput } from './createInput.ts';
 
-describe('createInput', () => {
+describe(createInput, () => {
   test('production without args', () => {
     const expected = 123;
 

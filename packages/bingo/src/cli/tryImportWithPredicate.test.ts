@@ -6,7 +6,7 @@ function isString(value: unknown) {
   return typeof value === 'string';
 }
 
-describe('tryImportWithPredicate', () => {
+describe(tryImportWithPredicate, () => {
   it('returns the Error when the imported value is an Error', async () => {
     const error = new Error('Oh no!');
     const actual = await tryImportWithPredicate(

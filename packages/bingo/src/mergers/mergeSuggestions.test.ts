@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 
 import { mergeSuggestions } from './mergeSuggestions.ts';
 
-describe('mergeSuggestions', () => {
+describe(mergeSuggestions, () => {
   test.each([
     [[], [], []],
     [[], ['a'], ['a']],

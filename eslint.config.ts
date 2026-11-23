@@ -98,7 +98,7 @@ export default defineConfig(
     rules: {
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-class-instance-assignment': 'off',
-      'vitest/no-conditional-expect': 'off',
+      'vitest/prefer-describe-function-title': 'error',
     },
     settings: { vitest: { typecheck: true } },
   },

@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { isZodDefaultDef } from './isZodDefaultDef.ts';
 
-describe('isZodDefaultDef', () => {
+describe(isZodDefaultDef, () => {
   test.each([
     ['boolean', z.boolean(), false],
     ['default boolean', z.boolean().default(false), true],

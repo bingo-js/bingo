@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { parseZodArgs } from './parseZodArgs.ts';
 
-describe('parseZodArgs', () => {
+describe(parseZodArgs, () => {
   test('boolean parsing success', () => {
     const args = ['--value'];
     const options = { value: z.boolean() };

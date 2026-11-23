@@ -3,7 +3,7 @@ import { describe, expect, test, vi } from 'vitest';
 import { createTemplate } from '../creators/createTemplate.ts';
 import { isTemplate } from './isTemplate.ts';
 
-describe('isTemplate', () => {
+describe(isTemplate, () => {
   test.each([
     [null, false],
     [undefined, false],

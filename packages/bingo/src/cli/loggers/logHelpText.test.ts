@@ -18,7 +18,7 @@ vi.mock('@clack/prompts', () => ({
 
 const narrowedTypes = new Map([['mode', '"setup" | "transition"']]);
 
-describe('logHelpText', () => {
+describe(logHelpText, () => {
   it('prints every CLI flag with its parsed type', () => {
     logHelpText(
       'setup',

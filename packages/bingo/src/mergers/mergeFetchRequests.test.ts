@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import { mergeFetchRequests } from './mergeFetchRequests.ts';
 
-describe('mergeFetchRequests', () => {
+describe(mergeFetchRequests, () => {
   it('returns the second request when there are no existing requests', () => {
     const second: CreatedFetchRequest = {
       type: 'fetch',

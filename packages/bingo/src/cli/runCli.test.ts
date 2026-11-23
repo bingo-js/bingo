@@ -61,7 +61,7 @@ const template = createTemplate({
 
 const argv = ['npx', 'bingo-example'];
 
-describe('runCli', () => {
+describe(runCli, () => {
   afterEach(() => {
     vi.unstubAllEnvs();
   });

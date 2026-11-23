@@ -15,7 +15,7 @@ const sourcePath = 'path/to/template';
 
 const options = { abc: 123 };
 
-describe('handlebarsDirectory', () => {
+describe(handlebarsDirectory, () => {
   it('throws an error when the source does not exist', async () => {
     mockIntake.mockResolvedValueOnce(undefined);
 

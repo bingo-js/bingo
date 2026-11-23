@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import { testTemplate } from './testTemplate.ts';
 
-describe('testTemplate', () => {
+describe(testTemplate, () => {
   describe('options', () => {
     const template = createTemplate({
       options: {

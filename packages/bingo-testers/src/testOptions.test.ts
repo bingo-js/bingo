@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { testOptions } from './testOptions.ts';
 
-describe('testOptions', () => {
+describe(testOptions, () => {
   it('returns context.options directly when base.prepare is undefined', async () => {
     const options = { value: 'abc' };
 

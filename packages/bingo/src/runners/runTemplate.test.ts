@@ -27,7 +27,7 @@ function noop(label: string) {
   return vi.fn().mockReturnValue(`Not implemented: ${label}`);
 }
 
-describe('runTemplate', () => {
+describe(runTemplate, () => {
   test('production', async () => {
     const template = createTemplate({
       about: { name: 'Test Template' },

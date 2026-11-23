@@ -9,7 +9,7 @@ const template = createTemplate({
   produce: vi.fn(),
 });
 
-describe('isTemplateConfig', () => {
+describe(isTemplateConfig, () => {
   test.each([
     [null, false],
     [undefined, false],

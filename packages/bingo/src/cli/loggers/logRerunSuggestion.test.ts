@@ -12,7 +12,7 @@ vi.mock('@clack/prompts', () => ({
   },
 }));
 
-describe('logRerunSuggestion', () => {
+describe(logRerunSuggestion, () => {
   it('does not log when there are no prompted entries', () => {
     logRerunSuggestion('npx my-app', {});
 

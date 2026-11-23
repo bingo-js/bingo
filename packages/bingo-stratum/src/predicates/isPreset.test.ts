@@ -12,7 +12,7 @@ const preset = base.createPreset({
   blocks: [],
 });
 
-describe('isPreset', () => {
+describe(isPreset, () => {
   test.each([
     [null, false],
     [undefined, false],

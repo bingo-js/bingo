@@ -20,7 +20,7 @@ vi.mock('node:fs/promises', () => ({
   },
 }));
 
-describe('createReadingFileSystem', () => {
+describe(createReadingFileSystem, () => {
   describe('glob', () => {
     it('resolves with the matched paths when given one pattern', async () => {
       const matches = ['.github/workflows/ci.yml'];

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { executeTemplate } from './executeTemplate.ts';
 
-describe('executeTemplate', () => {
+describe(executeTemplate, () => {
   it('passes options to the template', () => {
     const source = '{{abc}}';
     const options = { abc: 123 };

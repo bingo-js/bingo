@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 
 import { isModeExecutable } from './isModeExecutable.ts';
 
-describe('isModeExecutable', () => {
+describe(isModeExecutable, () => {
   test.each([
     ['0o755', 0o755, true],
     ['0o777', 0o777, true],

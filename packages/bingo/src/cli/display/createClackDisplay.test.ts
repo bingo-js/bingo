@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 
 import { createClackDisplay } from './createClackDisplay.ts';
 
-describe('createClackDisplay', () => {
+describe(createClackDisplay, () => {
   test('dumpItems', () => {
     const display = createClackDisplay();
 

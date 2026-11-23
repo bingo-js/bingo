@@ -21,7 +21,7 @@ const templateNamedB = createTemplate({
   produce: vi.fn(),
 });
 
-describe('templateMismatchError', () => {
+describe(templateMismatchError, () => {
   it('returns a fully named error when both templates have names', () => {
     const actual = templateMismatchError(templateNamedA, templateNamedB);
 

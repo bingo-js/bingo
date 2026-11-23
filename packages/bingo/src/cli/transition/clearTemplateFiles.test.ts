@@ -24,7 +24,7 @@ vi.mock('./isForkOfTemplate', () => ({
 
 const directory = 'path/to';
 
-describe('clearTemplateFiles', () => {
+describe(clearTemplateFiles, () => {
   it('deletes non-.git children', async () => {
     mockIsForkOfTemplate.mockResolvedValueOnce(true);
     mockReaddir.mockResolvedValueOnce(['.git', '.github', 'src', 'package.json']);

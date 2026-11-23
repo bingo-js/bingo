@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 import { isFile } from './isFile.ts';
 import type { CreatedEntry } from './types.ts';
 
-describe('isFile', () => {
+describe(isFile, () => {
   test.each([
     [false, false],
     [undefined, false],
