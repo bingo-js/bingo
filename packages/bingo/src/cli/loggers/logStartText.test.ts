@@ -18,7 +18,7 @@ vi.mock('@clack/prompts', () => ({
   },
 }));
 
-describe('logStartText', () => {
+describe(logStartText, () => {
   it('only logs an initial message when offline is falsy', () => {
     logStartText('transition', false);
 

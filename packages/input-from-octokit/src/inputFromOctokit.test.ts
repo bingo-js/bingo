@@ -14,7 +14,7 @@ function createMockOctokitFetchers(request: Mock) {
   };
 }
 
-describe('inputFromOctokit', () => {
+describe(inputFromOctokit, () => {
   it('returns undefined when there is no octokit', async () => {
     const actual = await testInput(inputFromOctokit, {
       args: { endpoint, options },

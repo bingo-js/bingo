@@ -19,7 +19,7 @@ const templateOther = createTemplate({
   produce: vi.fn(),
 });
 
-describe('readConfigSettings', () => {
+describe(readConfigSettings, () => {
   it('returns undefined when configFile is undefined', async () => {
     const actual = await readConfigSettings(undefined, '.', template);
 

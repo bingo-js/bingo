@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { createSystemFetchersOffline } from './createSystemFetchersOffline.ts';
 
-describe('createSystemFetchersOffline', () => {
+describe(createSystemFetchersOffline, () => {
   it('rejects when called', async () => {
     const fetchers = createSystemFetchersOffline();
 

@@ -7,7 +7,7 @@ const base = createBase({
   options: {},
 });
 
-describe('isBase', () => {
+describe(isBase, () => {
   test.each([
     [null, false],
     [undefined, false],

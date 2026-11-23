@@ -13,7 +13,7 @@ const inputDoubler = createInput({
   },
 });
 
-describe('testInput', () => {
+describe(testInput, () => {
   it('forwards args to the input', () => {
     const actual = testInput(inputDoubler, { args: { value: 2 } });
 

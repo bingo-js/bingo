@@ -49,7 +49,7 @@ vi.mock('./createDisplay.js', () => ({
   createDisplay: () => mockDisplay,
 }));
 
-describe('createSystemContext', () => {
+describe(createSystemContext, () => {
   describe('display', () => {
     it('uses the provided display when it exists', () => {
       const provided = {

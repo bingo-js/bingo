@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 
 import { isPresetAbout } from './isPresetAbout.ts';
 
-describe('isPresetAbout', () => {
+describe(isPresetAbout, () => {
   test.each([
     [null, false],
     [undefined, false],

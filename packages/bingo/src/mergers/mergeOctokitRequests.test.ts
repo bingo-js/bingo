@@ -7,7 +7,7 @@ const owner = 'test-owner';
 const repo = 'test-repo';
 const title = 'Test Title';
 
-describe('mergeOctokitRequests', () => {
+describe(mergeOctokitRequests, () => {
   it('returns the second request when there are no existing requests', () => {
     const second: CreatedOctokitRequest = {
       endpoint: 'POST /repos/{owner}/{repo}/labels',

@@ -32,7 +32,7 @@ const template = createTemplate({
   },
 });
 
-describe('produceTemplate', () => {
+describe(produceTemplate, () => {
   it("runs the template's produce without augmentations when mode is undefined", async () => {
     const creation = await produceTemplate(template, {
       options: { title: 'Test Title' },

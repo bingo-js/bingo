@@ -8,7 +8,7 @@ const emptyCreation = {
   scripts: [],
 };
 
-describe('mergeCreations', () => {
+describe(mergeCreations, () => {
   it('returns a merged creation when given two overlapping ones', () => {
     const actual = mergeCreations(
       {

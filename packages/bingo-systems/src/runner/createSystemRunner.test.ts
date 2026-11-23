@@ -20,7 +20,7 @@ vi.mock('execa', async () => ({
   },
 }));
 
-describe('createSystemRunner', () => {
+describe(createSystemRunner, () => {
   it('executes the command from a custom directory when provided', async () => {
     const cwd = 'path/to/repo';
     const runner = createSystemRunner(cwd);

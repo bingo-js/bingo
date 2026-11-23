@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { isStringLikeSchema } from './isStringLikeSchema.ts';
 
-describe('isStringLikeSchema', () => {
+describe(isStringLikeSchema, () => {
   test.each([
     ['boolean', z.boolean(), true],
     ['boolean literal', z.literal(false), true],

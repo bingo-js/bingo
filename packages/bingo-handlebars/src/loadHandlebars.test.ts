@@ -12,7 +12,7 @@ vi.mock('bingo-fs', () => ({
 
 const sourcePath = 'path/to/template';
 
-describe('loadHandlebars', () => {
+describe(loadHandlebars, () => {
   it('throws an error when the source does not exist', async () => {
     mockIntake.mockResolvedValueOnce(undefined);
 

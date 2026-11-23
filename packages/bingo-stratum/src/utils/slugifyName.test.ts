@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { slugifyName } from './slugifyName.js';
 
-describe('slugifyName', () => {
+describe(slugifyName, () => {
   it('converts to lowercase and replaces spaces with dashes', () => {
     expect(slugifyName('Foo Bar')).toBe('foo-bar');
   });

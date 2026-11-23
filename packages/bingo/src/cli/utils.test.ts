@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { makeRelative, quoteIfSpaced } from './utils.ts';
 
-describe('makeRelative', () => {
+describe(makeRelative, () => {
   it.each([
     ['.', '.'],
     ['./template.js', './template.js'],
@@ -13,7 +13,7 @@ describe('makeRelative', () => {
   });
 });
 
-describe('quoteIfSpaced', () => {
+describe(quoteIfSpaced, () => {
   it.each([
     ['', ''],
     ['/path/to/template.js', '/path/to/template.js'],

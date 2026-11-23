@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { getSchemaTypeName } from './getSchemaTypeName.ts';
 
-describe('getSchemaTypeName', () => {
+describe(getSchemaTypeName, () => {
   test.each([
     ['string', z.string(), 'string'],
     ['number', z.number(), 'number'],

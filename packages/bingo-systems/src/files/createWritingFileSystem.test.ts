@@ -22,7 +22,7 @@ const contents = 'abc123';
 const directoryPath = 'path/to/file';
 const filePath = 'path/to/file';
 
-describe('createWritingFileSystem', () => {
+describe(createWritingFileSystem, () => {
   describe('writeDirectory', () => {
     it('writes with recursive: true', async () => {
       const system = createWritingFileSystem();

@@ -27,7 +27,7 @@ const normalizeCallsPaths = (calls: string[][]) => {
 const mockPlatform = (platform: NodeJS.Platform) =>
   vi.spyOn(process, 'platform', 'get').mockReturnValue(platform);
 
-describe('intake', () => {
+describe(intake, () => {
   // Executable metadata is only read on non-Windows platforms
   beforeEach(() => {
     mockPlatform('linux');

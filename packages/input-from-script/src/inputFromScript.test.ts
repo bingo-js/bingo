@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { inputFromScript } from './inputFromScript.ts';
 
-describe('inputFromScript', () => {
+describe(inputFromScript, () => {
   it('returns the result from running the command', async () => {
     const command = 'echo 123';
     const expected = { stdout: '123' };

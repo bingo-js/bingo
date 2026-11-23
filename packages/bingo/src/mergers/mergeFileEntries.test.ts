@@ -5,7 +5,7 @@ import { mergeFileEntries } from './mergeFileEntries.ts';
 
 const path = ['test', 'path'];
 
-describe('mergeFileEntries', () => {
+describe(mergeFileEntries, () => {
   test.each([
     ['', '', ''],
     ['', false, ''],
@@ -33,6 +33,15 @@ describe('mergeFileEntries', () => {
       ['a', { executable: true }],
       ['a', { executable: true }],
     ],
+  ] satisfies [
+    CreatedFileEntry | false | undefined,
+    CreatedFileEntry | false | undefined,
+    CreatedFileEntry | undefined,
+  ][])('%j with %j', (first, second, expected) => {
+    expect(mergeFileEntries(first, second, path)).toEqual(expected);
+  });
+
+  test.each([
     [
       ['a', { executable: true }],
       ['a', { executable: false }],
@@ -43,12 +52,8 @@ describe('mergeFileEntries', () => {
   ] satisfies [
     CreatedFileEntry | false | undefined,
     CreatedFileEntry | false | undefined,
-    CreatedFileEntry | Error | undefined,
+    Error,
   ][])('%j with %j', (first, second, expected) => {
-    if (expected instanceof Error) {
-      expect(() => mergeFileEntries(first, second, path)).toThrow(expected);
-    } else {
-      expect(mergeFileEntries(first, second, path)).toEqual(expected);
-    }
+    expect(() => mergeFileEntries(first, second, path)).toThrow(expected);
   });
 });

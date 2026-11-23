@@ -12,7 +12,7 @@ vi.mock('node:fs/promises', () => ({
   },
 }));
 
-describe('readProductionSettings', () => {
+describe(readProductionSettings, () => {
   it("reads from directory '.' when a directory is not provided", async () => {
     mockReaddir.mockResolvedValueOnce([]);
 

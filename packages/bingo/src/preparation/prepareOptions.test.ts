@@ -21,7 +21,7 @@ const system = {
   runner: vi.fn(),
 };
 
-describe('prepareOptions', () => {
+describe(prepareOptions, () => {
   it('returns {} when no settings.options exists and the base does not have a prepare()', async () => {
     const baseWithNoPrepare = {
       options: {

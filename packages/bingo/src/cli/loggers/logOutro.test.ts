@@ -19,7 +19,7 @@ vi.mock('@clack/prompts', () => ({
   },
 }));
 
-describe('logOutro', () => {
+describe(logOutro, () => {
   beforeEach(() => {
     console.log = mockConsoleLog;
   });
