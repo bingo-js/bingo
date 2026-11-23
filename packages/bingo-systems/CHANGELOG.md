@@ -1,5 +1,17 @@
 # bingo-systems
 
+## 0.10.0
+
+### Minor Changes
+
+- [#605](https://github.com/bingo-js/bingo/pull/605) [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Bundle all package entrypoints. The package no longer includes files for every internal module.
+
+### Patch Changes
+
+- [#630](https://github.com/bingo-js/bingo/pull/630) [`dfdd5bf`](https://github.com/bingo-js/bingo/commit/dfdd5bfcf9abc90eb79e0d9ce0935f41f80beed4) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Set explicit return type for `createWritingFileSystem` to be `WritingFileSystem`.
+- Updated dependencies [[`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf)]:
+  - bingo-fs@0.9.0
+
 ## 0.9.1
 
 ### Patch Changes
