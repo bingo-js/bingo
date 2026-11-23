@@ -1,8 +1,11 @@
-import { intake } from 'bingo-fs';
+import { type CreatedEntry, intake } from 'bingo-fs';
 
 import { executeTemplatesRecursive } from './executeTemplatesRecursive.ts';
 
-export async function handlebars(sourcePath: string, options?: object) {
+export const handlebars = async (
+  sourcePath: string,
+  options?: object,
+): Promise<CreatedEntry | undefined> => {
   const source = await intake(sourcePath);
 
   if (source === undefined) {
@@ -12,4 +15,4 @@ export async function handlebars(sourcePath: string, options?: object) {
   }
 
   return executeTemplatesRecursive(source, options);
-}
+};

@@ -1,4 +1,4 @@
-import { intake } from 'bingo-fs';
+import { type CreatedEntry, intake } from 'bingo-fs';
 
 import { executeTemplatesRecursive } from './executeTemplatesRecursive.ts';
 import { getSourceFromDirectory } from './getSourceFromDirectory.ts';
@@ -18,7 +18,7 @@ export async function loadHandlebars(directoryPath: string, optionsDefaults?: ob
     );
   }
 
-  return function handlebars(sourcePath: string, options?: object) {
+  return (sourcePath: string, options?: object): CreatedEntry | undefined => {
     const source = getSourceFromDirectory(directoryPath, sources, sourcePath);
 
     return executeTemplatesRecursive(source, {

@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars';
 
-export function executeTemplate(source: string, options?: object) {
+export const executeTemplate = (source: string, options?: object): string => {
   return Handlebars.compile(source)(options);
-}
+};

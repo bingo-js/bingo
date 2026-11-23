@@ -20,7 +20,10 @@ export interface IntakeSettings {
  * @returns A representation of the directory or file, or undefined if it didn't exist.
  * @see {@link https://www.create.bingo/build/packages/bingo-fs#intake}
  */
-export async function intake(rootPath: string, settings: IntakeSettings = {}) {
+export const intake = async (
+  rootPath: string,
+  settings: IntakeSettings = {},
+): Promise<IntakeEntry | undefined> => {
   let stats: Stats;
   try {
     stats = await fs.stat(rootPath);
@@ -31,12 +34,12 @@ export async function intake(rootPath: string, settings: IntakeSettings = {}) {
   return stats.isDirectory()
     ? await intakeDirectory(rootPath, settings)
     : await intakeFile(rootPath, stats.mode);
-}
+};
 
-export async function intakeDirectory(
+export const intakeDirectory = async (
   directoryPath: string,
   settings?: IntakeSettings,
-): Promise<IntakeDirectory> {
+): Promise<IntakeDirectory> => {
   const directory: IntakeDirectory = {};
   const children = await fs.readdir(directoryPath);
 
@@ -47,9 +50,9 @@ export async function intakeDirectory(
   }
 
   return directory;
-}
+};
 
-async function intakeFile(filePath: string, mode?: number): Promise<IntakeEntry> {
+const intakeFile = async (filePath: string, mode?: number): Promise<IntakeEntry> => {
   const contents = (await fs.readFile(filePath)).toString();
 
   // Windows file modes don't include executable bits, so there's no way to
@@ -60,4 +63,4 @@ async function intakeFile(filePath: string, mode?: number): Promise<IntakeEntry>
   }
 
   return [contents, { executable: isModeExecutable(mode ?? (await fs.stat(filePath)).mode) }];
-}
+};

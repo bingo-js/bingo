@@ -20,7 +20,7 @@ export function createBlock<PropsShape extends AnyOptionalShape, Options extends
   blockDefinition:
     | BlockDefinitionWithoutProps<Options>
     | BlockDefinitionWithProps<PropsShape, Options>,
-) {
+): unknown {
   const produce = blockDefinition.produce ?? produceNothing;
 
   // Blocks without Props can't be called as functions.
@@ -51,7 +51,7 @@ export function createBlock<PropsShape extends AnyOptionalShape, Options extends
     });
   };
 
-  return block as BlockWithProps<Props, Options>;
+  return block;
 }
 
 function produceNothing() {

@@ -1,9 +1,9 @@
 import type { PresetDefinition } from '../types/presets.ts';
 import { getName } from '../utils/getName.ts';
 
-export function assertNoDuplicateBlocks<Options extends object>(
+export const assertNoDuplicateBlocks = <Options extends object>(
   presetDefinition: PresetDefinition<Options>,
-) {
+): void => {
   const presetName = getName(presetDefinition);
   const seen = new Set();
 
@@ -12,4 +12,4 @@ export function assertNoDuplicateBlocks<Options extends object>(
       throw new Error(`Preset ${presetName} has duplicate Block: ${getName(block)}`);
     }
   }
-}
+};
