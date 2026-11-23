@@ -1,5 +1,19 @@
 # bingo-stratum-testers
 
+## 0.9.0
+
+### Minor Changes
+
+- [#605](https://github.com/bingo-js/bingo/pull/605) [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Bundle all package entrypoints. The package no longer includes files for every internal module.
+
+### Patch Changes
+
+- Updated dependencies [[`8f3cf46`](https://github.com/bingo-js/bingo/commit/8f3cf460beb177a38413878ebc71aebc4bb8f5f8), [`cc5fdd6`](https://github.com/bingo-js/bingo/commit/cc5fdd6e2bdd92315f590862352edb94ca6400b8), [`dfdd5bf`](https://github.com/bingo-js/bingo/commit/dfdd5bfcf9abc90eb79e0d9ce0935f41f80beed4), [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf), [`b8b8de6`](https://github.com/bingo-js/bingo/commit/b8b8de6a5ef9335859cdd33f762cce9514ec2559), [`6d327ce`](https://github.com/bingo-js/bingo/commit/6d327cee30e30258ac52580c1d5e3800dee6ee93)]:
+  - bingo@0.17.0
+  - bingo-systems@0.10.0
+  - bingo-fs@0.9.0
+  - bingo-stratum@0.12.0
+
 ## 0.8.0
 
 ### Minor Changes

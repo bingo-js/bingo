@@ -1,5 +1,19 @@
 # bingo-testers
 
+## 0.11.0
+
+### Minor Changes
+
+- [#605](https://github.com/bingo-js/bingo/pull/605) [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Bundle all package entrypoints. The package no longer includes files for every internal module.
+
+### Patch Changes
+
+- [#657](https://github.com/bingo-js/bingo/pull/657) [`5acd418`](https://github.com/bingo-js/bingo/commit/5acd4186dd13ff69e621a8b910932a4d66b11eed) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Added explicit return type for `testOptions` and exported it as `TestOptions`.
+- Updated dependencies [[`8f3cf46`](https://github.com/bingo-js/bingo/commit/8f3cf460beb177a38413878ebc71aebc4bb8f5f8), [`cc5fdd6`](https://github.com/bingo-js/bingo/commit/cc5fdd6e2bdd92315f590862352edb94ca6400b8), [`dfdd5bf`](https://github.com/bingo-js/bingo/commit/dfdd5bfcf9abc90eb79e0d9ce0935f41f80beed4), [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf), [`6d327ce`](https://github.com/bingo-js/bingo/commit/6d327cee30e30258ac52580c1d5e3800dee6ee93)]:
+  - bingo@0.17.0
+  - bingo-systems@0.10.0
+  - bingo-fs@0.9.0
+
 ## 0.10.0
 
 ### Minor Changes

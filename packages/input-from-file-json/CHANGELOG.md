@@ -1,5 +1,19 @@
 # input-from-file-json
 
+## 0.8.0
+
+### Minor Changes
+
+- [#629](https://github.com/bingo-js/bingo/pull/629) [`8f3cf46`](https://github.com/bingo-js/bingo/commit/8f3cf460beb177a38413878ebc71aebc4bb8f5f8) Thanks [@rishitha2625](https://github.com/rishitha2625)! - Renamed symbols to use proper camelCasing. `inputFromFileJSON` is now `inputFromFileJson`.
+
+- [#605](https://github.com/bingo-js/bingo/pull/605) [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Bundle all package entrypoints. The package no longer includes files for every internal module.
+
+### Patch Changes
+
+- Updated dependencies [[`8f3cf46`](https://github.com/bingo-js/bingo/commit/8f3cf460beb177a38413878ebc71aebc4bb8f5f8), [`cc5fdd6`](https://github.com/bingo-js/bingo/commit/cc5fdd6e2bdd92315f590862352edb94ca6400b8), [`2c62881`](https://github.com/bingo-js/bingo/commit/2c62881e0fbb353bc8f4d3856f8b5529ca9a0acf), [`6d327ce`](https://github.com/bingo-js/bingo/commit/6d327cee30e30258ac52580c1d5e3800dee6ee93)]:
+  - bingo@0.17.0
+  - input-from-file@0.9.0
+
 ## 0.7.0
 
 ### Minor Changes
