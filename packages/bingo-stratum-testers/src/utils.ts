@@ -1,16 +1,16 @@
-export function createFailingObject(label: string, user: string) {
+export const createFailingObject = (label: string, user: string): object => {
   return new Proxy(
     {},
     {
       get: createFailingFunction(label, user),
     },
   );
-}
+};
 
-function createFailingFunction(label: string, user: string) {
+const createFailingFunction = (label: string, user: string) => {
   return () => failingFunction(label, user);
-}
+};
 
-function failingFunction(label: string, user: string): never {
+const failingFunction = (label: string, user: string): never => {
   throw new Error(`Context property '${label}' was used by ${user} but not provided.`);
-}
+};
