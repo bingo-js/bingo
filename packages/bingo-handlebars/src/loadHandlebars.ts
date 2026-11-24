@@ -3,7 +3,10 @@ import { type CreatedEntry, intake } from 'bingo-fs';
 import { executeTemplatesRecursive } from './executeTemplatesRecursive.ts';
 import { getSourceFromDirectory } from './getSourceFromDirectory.ts';
 
-export async function loadHandlebars(directoryPath: string, optionsDefaults?: object) {
+export const loadHandlebars = async (
+  directoryPath: string,
+  optionsDefaults?: object,
+): Promise<(sourcePath: string, options?: object) => CreatedEntry | undefined> => {
   const sources = await intake(directoryPath);
 
   if (!sources) {
@@ -26,4 +29,4 @@ export async function loadHandlebars(directoryPath: string, optionsDefaults?: ob
       ...options,
     });
   };
-}
+};

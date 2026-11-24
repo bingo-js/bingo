@@ -25,7 +25,15 @@ type WithReadonlyArrays<T> = T extends readonly (infer Item)[]
     ? { [Key in keyof T]: WithReadonlyArrays<T[Key]> }
     : T;
 
-const inputFromOctokitArgs = {
+const inputFromOctokitArgs: {
+  endpoint: z.ZodString;
+  options: z.ZodOptional<
+    z.ZodType<{
+      headers?: Record<string, number | string | undefined>;
+      request?: Record<string, unknown>;
+    }>
+  >;
+} = {
   endpoint: z.string(),
   options: z
     .looseObject({

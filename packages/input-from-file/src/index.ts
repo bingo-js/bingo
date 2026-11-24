@@ -1,1 +1,5 @@
-export { inputFromFile } from './inputFromFile.ts';
+export {
+  inputFromFile,
+  type InputFromFileArgs,
+  type InputFromFileArgsShape,
+} from './inputFromFile.ts';

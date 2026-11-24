@@ -1,7 +1,17 @@
-import { createInput } from 'bingo';
-import { inputFromFile } from 'input-from-file';
+import { createInput, type InputWithArgs } from 'bingo';
+import {
+  inputFromFile,
+  type InputFromFileArgs,
+  type InputFromFileArgsShape,
+} from 'input-from-file';
 
-export const inputFromFileJson = createInput({
+export type InputFromFileJsonArgs = InputFromFileArgs;
+export type InputFromFileJsonArgsShape = InputFromFileArgsShape;
+
+export const inputFromFileJson: InputWithArgs<
+  Promise<unknown>,
+  InputFromFileJsonArgsShape
+> = createInput({
   args: inputFromFile.args,
   async produce({ args, take }) {
     const text = await take(inputFromFile, args);

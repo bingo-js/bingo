@@ -67,3 +67,6 @@ export type {
   TemplatePrepareContext,
   TemplateProduce,
 } from './types/templates.ts';
+
+// Re-exports
+export type { SystemRunner, SystemRunnerResult } from 'bingo-systems';
