@@ -254,6 +254,40 @@ describe('inferPreset', () => {
         expect(actual.preset).toBe('smaller');
       });
 
+      it('infers the smaller preset when the larger preset is missing a whole directory', () => {
+        const blockDirectory = base.createBlock({
+          produce() {
+            return {
+              files: {
+                directory: {
+                  c: '...',
+                  d: '...',
+                  e: '...',
+                },
+              },
+            };
+          },
+        });
+
+        const actual = inferExistingBlocks(
+          {
+            files: { a: '...', b: '...' },
+            options: { name: '...' },
+          },
+          base.createStratumTemplate({
+            presets: [
+              presetSmaller,
+              base.createPreset({
+                about: { name: 'Larger' },
+                blocks: [blockA, blockB, blockDirectory],
+              }),
+            ],
+          }),
+        );
+
+        expect(actual.preset).toBe('smaller');
+      });
+
       it('infers the larger preset when its files exist', () => {
         const actual = inferExistingBlocks({ files, options: { name: '...' } }, template);
 

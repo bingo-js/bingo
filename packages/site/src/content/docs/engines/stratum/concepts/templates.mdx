@@ -77,8 +77,8 @@ export default createConfig(template, {
 
 During transition mode, Stratum will attempt to infer a default value for `--preset` based using files on disk.
 That default value is computed by comparing existing files on disk to the files that would be produced by the Blocks.
-Each Preset's percentage is how many files are both on disk and produced by the Preset, out of all files that are either on disk or produced by the Preset.
-If the Preset with the greatest percentage matches 35% or more, it will be used as the default.
+Each Preset's score is calculated as the number of files that the Preset produces that are actually on disk, divided by the total number of files that are either on disk or would normally be produced by the Preset.
+The Preset with the greatest percentage that matches 35% or more will be used as the default.
 
 ### Refinement Options
 
