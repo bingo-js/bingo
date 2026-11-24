@@ -23,7 +23,7 @@ export const templateMismatchError = <OptionsShape extends AnyShape, Refinements
   }
 
   return new Error(
-    `Config file and running template have the same name, ${runningName}, but are not the same object. Are there multiple template versions?`,
+    `Config file and running template have the same name, ${runningName}, but are not the same object. This generally means the config file and CLI loaded the template from different installs. Run the locally installed version of the CLI instead, such as by removing @latest from the npx command.`,
   );
 };
 

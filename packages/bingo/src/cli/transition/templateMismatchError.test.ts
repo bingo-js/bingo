@@ -40,6 +40,25 @@ describe(templateMismatchError, () => {
     );
   });
 
+  it('returns a different installs error when both templates have the same name', () => {
+    const templateNamedAFirst = createTemplate({
+      about: { name: 'A' },
+      produce: vi.fn(),
+    });
+    const templateNamedASecond = createTemplate({
+      about: { name: 'A' },
+      produce: vi.fn(),
+    });
+
+    const actual = templateMismatchError(templateNamedAFirst, templateNamedASecond);
+
+    expect(actual).toEqual(
+      new Error(
+        `Config file and running template have the same name, A, but are not the same object. This generally means the config file and CLI loaded the template from different installs. Run the locally installed version of the CLI instead, such as by removing @latest from the npx command.`,
+      ),
+    );
+  });
+
   it('returns a mixed error when the config template is anonymous and the running template is named', () => {
     const actual = templateMismatchError(templateAnonymousA, templateNamedB);
 
