@@ -53,8 +53,5 @@
       ".": "./dist/index.mjs",
       "./package.json": "./package.json"
     }
-  },
-  "inlinedDependencies": {
-    "execa": "10.2.1"
   }
 }

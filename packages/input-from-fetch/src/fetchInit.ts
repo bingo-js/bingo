@@ -4,7 +4,7 @@ import { z } from 'zod';
  * Zod description of the `RequestInit` options object passed to `fetch`.
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/RequestInit}
  */
-export const fetchInit = z.object({
+export const fetchInit: z.ZodType<RequestInit> = z.object({
   /**
    * Indicates that the request's response should be able to register a
    * JavaScript-based attribution source or trigger.

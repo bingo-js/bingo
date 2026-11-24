@@ -1,1 +1,5 @@
-export { inputFromScript } from './inputFromScript.ts';
+export {
+  inputFromScript,
+  type InputFromScriptArgs,
+  type InputFromScriptArgsShape,
+} from './inputFromScript.ts';

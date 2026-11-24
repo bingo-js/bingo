@@ -1,1 +1,5 @@
-export { inputFromFileJson } from './inputFromFileJson.ts';
+export {
+  inputFromFileJson,
+  type InputFromFileJsonArgs,
+  type InputFromFileJsonArgsShape,
+} from './inputFromFileJson.ts';

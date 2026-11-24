@@ -8,10 +8,10 @@ import packageJson from 'eslint-plugin-package-json';
 import perfectionist from 'eslint-plugin-perfectionist';
 import * as regexp from 'eslint-plugin-regexp';
 import yml from 'eslint-plugin-yml';
-import { defineConfig } from 'eslint/config';
+import { type ConfigObject, defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
-export default defineConfig(
+const config: ConfigObject[] = defineConfig(
   {
     ignores: [
       '**/*.snap',
@@ -124,3 +124,5 @@ export default defineConfig(
     },
   },
 );
+
+export default config;

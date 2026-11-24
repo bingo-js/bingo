@@ -23,7 +23,7 @@ export type {
 
 // Runner
 export { createSystemRunner } from './runner/createSystemRunner.ts';
-export type { SystemRunner } from './runner/runner.ts';
+export type { SystemRunner, SystemRunnerResult } from './runner/runner.ts';
 
 // Misc
 export type { BingoSystem } from './types/system.ts';

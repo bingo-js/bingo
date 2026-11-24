@@ -1,6 +1,6 @@
 import type { ParseArgsOptionsConfig } from 'node:util';
 
-export const cliArgsOptions = {
+export const cliArgsOptions: ParseArgsOptionsConfig = {
   directory: {
     type: 'string',
   },
@@ -34,4 +34,4 @@ export const cliArgsOptions = {
   version: {
     type: 'boolean',
   },
-} satisfies ParseArgsOptionsConfig;
+};
