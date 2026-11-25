@@ -302,8 +302,8 @@ importers:
         specifier: ^10.1.1
         version: 10.1.1
       new-github-repository:
-        specifier: ^0.2.5
-        version: 0.2.5
+        specifier: ^0.3.0
+        version: 0.3.0
       read-package-up:
         specifier: ^12.0.0
         version: 12.0.0
@@ -4057,8 +4057,8 @@ packages:
     resolution: {integrity: sha512-DLMUFnyCrRAncRJhDC2yNbSTcpEukp+nczID/na3XdIHQFokPveK69xel642cQHgUGszctsOSeCePqPpY25W6Q==}
     engines: {node: '>= 10'}
 
-  new-github-repository@0.2.5:
-    resolution: {integrity: sha512-fisCiZGjLn8LwivoYKZInqZZcJAeWrpV3e5ySEJ7OKFefDtct9OmpjVpPlVyCrXF12Z6+BCcaukB7v80jxAmww==}
+  new-github-repository@0.3.0:
+    resolution: {integrity: sha512-+FOowW7DGMaU8QlVJagjo/5+Y8mtYSuyftnApT4njNtFhSd9SpjLo+ctcuVUck7/9VXrrRW0uzWoYZYU5QKbIQ==}
     engines: {node: '>=18.3.0'}
 
   nlcst-to-string@4.0.0:
@@ -9078,7 +9078,7 @@ snapshots:
 
   neotraverse@1.0.2: {}
 
-  new-github-repository@0.2.5:
+  new-github-repository@0.3.0:
     dependencies:
       '@octokit/openapi-types': 29.0.1
       octokit: 5.0.5
