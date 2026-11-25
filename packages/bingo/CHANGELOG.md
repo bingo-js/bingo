@@ -1,5 +1,13 @@
 # bingo
 
+## 0.17.1
+
+### Patch Changes
+
+- [#675](https://github.com/bingo-js/bingo/pull/675) [`1fc3157`](https://github.com/bingo-js/bingo/commit/1fc31575653fb781e65aac8dac35a2cca36abf64) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Re-exported `SystemRunner` and `SystemRunnerResult` from `bingo-systems`, since these are constituents of `InputWithArgs`.
+- Updated dependencies [[`1fc3157`](https://github.com/bingo-js/bingo/commit/1fc31575653fb781e65aac8dac35a2cca36abf64)]:
+  - bingo-systems@0.10.1
+
 ## 0.17.0
 
 ### Minor Changes

@@ -1,5 +1,14 @@
 # input-from-file-json
 
+## 0.8.1
+
+### Patch Changes
+
+- [#675](https://github.com/bingo-js/bingo/pull/675) [`1fc3157`](https://github.com/bingo-js/bingo/commit/1fc31575653fb781e65aac8dac35a2cca36abf64) Thanks [@michaelfaith](https://github.com/michaelfaith)! - Exported explicit type for this input's args as `InputFromFileJson`.
+- Updated dependencies [[`1fc3157`](https://github.com/bingo-js/bingo/commit/1fc31575653fb781e65aac8dac35a2cca36abf64), [`1fc3157`](https://github.com/bingo-js/bingo/commit/1fc31575653fb781e65aac8dac35a2cca36abf64)]:
+  - input-from-file@0.9.1
+  - bingo@0.17.1
+
 ## 0.8.0
 
 ### Minor Changes
