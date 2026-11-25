@@ -63,7 +63,7 @@
     "eslint-plugin-regexp": "3.3.3",
     "eslint-plugin-yml": "3.10.0",
     "jiti": "2.7.0",
-    "knip": "6.47.0",
+    "knip": "6.48.0",
     "lint-staged": "17.6.2",
     "oxfmt": "0.79.0",
     "rimraf": "6.1.4",
