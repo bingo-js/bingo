@@ -369,7 +369,8 @@ Running that template without an explicit `--value` would be equivalent to runni
 
 During transition mode, Stratum will attempt to infer a default value for `--preset` based using files on disk.
 That default value is computed by comparing existing files on disk to the files that would be produced by the Blocks.
-If Preset with the greatest percentage matches 35% or more of its created files, it will be used as the default.
+Each Preset's score is calculated as the number of files that the Preset produces that are actually on disk, divided by the total number of files that are either on disk or would normally be produced by the Preset.
+The Preset with the greatest percentage that matches 35% or more will be used as the default.
 
 ### `presets` {#createtemplate-presets}
 

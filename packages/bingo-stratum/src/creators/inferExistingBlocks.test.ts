@@ -214,6 +214,86 @@ describe('inferPreset', () => {
 
       expect(actual.preset).toBe('high-percentage');
     });
+
+    describe('presets that include other presets', () => {
+      const blockCDE = base.createBlock({
+        produce() {
+          return {
+            files: {
+              c: '...',
+              d: '...',
+              e: '...',
+            },
+          };
+        },
+      });
+
+      const presetSmaller = base.createPreset({
+        about: { name: 'Smaller' },
+        blocks: [blockA],
+      });
+
+      const presetLarger = base.createPreset({
+        about: { name: 'Larger' },
+        blocks: [blockA, blockB, blockCDE],
+      });
+
+      const template = base.createStratumTemplate({
+        presets: [presetSmaller, presetLarger],
+      });
+
+      it('infers the smaller preset when the larger preset is missing many of its files', () => {
+        const actual = inferExistingBlocks(
+          {
+            files: { a: '...', b: '...' },
+            options: { name: '...' },
+          },
+          template,
+        );
+
+        expect(actual.preset).toBe('smaller');
+      });
+
+      it('infers the smaller preset when the larger preset is missing a whole directory', () => {
+        const blockDirectory = base.createBlock({
+          produce() {
+            return {
+              files: {
+                directory: {
+                  c: '...',
+                  d: '...',
+                  e: '...',
+                },
+              },
+            };
+          },
+        });
+
+        const actual = inferExistingBlocks(
+          {
+            files: { a: '...', b: '...' },
+            options: { name: '...' },
+          },
+          base.createStratumTemplate({
+            presets: [
+              presetSmaller,
+              base.createPreset({
+                about: { name: 'Larger' },
+                blocks: [blockA, blockB, blockDirectory],
+              }),
+            ],
+          }),
+        );
+
+        expect(actual.preset).toBe('smaller');
+      });
+
+      it('infers the larger preset when its files exist', () => {
+        const actual = inferExistingBlocks({ files, options: { name: '...' } }, template);
+
+        expect(actual.preset).toBe('larger');
+      });
+    });
   });
 
   describe('previous file paths', () => {
