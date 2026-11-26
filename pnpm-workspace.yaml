@@ -7,5 +7,11 @@ packages:
 permissions:
   simple-git-hooks:
     build: false
+  tsdown:
+    skills: true
+
+skills:
+  dirs:
+    - .claude/skills
 
 trustPolicy: no-downgrade
