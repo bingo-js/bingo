@@ -51,7 +51,7 @@ describe('validators', () => {
 
   describe(validatorFromSchema, () => {
     const schema = z.string().refine((value) => value !== 'a', {
-      message: "Value cannot be 'a'",
+      error: "Value cannot be 'a'",
     });
 
     const validator = validatorFromSchema(schema);
