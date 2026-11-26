@@ -8,37 +8,24 @@ cd bingo
 pnpm install
 ```
 
-Run a prebuild to prepare the repository for building:
-
-```shell
-pnpm run -r prebuild
-```
-
+> [!TIP]
 > This repository includes a list of suggested VS Code extensions.
 > It's a good idea to use [VS Code](https://code.visualstudio.com) and accept its suggestion to install them, as they'll help with development.
 
 ## Building
 
-Run [TypeScript](https://typescriptlang.org) in `--build` mode to build all packages:
+[tsdown](https://tsdown.dev/) is used for building.
+You can run it locally on the command-line:
 
 ```shell
 pnpm build
 ```
 
-Add `--watch` to run in a rebuilding watch mode:
+You can add `--watch` to run in a rebuilding watch mode:
 
 ```shell
 pnpm build --watch
 ```
-
-Alternately, you can build an individual package from within its folder:
-
-```shell
-cd packages/bingo
-pnpm build
-```
-
-You should be able to see suggestions from TypeScript in your editor for all open files.
 
 ## Formatting
 
@@ -65,7 +52,7 @@ Read the individual documentation for each linter to understand how it can be co
 For example, ESLint can be run with `--fix` to auto-fix some lint rule complaints:
 
 ```shell
-pnpm run lint --fix
+pnpm lint --fix
 ```
 
 Note that you'll likely need to run `pnpm build` before `pnpm lint` so that lint rules which check the file system can pick up on any built files.
@@ -76,13 +63,13 @@ Note that you'll likely need to run `pnpm build` before `pnpm lint` so that lint
 You can run it locally on the command-line:
 
 ```shell
-pnpm run test
+pnpm test
 ```
 
 Add the `--coverage` flag to compute test coverage and place reports in the `coverage/` directory:
 
 ```shell
-pnpm run test --coverage
+pnpm test --coverage
 ```
 
 Note that [console-fail-test](https://github.com/JoshuaKGoldberg/console-fail-test) is enabled for all test runs.
@@ -90,8 +77,7 @@ Calls to `console.log`, `console.warn`, and other console methods will cause a t
 
 ### Debugging Tests
 
-This repository includes a [VS Code launch configuration](https://code.visualstudio.com/docs/editor/debugging) for debugging unit tests.
-To launch it, open a test file, then run _Debug Current Test File_ from the VS Code Debug panel (or press F5).
+We recommend using the Vitest VSCode extension for debugging individual tests.
 
 ## Releases
 
