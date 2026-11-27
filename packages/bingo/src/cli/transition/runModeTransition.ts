@@ -14,6 +14,7 @@ import { logStartText } from '../loggers/logStartText.ts';
 import { cliMessages } from '../messages.ts';
 import { parseZodArgs } from '../parsers/parseZodArgs.ts';
 import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
+import type { RemoteRepositoryVisibility } from '../remotes/types.ts';
 import { checkUncommittedChanges } from '../repository/checkUncommittedChanges.ts';
 import { clearLocalGitTags } from '../repository/clearLocalGitTags.ts';
 import { createInitialCommit } from '../repository/createInitialCommit.ts';
@@ -35,6 +36,7 @@ export interface RunModeTransitionSettings<
   from: string;
   offline?: boolean;
   remote?: boolean;
+  repoVisibility?: RemoteRepositoryVisibility;
   rerunCommand: string;
   skips?: RequestedSkips;
   template: Template<OptionsShape, Refinements>;
@@ -51,6 +53,7 @@ export async function runModeTransition<
   from,
   offline = false,
   remote: requestedRemote,
+  repoVisibility = 'public',
   rerunCommand,
   skips = {},
   template,
@@ -69,9 +72,17 @@ export async function runModeTransition<
 
   const providedOptions = parseZodArgs(argv, template.options);
 
+  const rerunOptions = {
+    ...providedOptions,
+    ...(requestedRemote ? { remote: true } : {}),
+    ...(repoVisibility === 'private'
+      ? { 'repo-visibility': repoVisibility }
+      : {}),
+  };
+
   const loadedConfig = await readConfigSettings(configFile, directory, template);
   if (loadedConfig instanceof Error) {
-    logRerunSuggestion(rerunCommand, providedOptions);
+    logRerunSuggestion(rerunCommand, rerunOptions);
     return { error: loadedConfig, status: cliStatuses.error };
   }
 
@@ -80,7 +91,7 @@ export async function runModeTransition<
   if (repositoryLocator) {
     const uncommittedChanges = await checkUncommittedChanges(system.runner);
     if (uncommittedChanges !== 'clean') {
-      logRerunSuggestion(rerunCommand, providedOptions);
+      logRerunSuggestion(rerunCommand, rerunOptions);
       return {
         error: new Error(
           uncommittedChanges === 'changes'
@@ -121,7 +132,7 @@ export async function runModeTransition<
       },
     ));
   if (preparedOptions instanceof Error) {
-    logRerunSuggestion(rerunCommand, providedOptions);
+    logRerunSuggestion(rerunCommand, rerunOptions);
     return { status: cliStatuses.error };
   }
 
@@ -137,7 +148,7 @@ export async function runModeTransition<
   const { message, remote } = await resolveLocalRepository(
     display,
     { repository: directory, ...baseOptions.completed },
-    { offline, remote: requestedRemote },
+    { offline, remote: requestedRemote, repoVisibility },
     system,
     template,
   );
