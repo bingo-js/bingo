@@ -9,6 +9,7 @@ import type { Template } from '../../types/templates.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
 import { runSpinnerTask } from '../display/runSpinnerTask.ts';
 import { prepareGitRepository } from '../repository/prepareGitRepository.ts';
+import type { RemoteRepositoryVisibility } from './types.ts';
 
 export async function createRemoteRepository<
   OptionsShape extends AnyShape = AnyShape,
@@ -18,6 +19,7 @@ export async function createRemoteRepository<
   locator: RepositoryLocator,
   system: BingoSystem,
   template: Template<OptionsShape, Refinements>,
+  repoVisibility: RemoteRepositoryVisibility = 'public',
 ): Promise<Error | undefined> {
   const remoteDescriptor = `${locator.owner}/${locator.repository}`;
   const creationResult = await runSpinnerTask(
@@ -29,6 +31,7 @@ export async function createRemoteRepository<
         octokit: system.fetchers.octokit,
         owner: locator.owner,
         repository: locator.repository,
+        private: repoVisibility === 'private',
         template: template.about?.repository,
       });
       await prepareGitRepository(locator, system.runner);
