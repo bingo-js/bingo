@@ -17,6 +17,7 @@ import { cliMessages } from '../messages.ts';
 import { parseZodArgs } from '../parsers/parseZodArgs.ts';
 import { promptForDirectory } from '../prompts/promptForDirectory.ts';
 import { promptForOptionSchemas } from '../prompts/promptForOptionSchemas.ts';
+import type { RemoteRepositoryVisibility } from '../remotes/types.ts';
 import { prepareGitRepository } from '../repository/prepareGitRepository.ts';
 import { resolveLocalRepository } from '../repository/resolveLocalRepository.ts';
 import { cliStatuses } from '../status.ts';
@@ -33,6 +34,7 @@ export interface RunModeSetupSettings<
   from: string;
   offline?: boolean;
   remote?: boolean;
+  repoVisibility?: RemoteRepositoryVisibility;
   repository?: string;
   rerunCommand: string;
   skips?: RequestedSkips;
@@ -50,6 +52,7 @@ export async function runModeSetup<
   from,
   offline = false,
   remote: requestedRemote,
+  repoVisibility = 'public',
   rerunCommand,
   skips = {},
   template,
@@ -81,6 +84,14 @@ export async function runModeSetup<
     ...providedTemplateOptions,
   };
 
+  const rerunOptions = {
+    ...providedOptions,
+    ...(requestedRemote ? { remote: true } : {}),
+    ...(repoVisibility === 'private'
+      ? { 'repo-visibility': repoVisibility }
+      : {}),
+  };
+
   const preparedOptions = await runSpinnerTask(
     display,
     'Inferring default options from system',
@@ -94,7 +105,7 @@ export async function runModeSetup<
     },
   );
   if (preparedOptions instanceof Error) {
-    logRerunSuggestion(rerunCommand, providedOptions);
+    logRerunSuggestion(rerunCommand, rerunOptions);
     return { status: cliStatuses.error };
   }
 
@@ -116,7 +127,7 @@ export async function runModeSetup<
   const { message, remote, repositoryType } = await resolveLocalRepository(
     display,
     { repository, ...baseOptions.completed },
-    { offline, remote: requestedRemote },
+    { offline, remote: requestedRemote, repoVisibility },
     system,
     template,
   );
