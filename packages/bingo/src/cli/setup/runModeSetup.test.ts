@@ -7,6 +7,7 @@ import { createTemplate } from '../../creators/createTemplate.ts';
 import type { ClackDisplay } from '../display/createClackDisplay.ts';
 import { cliMessages } from '../messages.ts';
 import { cliStatuses } from '../status.ts';
+import { logRerunSuggestion } from '../loggers/logRerunSuggestion.ts';
 import { runModeSetup } from './runModeSetup.ts';
 
 const mockCancel = Symbol('cancel');
@@ -176,6 +177,33 @@ describe(runModeSetup, () => {
 
     expect(actual).toEqual({
       status: cliStatuses.cancelled,
+    });
+  });
+
+  it('preserves private remote options in rerun suggestions', async () => {
+    vi.mocked(logRerunSuggestion).mockClear();
+    mockPromptForDirectory.mockResolvedValueOnce('test-directory');
+    mockPromptForOptionSchemas.mockResolvedValueOnce({
+      cancelled: false,
+      prompted: {},
+    });
+    mockResolveLocalRepository.mockResolvedValueOnce({
+      remote: new Error('Remote error.'),
+    });
+
+    await runModeSetup({
+      argv,
+      display,
+      from,
+      remote: true,
+      repoVisibility: 'private',
+      rerunCommand,
+      template,
+    });
+
+    expect(logRerunSuggestion).toHaveBeenCalledWith(rerunCommand, {
+      remote: true,
+      'repo-visibility': 'private',
     });
   });
 
