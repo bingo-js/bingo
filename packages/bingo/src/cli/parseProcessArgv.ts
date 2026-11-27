@@ -8,6 +8,8 @@ export interface RunCliRawValues {
   mode?: boolean | string | undefined;
   offline?: boolean | string | undefined;
   owner?: boolean | string | undefined;
+  remote?: boolean | string | undefined;
+  'repo-visibility'?: boolean | string | undefined;
   repository?: boolean | string | undefined;
   'skip-files'?: boolean | string | undefined;
   'skip-requests'?: boolean | string | undefined;
