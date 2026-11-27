@@ -1,7 +1,7 @@
 name: PR Review Requested
 
 on:
-  pull_request_target:
+  pull_request_target: # zizmor: ignore[dangerous-triggers]
     types:
       - review_requested
 
@@ -11,10 +11,14 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: actions-ecosystem/action-remove-labels@v1.3.0
-        with:
-          labels: 'status: waiting for author'
-      - if: failure()
-        run: |
+      - name: Remove waiting for author label
+        run: >-
+          gh issue edit "${PULL_REQUEST_NUMBER}" --remove-label "status: waiting for author"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+      - run: |
           echo "Don't worry if the previous step failed."
           echo "See https://github.com/actions-ecosystem/action-remove-labels/issues/221."
+        if: failure()
