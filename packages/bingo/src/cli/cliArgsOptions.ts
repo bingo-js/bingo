@@ -19,6 +19,9 @@ export const cliArgsOptions: ParseArgsOptionsConfig = {
   remote: {
     type: 'boolean',
   },
+  'repo-visibility': {
+    type: 'string',
+  },
   repository: {
     type: 'string',
   },
