@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@bingo/build": "workspace:^",
-    "@types/node": "26.6.6"
+    "@types/node": "26.6.7"
   },
   "engines": {
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"

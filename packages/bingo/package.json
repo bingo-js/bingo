@@ -53,7 +53,7 @@
   "devDependencies": {
     "@bingo/build": "workspace:^",
     "@types/hosted-git-info": "3.0.5",
-    "@types/node": "26.6.6",
+    "@types/node": "26.6.7",
     "octokit": "5.0.5"
   },
   "peerDependencies": {
