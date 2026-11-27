@@ -65,6 +65,12 @@ export function logHelpText<OptionsShape extends AnyShape, Refinements>(
       type: 'boolean',
     },
     {
+      examples: ['--repo-visibility private'],
+      flag: '--repo-visibility',
+      text: 'Whether a newly created remote repository should be public or private. Requires --remote.',
+      type: '"public" | "private"',
+    },
+    {
       examples: ['--repository my-fancy-project'],
       flag: '--repository',
       text: 'What the repository will be named.',
