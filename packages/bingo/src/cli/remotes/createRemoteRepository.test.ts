@@ -79,11 +79,31 @@ describe(createRemoteRepository, () => {
     );
 
     expect(actual).toBe(undefined);
+    expect(mockNewGitHubRepository).toHaveBeenCalledWith(
+      expect.objectContaining({ private: false }),
+    );
     expect(mockLog.step).toHaveBeenCalledWith(
       [
         "You've got a new repository ready to use in:",
         `  ${styleText('green', `https://github.com/owner/repository`)}`,
       ].join('\n'),
+    );
+  });
+
+  it('creates a private GitHub repository when private visibility is requested', async () => {
+    mockNewGitHubRepository.mockClear();
+
+    const actual = await createRemoteRepository(
+      stubDisplay,
+      stubLocator,
+      stubSystem,
+      {} as Template,
+      'private',
+    );
+
+    expect(actual).toBe(undefined);
+    expect(mockNewGitHubRepository).toHaveBeenCalledWith(
+      expect.objectContaining({ private: true }),
     );
   });
 });
