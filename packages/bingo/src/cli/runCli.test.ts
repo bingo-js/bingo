@@ -267,4 +267,39 @@ describe(runCli, () => {
       }),
     );
   });
+
+  it('rejects --repo-visibility unless --remote is also provided', async () => {
+    mockReadProductionSettings.mockClear();
+
+    const actual = await runCli({
+      argv,
+      display: createClackDisplay(),
+      from: '',
+      template,
+      values: { 'repo-visibility': 'private' },
+    });
+
+    expect(mockLogOutro).toHaveBeenCalledWith(
+      styleText('red', '--repo-visibility can only be used alongside --remote.'),
+    );
+    expect(mockReadProductionSettings).not.toHaveBeenCalled();
+    expect(actual).toBe(cliStatuses.error);
+  });
+
+  it('passes --repo-visibility through to remote repository setup', async () => {
+    mockReadProductionSettings.mockResolvedValueOnce({ mode: 'setup' });
+
+    await runCli({
+      argv,
+      display: createClackDisplay(),
+      from: '',
+      template,
+      values: { remote: true, 'repo-visibility': 'private' },
+    });
+
+    expect(mockRunModeSetup).toHaveBeenCalledWith(
+      expect.objectContaining({ repoVisibility: 'private' }),
+    );
+  });
+
 });
