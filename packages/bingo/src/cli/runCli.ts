@@ -24,6 +24,7 @@ const valuesSchema = z.object({
   offline: z.boolean().optional(),
   owner: z.string().optional(),
   remote: z.boolean().optional(),
+  'repo-visibility': z.enum(['public', 'private']).optional(),
   repository: z.string().optional(),
   'skip-files': z.boolean().optional(),
   'skip-requests': z.boolean().optional(),
@@ -54,6 +55,11 @@ export async function runCli<OptionsShape extends AnyShape = AnyShape, Refinemen
   }
 
   const validatedValues = valuesSchema.parse(values);
+  if (validatedValues['repo-visibility'] && !validatedValues.remote) {
+    logOutro(styleText('red', '--repo-visibility can only be used alongside --remote.'));
+    return cliStatuses.error;
+  }
+
   const productionSettings = await readProductionSettings({
     from,
     ...validatedValues,
@@ -66,8 +72,10 @@ export async function runCli<OptionsShape extends AnyShape = AnyShape, Refinemen
     return logHelpText(productionSettings.mode, from, template);
   }
 
+  const { 'repo-visibility': repoVisibility, ...settingsValues } = validatedValues;
   const sharedSettings = {
-    ...validatedValues,
+    ...settingsValues,
+    repoVisibility: repoVisibility ?? 'public',
     argv,
     display,
     from,
