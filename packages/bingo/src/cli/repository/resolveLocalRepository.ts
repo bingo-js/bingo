@@ -8,11 +8,12 @@ import { getGitRepositoryType, type GitRepositoryType } from '../getGitRepositor
 import { createRemoteRepository } from '../remotes/createRemoteRepository.ts';
 import { resolveRemoteRepositoryFromOrigin } from '../remotes/resolveRemoteRepositoryFromOrigin.ts';
 import { resolveRemoteRepositoryToCreate } from '../remotes/resolveRemoteRepositoryToCreate.ts';
-import type { PartialRepositoryLocator } from '../remotes/types.ts';
+import type { PartialRepositoryLocator, RemoteRepositoryVisibility } from '../remotes/types.ts';
 
 export interface RemoteRepositoryRequest {
   offline?: boolean | undefined;
   remote?: boolean | undefined;
+  repoVisibility?: RemoteRepositoryVisibility | undefined;
 }
 
 export interface ResolvedRemoteMessage {
@@ -95,7 +96,13 @@ export async function resolveLocalRepository<
     return { remote: creationLocator, repositoryType };
   }
 
-  const creationError = await createRemoteRepository(display, creationLocator, system, template);
+  const creationError = await createRemoteRepository(
+    display,
+    creationLocator,
+    system,
+    template,
+    request.repoVisibility ?? 'public',
+  );
 
   return { remote: creationError ?? creationLocator, repositoryType };
 }
