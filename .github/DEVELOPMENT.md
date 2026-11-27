@@ -14,14 +14,13 @@ pnpm install
 
 ## Building
 
-[tsdown](https://tsdown.dev/) is used for building.
-You can run it locally on the command-line:
+Run [tsdown](https://tsdown.dev) locally to build source files from `src/` into output files in `dist/`:
 
 ```shell
 pnpm build
 ```
 
-You can add `--watch` to run in a rebuilding watch mode:
+Add `--watch` to run the builder in watch mode that continuously cleans and recreates `dist/` as you save files:
 
 ```shell
 pnpm build --watch
@@ -32,6 +31,11 @@ pnpm build --watch
 [Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) is used to format code.
 It should be applied automatically when you save files in VS Code or make a Git commit.
 
+> [!TIP]
+> Be sure to install the [Oxc Extension](https://marketplace.visualstudio.com/items?itemName=oxc.oxc-vscode) for your IDE.
+
+To manually reformat all files, you can run:
+
 To manually reformat all files, you can run:
 
 ```shell
@@ -40,27 +44,25 @@ pnpm format
 
 ## Linting
 
-This package includes several forms of linting to enforce consistent code quality and styling.
-Each should be shown in VS Code, and can be run manually on the command-line:
+This package includes a few forms of linting to enforce consistent code quality and styling.
+Each will run at CI time, and can be run manually on the command-line:
 
-- `pnpm lint` ([ESLint](https://eslint.org) with [typescript-eslint](https://typescript-eslint.io)): Lints JavaScript and TypeScript source files
+- `pnpm lint` ([ESLint](https://eslint.org)): Lints all source files
 - `pnpm knip` ([knip](https://github.com/webpro/knip)): Detects unused files, dependencies, and code exports
 - `pnpm lint:spelling` ([cspell](https://cspell.org)): Spell checks across all source files
 
-Read the individual documentation for each linter to understand how it can be configured and used best.
+Read the individual documentation for each tool to understand how it can be configured and used best.
 
-For example, ESLint can be run with `--fix` to auto-fix some lint rule complaints:
+For example, ESLint can be run with `--fix` to auto-fix some lint rule violations:
 
 ```shell
 pnpm lint --fix
 ```
 
-Note that you'll likely need to run `pnpm build` before `pnpm lint` so that lint rules which check the file system can pick up on any built files.
-
 ## Testing
 
 [Vitest](https://vitest.dev) is used for tests.
-You can run it locally on the command-line:
+You can run it locally on the command line:
 
 ```shell
 pnpm test
@@ -77,24 +79,46 @@ Calls to `console.log`, `console.warn`, and other console methods will cause a t
 
 ### Debugging Tests
 
-We recommend using the Vitest VSCode extension for debugging individual tests.
+We recommend using the official [Vitest VSCode extension](https://marketplace.visualstudio.com/items?itemName=vitest.explorer) to run and / or debug individual tests (or entire test suites).
 
-## Releases
+## Type Checking
 
-[Changesets](https://changesets.dev) versions and publishes the packages in this repository.
-Releasing is fully automated: no maintainer runs `pnpm publish` by hand.
+You should be able to see suggestions from [TypeScript](https://typescriptlang.org) in your editor for all open files.
 
-Every push to `main` runs the `Release` workflow, which does one of two things:
+However, it can be useful to run the TypeScript command-line (`tsc`) to type check all files in `src/`:
 
-1. If any changesets are pending, it opens or updates a _`chore: version packages`_ pull request
-2. If no changesets are pending but some package version in the repository isn't on npm yet, it publishes those packages, then pushes a Git tag and GitHub release for each
+```shell
+pnpm typecheck
+```
 
-That version pull request applies each pending changeset: it bumps the affected packages' versions, writes their `CHANGELOG.md` entries, and deletes the changesets it consumed.
-Merging it is therefore what triggers a release.
-A `Merge Changesets PR` workflow runs each Monday and enables auto-merge on the version PR once it's at least three days old, so releases batch up rather than going out on every merge.
-You can also merge it yourself at any time, or run that workflow manually from the Actions tab.
+Add `--watch` to keep the type checker running in a watch mode that updates the display as you save files:
 
-Publishing uses [npm trusted publishing](https://docs.npmjs.com/trusted-publishers).
-Each published package is configured on npm to trust this repository's `release.yml` workflow, which is also what earns the packages their [provenance](https://docs.npmjs.com/generating-provenance-statements) attestations.
-npm can't yet enable trusted publishing for a package that doesn't exist on the registry ([npm/cli#8544](https://github.com/npm/cli/issues/8544)), so a new package needs one manual `pnpm publish` from a maintainer's machine before its trusted publisher can be configured.
-Every release after that goes through this workflow.
+```shell
+pnpm typecheck --watch
+```
+
+## Working on the Site
+
+If you'd like to work on aspects of the website, these commands might come in helpful.
+The site is built using ✨[Starlight](https://starlight.astro.build/) for Astro.
+
+### Run Dev Server
+
+You can spin up a local instance of the server by running `astro dev`.
+This will serve the site in "watch" mode, so that updates you make will reflect in the site as you make them.
+This will serve the site on `http://localhost:3003/`.
+
+```shell
+pnpm site:dev
+```
+
+### Build the Site for Production
+
+To create a production build for testing, you can run a combination of the "build" and "preview" commands.
+This will create a production build of the site, and serve the statically generated assets locally on the dev server.
+This, importantly, is _not_ running in "watch" mode, and won't react to changes to the source files.
+
+```shell
+pnpm site:build
+pnpm site:preview
+```

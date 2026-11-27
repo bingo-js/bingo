@@ -6,7 +6,7 @@ Otherwise we may not be able to review your PR. -->
 
 - [ ] This change addresses an existing open issue: fixes #000
 - [ ] The above issue was marked as https://github.com/bingo-js/bingo/labels/status%3A%20accepting%20prs
-- [ ] I've read the project's [Contributing Guidelines](https://github.com/bingo-js/bingo/blob/main/.github/CONTRIBUTING.md)
+- [ ] I've read the project's [Contributing Guidelines](https://create.bingo/getting-involved/contributing)
 
 ## Overview
 

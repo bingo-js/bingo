@@ -33,6 +33,8 @@ export default defineConfig({
         starlightSidebarTopics(
           [
             {
+              label: 'About',
+              link: '/about',
               icon: 'open-book',
               items: [
                 { label: 'About Bingo', link: 'about' },
@@ -40,32 +42,42 @@ export default defineConfig({
                 { label: 'Configuration', link: 'configuration' },
                 { label: 'Execution', link: 'execution' },
                 { label: 'FAQs', link: 'faqs' },
+                {
+                  label: 'Getting Involved',
+                  collapsed: true,
+                  items: [
+                    { label: 'Code of Conduct', link: 'getting-involved/code-of-conduct' },
+                    { label: 'Contributing', link: 'getting-involved/contributing' },
+                    { label: 'Development', link: 'getting-involved/development' },
+                  ],
+                },
               ],
-              label: 'About',
-              link: '/about',
             },
             {
+              label: 'Building Templates',
+              link: '/build/about',
               icon: 'pen',
               items: [
                 { label: 'About', link: 'build/about' },
                 { label: 'CLI', link: 'build/cli' },
                 {
+                  label: 'Concepts',
                   items: [
                     { label: 'Creations', link: 'build/concepts/creations' },
                     { label: 'Modes', link: 'build/concepts/modes' },
                     { label: 'Templates', link: 'build/concepts/templates' },
                   ],
-                  label: 'Concepts',
                 },
                 {
+                  label: 'Details',
                   items: [
                     { label: 'Contexts', link: 'build/details/contexts' },
                     { label: 'Inputs', link: 'build/details/inputs' },
                     { label: 'Merging', link: 'build/details/merging' },
                   ],
-                  label: 'Details',
                 },
                 {
+                  label: 'APIs',
                   items: [
                     {
                       label: 'createInput',
@@ -100,9 +112,9 @@ export default defineConfig({
                       link: 'build/apis/run-template-cli',
                     },
                   ],
-                  label: 'APIs',
                 },
                 {
+                  label: 'Packages',
                   items: [
                     { label: 'bingo', link: 'build/packages/bingo' },
                     { label: 'bingo-fs', link: 'build/packages/bingo-fs' },
@@ -119,18 +131,18 @@ export default defineConfig({
                       link: 'build/packages/bingo-testers',
                     },
                   ],
-                  label: 'Packages',
                 },
                 { label: 'FAQs', link: 'build/faqs' },
               ],
-              label: 'Building Templates',
-              link: '/build/about',
             },
             {
+              label: 'Templating Engines',
+              link: '/engines/about',
               icon: 'setting',
               items: [
                 { label: 'About', link: 'engines/about' },
                 {
+                  label: 'Handlebars',
                   collapsed: true,
                   items: [
                     { label: 'About', link: 'engines/handlebars/about' },
@@ -143,9 +155,9 @@ export default defineConfig({
                       link: 'engines/handlebars/load-handlebars',
                     },
                   ],
-                  label: 'Handlebars',
                 },
                 {
+                  label: 'Stratum',
                   collapsed: true,
                   items: [
                     { label: 'About', link: 'engines/stratum/about' },
@@ -223,11 +235,8 @@ export default defineConfig({
                     },
                     { label: 'FAQs', link: 'engines/stratum/faqs' },
                   ],
-                  label: 'Stratum',
                 },
               ],
-              label: 'Templating Engines',
-              link: '/engines/about',
             },
           ],
           {
