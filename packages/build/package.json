@@ -18,6 +18,6 @@
   },
   "dependencies": {
     "tsdown": "^0.23.7",
-    "typescript": "~6.0.3"
+    "typescript": "~7.0.0"
   }
 }
